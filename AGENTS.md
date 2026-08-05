@@ -1,6 +1,6 @@
 # Istruzioni per gli agenti
 
-1. Dove utile, leggi integralmente `docs/MASTER_PLAN.md` prima di qualsiasi attività.
+1. Leggi integralmente `docs/MASTER_PLAN.md` prima di qualsiasi attività.
 2. Il Master Plan è la fonte canonica: non reinterpretare scope, prodotto, pricing, UX,
    architettura o roadmap.
 3. Non aggiungere dipendenze, servizi esterni, analytics, AI o backend senza approvazione.
