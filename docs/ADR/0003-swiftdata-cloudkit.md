@@ -1,6 +1,7 @@
 # ADR 0003 — SwiftData e CloudKit
 
-- **Stato:** Accepted, validation pending
+- **Stato:** Confirmed
+- **Technical Gate:** `TG-DATA` aperto
 - **Data:** 2026-08-05
 - **Ambito:** Routally 1.0
 

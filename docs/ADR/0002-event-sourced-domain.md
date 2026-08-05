@@ -1,6 +1,6 @@
 # ADR 0002 — Dominio event-sourced
 
-- **Stato:** Accepted
+- **Stato:** Confirmed
 - **Data:** 2026-08-05
 - **Ambito:** Routally 1.0
 

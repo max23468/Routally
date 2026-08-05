@@ -1,6 +1,6 @@
 # ADR 0001 — iOS 26 come versione minima
 
-- **Stato:** Accepted
+- **Stato:** Confirmed
 - **Data:** 2026-08-05
 - **Ambito:** Routally 1.0
 
