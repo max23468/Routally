@@ -7,7 +7,8 @@ decisioni di progetto.
 ## Avvio
 
 1. Conferma obiettivo, scope e criteri di accettazione.
-2. Dove utile, leggi integralmente il Master Plan e le specifiche o ADR pertinenti.
+2. Leggi integralmente il Master Plan prima di qualsiasi attività e poi le specifiche o
+   ADR pertinenti.
 3. Verifica branch, working tree e modifiche concorrenti prima di intervenire.
 4. Non usare contemporaneamente Codex e Claude Code sullo stesso task.
 
