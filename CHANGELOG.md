@@ -8,3 +8,4 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 - Allineati bootstrap Git, workflow degli agenti e segnalazioni di sicurezza private.
 - Aggiunto il gate required della review Codex sull'HEAD corrente delle pull request.
 - Completata la baseline GitHub con CodeQL Swift, Dependabot Actions e policy SHA-pinned.
+- Aggiunti Decision Register e ADR baseline per iOS 26, dominio event-sourced e SwiftData/CloudKit.
