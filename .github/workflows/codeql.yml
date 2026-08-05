@@ -1,0 +1,40 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.swift"
+      - "**/*.xcodeproj/**"
+      - Package.swift
+      - Package.resolved
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/*.swift"
+      - "**/*.xcodeproj/**"
+      - Package.swift
+      - Package.resolved
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze-swift:
+    name: Analyze Swift
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
+        with:
+          languages: swift
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
+      - name: Analyze
+        uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # v4
+        with:
+          category: /language:swift
