@@ -230,7 +230,7 @@ test("un nuovo comando di review esclude i finding senza marker del tentativo pr
         },
         {
           user: { login: "maintainer" },
-          created_at: "2026-08-04T12:00:02Z",
+          created_at: "2026-08-04T12:00:01Z",
           body: "@codex review",
         },
         {
@@ -241,6 +241,31 @@ test("un nuovo comando di review esclude i finding senza marker del tentativo pr
       ],
     }).state,
     "success",
+  );
+
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: { login: "maintainer" },
+          created_at: "2026-08-04T12:00:01Z",
+          body: "@codex review",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo corrente.",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:03Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "failure",
   );
 });
 

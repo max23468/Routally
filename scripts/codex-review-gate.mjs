@@ -21,15 +21,17 @@ export function classifyCodexReview({
 }) {
   const completions = [];
   const cleanComments = [];
-  const attemptStartedAt = comments
-    .filter(
-      (comment) =>
-        comment.user?.login !== CODEX_BOT && /^\s*@codex\s+review\b/im.test(comment.body),
-    )
-    .reduce(
-      (latest, comment) => Math.max(latest, timestamp(comment.created_at)),
-      timestamp(requestedAt),
-    );
+  const reviewRequestIndex = comments.reduce(
+    (latest, comment, index) =>
+      comment.user?.login !== CODEX_BOT && /^\s*@codex\s+review\b/im.test(comment.body)
+        ? index
+        : latest,
+    -1,
+  );
+  const attemptStartedAt = Math.max(
+    timestamp(requestedAt),
+    timestamp(comments[reviewRequestIndex]?.created_at),
+  );
   const inProgress = progressReactions.some(
     (reaction) =>
       reaction.user?.login === CODEX_BOT &&
@@ -56,12 +58,15 @@ export function classifyCodexReview({
     return completions.sort((left, right) => right.at - left.at)[0];
   }
 
-  for (const comment of comments) {
+  for (const [commentIndex, comment] of comments.entries()) {
     if (comment.user?.login !== CODEX_BOT) continue;
 
     const commit = reviewedCommit(comment.body);
     if (
-      (commit ? headSha.startsWith(commit) : attemptStartedAt > 0) &&
+      (commit
+        ? headSha.startsWith(commit)
+        : attemptStartedAt > 0 &&
+          (reviewRequestIndex < 0 || commentIndex > reviewRequestIndex)) &&
       timestamp(comment.created_at) >= attemptStartedAt &&
       /\bP[0-3]\b/.test(comment.body)
     ) {
