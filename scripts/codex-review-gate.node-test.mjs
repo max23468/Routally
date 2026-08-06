@@ -154,6 +154,185 @@ test("un finding del tentativo corrente prevale sul pollice", () => {
   );
 });
 
+test("un finding top-level sull'HEAD prevale sul riepilogo pulito", () => {
+  assert.equal(
+    classify({
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: `**P2** Correggi il gate.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:02Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "failure",
+  );
+});
+
+test("un finding top-level senza marker prevale sul riepilogo pulito", () => {
+  assert.equal(
+    classify({
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Correggi il gate.",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:02Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "failure",
+  );
+});
+
+test("un finding top-level marcato su un altro SHA non blocca l'HEAD", () => {
+  assert.equal(
+    classify({
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding precedente.\n\n**Reviewed commit:** `abcdef0123`",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:02Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "success",
+  );
+});
+
+test("un nuovo comando di review esclude i finding senza marker del tentativo precedente", () => {
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo precedente.",
+        },
+        {
+          user: { login: "maintainer" },
+          created_at: "2026-08-04T12:00:01Z",
+          body: "@codex review",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:03Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "success",
+  );
+
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: { login: "maintainer" },
+          created_at: "2026-08-04T12:00:01Z",
+          body: "@codex review",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo corrente.",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:03Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "failure",
+  );
+});
+
+test("la timeline separa i finding inline dei tentativi nello stesso secondo", () => {
+  const reviewRequest = {
+    event: "commented",
+    id: 20,
+    user: { login: "maintainer" },
+    created_at: "2026-08-04T12:00:01Z",
+    body: "@codex review",
+  };
+  const currentReview = {
+    event: "reviewed",
+    id: 30,
+    user: bot,
+    submitted_at: "2026-08-04T12:00:01Z",
+    commit_id: headSha,
+  };
+  const cleanComment = {
+    user: bot,
+    created_at: "2026-08-04T12:00:03Z",
+    body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+  };
+
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [reviewRequest, cleanComment],
+      reviewComments: [
+        {
+          user: bot,
+          pull_request_review_id: 10,
+          commit_id: headSha,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo precedente.",
+        },
+      ],
+      timeline: [
+        { ...currentReview, id: 10 },
+        reviewRequest,
+        currentReview,
+      ],
+    }).state,
+    "success",
+  );
+
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [reviewRequest, cleanComment],
+      reviewComments: [
+        {
+          user: bot,
+          pull_request_review_id: 30,
+          commit_id: headSha,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo corrente.",
+        },
+      ],
+      timeline: [reviewRequest, currentReview],
+    }).state,
+    "failure",
+  );
+});
+
 test("una review Codex vuota non viene scambiata per un finding", () => {
   assert.equal(
     classify({
