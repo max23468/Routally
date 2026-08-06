@@ -217,6 +217,33 @@ test("un finding top-level marcato su un altro SHA non blocca l'HEAD", () => {
   );
 });
 
+test("un nuovo comando di review esclude i finding senza marker del tentativo precedente", () => {
+  assert.equal(
+    classify({
+      requestedAt: 0,
+      requiresReviewedCommit: true,
+      comments: [
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:01Z",
+          body: "**P2** Finding del tentativo precedente.",
+        },
+        {
+          user: { login: "maintainer" },
+          created_at: "2026-08-04T12:00:02Z",
+          body: "@codex review",
+        },
+        {
+          user: bot,
+          created_at: "2026-08-04T12:00:03Z",
+          body: `Codex Review: Didn't find any major issues.\n\n**Reviewed commit:** \`${headSha.slice(0, 10)}\``,
+        },
+      ],
+    }).state,
+    "success",
+  );
+});
+
 test("una review Codex vuota non viene scambiata per un finding", () => {
   assert.equal(
     classify({

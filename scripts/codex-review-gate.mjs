@@ -21,18 +21,27 @@ export function classifyCodexReview({
 }) {
   const completions = [];
   const cleanComments = [];
+  const attemptStartedAt = comments
+    .filter(
+      (comment) =>
+        comment.user?.login !== CODEX_BOT && /^\s*@codex\s+review\b/im.test(comment.body),
+    )
+    .reduce(
+      (latest, comment) => Math.max(latest, timestamp(comment.created_at)),
+      timestamp(requestedAt),
+    );
   const inProgress = progressReactions.some(
     (reaction) =>
       reaction.user?.login === CODEX_BOT &&
       reaction.content === "eyes" &&
-      timestamp(reaction.created_at) >= timestamp(requestedAt),
+      timestamp(reaction.created_at) >= attemptStartedAt,
   );
 
   for (const comment of reviewComments) {
     if (
       comment.user?.login === CODEX_BOT &&
       (comment.original_commit_id ?? comment.commit_id) === headSha &&
-      timestamp(comment.created_at) >= timestamp(requestedAt) &&
+      timestamp(comment.created_at) >= attemptStartedAt &&
       /\bP[0-3]\b/.test(comment.body)
     ) {
       completions.push({
@@ -52,8 +61,8 @@ export function classifyCodexReview({
 
     const commit = reviewedCommit(comment.body);
     if (
-      (!commit || headSha.startsWith(commit)) &&
-      timestamp(comment.created_at) >= timestamp(requestedAt) &&
+      (commit ? headSha.startsWith(commit) : attemptStartedAt > 0) &&
+      timestamp(comment.created_at) >= attemptStartedAt &&
       /\bP[0-3]\b/.test(comment.body)
     ) {
       completions.push({
@@ -66,7 +75,7 @@ export function classifyCodexReview({
     if (
       commit &&
       headSha.startsWith(commit) &&
-      timestamp(comment.created_at) >= timestamp(requestedAt) &&
+      timestamp(comment.created_at) >= attemptStartedAt &&
       /^Codex Review: Didn't find any major issues\./m.test(comment.body)
     ) {
       completions.push({
@@ -77,8 +86,8 @@ export function classifyCodexReview({
     }
 
     if (
-      timestamp(comment.created_at) >= timestamp(requestedAt) &&
-      now - timestamp(requestedAt) >= 30_000 &&
+      timestamp(comment.created_at) >= attemptStartedAt &&
+      now - attemptStartedAt >= 30_000 &&
       !inProgress &&
       /reached your Codex usage limits|could not complete|unable to review/i.test(comment.body)
     ) {
@@ -101,7 +110,7 @@ export function classifyCodexReview({
       review.user?.login === CODEX_BOT &&
       commit &&
       headSha.startsWith(commit) &&
-      timestamp(review.submitted_at) >= timestamp(requestedAt)
+      timestamp(review.submitted_at) >= attemptStartedAt
     ) {
       cleanComments.push(timestamp(review.submitted_at));
     }
@@ -112,7 +121,7 @@ export function classifyCodexReview({
       (reaction) =>
         reaction.user?.login === CODEX_BOT &&
         reaction.content === "+1" &&
-        timestamp(reaction.created_at) >= timestamp(requestedAt),
+        timestamp(reaction.created_at) >= attemptStartedAt,
     )
     .reduce((latest, reaction) => Math.max(latest, timestamp(reaction.created_at)), 0);
 
