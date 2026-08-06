@@ -18,6 +18,7 @@ export function classifyCodexReview({
   requiresReviewedCommit = false,
   reviews = [],
   reviewComments,
+  timeline = [],
 }) {
   const completions = [];
   const cleanComments = [];
@@ -32,6 +33,26 @@ export function classifyCodexReview({
     timestamp(requestedAt),
     timestamp(comments[reviewRequestIndex]?.created_at),
   );
+  const reviewRequestTimelineIndex = timeline.reduce(
+    (latest, item, index) =>
+      item.event === "commented" &&
+      item.user?.login !== CODEX_BOT &&
+      /^\s*@codex\s+review\b/im.test(item.body)
+        ? index
+        : latest,
+    -1,
+  );
+  const currentReviewIds = new Set(
+    timeline
+      .slice(reviewRequestTimelineIndex + 1)
+      .filter(
+        (item) =>
+          item.event === "reviewed" &&
+          item.user?.login === CODEX_BOT &&
+          item.commit_id === headSha,
+      )
+      .map((item) => item.id),
+  );
   const inProgress = progressReactions.some(
     (reaction) =>
       reaction.user?.login === CODEX_BOT &&
@@ -43,6 +64,8 @@ export function classifyCodexReview({
     if (
       comment.user?.login === CODEX_BOT &&
       (comment.original_commit_id ?? comment.commit_id) === headSha &&
+      (reviewRequestTimelineIndex < 0 ||
+        currentReviewIds.has(comment.pull_request_review_id)) &&
       timestamp(comment.created_at) >= attemptStartedAt &&
       /\bP[0-3]\b/.test(comment.body)
     ) {
@@ -115,6 +138,7 @@ export function classifyCodexReview({
       review.user?.login === CODEX_BOT &&
       commit &&
       headSha.startsWith(commit) &&
+      (reviewRequestTimelineIndex < 0 || currentReviewIds.has(review.id)) &&
       timestamp(review.submitted_at) >= attemptStartedAt
     ) {
       cleanComments.push(timestamp(review.submitted_at));
@@ -202,6 +226,7 @@ const reviewSignals = (repository, number) =>
     all(`/repos/${repository}/issues/${number}/reactions`),
     all(`/repos/${repository}/pulls/${number}/reviews`),
     all(`/repos/${repository}/pulls/${number}/comments`),
+    all(`/repos/${repository}/issues/${number}/timeline`),
   ]);
 
 async function main() {
@@ -239,7 +264,10 @@ async function main() {
   const freshReview = ["opened", "ready_for_review"].includes(event.action);
   const requestedAt = reusesExistingReview ? 0 : pullRequest.updated_at;
   for (let attempt = 0; attempt < 600; attempt += 1) {
-    const [comments, reactions, reviews, reviewComments] = await reviewSignals(repository, number);
+    const [comments, reactions, reviews, reviewComments, timeline] = await reviewSignals(
+      repository,
+      number,
+    );
     const result = classifyCodexReview({
       headSha,
       requestedAt,
@@ -248,6 +276,7 @@ async function main() {
       requiresReviewedCommit: !freshReview,
       reviews,
       reviewComments,
+      timeline,
     });
     if (result.state !== "pending") {
       await setStatus(repository, headSha, result.state, result.description);
