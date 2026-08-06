@@ -159,7 +159,7 @@ API SwiftUI.
 | `RoutineRow` | nome, contesto, progresso e azione | normale, soglia, follow-up; enabled/disabled | un contenitore leggibile, azione nominata |
 | `CycleVisualization` | progresso e stato del ciclo | attivo, soglia, follow-up, completato | valore testuale completo; non solo anello/colore |
 | `LinkedRoutineRow` | sorgente e conseguenza | incremento, durata, quantità | frase naturale sulla relazione |
-| `ConsequenceSummary` | esito della registrazione | semplice, collegato, errore parziale | titolo annunciato e azioni ordinate |
+| `ConsequenceSummary` | esito e correzione della registrazione | semplice, collegato, errore parziale; esclusione per singolo effetto | titolo annunciato e azioni nominate con il target |
 | `KitPreview` | beneficio e contenuto installato | Free, Plus, limite raggiunto | piano e costo in testo, non solo badge |
 | `AllClearState` | conferma che non serve agire | nuovo utente, giornata libera | messaggio breve, nessuna animazione obbligatoria |
 | `AttentionIndicator` | livello di attenzione | in arrivo, da fare, attenzione | simbolo + etichetta + colore |
@@ -204,6 +204,11 @@ Master Plan; questa specifica non amplia il benchmark né introduce nuove featur
 5. stato `Tutto sotto controllo` quando non esiste alcuna azione utile;
 6. riepilogo conseguenze in sheet nativa dopo una registrazione collegata.
 
+Nel riepilogo collegato ogni conseguenza derivata offre `Escludi`. L'azione mantiene
+l'evento sorgente e gli altri effetti, registra la correzione e ricalcola progresso,
+soglia e follow-up del solo elemento escluso. Il riepilogo si aggiorna nello stesso
+contesto; `Annulla` continua invece a invertire l'intera registrazione.
+
 Le card grandi sono ammesse soltanto per il riepilogo settimanale o per uno stato
 importante. La tab bar può minimizzarsi durante uno scroll verso il basso e torna
 immediatamente disponibile con scroll inverso o selezione della tab.
@@ -241,7 +246,7 @@ immediatamente disponibile con scroll inverso o selezione della tab.
 | navigazione iPhone/iPad | [navigation.md](navigation.md) |
 | flusso Oggi | sezione Oggi e stati obbligatori in questo documento |
 | flusso di creazione | [creation-flow.md](creation-flow.md) |
-| vertical slice | criteri `E02-VS-01`…`E02-VS-12` in [creation-flow.md](creation-flow.md) |
+| vertical slice | criteri `E02-VS-01`…`E02-VS-13` in [creation-flow.md](creation-flow.md) |
 | esplorazione icona | direzioni, vincoli e `DG-ICON` in questo documento |
 | accessibilità | [accessibility.md](accessibility.md) |
 

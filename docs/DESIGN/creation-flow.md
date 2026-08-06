@@ -98,14 +98,15 @@ corrente e Asciugamano a `3/4`. Non cambia le regole e non introduce dati reali.
 | `E02-VS-02` | configurare Palestra | riepilogo mostra obiettivo, collegamento, soglia, follow-up e fallback |
 | `E02-VS-03` | creare | Palestra e Asciugamano risultano collegate; la nuova routine apre nel dettaglio |
 | `E02-VS-04` | registrare il quarto evento della fixture | Palestra passa a `2/3`, Asciugamano a `4/4`, nasce un solo follow-up |
-| `E02-VS-05` | leggere il riepilogo | ogni conseguenza e la sua origine sono visibili; `Annulla` e `Visualizza` disponibili |
+| `E02-VS-05` | leggere il riepilogo | ogni conseguenza e la sua origine sono visibili; `Escludi` è disponibile per ogni effetto derivato, insieme ad `Annulla` e `Visualizza` |
 | `E02-VS-06` | chiudere il riepilogo | Asciugamano resta a `4/4`; la soglia non resetta il ciclo |
 | `E02-VS-07` | simulare arrivo a Casa | il follow-up entra in Adesso ed è notificabile una sola volta |
 | `E02-VS-08` | far scattare anche il fallback | non viene creato né notificato un secondo follow-up |
 | `E02-VS-09` | completare il follow-up | il follow-up è completato e Asciugamano apre un nuovo ciclo a `0/4` |
-| `E02-VS-10` | annullare la registrazione | conseguenze, soglia e follow-up vengono rimossi o ricalcolati atomicamente |
-| `E02-VS-11` | ripetere offline | tutte le azioni restano disponibili e indicano sincronizzazione pendente |
-| `E02-VS-12` | usare iPad | lista e dettaglio restano coordinati durante creazione e completamento |
+| `E02-VS-10` | escludere l'effetto Asciugamano dal riepilogo | l'evento Palestra e gli altri effetti restano; incremento, soglia e follow-up di Asciugamano vengono rimossi o ricalcolati come una correzione revisionale |
+| `E02-VS-11` | annullare la registrazione | conseguenze, soglia e follow-up vengono rimossi o ricalcolati atomicamente |
+| `E02-VS-12` | ripetere offline | tutte le azioni restano disponibili e indicano sincronizzazione pendente |
+| `E02-VS-13` | usare iPad | lista e dettaglio restano coordinati durante creazione e completamento |
 
 Ogni criterio deve essere verificabile in E03 con fixture e preview e, quando richiede
 integrazione reale, nelle milestone tecniche pertinenti. E02 definisce il comportamento,
