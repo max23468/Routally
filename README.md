@@ -23,7 +23,7 @@ di sistema e commercio → alpha → beta → App Store 1.0.
 ## Build
 
 Il progetto Xcode non è ancora stato creato. Le istruzioni di build verranno aggiunte
-durante Xcode Foundation.
+durante Xcode & SwiftUI Foundation.
 
 ## Proprietà e contributi
 

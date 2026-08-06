@@ -1,12 +1,12 @@
 # Routally — Master Plan
 
-**Documento canonico:** `docs/MASTER_PLAN.md`  
-**Versione del piano:** 1.1 Audited Planning Baseline  
-**Stato:** approvato per l'avvio della progettazione e dello sviluppo  
-**Data:** 5 agosto 2026  
-**Audit di completezza rispetto alla chat:** completato prima dell'handoff a Codex  
-**Owner di prodotto:** Matteo  
-**Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile e commercializzabile, mantenendo una roadmap esplicita per le versioni 1.X, 2.X e successive.
+- **Documento canonico:** `docs/MASTER_PLAN.md`
+- **Versione del piano:** 1.2 SwiftUI-first Planning Baseline
+- **Stato:** approvato per l'avvio della progettazione e dello sviluppo
+- **Data:** 6 agosto 2026
+- **Audit di completezza rispetto alla chat:** completato prima dell'handoff a Codex
+- **Owner di prodotto:** Matteo
+- **Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile e commercializzabile, mantenendo una roadmap esplicita per le versioni 1.X, 2.X e successive.
 
 ---
 
@@ -80,11 +80,11 @@ In caso di conflitto, prevalgono nell'ordine:
 1. questo Master Plan e le sue revisioni approvate;
 2. gli Architecture Decision Record approvati in `docs/ADR/`;
 3. le specifiche operative derivate in `docs/PRODUCT/`, `docs/DESIGN/`, `docs/ENGINEERING/` e `docs/RELEASE/`;
-4. il prototipo Figma approvato;
-5. l'implementazione SwiftUI corrente;
+4. l'implementazione SwiftUI, le preview eseguibili e il comportamento verificato su Simulator o dispositivo;
+5. le evidenze visuali e di test approvate;
 6. pull request, backlog personale, note di sessione e altri appunti temporanei.
 
-Il comportamento nativo e accessibile dei framework Apple prevale su una riproduzione rigida del mockup quando i due entrano in conflitto. In tal caso l'implementazione viene concordata e Figma viene riallineato.
+Il comportamento nativo e accessibile dei framework Apple prevale su una riproduzione rigida delle specifiche visuali quando i due entrano in conflitto. In tal caso l'implementazione e le specifiche vengono riallineate.
 
 ### 0.2 Stati delle decisioni
 
@@ -504,14 +504,14 @@ La personalità emerge da accento, Routine Cycles, microanimazioni native e feed
 
 **Azione centrale e conseguenze collegate:** un elemento centrale dal quale si propagano tre cicli o elementi, con composizione che suggerisce discretamente una `R`.
 
-### Alternative da mantenere in Figma
+### Alternative da mantenere nell'esplorazione vettoriale
 
 1. `R` formata da due cicli collegati;
 2. un gesto che genera più onde;
 3. tre elementi che chiudono un ciclo;
 4. tally marks collegati.
 
-La scelta finale avverrà dopo test in Figma e Icon Composer. Un piccolo user test deve mostrare le alternative senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
+La scelta finale avverrà dopo prove con asset SVG in Icon Composer e sui dispositivi target. Un piccolo user test deve mostrare le alternative senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
 
 Criteri:
 
@@ -2652,7 +2652,7 @@ Il repository è pubblico ma proprietario.
 - `COPYRIGHT.md` e All rights reserved;
 - README chiarisce che non accetta contributi, issue, feature request o supporto;
 - Issues, Discussions, Wiki e community features disattivate/non usate;
-- Figma privato;
+- asset visuali non approvati esclusi dal repository;
 - nessun secret o dato reale.
 
 ## 22.6 GitHub security
@@ -2941,7 +2941,7 @@ Se il gate fallisce per limiti dimostrati, il dominio e i repository restano inv
 | Area | Scelta |
 |---|---|
 | Repository | GitHub pubblico, proprietario |
-| Design | Figma privato |
+| Design | SwiftUI, Xcode Previews e Apple Design Resources |
 | IDE | Xcode |
 | Linguaggio | Swift 6 |
 | Agent coding | Codex o Claude Code |
@@ -2956,8 +2956,8 @@ Se il gate fallisce per limiti dimostrati, il dominio e i repository restano inv
 | Test UI/sistema | XCTest/XCUITest |
 | Performance | Instruments, MetricKit |
 | Crash | TestFlight, Xcode Organizer |
-| Prototipo | Figma + Apple UI Kit |
-| Icona | Figma + Icon Composer |
+| Prototipo | Xcode Previews + Simulator |
+| Icona | SVG + Icon Composer |
 
 ## 26.2 Dipendenze runtime
 
@@ -3030,45 +3030,34 @@ Usato per:
 
 Telemetria dello strumento disattivata quando configurabile.
 
-## 26.5 Figma
+## 26.5 Design SwiftUI-first
 
-Fonte di:
+Fonti operative:
 
-- IA;
-- flow;
-- wireframe;
-- prototipo;
-- light/dark;
-- componenti distintivi;
-- materiali App Store.
+- Master Plan e specifiche `docs/DESIGN/` per IA, flussi e criteri di accettazione;
+- SwiftUI come rappresentazione eseguibile dell'interfaccia;
+- `#Preview` accanto alle view per stati, dati fittizi e varianti;
+- Asset Catalog per colori e asset semantici;
+- componenti Apple nativi e Apple Design Resources;
+- Simulator e dispositivi reali per comportamento, accessibilità e layout adattivo;
+- screenshot della release candidate reale per i materiali App Store.
 
-File ufficiale: **Routally — Product Design**, privato.
+Le preview coprono, dove pertinente:
 
-Struttura file:
-
-1. `00 — Brief & Principles`;
-2. `01 — Foundations`;
-3. `02 — Apple Components`;
-4. `03 — Routally Components`;
-5. `04 — User Flows`;
-6. `05 — Screens`;
-7. `06 — Prototype`;
-8. `07 — Icon Exploration`;
-9. `08 — App Store`.
-
-Condivisione:
-
-- link soltanto a collaboratori e tester selezionati;
-- nessun Community file prima del lancio;
-- nel repository si esportano solo asset e specifiche approvate.
+- iPhone e iPad;
+- portrait, landscape e finestre ridimensionabili;
+- Light e Dark Mode;
+- Dynamic Type, contrasto e riduzione della trasparenza;
+- stati vuoti, caricamento, errore e dati rappresentativi.
 
 Metodo per vertical slice:
 
-1. flusso approvato in Figma;
-2. implementazione SwiftUI;
-3. verifica su Simulator e dispositivo;
-4. aggiornamento di Figma se il comportamento nativo migliora il mockup;
-5. approvazione prima della slice successiva.
+1. flusso e criteri di accettazione approvati nelle specifiche;
+2. implementazione SwiftUI con fixture locali;
+3. verifica interattiva in Xcode Previews;
+4. verifica su Simulator e dispositivo;
+5. riallineamento delle specifiche quando il comportamento nativo richiede un adattamento approvato;
+6. approvazione prima della slice successiva.
 
 Prototipo canonico minimo:
 
@@ -3091,7 +3080,7 @@ Documentare e bloccare per milestone:
 - target OS;
 - swift-format;
 - XcodeBuildMCP;
-- UI Kit Figma;
+- fixture e matrice delle Xcode Previews;
 - GitHub Actions;
 - schema SwiftData;
 - formato Kit;
@@ -3265,7 +3254,7 @@ docs/
 Il commit radice è **Repository & Governance** e costituisce l'eccezione di bootstrap
 definita nella sezione 28.2; la prima modifica successiva passa da branch e PR. Non crea
 ancora il progetto Xcode. `Routally/` e i target applicativi arrivano nella successiva epic
-Xcode Foundation, dopo la baseline documentale e il primo allineamento Figma.
+Xcode & SwiftUI Foundation, dopo la baseline documentale e l'approvazione della direzione UI Apple-native.
 
 Non includere:
 
@@ -3308,7 +3297,7 @@ docs/
 │   ├── navigation.md
 │   ├── creation-flow.md
 │   ├── accessibility.md
-│   └── figma-handoff.md
+│   └── ui-foundation.md
 ├── ENGINEERING/
 │   ├── architecture.md
 │   ├── domain-model.md
@@ -3335,6 +3324,7 @@ docs/
     ├── 0001-ios-26-minimum.md
     ├── 0002-event-sourced-domain.md
     ├── 0003-swiftdata-cloudkit.md
+    ├── 0004-swiftui-first-ui-design.md
     └── ...
 ```
 
@@ -3351,7 +3341,7 @@ docs/
 - Master Plan e documenti di prodotto in italiano;
 - nomi di tipi Swift, API, branch, milestone e identificativi tecnici in inglese;
 - `AGENTS.md`, `CLAUDE.md` e istruzioni operative per agenti possono essere in inglese purché fedeli alla fonte italiana;
-- nessuna stima di calendario o promessa in settimane prima di Figma e technical spike; usare dipendenze, complessità relativa e gate.
+- nessuna stima di calendario o promessa in settimane prima della UI Foundation eseguibile e dei technical spike; usare dipendenze, complessità relativa e gate.
 
 ## 29.3 Decision Register
 
@@ -3469,7 +3459,7 @@ Usati da:
 - test;
 - screenshot;
 - performance;
-- Figma handoff.
+- preview e verifiche visuali.
 
 Mai presenti nell'app pubblica.
 
@@ -3805,7 +3795,7 @@ Set dedicato:
 - app reale;
 - evento → aggiornamenti → follow-up → reset;
 - non un'animazione astratta;
-- registrazione prodotta dalla release candidate reale, non da un mockup Figma.
+- registrazione prodotta dalla release candidate reale, non da un prototipo statico.
 
 ## 33.6 Custom Product Pages
 
@@ -3817,7 +3807,7 @@ Pagina generale più:
 
 Ognuna con screenshot, testo e link specifici.
 
-Screenshot e composizioni possono essere impaginati in Figma, ma devono usare schermate della build reale finale, non ricostruzioni statiche.
+Screenshot e composizioni devono usare schermate della build reale finale, non ricostruzioni statiche.
 
 Dopo aver raccolto traffico sufficiente, usare Product Page Optimization per testare fino a tre varianti della pagina principale. Non eseguire A/B test privi di volume statistico.
 
@@ -4111,14 +4101,14 @@ Le versioni `0.x` sono fasi interne verso una 1.0 completa, non un MVP commercia
 Ordine obbligatorio:
 
 1. repository e governance documentale;
-2. brand foundations e flussi iniziali in Figma;
-3. progetto Xcode e target;
+2. direzione UI Apple-native e flussi iniziali nelle specifiche;
+3. progetto Xcode, target e SwiftUI UI Foundation;
 4. technical spike.
 
 Include:
 
 - repository e documentazione;
-- brand foundations in Figma;
+- brand foundations in Asset Catalog e SwiftUI;
 - progetto Xcode;
 - Routally Dev;
 - CI;
@@ -4190,7 +4180,7 @@ Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e tes
 ### 0.8 — Alpha
 
 - test interni;
-- Figma/implementation reconciliation;
+- revisione UI, accessibilità e implementazione;
 - identity gate;
 - legal/privacy/security audit;
 - stabilization.
@@ -4243,7 +4233,7 @@ Ogni nuova idea va in 1.1+.
 
 ## 37.4 Data di lancio e stime
 
-Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in settimane deve essere trattata come affidabile prima di aver completato Figma Foundation e i technical spike della 0.1.
+Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in settimane deve essere trattata come affidabile prima di aver completato la SwiftUI UI Foundation e i technical spike della 0.1.
 
 **Decision Gate DG-LAUNCH:** data e possibile preordine dopo RC stabile.
 
@@ -4657,7 +4647,7 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 | Search sovradimensionata | M | B | scarso uso/confusione | search globale chiara | TG-SEARCH |
 | Scope 1.0 troppo ampio | A | A | ritardi e fragilità | milestone, 0.7 freeze, rinvio esplicito | Product Owner |
 | App percepita ossessiva | M | A | tester ansiosi, troppe notifiche | Calm View, no streak, Kit criteria | beta UX |
-| App percepita troppo tecnica | M | A | confusione link/regole | linguaggio naturale, trasparenza | Figma/testing |
+| App percepita troppo tecnica | M | A | confusione link/regole | linguaggio naturale, trasparenza | Simulator/usability testing |
 | Performance cronologia | M | A | launch/scroll lenti | projections/index/paging | TG-PERFORMANCE |
 | Doppie notifiche multi-device | M | M | feedback duplicazioni | primary device | integration tests |
 | Free troppo generoso | M | M | bassa conversione | limiti quantitativi | 90-day review |
@@ -4665,7 +4655,7 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 | Lifetime insostenibile 2.0 | M | A | costi cloud | separazione cloud | DG-CLOUD-PRICING |
 | Identità legale ritardata | M | A | impossibile creare store record | gate 0.8 | DG-DEVELOPER-IDENTITY |
 | App Review pricing/location | M | M | rejection | notes, terms, evidence | review runbook |
-| Repository pubblico espone asset | B | M | clone/indexing | copyright, Figma private, secrets | security baseline |
+| Repository pubblico espone asset | B | M | clone/indexing | copyright, asset review, secrets | security baseline |
 | Assenza analytics limita diagnosi | M | M | poco insight uso | beta qualitativa, App Store data | decisione futura esplicita |
 | Acquisizione insufficiente | M | A | poco traffico e poche prove | ASO, custom pages, creator, lancio in due fasi | 90-day review |
 | Retention debole per attrito di logging | M | A | abbandono dopo setup | quick logging, widget, Intents, Kit utili | beta/90-day review |
@@ -4688,7 +4678,6 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 | Risorsa | Owner iniziale | Accesso | Recupero | Futuro trasferimento |
 |---|---|---|---|---|
 | GitHub | Matteo | account personale, 2FA | recovery codes | organizzazione Temisfera se utile |
-| Figma | Matteo | file privato | account recovery | team Temisfera |
 | routally.com | Matteo | registrar, 2FA | contatto/recovery | Temisfera |
 | Email Routally | Matteo | utenti nominativi | recovery/admin | Temisfera |
 | Apple Developer | Decision Gate | Account Holder | procedura Apple | vincoli Apple |
@@ -4704,7 +4693,7 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 ## 44.3 Regole
 
 - niente password o 2FA condivisi;
-- ruoli ufficiali Apple/Figma/GitHub;
+- ruoli ufficiali Apple e GitHub;
 - recovery codes fuori dal repository;
 - nessun token nei prompt degli agenti;
 - nessun publisher/account rental senza chiusura esplicita del DG-DEVELOPER-IDENTITY; baseline: account proprio;
@@ -4724,7 +4713,6 @@ Lean, ma non gratuito a qualsiasi costo.
 
 - Apple Developer Program;
 - dominio/email;
-- Figma se necessario;
 - device/accessori test;
 - consulenza legale/fiscale/accessibilità;
 - eventuale costituzione Temisfera;
@@ -4884,7 +4872,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - Swift 6 strict concurrency;
 - Dev/Public config;
 - documentazione base;
-- Figma foundations;
+- SwiftUI UI Foundation e preview matrix;
 - spike report;
 - no secrets;
 - ADR baseline.
@@ -5010,17 +4998,17 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - docs structure;
 - decision register.
 
-## E02 — Figma Foundation
+## E02 — Apple-native UI Direction
 
-- Apple UI Kit;
-- tokens;
-- navigation;
-- Today wireframe;
-- creation flow;
-- vertical slice prototype;
-- icon exploration.
+- baseline Human Interface Guidelines e componenti Apple nativi;
+- token semantici definiti;
+- navigazione iPhone/iPad definita;
+- flusso Oggi definito;
+- flusso di creazione definito;
+- scenario e criteri di accettazione della vertical slice;
+- direzioni e criteri dell'esplorazione icona.
 
-## E03 — Xcode Foundation
+## E03 — Xcode & SwiftUI Foundation
 
 - project/targets;
 - Dev/Public bundles con identificativi provvisori finché DG-DEVELOPER-IDENTITY è aperto;
@@ -5028,7 +5016,11 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - SPM local packages;
 - CI;
 - feature flags;
-- fixture system.
+- fixture system;
+- Asset Catalog e token semantici;
+- componenti e schermate SwiftUI con `#Preview`;
+- preview matrix iPhone/iPad, Light/Dark e Dynamic Type;
+- vertical slice interattiva con fixture locali.
 
 ## E04 — Domain Engine
 
@@ -5203,7 +5195,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 
 ## DG-ICON
 
-- scelta dopo Figma/Icon Composer/user test.
+- scelta dopo esplorazione SVG, Icon Composer e user test.
 
 ## DG-DEVELOPER-IDENTITY
 
@@ -5356,7 +5348,7 @@ Con l'approvazione di questo documento:
 
 - la fase di definizione generale è chiusa;
 - le decisioni non sospese sono vincolanti;
-- il lavoro successivo è Figma, technical spikes e Foundation;
+- il lavoro successivo è Xcode, SwiftUI UI Foundation e technical spike;
 - Codex o Claude Code possono decomporre il piano in documenti e attività senza reinterpretarlo;
 - le nuove decisioni vengono registrate tramite change control;
 - la 1.0 rimane l'obiettivo principale e la roadmap futura non ne deve compromettere qualità e semplicità.
@@ -5367,4 +5359,8 @@ Con l'approvazione di questo documento:
 
 ## Nota di audit 1.1
 
-Questa baseline è stata ricontrollata contro l'intera conversazione di definizione prima dell'handoff a Codex. Le integrazioni 1.1 hanno recuperato dettagli su naming, benchmark, creazione per archetipi, Figma, governance del primo commit, continuità CloudKit/TestFlight, Kit Free/Plus, App Store, identità dello sviluppatore, use-case backlog e runbook. Le idee non approvate sono marcate come ipotesi o Decision Gate, non come scope.
+Questa baseline è stata ricontrollata contro l'intera conversazione di definizione prima dell'handoff a Codex. Le integrazioni 1.1 hanno recuperato dettagli su naming, benchmark, creazione per archetipi, strumenti di design, governance del primo commit, continuità CloudKit/TestFlight, Kit Free/Plus, App Store, identità dello sviluppatore, use-case backlog e runbook. Le idee non approvate sono marcate come ipotesi o Decision Gate, non come scope.
+
+## Nota di audit 1.2
+
+Con approvazione del Product Owner del 6 agosto 2026, Routally adotta un processo SwiftUI-first: specifiche e criteri di accettazione restano documentali, mentre interfaccia, componenti e prototipi diventano artefatti eseguibili in Xcode Previews, Simulator e dispositivi reali. Icon Composer gestisce le varianti dell'icona e gli asset App Store derivano esclusivamente dalla release candidate reale.
