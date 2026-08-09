@@ -3220,9 +3220,10 @@ Ogni PR include:
 ### 28.3.1 Gate review Codex
 
 Ogni PR richiede lo status `codex-review` sull'HEAD corrente. Il gate osserva soltanto
-la review Codex nativa: un finding P0–P3 dell'HEAD fallisce lo status; una reaction
-positiva della review iniziale o un verdetto pulito con `Reviewed commit` coincidente lo
-completano. Segnali relativi a commit precedenti non vengono riutilizzati.
+la review Codex nativa: un finding P0/P1 dell'HEAD fallisce lo status; P2/P3 restano
+advisory dopo la conclusione della review e un breve assestamento dei segnali. Una
+reaction positiva della review iniziale o un verdetto pulito con `Reviewed commit`
+coincidente lo completano. Segnali relativi a commit precedenti non vengono riutilizzati.
 
 Il workflow usa `pull_request_target`, esegue esclusivamente il codice già presente su
 `main`, ha Issues in sola lettura e non pubblica commenti o richieste `@codex review`.
