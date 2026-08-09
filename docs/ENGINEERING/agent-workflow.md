@@ -17,7 +17,7 @@ decisioni di progetto.
 - Dopo il commit radice di bootstrap, usa un branch breve e una pull request.
 - Ogni PR richiede lo status `codex-review` sull'HEAD corrente. All'apertura o al
   passaggio da draft a ready parte la review nativa; dopo un nuovo commit usa una sola
-  review manuale e poi `workflow_dispatch` per lo stesso SHA.
+  riga `@codex review`. `workflow_dispatch` resta solo per bootstrap o retry manuali.
 - Mantieni il cambiamento minimo coerente con lo scope approvato.
 - Non aggiungere dipendenze o operare su servizi remoti senza autorizzazione.
 - Esegui i controlli proporzionati al rischio e aggiungi una regressione per ogni bug.
