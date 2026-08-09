@@ -7,6 +7,8 @@ const isDirectExecution =
 const timestamp = (value) => new Date(value ?? 0).getTime();
 const reviewedCommit = (body = "") =>
   body.match(/\*\*Reviewed commit:\*\*\s*`([0-9a-f]{10,40})`/i)?.[1];
+const findingPriority = (body = "") =>
+  body.match(/^(?:\*\*|<sub>)*(?:!?\[)?(P[0-3])(?: Badge)?(?:\]\([^)]*\)|\]\s*|\*\*)/m)?.[1];
 
 export function classifyCodexReview({
   headSha,
@@ -68,9 +70,9 @@ export function classifyCodexReview({
       (reviewRequestTimelineIndex < 0 ||
         currentReviewIds.has(comment.pull_request_review_id)) &&
       timestamp(comment.created_at) >= attemptStartedAt &&
-      /\bP[0-3]\b/.test(comment.body)
+      findingPriority(comment.body)
     ) {
-      if (/\bP[01]\b/.test(comment.body)) {
+      if (["P0", "P1"].includes(findingPriority(comment.body))) {
         completions.push({
           state: "failure",
           at: timestamp(comment.created_at),
@@ -96,9 +98,9 @@ export function classifyCodexReview({
         : attemptStartedAt > 0 &&
           (reviewRequestIndex < 0 || commentIndex > reviewRequestIndex)) &&
       timestamp(comment.created_at) >= attemptStartedAt &&
-      /\bP[0-3]\b/.test(comment.body)
+      findingPriority(comment.body)
     ) {
-      if (/\bP[01]\b/.test(comment.body)) {
+      if (["P0", "P1"].includes(findingPriority(comment.body))) {
         completions.push({
           state: "failure",
           at: timestamp(comment.created_at),
@@ -106,6 +108,13 @@ export function classifyCodexReview({
         });
       } else {
         advisoryFindings.push(timestamp(comment.created_at));
+        if (commit && now - timestamp(comment.created_at) >= 30_000) {
+          completions.push({
+            state: "success",
+            at: timestamp(comment.created_at),
+            description: "Codex ha completato la review con un finding P2/P3 advisory",
+          });
+        }
       }
     }
 
@@ -158,10 +167,11 @@ export function classifyCodexReview({
   const matchingReviewAt = cleanComments
     .filter((reviewAt) => Math.abs(reviewAt - latestAdvisoryAt) <= 30_000)
     .sort((left, right) => right - left)[0];
-  if (latestAdvisoryAt && matchingReviewAt && now - matchingReviewAt >= 30_000) {
+  const settledAt = Math.max(latestAdvisoryAt, matchingReviewAt ?? 0);
+  if (latestAdvisoryAt && matchingReviewAt && now - settledAt >= 30_000) {
     completions.push({
       state: "success",
-      at: matchingReviewAt,
+      at: settledAt,
       description: "Codex ha completato la review con soli finding P2/P3 advisory",
     });
   }
