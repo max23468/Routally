@@ -1,9 +1,9 @@
 # Routally — Master Plan
 
 - **Documento canonico:** `docs/MASTER_PLAN.md`
-- **Versione del piano:** 1.2 SwiftUI-first Planning Baseline
+- **Versione del piano:** 1.3 Reviewed Planning Baseline
 - **Stato:** approvato per l'avvio della progettazione e dello sviluppo
-- **Data:** 6 agosto 2026
+- **Data:** 14 agosto 2026
 - **Audit di completezza rispetto alla chat:** completato prima dell'handoff a Codex
 - **Owner di prodotto:** Matteo
 - **Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile e commercializzabile, mantenendo una roadmap esplicita per le versioni 1.X, 2.X e successive.
@@ -136,6 +136,30 @@ Prima di finalizzare un pattern di navigazione, creazione, completamento, notifi
 5. documentare l'eventuale deviazione e il vantaggio atteso.
 
 Il benchmark serve a ridurre errori e attrito, non a copiare interfacce o a introdurre feature perché popolari. Il concept di Routally, la filosofia calma e i requisiti di accessibilità restano vincolanti.
+
+### 0.6 Lettura selettiva
+
+Questo documento non va letto integralmente prima di ogni attività. Un agente legge sempre
+questa sezione 0, i principi di prodotto (5), lo scope e i non-scope della 1.0 (6), i
+technical spike e i validation gate (40), i Decision Gate aperti (50) e le decisioni
+sostituite (51); poi soltanto le sezioni che il proprio intervento tocca, secondo la
+matrice in `docs/ENGINEERING/agent-workflow.md`.
+
+La sezione 40 rientra fra quelle sempre lette perché un gate tecnico vincola il lavoro di
+altre sezioni: TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LOCATION
+precede i trigger geografici. Leggerla solo quando si lavora sulla roadmap significherebbe
+scoprire il vincolo dopo averlo violato.
+
+La matrice indica le sezioni che descrivono l'oggetto dell'intervento, non l'insieme
+completo di ciò che lo vincola. Le dimensioni del principio di completezza della sezione
+0.4 — comportamento Free/Plus, accessibilità, localizzazione, privacy, persistenza,
+correzione, notifiche e test — restano obbligatorie anche quando la loro sezione non
+compare nella riga usata, e `agent-workflow.md` ne riporta la corrispondenza. Una feature
+non è completa perché la sua riga di matrice è stata letta.
+
+In dubbio sulla sezione competente si consulta l'Indice, non l'intero documento. Se una
+richiesta sembra uscire dallo scope confermato o toccare una decisione sostituita, prevale
+la verifica delle sezioni 6 e 51.
 
 ---
 
@@ -870,10 +894,30 @@ Non mostra indiscriminatamente tutte le routine e non è una timeline oraria.
 
 ### Questa settimana
 
-- massimo 2–3 obiettivi rilevanti;
-- selezione automatica in base a rischio, uso e pertinenza;
+- massimo 3 obiettivi;
 - possibilità di fissare manualmente obiettivi preferiti;
 - collegamento «Mostra tutti».
+
+La selezione è deterministica, testabile e spiegabile: nessun punteggio opaco e nessun
+modello. La regola è la seguente.
+
+**Esclusioni.** Sono esclusi gli obiettivi di routine in pausa o archiviate, quelli il cui
+periodo è già stato raggiunto e quelli il cui periodo è appena iniziato e non è a rischio.
+
+**Ordine.** Gli obiettivi fissati manualmente occupano i primi posti, nel loro ordine.
+I posti restanti seguono queste classi, nell'ordine:
+
+1. **Non più raggiungibile:** le occorrenze mancanti superano le occasioni utili residue del periodo.
+2. **A rischio:** le occorrenze mancanti sono pari alle occasioni utili residue.
+3. **In corso:** almeno una registrazione nel periodo e obiettivo non ancora raggiunto.
+
+A parità di classe l'ordine è: fine del periodo più vicina, poi quota mancante maggiore,
+poi nome secondo il confronto locale. L'ordinamento è totale e stabile: a parità di tutti
+i criteri l'ordine non cambia tra due valutazioni consecutive.
+
+La classe determina anche il testo di contesto della riga, così che l'utente veda sempre
+perché quell'obiettivo è lì. La classe 1 non usa linguaggio di fallimento e propone, quando
+pertinente, di rivedere la frequenza.
 
 ### Tutto sotto controllo
 
@@ -2157,7 +2201,7 @@ Ogni Kit possiede una scheda editoriale con:
 
 I Kit sono inclusi e versionati nell'app 1.0, non scaricati da server.
 
-Tutti gli utenti possono esplorare e vedere l'anteprima completa di tutti i 12 Kit. Plus sblocca l'installazione immediata degli otto Kit premium, non le logiche di dominio: un utente Free può ricrearne manualmente una configurazione equivalente entro i limiti di 5 routine e 2 collegamenti.
+Tutti gli utenti possono esplorare e vedere l'anteprima completa di tutti i 12 Kit. Plus sblocca l'installazione immediata degli otto Kit premium, non le logiche di dominio: un utente Free può ricrearne manualmente una configurazione equivalente entro i limiti di 10 routine e 5 collegamenti.
 
 ## 20.2 Kit Free
 
@@ -3135,10 +3179,26 @@ Non hanno ruoli fissi complementari.
 
 - un solo agente lavora su un'attività alla volta;
 - non lavorano mai assieme sullo stesso task;
-- nessuna revisione automatica obbligatoria dell'altro;
+- nessuno dei due agenti ha il ruolo di revisore dell'altro;
 - il cambio richiede handoff documentato.
 
-## 27.3 Handoff
+## 27.3 La review non è un ruolo di agente
+
+Il gate `codex-review` della sezione 28.3.1 è un controllo di integrazione continua della
+repository, non un intervento dell'agente Codex sul task dell'agente Claude Code. Vale allo
+stesso modo per ogni pull request, indipendentemente da quale interfaccia l'abbia prodotta,
+esattamente come CodeQL o `swift-format`.
+
+Di conseguenza:
+
+- il gate non viola l'esclusività della sezione 27.2, perché non assegna un task a un secondo agente;
+- l'agente che ha aperto la pull request resta l'unico a lavorarci e a rispondere ai finding;
+- un finding non trasferisce il task all'altra interfaccia né richiede un handoff;
+- la sostituzione futura del gate con un altro strumento di review non cambia le regole di questa sezione.
+
+Registrato in `docs/ADR/0005-review-gate-ci.md`.
+
+## 27.4 Handoff
 
 Prima del passaggio:
 
@@ -3158,7 +3218,7 @@ Il nuovo agente legge:
 - branch;
 - handoff.
 
-## 27.4 Istruzioni canoniche
+## 27.5 Istruzioni canoniche
 
 - `docs/ENGINEERING/agent-workflow.md` — fonte comune;
 - `AGENTS.md` — ingresso Codex;
@@ -3236,6 +3296,9 @@ di richiesta. Dopo un nuovo commit o per un retry l'agente pubblica una sola rig
 La PR che introduce il gate è l'unica eccezione tecnica: viene revisionata da Codex
 prima del merge e lo status diventa required subito dopo, quando il workflow è presente
 su `main`.
+
+Il gate è un controllo di integrazione continua della repository e non assegna il lavoro a
+un secondo agente: si applica la sezione 27.3.
 
 ## 28.4 Primo commit
 
@@ -3474,8 +3537,8 @@ Mai presenti nell'app pubblica.
 - nessuna scadenza;
 - nessuna pubblicità;
 - nessuna vendita dati;
-- fino a **5 routine attive**;
-- fino a **2 collegamenti attivi**;
+- fino a **10 routine attive**;
+- fino a **5 collegamenti attivi**;
 - tutti i modelli fondamentali: tempo, obiettivi, utilizzi, durata e quantità;
 - Linked Routines e ciclo completo disponibili;
 - un luogo salvato, normalmente Casa;
@@ -3485,11 +3548,45 @@ Mai presenti nell'app pubblica.
 - Oggi;
 - ricerca globale;
 - notifiche e Smart Follow-ups;
-- un widget configurabile;
-- Analisi ultimi 30 giorni;
+- una sola istanza di widget attiva alla volta, di qualunque tipo e dimensione, Lock Screen inclusa;
+- Analisi limitata al periodo di 4 settimane;
 - iCloud;
 - esportazione CSV;
 - light/dark, accessibilità e affidabilità complete.
+
+### 31.1.1 Perché 10 routine e 5 collegamenti
+
+I limiti Free devono essere coerenti con la promessa che li accompagna: se Free installa i
+4 Kit introduttivi, deve poterlo fare davvero.
+
+Nella configurazione predefinita i Kit introduttivi consumano:
+
+| Kit Free | Routine | Collegamenti |
+|---|---|---|
+| Palestra | obiettivo Palestra, Asciugamano palestra | 1 |
+| Lenzuola | Lenzuola, Coprimaterasso | 1 |
+| Piante | Annaffiatura, Fertilizzante | 1 |
+| Studio | Studio, Ripasso | 1 |
+| **Totale** | **8** | **4** |
+
+Con i precedenti 5 e 2 un utente Free si bloccava al secondo Kit e la vetrina destinata a
+dimostrare il valore distintivo si chiudeva prima di dimostrarlo. I valori 10 e 5 lasciano
+margine per almeno una routine personale oltre ai Kit, che è il momento in cui l'utente
+smette di provare il prodotto e inizia a usarlo.
+
+I collegamenti opzionali di un Kit — scarpe, shaker, borsa palestra — restano opzionali e
+non sono inclusi nel conteggio predefinito. La scheda Kit mostra sempre il costo effettivo
+in routine e collegamenti prima dell'installazione, secondo la sezione 12.3.
+
+Questi valori restano soggetti alla revisione a 90 giorni prevista nella sezione 43 per il
+rischio «Free troppo generoso»: una loro riduzione futura non può però tornare sotto la
+soglia che rende installabili i 4 Kit introduttivi.
+
+### 31.1.2 Comportamento ai limiti
+
+- **Analisi:** i periodi oltre le 4 settimane restano visibili nel selettore e mostrano un paywall contestuale; nessun dato già registrato viene nascosto o eliminato.
+- **Widget:** il limite è sull'istanza configurata, non sul tipo. L'utente Free sceglie liberamente quale widget attivare e può cambiarlo quando vuole.
+- **Luoghi:** oltre il primo luogo salvato il paywall è contestuale alla creazione del secondo.
 
 ## 31.2 Routally Plus
 
@@ -3599,14 +3696,32 @@ Alla scadenza Plus:
 
 ### Dopo 7 giorni
 
-- massimo 5 routine e 2 link attivi;
+- massimo 10 routine e 5 collegamenti attivi;
 - le altre vengono messe in pausa;
 - nessun dato cancellato;
 - follow-up aperti completabili;
-- cronologia oltre 30 giorni conservata ma non consultabile;
-- configurazioni widget salvate e un solo widget Free resta attivo;
+- cronologia oltre le 4 settimane conservata ma non consultabile;
+- configurazioni widget salvate e una sola istanza widget Free resta attiva;
+- luoghi salvati conservati; oltre il primo restano configurati ma non attivano trigger, e i follow-up collegati usano il fallback temporale;
 - l'accento visivo torna a Routally Indigo, conservando la preferenza Plus;
 - riattivazione immediata con Plus.
+
+### 31.8.1 Le conseguenze interrotte devono essere visibili
+
+Una routine in pausa non riceve aggiornamenti automatici dai collegamenti in ingresso,
+secondo la sezione 17.1 e l'invariante 16 della sezione 16.6. Il downgrade mette in pausa
+le routine oltre il limite: senza un avviso esplicito, una registrazione smetterebbe
+silenziosamente di aggiornare i propri elementi collegati.
+
+Questo violerebbe il principio 5 e il divieto di automazioni senza origine visibile della
+sezione 15.10. Il downgrade deve quindi rispettare le regole seguenti.
+
+- La schermata di scelta delle routine da mantenere mostra, per ogni routine candidata alla pausa, quali collegamenti si interrompono e quali routine ne dipendono. La scelta non è mai cieca.
+- Le routine che fanno parte di una catena attiva vengono proposte per prime tra quelle da mantenere, perché metterle in pausa produce l'effetto meno prevedibile per l'utente.
+- Dopo la pausa, il dettaglio della routine sorgente indica nella sezione Conseguenze quali collegamenti sono sospesi e perché.
+- Il riepilogo dopo la registrazione della sezione 9.5 elenca la conseguenza sospesa invece di ometterla, così l'utente non deve dedurre l'assenza di un aggiornamento.
+- La comunicazione resta non giudicante e non usa la conseguenza interrotta come leva di riacquisto: è un'informazione di stato, non un promemoria commerciale.
+- La riattivazione di Plus ripristina i collegamenti senza richiedere una riconfigurazione manuale.
 
 ## 31.9 Matrice commerciale obbligatoria
 
@@ -3625,6 +3740,8 @@ La specifica StoreKit deve coprire:
 - acquisto non sincronizzato;
 - offline;
 - downgrade;
+- collegamenti sospesi dal downgrade e loro visibilità;
+- luoghi oltre il limite Free e fallback temporale;
 - superamento limiti;
 - Kit oltre limite;
 - widget Plus;
@@ -3881,6 +3998,22 @@ La preferenza attuale è account individuale o organizzazione propria; publisher
 
 ## 34.1 Beta privata
 
+### Natura delle soglie
+
+Queste soglie sono **qualitative**, non statistiche. Routally non usa analytics (sezione
+22.1) e la beta privata conta 20–40 tester: i valori sotto derivano da questionari
+auto-riferiti e da osservazione diretta su un campione piccolo e non rappresentativo.
+
+Vanno quindi lette come segnali di allineamento, non come misure. Un valore sotto soglia
+apre un'indagine qualitativa sul motivo; non è di per sé un blocco aritmetico, e un valore
+sopra soglia non certifica il prodotto. La decisione di procedere alla 0.9 resta del
+Product Owner e si basa sui problemi osservati, non sulla percentuale.
+
+Nessuna di queste percentuali va usata in comunicazione esterna, materiali App Store o
+affermazioni pubbliche: non hanno la solidità per sostenerle.
+
+### Soglie
+
 Senza analytics nascosti, tramite TestFlight e questionari:
 
 - almeno 80% dei percorsi assegnati completato senza assistenza;
@@ -4126,7 +4259,8 @@ Include:
 - cicli;
 - proiezioni;
 - invarianti;
-- test dominio.
+- test dominio;
+- spike TG-RECALC sul ricalcolo retroattivo, prima di costruire proiezioni e interfaccia sopra il motore.
 
 ### 0.3 — Vertical slice
 
@@ -4238,6 +4372,40 @@ Ogni nuova idea va in 1.1+.
 Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in settimane deve essere trattata come affidabile prima di aver completato la SwiftUI UI Foundation e i technical spike della 0.1.
 
 **Decision Gate DG-LAUNCH:** data e possibile preordine dopo RC stabile.
+
+## 37.5 Linea di galleggiamento della 1.0
+
+Il rischio «Scope 1.0 troppo ampio» della sezione 43 è classificato con probabilità e
+impatto alti, ma la sua unica mitigazione era finora un processo — milestone, freeze e
+rinvio esplicito — non una scelta. Con un solo sviluppatore la decisione di taglio verrà
+comunque presa: questa sezione la prende in anticipo, a mente fredda, invece di lasciarla
+maturare sotto pressione alla 0.7.
+
+Questa sezione non riduce lo scope della sezione 6 e non autorizza un agente a ridurlo. È
+un elenco pre-approvato di rinunce che il **Product Owner** può attivare, una alla volta e
+in quest'ordine, quando una milestone slitta in modo materiale. Ogni attivazione viene
+registrata nel Decision Register con data e motivo.
+
+### Ordine di sacrificio
+
+1. **Catalogo Kit da 12 a 6.** Restano i 4 introduttivi più Corsa e Rasatura, che coprono i quattro archetipi. Gli altri sei passano alla 1.1. Esplora resta, con meno raccolte.
+2. **Analisi ridotta alla sola panoramica descrittiva.** Restano «In evidenza» con fatti osservati e la panoramica del periodo; «Routine da rivedere» e i suggerimenti passano alla 1.1. I gate di evidenza della sezione 13.4 restano validi per ciò che resta.
+3. **iPad a parità di layout adattivo senza `NavigationSplitView`.** L'app resta universale, ridimensionabile, accessibile e conforme alla sezione 7.3 per Dynamic Type, tastiera e puntatore; le due colonne di Routine ed Esplora passano alla 1.1.
+4. **Ricerca globale ridotta a routine e follow-up.** Kit, Aree e sinonimi estesi passano alla 1.1. La ricerca resta presente: la sezione 40.5 conferma che è un requisito, non un'opzione.
+
+### Non sacrificabile
+
+Non entrano in questo elenco, in nessuna circostanza e a nessuna milestone:
+
+- il motore e le sue invarianti, incluse correzione retroattiva e ricostruibilità;
+- l'affidabilità dei dati, iCloud, offline e recupero;
+- accessibilità e localizzazione IT/EN complete;
+- privacy, sicurezza e assenza di telemetria;
+- la trasparenza e l'annullabilità delle conseguenze;
+- la correttezza commerciale di Free, Plus, downgrade e ripristino acquisti.
+
+Se il taglio necessario dovesse toccare uno di questi punti, la risposta corretta è
+spostare la data, non pubblicare una 1.0 fragile: vale la sezione 52.
 
 ---
 
@@ -4408,7 +4576,37 @@ Esito:
 - Adapt;
 - Fallback Core Data/CloudKit.
 
-## 40.2 TG-LOCATION — geofencing
+## 40.2 TG-RECALC — ricalcolo retroattivo deterministico
+
+Il ricalcolo su correzione retroattiva è il cuore del valore differenziante — sezioni 16.3,
+16.5, requisiti RTY-010 e RTY-034 — ed è la parte del motore che più probabilmente si
+rivela lenta o non deterministica sotto carico reale. Finora compariva solo come dataset di
+stress nella sezione 36.2, senza un esito formale.
+
+Lo spike si esegue nella 0.2, prima che Oggi, Analisi e le proiezioni vengano costruite
+sopra il motore.
+
+Verificare, sul dataset di stress della sezione 36.2:
+
+- modifica di un evento di alcuni mesi prima con 100.000 eventi, 500 collegamenti e 2.000 follow-up;
+- determinismo: due ricalcoli sullo stesso stato producono lo stesso risultato, indipendentemente dall'ordine di applicazione;
+- convergenza multi-device: lo stesso insieme di eventi consegnato in ordini diversi da CloudKit converge, secondo l'invariante 10 della sezione 16.6;
+- propagazione lungo più collegamenti dallo stesso evento sorgente;
+- rimozione e rigenerazione dei follow-up secondo la matrice della sezione 41.1, incluso il caso di soglia ridotta sotto il progresso quando un follow-up del ciclo precedente è già stato completato;
+- costo del ricalcolo mantenuto fuori dal percorso immediato, con la UI che rispetta il budget della sezione 36.1;
+- cancellazione del ricalcolo in corso senza stati intermedi persistiti;
+- confronto per checksum tra stato ricalcolato e stato ricostruito da zero dagli eventi canonici.
+
+Esito:
+
+- **Go:** ricalcolo incrementale sulle sole dipendenze coinvolte.
+- **Adapt:** ricalcolo incrementale con finestra limitata e ricostruzione completa differita in background.
+- **Fallback:** ricostruzione completa asincrona con stato esplicito in interfaccia; la correzione retroattiva resta disponibile, la sua applicazione non è istantanea.
+
+In nessun esito la correzione retroattiva viene rimossa dalla 1.0 o resa non deterministica:
+è coperta dalla sezione 37.5 tra le funzioni non sacrificabili.
+
+## 40.3 TG-LOCATION — geofencing
 
 Verificare:
 
@@ -4421,7 +4619,7 @@ Verificare:
 - device principale;
 - battery impact.
 
-## 40.3 TG-STOREKIT
+## 40.4 TG-STOREKIT
 
 Verificare:
 
@@ -4435,7 +4633,7 @@ Verificare:
 - offline;
 - TestFlight.
 
-## 40.4 TG-SEARCH
+## 40.5 TG-SEARCH
 
 Verificare:
 
@@ -4448,7 +4646,7 @@ Verificare:
 
 Cerca rimane requisito confermato; lo spike definisce implementazione, non la sua presenza.
 
-## 40.5 TG-IPAD-ACCESSIBILITY
+## 40.6 TG-IPAD-ACCESSIBILITY
 
 Verificare:
 
@@ -4459,7 +4657,7 @@ Verificare:
 - max Dynamic Type;
 - Liquid Glass reduce transparency.
 
-## 40.6 TG-PERFORMANCE
+## 40.7 TG-PERFORMANCE
 
 Verificare budget con build Release e device fisici.
 
@@ -4647,12 +4845,13 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 | Geofencing inaffidabile | M | A | reminder mancanti/duplicati | fallback e dedup | TG-LOCATION |
 | Analisi poco utile | M | M | tab vuota/generica | evidence gates, insight decisionali | ridurre contenuti, non eliminare senza decisione |
 | Search sovradimensionata | M | B | scarso uso/confusione | search globale chiara | TG-SEARCH |
-| Scope 1.0 troppo ampio | A | A | ritardi e fragilità | milestone, 0.7 freeze, rinvio esplicito | Product Owner |
+| Scope 1.0 troppo ampio | A | A | ritardi e fragilità | milestone, 0.7 freeze, linea di galleggiamento pre-approvata | 37.5, Product Owner |
+| Ricalcolo retroattivo lento o non deterministico | M | A | correzione che blocca la UI o produce esiti divergenti tra dispositivi | ricalcolo incrementale, checksum, invarianti testate | TG-RECALC |
 | App percepita ossessiva | M | A | tester ansiosi, troppe notifiche | Calm View, no streak, Kit criteria | beta UX |
 | App percepita troppo tecnica | M | A | confusione link/regole | linguaggio naturale, trasparenza | Simulator/usability testing |
 | Performance cronologia | M | A | launch/scroll lenti | projections/index/paging | TG-PERFORMANCE |
 | Doppie notifiche multi-device | M | M | feedback duplicazioni | primary device | integration tests |
-| Free troppo generoso | M | M | bassa conversione | limiti quantitativi | 90-day review |
+| Free troppo generoso | M | M | bassa conversione | limiti quantitativi, mai sotto la soglia dei 4 Kit introduttivi | 31.1.1, 90-day review |
 | Free troppo limitato | M | A | nessun valore provato | core engine gratuito | beta pricing |
 | Lifetime insostenibile 2.0 | M | A | costi cloud | separazione cloud | DG-CLOUD-PRICING |
 | Identità legale ritardata | M | A | impossibile creare store record | gate 0.8 | DG-DEVELOPER-IDENTITY |
@@ -5366,3 +5565,24 @@ Questa baseline è stata ricontrollata contro l'intera conversazione di definizi
 ## Nota di audit 1.2
 
 Con approvazione del Product Owner del 6 agosto 2026, Routally adotta un processo SwiftUI-first: specifiche e criteri di accettazione restano documentali, mentre interfaccia, componenti e prototipi diventano artefatti eseguibili in Xcode Previews, Simulator e dispositivi reali. Icon Composer gestisce le varianti dell'icona e gli asset App Store derivano esclusivamente dalla release candidate reale.
+
+## Nota di audit 1.3
+
+Con approvazione del Product Owner del 14 agosto 2026, la baseline recepisce una revisione
+critica del piano stesso. Le modifiche non ampliano lo scope della 1.0: chiudono
+contraddizioni interne, rendono verificabili regole finora descrittive e anticipano
+decisioni che sarebbero altrimenti maturate sotto pressione.
+
+| Ambito | Modifica | Sezioni |
+|---|---|---|
+| Limiti Free | 10 routine e 5 collegamenti: con 5 e 2 i 4 Kit introduttivi promessi non erano installabili | 20.1, 31.1, 31.1.1, 31.1.2, 43 |
+| Downgrade | Le conseguenze sospese dalla pausa diventano visibili invece di interrompersi in silenzio | 31.8, 31.8.1, 31.9 |
+| Lettura del piano | Lettura selettiva per sezioni invece della lettura integrale obbligatoria | 0.6, `agent-workflow.md` |
+| Governance agenti | Il gate di review è un controllo di CI, non un ruolo di agente | 27.2, 27.3, 28.3.1, ADR-0005 |
+| Motore | Nuovo spike TG-RECALC sul ricalcolo retroattivo deterministico, in 0.2 | 37.1, 40.2, 43 |
+| Scope | Linea di galleggiamento pre-approvata con ordine di sacrificio e funzioni non sacrificabili | 37.5, 43 |
+| Metriche | Le soglie della beta privata sono dichiarate qualitative e non statistiche | 34.1 |
+| Calm View | La rilevanza di «Questa settimana» diventa una regola deterministica e testabile | 9.2 |
+
+Restano invariati posizionamento, perimetro funzionale della 1.0, prezzi, architettura,
+privacy e roadmap.
