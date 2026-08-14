@@ -20,7 +20,7 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 
 | Intervento | Sezioni |
 | --- | --- |
-| Prodotto, posizionamento, brand, naming, tono | 2, 3, 4 |
+| Prodotto, posizionamento, brand, naming, tono | 1, 2, 3, 4 |
 | Navigazione, Oggi, lista Routine, dettaglio | 8, 9, 10, 11 |
 | Esplora, Routine Kits, catalogo editoriale | 12, 20 |
 | Analisi, insight, grafici | 13 |
@@ -31,10 +31,10 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 | Persistenza, iCloud, schema, migrazioni, export | 21 |
 | Privacy, sicurezza, permessi, threat model | 22 |
 | Accessibilità e localizzazione | 23, 24 |
-| Piattaforme, architettura, SwiftUI, toolchain, ambienti | 7, 25, 26, 30 |
-| Governance agenti, Git, pull request, documentazione | 27, 28, 29 |
+| Piattaforme, architettura, SwiftUI, toolchain, ambienti | 7, 25, 26, 30, 53 |
+| Governance agenti, Git, pull request, documentazione | 27, 28, 29, 54 |
 | Free, Plus, prezzi, StoreKit, paywall, downgrade | 31 |
-| Sito, supporto, legale, App Store, compliance | 32, 33, 46 |
+| Sito, supporto, legale, App Store, compliance | 32, 33, 46, 52 |
 | Metriche, strategia di test, performance | 34, 35, 36 |
 | Milestone, roadmap, technical spike e gate | 37, 38, 39, 40 |
 | Casi limite, runbook operativi, rischi | 41, 42, 43 |
@@ -44,6 +44,14 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 In dubbio sulla sezione competente, consulta l'Indice del documento invece di leggerlo
 tutto. Quando una richiesta sembra uscire dallo scope confermato o riproporre una scelta
 già scartata, prevale la verifica delle sezioni 6 e 51.
+
+**Invariante di copertura.** Ogni sezione di primo livello del Master Plan è raggiungibile:
+0, 5, 6, 40, 50 e 51 sono sempre lette, tutte le altre compaiono in almeno una riga della
+matrice. Quando il piano guadagna una sezione, la matrice va aggiornata nello stesso
+intervento. Una sezione irraggiungibile è un difetto della matrice, non una sezione
+facoltativa: si corregge prima di procedere.
+
+Il controllo è eseguibile con `scripts/check-reading-matrix.mjs`.
 
 ## Dimensioni trasversali
 
