@@ -1,8 +1,9 @@
 # Claude Code
 
 `docs/MASTER_PLAN.md` è la fonte canonica. Non leggerlo integralmente: leggi sempre le
-sezioni 0, 5, 6, 50 e 51, poi quelle che il tuo intervento tocca secondo la matrice in
-`docs/ENGINEERING/agent-workflow.md`. Segui `AGENTS.md` e lo stesso workflow.
+sezioni 0, 5, 6, 40, 50 e 51, poi quelle che il tuo intervento tocca secondo la matrice in
+`docs/ENGINEERING/agent-workflow.md`. Un technical gate aperto della sezione 40 precede
+l'implementazione che vincola. Segui `AGENTS.md` e lo stesso workflow.
 
 Claude Code è alternativo a Codex, non un revisore simultaneo. Inizia soltanto dopo un
 handoff esplicito e non modifica decisioni o servizi esterni senza approvazione.

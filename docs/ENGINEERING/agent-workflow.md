@@ -8,8 +8,15 @@ decisioni di progetto.
 
 Il Master Plan non va letto integralmente prima di ogni attività. Leggi **sempre** la
 sezione 0 (come usare il documento), i principi di prodotto (5), lo scope e i non-scope
-della 1.0 (6), i Decision Gate aperti (50) e le decisioni sostituite (51). Poi soltanto le
-sezioni che il tuo intervento tocca:
+della 1.0 (6), i technical spike e i validation gate (40), i Decision Gate aperti (50) e le
+decisioni sostituite (51).
+
+La sezione 40 è sempre letta perché un gate tecnico vincola il lavoro di altre sezioni:
+TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LOCATION precede i trigger
+geografici. Prima di implementare, verifica che il gate applicabile al tuo intervento sia
+chiuso; se è aperto, l'esito dello spike precede l'implementazione.
+
+Poi leggi soltanto le sezioni che il tuo intervento tocca:
 
 | Intervento | Sezioni |
 | --- | --- |

@@ -141,8 +141,14 @@ Il benchmark serve a ridurre errori e attrito, non a copiare interfacce o a intr
 
 Questo documento non va letto integralmente prima di ogni attività. Un agente legge sempre
 questa sezione 0, i principi di prodotto (5), lo scope e i non-scope della 1.0 (6), i
-Decision Gate aperti (50) e le decisioni sostituite (51); poi soltanto le sezioni che il
-proprio intervento tocca, secondo la matrice in `docs/ENGINEERING/agent-workflow.md`.
+technical spike e i validation gate (40), i Decision Gate aperti (50) e le decisioni
+sostituite (51); poi soltanto le sezioni che il proprio intervento tocca, secondo la
+matrice in `docs/ENGINEERING/agent-workflow.md`.
+
+La sezione 40 rientra fra quelle sempre lette perché un gate tecnico vincola il lavoro di
+altre sezioni: TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LOCATION
+precede i trigger geografici. Leggerla solo quando si lavora sulla roadmap significherebbe
+scoprire il vincolo dopo averlo violato.
 
 In dubbio sulla sezione competente si consulta l'Indice, non l'intero documento. Se una
 richiesta sembra uscire dallo scope confermato o toccare una decisione sostituita, prevale
