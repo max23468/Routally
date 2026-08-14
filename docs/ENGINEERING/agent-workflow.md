@@ -4,10 +4,43 @@ Questo documento è la fonte comune per Codex e Claude Code. `AGENTS.md` e `CLAU
 sono i rispettivi punti di ingresso; `docs/MASTER_PLAN.md` resta la fonte canonica delle
 decisioni di progetto.
 
+## Lettura del Master Plan
+
+Il Master Plan non va letto integralmente prima di ogni attività. Leggi **sempre** la
+sezione 0 (come usare il documento), i principi di prodotto (5), lo scope e i non-scope
+della 1.0 (6), i Decision Gate aperti (50) e le decisioni sostituite (51). Poi soltanto le
+sezioni che il tuo intervento tocca:
+
+| Intervento | Sezioni |
+| --- | --- |
+| Prodotto, posizionamento, brand, naming, tono | 2, 3, 4 |
+| Navigazione, Oggi, lista Routine, dettaglio | 8, 9, 10, 11 |
+| Esplora, Routine Kits, catalogo editoriale | 12, 20 |
+| Analisi, insight, grafici | 13 |
+| Onboarding e flusso di creazione | 14 |
+| Motore, regole, cicli, collegamenti, event sourcing | 15, 16, 17 |
+| Follow-up, notifiche, luoghi, geofencing | 18 |
+| Widget, App Intents, Universal Links, background | 19 |
+| Persistenza, iCloud, schema, migrazioni, export | 21 |
+| Privacy, sicurezza, permessi, threat model | 22 |
+| Accessibilità e localizzazione | 23, 24 |
+| Piattaforme, architettura, SwiftUI, toolchain, ambienti | 7, 25, 26, 30 |
+| Governance agenti, Git, pull request, documentazione | 27, 28, 29 |
+| Free, Plus, prezzi, StoreKit, paywall, downgrade | 31 |
+| Sito, supporto, legale, App Store, compliance | 32, 33, 46 |
+| Metriche, strategia di test, performance | 34, 35, 36 |
+| Milestone, roadmap, technical spike e gate | 37, 38, 39, 40 |
+| Casi limite, runbook operativi, rischi | 41, 42, 43 |
+| Ownership di account e asset, budget | 44, 45 |
+| Traceability, Definition of Done, backlog per epiche | 47, 48, 49 |
+
+In dubbio sulla sezione competente, consulta l'Indice del documento invece di leggerlo
+tutto. Quando una richiesta sembra uscire dallo scope confermato o riproporre una scelta
+già scartata, prevale la verifica delle sezioni 6 e 51.
+
 ## Avvio
 
-1. Leggi integralmente il Master Plan prima di qualsiasi attività e poi le specifiche o
-   ADR pertinenti.
+1. Leggi il Master Plan secondo la matrice sopra, poi le specifiche o gli ADR pertinenti.
 2. Conferma obiettivo, scope e criteri di accettazione.
 3. Verifica branch, working tree e modifiche concorrenti prima di intervenire.
 4. Non usare contemporaneamente Codex e Claude Code sullo stesso task.
@@ -18,6 +51,9 @@ decisioni di progetto.
 - Ogni PR richiede lo status `codex-review` sull'HEAD corrente. All'apertura o al
   passaggio da draft a ready parte la review nativa; dopo un nuovo commit usa una sola
   riga `@codex review`. `workflow_dispatch` resta solo per bootstrap o retry manuali.
+- Il gate è un controllo di integrazione continua della repository, non un intervento
+  dell'agente Codex sul task altrui: vale per ogni PR e non trasferisce il lavoro a un
+  secondo agente. Chi ha aperto la PR risponde ai finding e la porta a termine.
 - Mantieni il cambiamento minimo coerente con lo scope approvato.
 - Non aggiungere dipendenze o operare su servizi remoti senza autorizzazione.
 - Esegui i controlli proporzionati al rischio e aggiungi una regressione per ogni bug.

@@ -1,7 +1,12 @@
 # Claude Code
 
-Prima di lavorare, leggi integralmente `docs/MASTER_PLAN.md`; segui `AGENTS.md` e
-`docs/ENGINEERING/agent-workflow.md`.
+`docs/MASTER_PLAN.md` è la fonte canonica. Non leggerlo integralmente: leggi sempre le
+sezioni 0, 5, 6, 50 e 51, poi quelle che il tuo intervento tocca secondo la matrice in
+`docs/ENGINEERING/agent-workflow.md`. Segui `AGENTS.md` e lo stesso workflow.
 
 Claude Code è alternativo a Codex, non un revisore simultaneo. Inizia soltanto dopo un
 handoff esplicito e non modifica decisioni o servizi esterni senza approvazione.
+
+Il gate `codex-review` delle pull request è un controllo di integrazione continua della
+repository, non una revisione dell'agente Codex sul tuo task: non richiede handoff e non
+viola l'esclusività fra i due agenti.

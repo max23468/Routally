@@ -1,8 +1,9 @@
 # Istruzioni per gli agenti
 
-1. Leggi integralmente `docs/MASTER_PLAN.md` prima di qualsiasi attività.
-2. Il Master Plan è la fonte canonica: non reinterpretare scope, prodotto, pricing, UX,
-   architettura o roadmap.
+1. `docs/MASTER_PLAN.md` è la fonte canonica. Non leggerlo integralmente: leggi sempre le
+   sezioni 0, 5, 6, 50 e 51, poi quelle che il tuo intervento tocca secondo la matrice in
+   `docs/ENGINEERING/agent-workflow.md`. In dubbio consulta l'Indice, non l'intero documento.
+2. Non reinterpretare scope, prodotto, pricing, UX, architettura o roadmap.
 3. Non aggiungere dipendenze, servizi esterni, analytics, AI o backend senza approvazione.
 4. Usa framework Apple nativi e la toolchain approvata.
 5. Codex e Claude Code sono agenti alternativi: un solo agente lavora su un task.

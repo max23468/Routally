@@ -12,3 +12,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 - Adottato il workflow di design SwiftUI-first con Xcode Previews, Simulator e Icon Composer.
 - Completata E02 con UI Foundation Liquid Glass, token semantici, navigazione adattiva,
   flusso di creazione, vertical slice e criteri di accessibilità.
+- Master Plan 1.3: limiti Free portati a 10 routine e 5 collegamenti perché i 4 Kit
+  introduttivi fossero davvero installabili, conseguenze del downgrade rese visibili,
+  lettura selettiva del piano per sezioni, linea di galleggiamento pre-approvata della 1.0,
+  spike TG-RECALC sul ricalcolo retroattivo, soglie di beta dichiarate qualitative e
+  regola deterministica per «Questa settimana».
+- Aggiunto ADR-0005: la review delle pull request è un gate di CI e non un ruolo di agente.
