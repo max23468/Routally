@@ -40,6 +40,8 @@ jobs:
           persist-credentials: false
       - name: Verifica il gate
         run: node --test scripts/codex-review-gate.test.mjs
+      - name: Verifica la gerarchia della roadmap
+        run: node scripts/check-roadmap-hierarchy.mjs
       - name: Attendi la review Codex
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

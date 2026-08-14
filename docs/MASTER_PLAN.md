@@ -4248,7 +4248,7 @@ Include:
 - Routally Dev;
 - CI;
 - architettura base;
-- spike dati, StoreKit, location e navigation/search.
+- spike dati, StoreKit, location, navigation/search e iPad/accessibilità.
 
 ### 0.2 — Core Routine Engine
 
@@ -4358,7 +4358,7 @@ come versione Routally 1.2. Le milestone usano identificativi interi e stabili:
 - `M05` — Explore & Kits;
 - `M06` — System Integrations;
 - `M07` — Insights & Search;
-- `M08` — Commerce;
+- `M08` — Commerce & Release Foundations;
 - `M09` — Accessibility & Localization;
 - `M10` — Alpha;
 - `M11` — Beta;
@@ -4366,27 +4366,32 @@ come versione Routally 1.2. Le milestone usano identificativi interi e stabili:
 
 ### Mappa canonica fase → milestone → epiche → gate
 
-Ogni epica appartiene a una sola milestone primaria. I gate non sono figli organizzativi
-della milestone: sono condizioni che ne precedono o vincolano il completamento.
+Ogni epica appartiene a una sola milestone primaria e gli ID delle epiche seguono l'ordine
+delle milestone, non una gerarchia decimale. I gate non sono figli organizzativi della
+milestone: sono condizioni che ne precedono o vincolano il completamento.
 
 | Fase/versione | Milestone | Epiche primarie | Gate e prerequisiti principali |
 |---|---|---|---|
 | `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA`, `TG-LOCATION`, `TG-STOREKIT`, `TG-SEARCH`, `TG-IPAD-ACCESSIBILITY` |
 | `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle proiezioni |
-| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; esiti dei gate dati, ricalcolo e location applicati |
+| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite adapter testabili, senza anticipare le integrazioni di sistema complete |
 | `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
 | `0.5` | `M05` Explore & Kits | `E11` | motore, creazione e comportamento Free/Plus disponibili |
-| `0.5` | `M06` System Integrations | `E14`–`E16` | esiti `TG-LOCATION` e `TG-IPAD-ACCESSIBILITY` |
-| `0.6` | `M07` Insights & Search | `E12`–`E13` | esito `TG-SEARCH`; gate di evidenza degli insight |
-| `0.6` | `M08` Commerce | `E17` | esito `TG-STOREKIT`; matrice commerciale completa |
-| `0.7` | `M09` Accessibility & Localization | `E18` | `M01`–`M08` feature complete; avvio del feature freeze |
-| `0.8` | `M10` Alpha | `E19` | `DG-DEVELOPER-IDENTITY`; `TG-PERFORMANCE`; audit privacy e sicurezza |
-| `0.9` | `M11` Beta | `E20` | RC stabile, schema CloudKit production, `DG-ICON` e `DG-LAUNCH` |
-| `1.0` | `M12` App Store 1.0 | `E21` | release gate delle sezioni 35, 46 e 52; `DG-DOMAIN` e `DG-TRADEMARK` chiusi prima della submission |
+| `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; esiti `TG-LOCATION` e `TG-IPAD-ACCESSIBILITY`; iCloud Development verificato |
+| `0.6` | `M07` Insights & Search | `E15`–`E16` | esito `TG-SEARCH`; gate di evidenza degli insight |
+| `0.6` | `M08` Commerce & Release Foundations | `E17`–`E18` | esito `TG-STOREKIT`; matrice commerciale, supporto, legale e App Store foundations completi |
+| `0.7` | `M09` Accessibility & Localization | `E19` | `M01`–`M08` feature complete; avvio del feature freeze |
+| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; `TG-PERFORMANCE`; audit privacy e sicurezza |
+| `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
+| `1.0` | `M12` App Store 1.0 | `E22` | release gate delle sezioni 35, 46 e 52; submission approvata e rilascio manuale autorizzato |
 
-La fase `0.7` non rende accessibilità e localizzazione attività finali: `E18` conduce
+La fase `0.7` non rende accessibilità e localizzazione attività finali: `E19` conduce
 l'audit complessivo, mentre ogni epica precedente deve già rispettare le dimensioni
 trasversali della sezione 0.4 durante la propria implementazione.
+
+La mappa copre il percorso verso la 1.0. `DG-CLOUD-PRICING` e `DG-FUTURE-ANALYTICS`
+restano fuori da queste milestone perché appartengono rispettivamente alla 2.0 e a una
+valutazione futura, come definito nelle sezioni 39 e 50.
 
 Le milestone vengono mantenute nel backlog personale e nella documentazione del repository. GitHub non viene usato per raccogliere issue o richieste pubbliche; branch e PR restano strumenti tecnici personali.
 
@@ -5059,45 +5064,47 @@ Devono spiegare:
 
 La matrice completa deve essere mantenuta in un file operativo. Questa baseline definisce i requisiti più critici.
 
-| ID | Requisito | UI | Dominio/Dati | Integrazione | Test minimo | Milestone |
-|---|---|---|---|---|---|---|
-| RTY-001 | Registrare evento una volta e propagare | Oggi/Dettaglio | Event + Link Engine | Widget/Intent | unit + UI | 0.3 |
-| RTY-002 | Obiettivo X volte/periodo | Oggi/Routine | GoalRule | Notification | unit timezone | 0.2 |
-| RTY-003 | Dopo ultima esecuzione | Oggi/Routine | FrequencyRule | Calendar notif | DST/month | 0.2 |
-| RTY-004 | Giorni stabiliti | Routine | ScheduledOccurrence | Calendar notif | missed occurrence | 0.2 |
-| RTY-005 | Evento/durata/quantità | Creation/Log | MeasurementRule | Intent/widget | parameterized | 0.2 |
-| RTY-006 | Usage OR time | Creation/Detail | ThresholdRule | Scheduler | boundary tests | 0.2 |
-| RTY-007 | Soglia genera follow-up | Oggi | FollowUpPolicy | Notification | dedup | 0.3 |
-| RTY-008 | Follow-up completa/reset | Oggi | Cycle Engine | Sync | multi-device | 0.3 |
-| RTY-009 | Right-time location reminder | Creation/Oggi | ReminderPolicy | Core Location/UN | fallback/dedup | 0.5 |
-| RTY-010 | Correzione retroattiva | History | EventRevision | CloudKit | recalculation | 0.3 |
-| RTY-011 | Undo | Snackbar/sheet | Reversal event | — | action tests | 0.4 |
-| RTY-012 | Pause/archive/delete | Detail/Profile | State policy/tombstone | CloudKit | restore | 0.4 |
-| RTY-013 | Recently deleted 30d | Profile | Tombstone retention | CloudKit | expiry/restore | 0.5 |
-| RTY-014 | Calm View selettiva | Oggi | Today Projection | Widget | relevance tests | 0.4 |
-| RTY-015 | Riepilogo conseguenze | Bottom sheet | Applied effects | Haptics | accessibility/UI | 0.4 |
-| RTY-016 | Unified creation | Creation | Builders/presets | TipKit | usability | 0.4 |
-| RTY-017 | 12 Kits | Esplora | Kit definitions | StoreKit gate | install tests | 0.5 |
-| RTY-018 | Analisi evidence-gated | Analisi | Insight rules | Swift Charts | statistical guard | 0.6 |
-| RTY-019 | Search globale | Search | local index | search tab | typo/synonym | 0.6 |
-| RTY-020 | Profilo locale | Profile | LocalProfile | iCloud | migration | 0.5 |
-| RTY-021 | iCloud seamless | Profile/all | Repositories/events | CloudKit | offline/conflict | 0.1–0.8 |
-| RTY-022 | Primary reminder device | Profile | Device policy | UN/CloudKit | duplicate tests | 0.5 |
-| RTY-023 | Widgets | System | projections | WidgetKit | snapshot/action | 0.5 |
-| RTY-024 | App Intents | System | use cases | AppIntents | invocation | 0.5 |
-| RTY-025 | Universal Links | Router | typed route | Associated Domains | installed/web | 0.5 |
-| RTY-026 | Free limits | Paywall | Limit policy | StoreKit | matrix | 0.6 |
-| RTY-027 | Plus Annual/Lifetime | Paywall/Profile | Entitlement | StoreKit 2 | sandbox | 0.6 |
-| RTY-028 | Protected downgrade | Profile | Entitlement/activation | StoreKit | transition | 0.6 |
-| RTY-029 | IT/EN complete | All | string catalogs | App Store | snapshot/manual | all |
-| RTY-030 | Accessibility gate | All | accessible models | iOS accessibility | matrix | all |
-| RTY-031 | No third-party telemetry | All | Null analytics | Privacy manifest | binary audit | 0.9 |
-| RTY-032 | CSV export | Profile | event serialization | Share sheet | large data | 0.5 |
-| RTY-033 | Complete data deletion | Profile | delete/tombstone | CloudKit | multi-device | 0.8 |
-| RTY-034 | Consistency repair | Dev/automatic | Consistency Engine | Background | corruption tests | 0.3–0.8 |
-| RTY-035 | App Store launch | Store | release assets | ASC/TestFlight | checklist | 1.0 |
+| ID | Requisito | UI | Dominio/Dati | Integrazione | Test minimo | Fase/versione | Milestone primaria | Epica primaria |
+|---|---|---|---|---|---|---|---|---|
+| RTY-001 | Registrare evento una volta e propagare | Oggi/Dettaglio | Event + Link Engine | Widget/Intent | unit + UI | 0.3 | M03 | E06 |
+| RTY-002 | Obiettivo X volte/periodo | Oggi/Routine | GoalRule | Notification | unit timezone | 0.2 | M02 | E04 |
+| RTY-003 | Dopo ultima esecuzione | Oggi/Routine | FrequencyRule | Calendar notif | DST/month | 0.2 | M02 | E04 |
+| RTY-004 | Giorni stabiliti | Routine | ScheduledOccurrence | Calendar notif | missed occurrence | 0.2 | M02 | E04 |
+| RTY-005 | Evento/durata/quantità | Creation/Log | MeasurementRule | Intent/widget | parameterized | 0.2 | M02 | E04 |
+| RTY-006 | Usage OR time | Creation/Detail | ThresholdRule | Scheduler | boundary tests | 0.2 | M02 | E04 |
+| RTY-007 | Soglia genera follow-up | Oggi | FollowUpPolicy | Notification | dedup | 0.3 | M03 | E06 |
+| RTY-008 | Follow-up completa/reset | Oggi | Cycle Engine | Sync | multi-device | 0.3 | M03 | E06 |
+| RTY-009 | Right-time location reminder | Creation/Oggi | ReminderPolicy | Core Location/UN | fallback/dedup | 0.5 | M06 | E12 |
+| RTY-010 | Correzione retroattiva | History | EventRevision | CloudKit | recalculation | 0.3 | M03 | E06 |
+| RTY-011 | Undo | Snackbar/sheet | Reversal event | — | action tests | 0.3 | M03 | E06 |
+| RTY-012 | Pause/archive/delete | Detail/Profile | State policy/tombstone | CloudKit | restore | 0.4 | M04 | E10 |
+| RTY-013 | Recently deleted 30d | Profile | Tombstone retention | CloudKit | expiry/restore | 0.4 | M04 | E10 |
+| RTY-014 | Calm View selettiva | Oggi | Today Projection | Widget | relevance tests | 0.4 | M04 | E09 |
+| RTY-015 | Riepilogo conseguenze | Bottom sheet | Applied effects | Haptics | accessibility/UI | 0.4 | M04 | E09 |
+| RTY-016 | Unified creation | Creation | Builders/presets | TipKit | usability | 0.4 | M04 | E08 |
+| RTY-017 | 12 Kits | Esplora | Kit definitions | StoreKit gate | install tests | 0.5 | M05 | E11 |
+| RTY-018 | Analisi evidence-gated | Analisi | Insight rules | Swift Charts | statistical guard | 0.6 | M07 | E15 |
+| RTY-019 | Search globale | Search | local index | search tab | typo/synonym | 0.6 | M07 | E16 |
+| RTY-020 | Profilo locale | Profile | LocalProfile | iCloud | migration | 0.5 | M06 | E14 |
+| RTY-021 | iCloud seamless | Profile/all | Repositories/events | CloudKit | offline/conflict | 0.5 | M06 | E14 |
+| RTY-022 | Primary reminder device | Profile | Device policy | UN/CloudKit | duplicate tests | 0.5 | M06 | E12 |
+| RTY-023 | Widgets | System | projections | WidgetKit | snapshot/action | 0.5 | M06 | E13 |
+| RTY-024 | App Intents | System | use cases | AppIntents | invocation | 0.5 | M06 | E13 |
+| RTY-025 | Universal Links | Router | typed route | Associated Domains | installed/web | 0.5 | M06 | E13 |
+| RTY-026 | Free limits | Paywall | Limit policy | StoreKit | matrix | 0.6 | M08 | E17 |
+| RTY-027 | Plus Annual/Lifetime | Paywall/Profile | Entitlement | StoreKit 2 | sandbox | 0.6 | M08 | E17 |
+| RTY-028 | Protected downgrade | Profile | Entitlement/activation | StoreKit | transition | 0.6 | M08 | E17 |
+| RTY-029 | IT/EN complete | All | string catalogs | App Store | snapshot/manual | 0.7 | M09 | E19 |
+| RTY-030 | Accessibility gate | All | accessible models | iOS accessibility | matrix | 0.7 | M09 | E19 |
+| RTY-031 | No third-party telemetry | All | Null analytics | Privacy manifest | binary audit | 0.8 | M10 | E20 |
+| RTY-032 | CSV export | Profile | event serialization | Share sheet | large data | 0.5 | M06 | E14 |
+| RTY-033 | Complete data deletion | Profile | delete/tombstone | CloudKit | multi-device | 0.5 | M06 | E14 |
+| RTY-034 | Consistency repair | Dev/automatic | Consistency Engine | Background | corruption tests | 0.2 | M02 | E04 |
+| RTY-035 | App Store launch | Store | release assets | ASC/TestFlight | checklist | 1.0 | M12 | E22 |
 
-Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
+La fase indica quando il requisito raggiunge la propria milestone primaria; le verifiche
+trasversali e di release restano obbligatorie nelle milestone successive. Ogni requisito
+deve avere owner, attività/PR, specifica e stato aggiornati.
 
 ---
 
@@ -5110,7 +5117,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - Dev/Public config;
 - documentazione base;
 - SwiftUI UI Foundation e preview matrix;
-- spike report;
+- spike report e relativi esiti dei Technical Gate;
 - no secrets;
 - ADR baseline.
 
@@ -5121,6 +5128,8 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - event revisions;
 - projections;
 - deterministic replay;
+- repository adapter e persistenza locale offline;
+- schema locale V1 versionato e migrazione baseline;
 - 100k dataset baseline;
 - no UI dependency.
 
@@ -5130,7 +5139,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - offline;
 - undo/correction;
 - follow-up;
-- reminder/fallback;
+- reminder/fallback tramite adapter testabili, senza dipendere dai trigger di sistema completi;
 - accessibility base;
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
@@ -5164,7 +5173,11 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - App Intents;
 - Universal Links;
 - background;
-- permission fallbacks.
+- permission fallbacks;
+- `DG-DOMAIN` chiuso e Universal Links verificati sul dominio definitivo;
+- local profile e controlli dei dati;
+- sincronizzazione CloudKit Development, conflitti e recovery;
+- CSV e cancellazione completa verificati.
 
 ## 48.7 M07 — Insights & Search
 
@@ -5175,7 +5188,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - filters/synonyms;
 - performance.
 
-## 48.8 M08 — Commerce
+## 48.8 M08 — Commerce & Release Foundations
 
 - Free limits;
 - Annual/Lifetime;
@@ -5183,7 +5196,9 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - downgrade;
 - paywall;
 - legal copy;
-- sandbox suite.
+- sandbox suite;
+- support site e pagine legali/accessibilità baseline IT/EN;
+- metadata e checklist App Store baseline.
 
 ## 48.9 M09 — Accessibility & Localization
 
@@ -5192,13 +5207,13 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - IT/EN complete;
 - pseudolocalization;
 - iPad;
-- support/legal pages.
+- support/legal pages accessibili e localizzate.
 
 ## 48.10 M10 — Alpha
 
 - no Critical data bugs;
 - internal flows;
-- identity decision initiated;
+- `DG-DEVELOPER-IDENTITY` chiuso;
 - security/privacy audits;
 - performance baseline;
 - runbooks draft.
@@ -5211,11 +5226,13 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - legal complete;
 - CloudKit production;
 - review evidence;
-- support ready.
+- support ready;
+- `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi.
 
 ## 48.12 M12 — App Store 1.0
 
 - all release gates;
+- submission e App Review completate;
 - manual release;
 - monitoring and support;
 - controlled launch;
@@ -5272,27 +5289,26 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - projections;
 - consistency.
 
-## E05 — Persistence & Sync
+## E05 — Local Persistence Foundation
 
 - SwiftData models;
-- schema V1;
+- schema locale V1 versionato;
 - repository adapter;
-- App Group;
-- CloudKit;
-- offline;
-- conflicts;
-- migrations;
-- stress.
+- persistenza condivisa con App Group;
+- letture e scritture offline;
+- migrazioni locali;
+- stress del database locale.
 
 ## E06 — Vertical Slice Integration
 
-- routine sorgente e routine collegata su dominio e persistenza reali;
-- soglia, follow-up e reminder contestuale con fallback;
+- routine sorgente e routine collegata su dominio e persistenza locale reali;
+- soglia, follow-up e reminder contestuale con fallback tramite adapter testabili;
 - completamento, reset e cronologia;
 - riepilogo delle conseguenze, esclusione del singolo effetto e annullamento;
 - correzione retroattiva e ricostruzione deterministica;
-- funzionamento offline e successiva convergenza;
+- funzionamento offline e stato di sincronizzazione pendente simulato;
 - verifica su device dei criteri `E02-VS-01`–`E02-VS-13`;
+- nessuna pretesa di completare CloudKit, geofencing o notifiche di sistema, che appartengono a `M06`;
 - nessun hardcode del caso Palestra nel dominio.
 
 ## E07 — App Shell
@@ -5342,25 +5358,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - add/configure;
 - Free/Plus gate.
 
-## E12 — Analysis
-
-- metrics;
-- insights;
-- thresholds;
-- charts;
-- history filters;
-- empty/insufficient data.
-
-## E13 — Search
-
-- index;
-- normalized terms;
-- synonyms;
-- recent;
-- filters;
-- results/actions.
-
-## E14 — Notifications & Location
+## E12 — Notifications & Location
 
 - permission flow;
 - scheduler;
@@ -5371,7 +5369,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - primary device;
 - badge.
 
-## E15 — System Surfaces
+## E13 — System Surfaces
 
 - widgets;
 - lock screen;
@@ -5381,15 +5379,36 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - universal links;
 - background.
 
-## E16 — Profile/Data
+## E14 — Profile, Data & iCloud
 
 - local profile;
 - appearance;
 - locations;
+- CloudKit adapter e container Development;
+- sincronizzazione multi-device;
+- conflitti e recovery;
 - iCloud status;
 - CSV;
 - delete data;
 - support.
+
+## E15 — Analysis
+
+- metrics;
+- insights;
+- thresholds;
+- charts;
+- history filters;
+- empty/insufficient data.
+
+## E16 — Search
+
+- index;
+- normalized terms;
+- synonyms;
+- recent;
+- filters;
+- results/actions.
 
 ## E17 — Commerce
 
@@ -5402,7 +5421,16 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - downgrade;
 - Beta Plus.
 
-## E18 — Accessibility/Localization
+## E18 — Support, Legal & App Store Foundations
+
+- struttura del sito di supporto;
+- Privacy Policy, Termini, Termini Plus e pagina Accessibilità baseline IT/EN;
+- metadata App Store baseline;
+- checklist di submission e piano dell'evidence package;
+- processo di supporto e ownership dei contenuti;
+- nessun asset finale derivato da prototipi.
+
+## E19 — Accessibility/Localization
 
 - string catalogs;
 - IT/EN;
@@ -5412,29 +5440,30 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - iPad keyboard/pointer;
 - audit.
 
-## E19 — Alpha
+## E20 — Alpha
 
 - TestFlight;
 - flussi interni e raccolta strutturata del feedback;
+- chiusura di `DG-DEVELOPER-IDENTITY`;
 - audit privacy, sicurezza e performance;
 - verifica dei runbook;
 - triage e stabilizzazione senza nuove feature.
 
-## E20 — Beta
+## E21 — Beta
 
 - beta privata e ampliata;
 - metriche/questionari;
 - StoreKit Sandbox;
 - schema CloudKit production;
 - evidence package per App Review;
-- finalizzazione asset e release candidate.
+- revisione legale finale e supporto pronto;
+- screenshot, video e Custom Product Pages dalla release candidate reale;
+- finalizzazione asset e release candidate;
+- chiusura di `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH`.
 
-## E21 — App Store Release
+## E22 — App Store Release
 
-- legal/site;
-- screenshots/video;
-- custom pages;
-- App Review;
+- submission e ciclo App Review;
 - rilascio manuale e controlled launch;
 - supporto e piano di contingenza `1.0.1`.
 
@@ -5449,7 +5478,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - eventuale `routally.app` difensivo;
 - prenotare gli identificativi social essenziali;
 - definire owner e recovery;
-- riservare il Bundle ID finale soltanto in coerenza con DG-DEVELOPER-IDENTITY.
+- chiudere il gate prima di `M06`, perché gli Universal Links richiedono il dominio definitivo.
 
 ## DG-TRADEMARK
 
@@ -5471,6 +5500,7 @@ Fase 0.8:
 - Apple organization/D‑U‑N‑S, sito ed email di dominio;
 - cessione o licenza IP;
 - impatto su Bundle ID, CloudKit, App Groups, StoreKit, Xcode Cloud, pagamenti e trasferimento;
+- riservare il Bundle ID finale soltanto dopo la chiusura coerente di questo gate;
 - developer name scelto prima del primo record App Store.
 
 ## DG-LAUNCH
@@ -5654,6 +5684,10 @@ privacy e roadmap.
 
 Con approvazione del Product Owner del 14 agosto 2026, versioni interne, milestone, epiche
 e gate adottano una gerarchia operativa univoca. Le milestone usano identificativi `M01`–
-`M12`, le epiche `E01`–`E21` e ogni epica appartiene a una sola milestone primaria. La
+`M12`, le epiche `E01`–`E22` e ogni epica appartiene a una sola milestone primaria. La
 Vertical Slice diventa una milestone e un'epica di integrazione esplicite; Alpha, Beta e
-App Store diventano epiche distinte. La modifica non amplia lo scope funzionale della 1.0.
+App Store diventano epiche distinte. La persistenza locale viene separata dalle
+integrazioni iCloud e la preparazione di supporto, legale e App Store riceve un'epica
+propria nella 0.6. La modifica non amplia lo scope funzionale della 1.0.
+La coerenza della gerarchia e della tracciabilità è verificata in modo eseguibile da
+`scripts/check-roadmap-hierarchy.mjs` e dal workflow del gate Codex.
