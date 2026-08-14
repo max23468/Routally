@@ -53,6 +53,11 @@ facoltativa: si corregge prima di procedere.
 
 Il controllo è eseguibile con `scripts/check-reading-matrix.mjs`.
 
+Quando cambiano versioni, milestone, epiche, Definition of Done o tracciabilità, esegui
+anche `node scripts/check-roadmap-hierarchy.mjs`. Il controllo richiede identificativi
+contigui, una sola milestone primaria per epica, corrispondenza con le Definition of Done,
+tracciabilità requisito → fase → milestone → epica e copertura di tutti i Technical Gate.
+
 ## Dimensioni trasversali
 
 La matrice indica le sezioni che descrivono **l'oggetto** dell'intervento. Non basta: il

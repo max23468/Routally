@@ -14,7 +14,7 @@ specifica completa.
 | MP-FREE-LIMITS | Limiti Free a 10 routine e 5 collegamenti | Confirmed | 1.0 | Con 5 e 2 un utente Free non poteva installare i 4 Kit introduttivi promessi | Rivedibile a 90 giorni, mai sotto la soglia dei 4 Kit | 2026-08-14 |
 | MP-WATERLINE | Linea di galleggiamento pre-approvata della 1.0 | Confirmed | 1.0 | Trasforma il rischio di scope da processo a scelta già presa | Ordine di sacrificio attivabile dal solo Product Owner | 2026-08-14 |
 | TG-RECALC | Spike sul ricalcolo retroattivo deterministico | Decision Gate | 0.2 | Il ricalcolo è il cuore differenziante e il candidato più probabile a non scalare | Determina la strategia di ricalcolo prima di proiezioni e interfaccia | — |
-| DG-DOMAIN | Registrazione dominio, DNS ed email | Decision Gate | 1.0 | Servono ownership e recovery definitive | Blocca dominio e identificativi pubblici definitivi | — |
+| DG-DOMAIN | Registrazione dominio, DNS ed email | Decision Gate | 0.5 | Servono ownership e recovery definitive | Blocca Universal Links, supporto e identificativi pubblici definitivi | — |
 | DG-TRADEMARK | Verifica formale di Routally e Temisfera | Decision Gate | 1.0 | La verifica preliminare non equivale a clearance | Influenza tutela e uso commerciale del brand | — |
 | DG-ICON | Scelta dell'icona definitiva | Decision Gate | 1.0 | Richiede esplorazione SVG, Icon Composer e user test | Blocca gli asset App Store finali | — |
 | DG-DEVELOPER-IDENTITY | Identità legale dello sviluppatore | Decision Gate | 0.8 | Account Holder e trasferibilità devono essere definiti | Blocca gli asset Apple definitivi | — |
