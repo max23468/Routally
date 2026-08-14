@@ -1,7 +1,7 @@
 # Routally — Master Plan
 
 - **Documento canonico:** `docs/MASTER_PLAN.md`
-- **Versione del piano:** 1.3 Reviewed Planning Baseline
+- **Versione del piano:** 1.4 Operational Hierarchy Baseline
 - **Stato:** approvato per l'avvio della progettazione e dello sviluppo
 - **Data:** 14 agosto 2026
 - **Audit di completezza rispetto alla chat:** completato prima dell'handoff a Codex
@@ -4340,17 +4340,53 @@ Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e tes
 
 ## 37.2 Milestone operative
 
-- Foundation;
-- Core Routine Engine;
-- Today & Routine;
-- Explore & Kits;
-- Insights & Search;
-- System Integrations;
-- Commerce;
-- Accessibility & Localization;
-- Alpha;
-- Beta;
-- App Store 1.0.
+Gli identificativi distinguono livelli diversi e non formano numeri decimali:
+
+- `0.x` e `1.0` identificano la fase/versione interna complessiva del prodotto;
+- `Mnn` identifica una milestone, cioè un risultato integrato con una Definition of Done;
+- `Enn` identifica un'epica, cioè un'area di lavoro implementabile attraverso attività e PR;
+- `TG-*` identifica una validazione tecnica vincolante;
+- `DG-*` identifica una decisione del Product Owner.
+
+Una sigla come `M1.2` non viene usata: potrebbe essere letta sia come sotto-milestone sia
+come versione Routally 1.2. Le milestone usano identificativi interi e stabili:
+
+- `M01` — Foundation;
+- `M02` — Core Routine Engine;
+- `M03` — Vertical Slice;
+- `M04` — Today & Routine;
+- `M05` — Explore & Kits;
+- `M06` — System Integrations;
+- `M07` — Insights & Search;
+- `M08` — Commerce;
+- `M09` — Accessibility & Localization;
+- `M10` — Alpha;
+- `M11` — Beta;
+- `M12` — App Store 1.0.
+
+### Mappa canonica fase → milestone → epiche → gate
+
+Ogni epica appartiene a una sola milestone primaria. I gate non sono figli organizzativi
+della milestone: sono condizioni che ne precedono o vincolano il completamento.
+
+| Fase/versione | Milestone | Epiche primarie | Gate e prerequisiti principali |
+|---|---|---|---|
+| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA`, `TG-LOCATION`, `TG-STOREKIT`, `TG-SEARCH`, `TG-IPAD-ACCESSIBILITY` |
+| `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle proiezioni |
+| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; esiti dei gate dati, ricalcolo e location applicati |
+| `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
+| `0.5` | `M05` Explore & Kits | `E11` | motore, creazione e comportamento Free/Plus disponibili |
+| `0.5` | `M06` System Integrations | `E14`–`E16` | esiti `TG-LOCATION` e `TG-IPAD-ACCESSIBILITY` |
+| `0.6` | `M07` Insights & Search | `E12`–`E13` | esito `TG-SEARCH`; gate di evidenza degli insight |
+| `0.6` | `M08` Commerce | `E17` | esito `TG-STOREKIT`; matrice commerciale completa |
+| `0.7` | `M09` Accessibility & Localization | `E18` | `M01`–`M08` feature complete; avvio del feature freeze |
+| `0.8` | `M10` Alpha | `E19` | `DG-DEVELOPER-IDENTITY`; `TG-PERFORMANCE`; audit privacy e sicurezza |
+| `0.9` | `M11` Beta | `E20` | RC stabile, schema CloudKit production, `DG-ICON` e `DG-LAUNCH` |
+| `1.0` | `M12` App Store 1.0 | `E21` | release gate delle sezioni 35, 46 e 52; `DG-DOMAIN` e `DG-TRADEMARK` chiusi prima della submission |
+
+La fase `0.7` non rende accessibilità e localizzazione attività finali: `E18` conduce
+l'audit complessivo, mentre ogni epica precedente deve già rispettare le dimensioni
+trasversali della sezione 0.4 durante la propria implementazione.
 
 Le milestone vengono mantenute nel backlog personale e nella documentazione del repository. GitHub non viene usato per raccogliere issue o richieste pubbliche; branch e PR restano strumenti tecnici personali.
 
@@ -5067,7 +5103,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 
 # 48. Definition of Done per milestone
 
-## 48.1 Foundation
+## 48.1 M01 — Foundation
 
 - repo, CI e Xcode compilano;
 - Swift 6 strict concurrency;
@@ -5078,7 +5114,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - no secrets;
 - ADR baseline.
 
-## 48.2 Core Routine Engine
+## 48.2 M02 — Core Routine Engine
 
 - quattro archetipi rappresentabili;
 - invarianti testate;
@@ -5088,7 +5124,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - 100k dataset baseline;
 - no UI dependency.
 
-## 48.3 Vertical slice
+## 48.3 M03 — Vertical Slice
 
 - flusso end-to-end su device;
 - offline;
@@ -5099,7 +5135,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
 
-## 48.4 Today & Routine
+## 48.4 M04 — Today & Routine
 
 - Calm View;
 - list/detail;
@@ -5110,7 +5146,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - max text;
 - UI tests.
 
-## 48.5 Explore & Kits
+## 48.5 M05 — Explore & Kits
 
 - 12 schede editoriali;
 - 4 Free/8 Plus;
@@ -5119,16 +5155,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - search metadata;
 - all Kit acceptance tests.
 
-## 48.6 Insights & Search
-
-- evidence gates;
-- no causal overclaim;
-- accessible charts;
-- local search;
-- filters/synonyms;
-- performance.
-
-## 48.7 System Integrations
+## 48.6 M06 — System Integrations
 
 - notifications;
 - location;
@@ -5139,7 +5166,16 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - background;
 - permission fallbacks.
 
-## 48.8 Commerce
+## 48.7 M07 — Insights & Search
+
+- evidence gates;
+- no causal overclaim;
+- accessible charts;
+- local search;
+- filters/synonyms;
+- performance.
+
+## 48.8 M08 — Commerce
 
 - Free limits;
 - Annual/Lifetime;
@@ -5149,7 +5185,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - legal copy;
 - sandbox suite.
 
-## 48.9 Accessibility & Localization
+## 48.9 M09 — Accessibility & Localization
 
 - accessibility matrix pass;
 - Nutrition Label evidence;
@@ -5158,7 +5194,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - iPad;
 - support/legal pages.
 
-## 48.10 Alpha
+## 48.10 M10 — Alpha
 
 - no Critical data bugs;
 - internal flows;
@@ -5167,7 +5203,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - performance baseline;
 - runbooks draft.
 
-## 48.11 Beta
+## 48.11 M11 — Beta
 
 - beta metrics;
 - RC stability;
@@ -5177,7 +5213,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - review evidence;
 - support ready.
 
-## 48.12 App Store 1.0
+## 48.12 M12 — App Store 1.0
 
 - all release gates;
 - manual release;
@@ -5248,7 +5284,18 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - migrations;
 - stress.
 
-## E06 — App Shell
+## E06 — Vertical Slice Integration
+
+- routine sorgente e routine collegata su dominio e persistenza reali;
+- soglia, follow-up e reminder contestuale con fallback;
+- completamento, reset e cronologia;
+- riepilogo delle conseguenze, esclusione del singolo effetto e annullamento;
+- correzione retroattiva e ricostruzione deterministica;
+- funzionamento offline e successiva convergenza;
+- verifica su device dei criteri `E02-VS-01`–`E02-VS-13`;
+- nessun hardcode del caso Palestra nel dominio.
+
+## E07 — App Shell
 
 - TabView;
 - search role;
@@ -5258,7 +5305,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - sheets;
 - deep links.
 
-## E07 — Creation
+## E08 — Creation
 
 - presets;
 - rapid default;
@@ -5267,7 +5314,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - validation;
 - Kit entry.
 
-## E08 — Today
+## E09 — Today
 
 - projection;
 - sections;
@@ -5277,7 +5324,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - pins/relevant goals;
 - empty state.
 
-## E09 — Routines
+## E10 — Routines
 
 - list/areas/filters;
 - detail;
@@ -5286,7 +5333,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - pause/archive/delete;
 - recently deleted.
 
-## E10 — Explore & Kits
+## E11 — Explore & Kits
 
 - catalog;
 - 12 specs;
@@ -5295,7 +5342,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - add/configure;
 - Free/Plus gate.
 
-## E11 — Analysis
+## E12 — Analysis
 
 - metrics;
 - insights;
@@ -5304,7 +5351,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - history filters;
 - empty/insufficient data.
 
-## E12 — Search
+## E13 — Search
 
 - index;
 - normalized terms;
@@ -5313,7 +5360,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - filters;
 - results/actions.
 
-## E13 — Notifications & Location
+## E14 — Notifications & Location
 
 - permission flow;
 - scheduler;
@@ -5324,7 +5371,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - primary device;
 - badge.
 
-## E14 — System Surfaces
+## E15 — System Surfaces
 
 - widgets;
 - lock screen;
@@ -5334,7 +5381,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - universal links;
 - background.
 
-## E15 — Profile/Data
+## E16 — Profile/Data
 
 - local profile;
 - appearance;
@@ -5344,7 +5391,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - delete data;
 - support.
 
-## E16 — Commerce
+## E17 — Commerce
 
 - StoreKit config;
 - entitlements;
@@ -5355,7 +5402,7 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - downgrade;
 - Beta Plus.
 
-## E17 — Accessibility/Localization
+## E18 — Accessibility/Localization
 
 - string catalogs;
 - IT/EN;
@@ -5365,15 +5412,31 @@ Ogni requisito deve avere owner, attività/PR, specifica e stato aggiornati.
 - iPad keyboard/pointer;
 - audit.
 
-## E18 — Release
+## E19 — Alpha
 
 - TestFlight;
-- metrics/questionnaires;
+- flussi interni e raccolta strutturata del feedback;
+- audit privacy, sicurezza e performance;
+- verifica dei runbook;
+- triage e stabilizzazione senza nuove feature.
+
+## E20 — Beta
+
+- beta privata e ampliata;
+- metriche/questionari;
+- StoreKit Sandbox;
+- schema CloudKit production;
+- evidence package per App Review;
+- finalizzazione asset e release candidate.
+
+## E21 — App Store Release
+
 - legal/site;
 - screenshots/video;
 - custom pages;
 - App Review;
-- launch.
+- rilascio manuale e controlled launch;
+- supporto e piano di contingenza `1.0.1`.
 
 ---
 
@@ -5586,3 +5649,11 @@ decisioni che sarebbero altrimenti maturate sotto pressione.
 
 Restano invariati posizionamento, perimetro funzionale della 1.0, prezzi, architettura,
 privacy e roadmap.
+
+## Nota di audit 1.4
+
+Con approvazione del Product Owner del 14 agosto 2026, versioni interne, milestone, epiche
+e gate adottano una gerarchia operativa univoca. Le milestone usano identificativi `M01`–
+`M12`, le epiche `E01`–`E21` e ogni epica appartiene a una sola milestone primaria. La
+Vertical Slice diventa una milestone e un'epica di integrazione esplicite; Alpha, Beta e
+App Store diventano epiche distinte. La modifica non amplia lo scope funzionale della 1.0.
