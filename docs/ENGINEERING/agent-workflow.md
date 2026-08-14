@@ -45,6 +45,33 @@ In dubbio sulla sezione competente, consulta l'Indice del documento invece di le
 tutto. Quando una richiesta sembra uscire dallo scope confermato o riproporre una scelta
 già scartata, prevale la verifica delle sezioni 6 e 51.
 
+## Dimensioni trasversali
+
+La matrice indica le sezioni che descrivono **l'oggetto** dell'intervento. Non basta: il
+principio di completezza della sezione 0.4 stabilisce che una feature è completa solo
+quando sono coperte anche le dimensioni che valgono per ogni feature, ovunque siano
+documentate.
+
+Quando l'intervento produce comportamento visibile all'utente, leggi anche le sezioni delle
+dimensioni applicabili:
+
+| Dimensione della sezione 0.4 | Sezioni |
+| --- | --- |
+| Comportamento Free/Plus, limiti e downgrade | 31 |
+| Accessibilità | 23 |
+| Localizzazione italiana e inglese | 24 |
+| Privacy, sicurezza e permessi | 22 |
+| Persistenza, offline e sincronizzazione | 21 |
+| Correzione, annullamento e recupero | 16, 17 |
+| Notifiche e integrazioni di sistema | 18, 19 |
+| Test e criteri di accettazione | 35, 48 |
+
+Esempio: un intervento sui widget legge la riga della matrice (19) e, poiché il widget ha
+un limite nel piano Free, anche la sezione 31. Un intervento sul motore legge 15–17 e, se
+tocca proiezioni o ricalcolo, il gate applicabile della sezione 40.
+
+Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
+
 ## Avvio
 
 1. Leggi il Master Plan secondo la matrice sopra, poi le specifiche o gli ADR pertinenti.

@@ -150,6 +150,13 @@ altre sezioni: TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LO
 precede i trigger geografici. Leggerla solo quando si lavora sulla roadmap significherebbe
 scoprire il vincolo dopo averlo violato.
 
+La matrice indica le sezioni che descrivono l'oggetto dell'intervento, non l'insieme
+completo di ciò che lo vincola. Le dimensioni del principio di completezza della sezione
+0.4 — comportamento Free/Plus, accessibilità, localizzazione, privacy, persistenza,
+correzione, notifiche e test — restano obbligatorie anche quando la loro sezione non
+compare nella riga usata, e `agent-workflow.md` ne riporta la corrispondenza. Una feature
+non è completa perché la sua riga di matrice è stata letta.
+
 In dubbio sulla sezione competente si consulta l'Indice, non l'intero documento. Se una
 richiesta sembra uscire dallo scope confermato o toccare una decisione sostituita, prevale
 la verifica delle sezioni 6 e 51.
