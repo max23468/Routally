@@ -79,6 +79,23 @@ struct FoundationTests {
     )
   }
 
+  @Test("Una registrazione successiva ricrea il follow-up escluso")
+  func recordingAfterFollowUpExclusionRecoversCycle() {
+    let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
+    store.recordRoutine(id: "gym")
+    store.excludeEffect(id: "clean-gym-towel")
+    store.clearConsequenceSummary()
+
+    #expect(store.recordRoutine(id: "gym"))
+
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 4)
+    #expect(store.snapshot.followUps.first?.id == "clean-gym-towel")
+    #expect(store.snapshot.followUps.first?.state == .waitingForUsefulMoment)
+    #expect(
+      store.consequenceSummary?.effects.contains { $0.id == "clean-gym-towel" } == true
+    )
+  }
+
   @Test("Annullare ripristina atomicamente lo stato della fixture")
   func undoRestoresFixtureState() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))

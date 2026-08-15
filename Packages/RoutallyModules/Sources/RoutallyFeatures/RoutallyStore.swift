@@ -170,36 +170,41 @@ public final class RoutallyStore {
     ]
 
     let towelID = linkedTowelID(forRoutineID: routineID)
-    if let towelIndex = routineIndex(id: towelID),
-      snapshot.routines[towelIndex].progress < snapshot.routines[towelIndex].target
-    {
-      snapshot.routines[towelIndex].progress += 1
-      let reachedThreshold =
-        snapshot.routines[towelIndex].progress >= snapshot.routines[towelIndex].target
-      snapshot.routines[towelIndex].state = reachedThreshold ? .thresholdReached : .active
+    if let towelIndex = routineIndex(id: towelID) {
+      let followUpID = followUpID(forLinkedRoutineID: towelID)
+      var shouldCreateFollowUp =
+        snapshot.routines[towelIndex].state == .thresholdReached
+        && !snapshot.followUps.contains { $0.id == followUpID }
 
-      let towel = snapshot.routines[towelIndex]
-      effects.append(
-        ConsequenceEffect(
-          id: towelID,
-          title: L10n.text(
-            .consequenceEffectProgress(
-              towel.name,
-              Int32(towel.progress),
-              Int32(towel.target)
-            )
-          ),
-          origin: L10n.text(.consequenceLinkOrigin(sourceRoutine.name)),
-          exclusionTarget: towel.name
+      if snapshot.routines[towelIndex].progress < snapshot.routines[towelIndex].target {
+        snapshot.routines[towelIndex].progress += 1
+        shouldCreateFollowUp =
+          snapshot.routines[towelIndex].progress >= snapshot.routines[towelIndex].target
+        snapshot.routines[towelIndex].state = shouldCreateFollowUp ? .thresholdReached : .active
+
+        let towel = snapshot.routines[towelIndex]
+        effects.append(
+          ConsequenceEffect(
+            id: towelID,
+            title: L10n.text(
+              .consequenceEffectProgress(
+                towel.name,
+                Int32(towel.progress),
+                Int32(towel.target)
+              )
+            ),
+            origin: L10n.text(.consequenceLinkOrigin(sourceRoutine.name)),
+            exclusionTarget: towel.name
+          )
         )
-      )
+      }
 
-      if reachedThreshold {
+      if shouldCreateFollowUp {
+        let towel = snapshot.routines[towelIndex]
         let configuration = creationDrafts[routineID]
         let followUpTitle =
           configuration?.followUpTitle ?? L10n.text(.preparaUnAsciugamanoPulito)
         let isImmediatelyReady = configuration?.usefulMoment == .immediate
-        let followUpID = followUpID(forLinkedRoutineID: towelID)
         snapshot.followUps.removeAll { $0.id == followUpID }
         snapshot.followUps.append(
           FollowUpSummary(
