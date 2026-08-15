@@ -278,7 +278,9 @@ public final class RoutallyStore {
   public func undoLastRecording() {
     guard let summary = consequenceSummary else { return }
     let towelID = linkedTowelID(forRoutineID: summary.sourceRoutineID)
+    let linkedFollowUpID = followUpID(forLinkedRoutineID: towelID)
     let towelEffectWasApplied = summary.effects.first { $0.id == towelID }?.isExcluded == false
+    let followUpWasCreated = summary.effects.contains { $0.id == linkedFollowUpID }
 
     if let sourceIndex = routineIndex(id: summary.sourceRoutineID) {
       snapshot.routines[sourceIndex].progress = max(
@@ -290,7 +292,9 @@ public final class RoutallyStore {
       snapshot.routines[towelIndex].progress = max(0, snapshot.routines[towelIndex].progress - 1)
       snapshot.routines[towelIndex].state = .active
     }
-    snapshot.followUps.removeAll { $0.id == followUpID(forLinkedRoutineID: towelID) }
+    if followUpWasCreated {
+      snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
+    }
     refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = nil

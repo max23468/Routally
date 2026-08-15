@@ -105,6 +105,21 @@ struct FoundationTests {
     #expect(store.snapshot.followUps.isEmpty)
   }
 
+  @Test("Annullare una registrazione successiva preserva il follow-up precedente")
+  func undoLaterRecordingPreservesPriorFollowUp() {
+    let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
+    store.recordRoutine(id: "gym")
+    store.clearConsequenceSummary()
+
+    store.recordRoutine(id: "gym")
+    store.undoLastRecording()
+
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 2)
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 4)
+    #expect(store.snapshot.followUps.first?.id == "clean-gym-towel")
+    #expect(store.snapshot.followUps.first?.state == .waitingForUsefulMoment)
+  }
+
   @Test("Una nuova registrazione dopo Escludi usa il progresso corrente")
   func recordAfterExclusionUsesCurrentProgress() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
