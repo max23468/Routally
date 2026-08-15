@@ -23,6 +23,11 @@ vengono mostrate le conseguenze, non da decorazioni sovrapposte.
    tinge indiscriminatamente navigazione e contenuto.
 4. **Stato:** testo, simbolo e forma comunicano sempre insieme al colore.
 
+“Predominante” descrive la copertura del livello interattivo, non la quantità di vetro
+sullo schermo: ogni azione primaria visibile usa `glassProminent`, mentre barre,
+toolbar, search e presentazioni lasciano il materiale al sistema. Il contenuto non viene
+reso glass per compensare un controllo implementato con uno stile non coerente.
+
 Il contenuto scorre sotto le superfici di navigazione affinché il vetro reagisca al
 contesto. Non si aggiungono blur, fondi oscuranti o shadow custom dietro barre e sheet:
 interferirebbero con lo scroll-edge effect e con l'adattamento automatico del materiale.
@@ -35,8 +40,8 @@ interferirebbero con lo scroll-edge effect e con l'adattamento automatico del ma
 | Sidebar iPad | superficie di sistema sopra il contenuto |
 | Navigation bar e toolbar | item nativi raggruppati per relazione |
 | Sheet, popover, menu e dialog | presentazione nativa senza background custom |
-| Pulsante primario | stile di sistema prominente con tint brand |
-| Controlli custom | soltanto Cycle control o conseguenze quando davvero interattivi |
+| Pulsante primario | `glassProminent` di sistema con tint brand |
+| Controlli custom | `CycleVisualization` glass soltanto quando è un controllo interattivo |
 
 La variante glass `regular` è il default. `clear` è esclusa dalla UI ordinaria: potrà
 essere valutata soltanto sopra uno sfondo visualmente ricco e dopo verifica di contrasto.

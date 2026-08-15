@@ -6,6 +6,11 @@
 "Si aggiorna quando registri %@" = "Si aggiorna quando registri %@";
 "Registra %@" = "Registra %@";
 "%d di %d" = "%d di %d";
+"%@, %d di %d" = "%@, %d di %d";
+"In corso" = "In corso";
+"Soglia raggiunta" = "Soglia raggiunta";
+"Follow-up pronto" = "Follow-up pronto";
+"Completato" = "Completato";
 "Registra %@ una volta: Routally aggiorna l’obiettivo e il ciclo dell’asciugamano." = "Registra %@ una volta: Routally aggiorna l’obiettivo e il ciclo dell’asciugamano.";
 "Registra %@ per aggiornare l’obiettivo settimanale." = "Registra %@ per aggiornare l’obiettivo settimanale.";
 "questa routine" = "questa routine";

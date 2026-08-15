@@ -15,6 +15,8 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 - Implementata E03 con progetto Xcode, target Dev/Public/Test, xcconfig, moduli SwiftPM
   locali, feature flag, fixture Dev, token Asset Catalog, preview matrix e vertical slice
   SwiftUI interattiva su iPhone e iPad.
+- Riallineata la UI Foundation E03 al contratto Liquid Glass: CTA primarie glass,
+  `CycleVisualization` riusabile, stati accessibili e preview dedicate.
 - Master Plan 1.3: limiti Free portati a 10 routine e 5 collegamenti perché i 4 Kit
   introduttivi fossero davvero installabili, conseguenze del downgrade rese visibili,
   lettura selettiva del piano per sezioni, linea di galleggiamento pre-approvata della 1.0,

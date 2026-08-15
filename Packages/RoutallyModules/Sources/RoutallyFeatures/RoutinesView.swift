@@ -18,7 +18,7 @@ struct RoutinesView: View {
 
   private var compactView: some View {
     NavigationStack {
-      routineList
+      compactRoutineList
         .navigationDestination(for: String.self) { routineID in
           RoutineDetailView(routine: routine(id: routineID), store: store)
         }
@@ -31,7 +31,7 @@ struct RoutinesView: View {
     @Bindable var router = router
 
     return NavigationSplitView {
-      routineList
+      selectableRoutineList
         .navigationTitle(L10n.text("Routine"))
         .toolbar { rootToolbar }
     } detail: {
@@ -46,31 +46,45 @@ struct RoutinesView: View {
     }
   }
 
-  private var routineList: some View {
+  private var compactRoutineList: some View {
+    List(store.snapshot.routines) { routine in
+      routineLink(for: routine)
+    }
+    .overlay { emptyState }
+  }
+
+  private var selectableRoutineList: some View {
     @Bindable var router = router
 
     return List(store.snapshot.routines, selection: $router.selectedRoutineID) { routine in
-      NavigationLink(value: routine.id) {
-        Label {
-          VStack(alignment: .leading) {
-            Text(routine.name)
-            Text("\(routine.progress)/\(routine.target)")
-              .font(RoutallyFont.supporting)
-              .foregroundStyle(RoutallyColor.contentSecondary)
-          }
-        } icon: {
-          Image(systemName: routine.symbol)
+      routineLink(for: routine)
+    }
+    .overlay { emptyState }
+  }
+
+  private func routineLink(for routine: RoutineSummary) -> some View {
+    NavigationLink(value: routine.id) {
+      Label {
+        VStack(alignment: .leading) {
+          Text(routine.name)
+          Text("\(routine.progress)/\(routine.target)")
+            .font(RoutallyFont.supporting)
+            .foregroundStyle(RoutallyColor.contentSecondary)
         }
+      } icon: {
+        Image(systemName: routine.symbol)
       }
     }
-    .overlay {
-      if store.snapshot.routines.isEmpty {
-        ContentUnavailableView(
-          L10n.text("Nessuna routine"),
-          systemImage: "repeat",
-          description: Text(L10n.text("Usa il pulsante Nuova routine per iniziare."))
-        )
-      }
+  }
+
+  @ViewBuilder
+  private var emptyState: some View {
+    if store.snapshot.routines.isEmpty {
+      ContentUnavailableView(
+        L10n.text("Nessuna routine"),
+        systemImage: "repeat",
+        description: Text(L10n.text("Usa il pulsante Nuova routine per iniziare."))
+      )
     }
   }
 
@@ -111,9 +125,15 @@ private struct RoutineDetailView: View {
     if let routine {
       List {
         Section {
-          CycleVisualization(routine: routine)
-            .frame(maxWidth: .infinity)
-            .listRowBackground(Color.clear)
+          CycleVisualization(
+            title: routine.name,
+            current: routine.progress,
+            target: routine.target,
+            state: routine.cycleVisualizationState,
+            stateLabel: routine.cycleStateLabel
+          )
+          .frame(maxWidth: .infinity)
+          .listRowBackground(Color.clear)
         }
 
         if routine.id == "gym" {
@@ -143,22 +163,5 @@ private struct RoutineDetailView: View {
         systemImage: "exclamationmark.triangle"
       )
     }
-  }
-}
-
-private struct CycleVisualization: View {
-  let routine: RoutineSummary
-
-  var body: some View {
-    Gauge(value: Double(routine.progress), in: 0...Double(routine.target)) {
-      Text(routine.name)
-    } currentValueLabel: {
-      Text("\(routine.progress)/\(routine.target)")
-        .font(RoutallyFont.cycleValue)
-    }
-    .gaugeStyle(.accessoryCircularCapacity)
-    .tint(RoutallyColor.brandAccent)
-    .accessibilityLabel(routine.name)
-    .accessibilityValue(L10n.format("%d di %d", routine.progress, routine.target))
   }
 }

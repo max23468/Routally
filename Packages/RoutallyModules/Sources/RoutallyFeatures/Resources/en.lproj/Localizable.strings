@@ -85,6 +85,11 @@
 "Si aggiorna quando registri %@" = "Updates when you log %@";
 "Registra %@" = "Log %@";
 "%d di %d" = "%d of %d";
+"%@, %d di %d" = "%@, %d of %d";
+"In corso" = "In progress";
+"Soglia raggiunta" = "Threshold reached";
+"Follow-up pronto" = "Follow-up ready";
+"Completato" = "Completed";
 "Registra %@ una volta: Routally aggiorna l’obiettivo e il ciclo dell’asciugamano." = "Log %@ once: Routally updates the goal and towel cycle.";
 "Registra %@ per aggiornare l’obiettivo settimanale." = "Log %@ to update the weekly goal.";
 "questa routine" = "this routine";

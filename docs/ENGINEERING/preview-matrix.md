@@ -14,6 +14,7 @@ reali. Le fixture sono sintetiche, deterministiche e collegate al solo target
 |---|---|---|---|---|
 | Oggi vuoto | iPhone portrait | Light | Default | `RoutallyRootView` preview |
 | Oggi soglia raggiunta | iPhone portrait | Dark | Default | `RoutallyRootView` preview |
+| CycleVisualization attivo/soglia/follow-up/completo | iPhone portrait | Light/Dark | Default/AX5 | preview del componente in `RoutallyDesign` |
 | Routine + dettaglio | iPad 1024 × 768 | Light | AX5 | `RoutallyRootView` preview |
 | Nuova routine vuota | iPhone portrait | Light | Default | `CreationSheet` preview |
 | Nuova routine vuota | iPhone portrait | Dark | AX5 | `CreationSheet` preview |
@@ -23,7 +24,12 @@ reali. Le fixture sono sintetiche, deterministiche e collegate al solo target
 
 `AX5` corrisponde a `DynamicTypeSize.accessibility5` nella toolchain Xcode 26.6.
 Contrasto aumentato, Riduci trasparenza e Riduci movimento sono governati dai componenti
-SwiftUI nativi; non esistono materiali, animazioni o fallback custom concorrenti.
+SwiftUI nativi. La superficie glass custom del ciclo esiste soltanto nella variante
+interattiva e non introduce materiali o fallback concorrenti.
+
+Nel controllo Simulator su iPhone si verificano inoltre: contenuto che scorre sotto la
+navigation bar, minimizzazione e ripristino della tab bar, risposta dei pulsanti
+`glassProminent`, leggibilità del ciclo in Light/Dark e con Riduci trasparenza.
 
 ## Fixture canoniche
 

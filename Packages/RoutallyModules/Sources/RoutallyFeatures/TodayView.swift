@@ -130,50 +130,64 @@ private struct RoutineRow: View {
   let primaryAction: () -> Void
 
   var body: some View {
-    HStack(alignment: .center, spacing: RoutallySpacing.space12) {
-      Button(action: openDetail) {
-        HStack(spacing: RoutallySpacing.space12) {
-          Image(systemName: routine.symbol)
-            .frame(width: 32, height: 32)
-            .foregroundStyle(stateColor)
-            .accessibilityHidden(true)
-
-          VStack(alignment: .leading, spacing: RoutallySpacing.space4) {
-            Text(routine.name)
-              .font(RoutallyFont.itemTitle)
-              .fontWeight(.semibold)
-            Text(routine.context)
-              .font(RoutallyFont.itemContext)
-              .foregroundStyle(RoutallyColor.contentSecondary)
-            ProgressView(value: Double(routine.progress), total: Double(routine.target))
-              .accessibilityLabel(routine.name)
-              .accessibilityValue(L10n.format("%d di %d", routine.progress, routine.target))
-          }
+    Group {
+      if dynamicTypeSize.isAccessibilitySize {
+        VStack(alignment: .leading, spacing: RoutallySpacing.space12) {
+          detailButton
+          primaryButton
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .contentShape(.rect)
-      }
-      .buttonStyle(.plain)
-
-      if routine.id == "gym" {
-        Button(L10n.text("Registra"), action: primaryAction)
-          .buttonStyle(.borderedProminent)
-          .controlSize(dynamicTypeSize.isAccessibilitySize ? .regular : .small)
-          .accessibilityLabel(L10n.format("Registra %@", routine.name))
+      } else {
+        HStack(alignment: .center, spacing: RoutallySpacing.space12) {
+          detailButton
+          primaryButton
+        }
       }
     }
     .padding(.vertical, RoutallySpacing.space4)
     .accessibilityElement(children: .contain)
   }
 
-  private var stateColor: Color {
-    switch routine.state {
-    case .active:
-      RoutallyColor.statusDue
-    case .thresholdReached, .followUpReady:
-      RoutallyColor.statusAttention
-    case .complete:
-      RoutallyColor.statusComplete
+  private var detailButton: some View {
+    Button(action: openDetail) {
+      HStack(spacing: RoutallySpacing.space12) {
+        CycleVisualization(
+          title: routine.name,
+          current: routine.progress,
+          target: routine.target,
+          state: routine.cycleVisualizationState,
+          stateLabel: routine.cycleStateLabel,
+          size: .compact,
+          isInteractive: true
+        )
+        .accessibilityHidden(true)
+
+        VStack(alignment: .leading, spacing: RoutallySpacing.space4) {
+          Text(routine.name)
+            .font(RoutallyFont.itemTitle)
+            .fontWeight(.semibold)
+          Text(routine.context)
+            .font(RoutallyFont.itemContext)
+            .foregroundStyle(RoutallyColor.contentSecondary)
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .contentShape(.rect)
+    }
+    .buttonStyle(.plain)
+    .accessibilityLabel(routine.name)
+    .accessibilityValue(
+      L10n.format("%@, %d di %d", routine.cycleStateLabel, routine.progress, routine.target)
+    )
+    .accessibilityHint(routine.context)
+  }
+
+  @ViewBuilder
+  private var primaryButton: some View {
+    if routine.id == "gym" {
+      Button(L10n.text("Registra"), action: primaryAction)
+        .buttonStyle(.glassProminent)
+        .controlSize(dynamicTypeSize.isAccessibilitySize ? .large : .small)
+        .accessibilityLabel(L10n.format("Registra %@", routine.name))
     }
   }
 }
@@ -190,9 +204,37 @@ private struct FollowUpRow: View {
         .font(RoutallyFont.itemContext)
         .foregroundStyle(RoutallyColor.contentSecondary)
       Button(L10n.text("Fatto"), action: complete)
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(.glassProminent)
         .accessibilityLabel(L10n.text("Completa Prepara un asciugamano pulito"))
     }
     .padding(.vertical, RoutallySpacing.space4)
+  }
+}
+
+extension RoutineSummary {
+  var cycleVisualizationState: CycleVisualizationState {
+    switch state {
+    case .active:
+      .active
+    case .thresholdReached:
+      .thresholdReached
+    case .followUpReady:
+      .followUpReady
+    case .complete:
+      .complete
+    }
+  }
+
+  var cycleStateLabel: String {
+    switch state {
+    case .active:
+      L10n.text("In corso")
+    case .thresholdReached:
+      L10n.text("Soglia raggiunta")
+    case .followUpReady:
+      L10n.text("Follow-up pronto")
+    case .complete:
+      L10n.text("Completato")
+    }
   }
 }
