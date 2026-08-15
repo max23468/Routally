@@ -76,7 +76,7 @@ struct RoutinesView: View {
 
   @ToolbarContentBuilder
   private var rootToolbar: some ToolbarContent {
-    ToolbarItemGroup(placement: .topBarTrailing) {
+    ToolbarItem(placement: .topBarTrailing) {
       Button {
         router.sheet = .creation
       } label: {
@@ -84,7 +84,11 @@ struct RoutinesView: View {
       }
       .keyboardShortcut("n", modifiers: .command)
       .accessibilityIdentifier("new-routine-button")
+    }
 
+    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+
+    ToolbarItem(placement: .topBarTrailing) {
       Button {
         router.sheet = .profile
       } label: {
