@@ -255,7 +255,7 @@ private struct FollowUpRow: View {
         .foregroundStyle(RoutallyColor.contentSecondary)
       Button(L10n.text(.fatto), action: complete)
         .buttonStyle(.glassProminent)
-        .accessibilityLabel(L10n.text(.completaPreparaUnAsciugamanoPulito))
+        .accessibilityLabel(L10n.text(.followupCompleteAccessibility(followUp.title)))
     }
     .padding(.vertical, RoutallySpacing.space4)
   }

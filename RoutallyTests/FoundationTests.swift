@@ -160,6 +160,53 @@ struct FoundationTests {
     #expect(store.createdDraft?.startsNextCycle == false)
   }
 
+  @Test("Creare una seconda routine preserva lo stato esistente")
+  func creationPreservesExistingState() {
+    let existingFollowUp = FollowUpSummary(
+      id: "existing-follow-up",
+      title: "Esistente",
+      origin: "Test",
+      state: .ready
+    )
+    let store = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        routines: [
+          RoutineSummary(
+            id: "gym",
+            name: "Palestra",
+            symbol: "figure.strengthtraining.traditional",
+            context: "3 volte",
+            progress: 1,
+            target: 3
+          )
+        ],
+        followUps: [existingFollowUp],
+        notificationCount: 1
+      )
+    )
+
+    let createdID = store.createRoutine(from: creationDraft(name: "Corsa"))
+
+    #expect(createdID == "gym-2")
+    #expect(store.snapshot.routines.map(\.id) == ["gym", "gym-2", "gym-2-towel"])
+    #expect(store.snapshot.routines.first?.progress == 1)
+    #expect(store.snapshot.followUps == [existingFollowUp])
+    #expect(store.snapshot.notificationCount == 1)
+  }
+
+  @Test("Il momento immediato rende subito disponibile il follow-up")
+  func immediateUsefulMomentMakesFollowUpReady() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    var draft = creationDraft(name: "Corsa")
+    draft.towelThreshold = 1
+    draft.usefulMoment = .immediate
+    store.createRoutine(from: draft)
+
+    #expect(store.recordWorkout())
+    #expect(store.snapshot.followUps.first?.state == .ready)
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
+  }
+
   @Test("La navigazione programmatica apre il dettaglio della routine")
   func programmaticRoutineNavigationSetsPath() {
     let router = AppRouter()
@@ -169,5 +216,34 @@ struct FoundationTests {
     #expect(router.selectedTab == .routines)
     #expect(router.selectedRoutineID == "gym")
     #expect(router.routinesPath == [.detail(id: "gym")])
+  }
+
+  @Test("Lista e stack mantengono sincronizzato il dettaglio selezionato")
+  func routineNavigationRepresentationsStaySynchronized() {
+    let router = AppRouter()
+
+    router.selectRoutine(id: "gym")
+    #expect(router.routinesPath == [.detail(id: "gym")])
+
+    router.updateRoutinesPath([.detail(id: "studio")])
+    #expect(router.selectedRoutineID == "studio")
+
+    router.updateRoutinesPath([])
+    #expect(router.selectedRoutineID == nil)
+  }
+
+  private func creationDraft(name: String) -> RoutineCreationDraft {
+    RoutineCreationDraft(
+      name: name,
+      symbol: "figure.run",
+      area: "wellbeing",
+      weeklyTarget: 3,
+      linksTowel: true,
+      towelThreshold: 4,
+      followUpTitle: "Prepara l'attrezzatura",
+      usefulMoment: .home,
+      fallbackMinutes: 1_200,
+      startsNextCycle: true
+    )
   }
 }

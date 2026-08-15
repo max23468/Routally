@@ -17,9 +17,12 @@ struct RoutinesView: View {
   }
 
   private var compactView: some View {
-    @Bindable var router = router
+    let path = Binding(
+      get: { router.routinesPath },
+      set: { router.updateRoutinesPath($0) }
+    )
 
-    return NavigationStack(path: $router.routinesPath) {
+    return NavigationStack(path: path) {
       compactRoutineList
         .navigationDestination(for: RoutineRoute.self) { route in
           switch route {
@@ -61,9 +64,12 @@ struct RoutinesView: View {
   }
 
   private var selectableRoutineList: some View {
-    @Bindable var router = router
+    let selection = Binding(
+      get: { router.selectedRoutineID },
+      set: { router.selectRoutine(id: $0) }
+    )
 
-    return List(store.snapshot.routines, selection: $router.selectedRoutineID) { routine in
+    return List(store.snapshot.routines, selection: selection) { routine in
       NavigationLink(value: routine.id) {
         routineLabel(for: routine)
       }
@@ -149,10 +155,12 @@ private struct RoutineDetailView: View {
               L10n.text(.obiettivoSettimanale),
               value: "\(routine.progress)/\(routine.target)"
             )
-            Label(
-              L10n.text(.aggiunge1UtilizzoAdAsciugamanoPalestra),
-              systemImage: "link"
-            )
+            if store.hasLinkedTowel(forRoutineID: routine.id) {
+              Label(
+                L10n.text(.aggiunge1UtilizzoAdAsciugamanoPalestra),
+                systemImage: "link"
+              )
+            }
           }
         }
 

@@ -487,6 +487,24 @@
       },
       "extractionState": "manual"
     },
+    "Continua a configurare": {
+      "comment": "Secondary action that opens optional routine configuration.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue configuring"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua a configurare"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
     "Continua a modificare": {
       "comment": "Copy used in the native routine creation and linked-consequence flow.",
       "localizations": {
@@ -2030,6 +2048,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "Conseguenza del collegamento con %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "followup.complete.accessibility": {
+      "comment": "VoiceOver label for completing a named follow-up.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete follow-up %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completa il follow-up %@"
           }
         }
       },

@@ -24,8 +24,8 @@ enum SheetDestination: Hashable, Identifiable {
 @Observable
 public final class AppRouter {
   public internal(set) var selectedTab: AppTab = .today
-  public internal(set) var selectedRoutineID: String?
-  public var routinesPath: [RoutineRoute] = []
+  public private(set) var selectedRoutineID: String?
+  public private(set) var routinesPath: [RoutineRoute] = []
   var sheet: SheetDestination?
 
   public init() {}
@@ -35,9 +35,22 @@ public final class AppRouter {
   }
 
   public func showRoutine(id: String) {
-    selectedRoutineID = id
-    routinesPath = [.detail(id: id)]
+    selectRoutine(id: id)
     selectedTab = .routines
+  }
+
+  public func selectRoutine(id: String?) {
+    selectedRoutineID = id
+    routinesPath = id.map { [.detail(id: $0)] } ?? []
+  }
+
+  public func updateRoutinesPath(_ path: [RoutineRoute]) {
+    routinesPath = path
+    selectedRoutineID = path.last.flatMap { route in
+      switch route {
+      case .detail(let id): id
+      }
+    }
   }
 
   public func showCreation() {

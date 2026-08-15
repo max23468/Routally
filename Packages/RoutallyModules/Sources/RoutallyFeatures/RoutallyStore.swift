@@ -107,21 +107,22 @@ public final class RoutallyStore {
     normalizedDraft.followUpTitle = normalizedFollowUp
     createdDraft = normalizedDraft
 
-    snapshot.routines = [
+    let routineID = nextAvailableRoutineID(basedOn: "gym")
+    snapshot.routines.append(
       RoutineSummary(
-        id: "gym",
+        id: routineID,
         name: normalizedName,
         symbol: draft.symbol,
         context: L10n.text(.routineGoalContext(Int32(draft.weeklyTarget))),
         progress: 0,
         target: draft.weeklyTarget
       )
-    ]
+    )
 
     if draft.linksTowel {
       snapshot.routines.append(
         RoutineSummary(
-          id: "gym-towel",
+          id: linkedTowelID(forRoutineID: routineID),
           name: L10n.text(.asciugamanoPalestra),
           symbol: "washer",
           context: L10n.text(.routineLinkContext(normalizedName)),
@@ -131,10 +132,8 @@ public final class RoutallyStore {
       )
     }
 
-    snapshot.followUps = []
-    snapshot.notificationCount = 0
     snapshot.hasPendingChanges = snapshot.isOffline
-    return "gym"
+    return routineID
   }
 
   @discardableResult
@@ -186,6 +185,7 @@ public final class RoutallyStore {
 
       if reachedThreshold {
         let followUpTitle = effectiveFollowUpTitle
+        let isImmediatelyReady = createdDraft?.usefulMoment == .immediate
         snapshot.followUps = [
           FollowUpSummary(
             id: "clean-gym-towel",
@@ -197,9 +197,12 @@ public final class RoutallyStore {
                 Int32(towel.target)
               )
             ),
-            state: .waitingForUsefulMoment
+            state: isImmediatelyReady ? .ready : .waitingForUsefulMoment
           )
         ]
+        if isImmediatelyReady {
+          snapshot.routines[towelIndex].state = .followUpReady
+        }
         effects.append(
           ConsequenceEffect(
             id: "clean-gym-towel",
@@ -303,6 +306,10 @@ public final class RoutallyStore {
     consequenceSummary = nil
   }
 
+  public func hasLinkedTowel(forRoutineID routineID: String) -> Bool {
+    routineIndex(id: linkedTowelID(forRoutineID: routineID)) != nil
+  }
+
   public func retryRecoverableEvent() {
     snapshot.hasRecoverableEventError = false
     snapshot.hasPendingChanges = snapshot.isOffline
@@ -314,6 +321,21 @@ public final class RoutallyStore {
 
   private func routineIndex(id: String) -> Int? {
     snapshot.routines.firstIndex { $0.id == id }
+  }
+
+  private func linkedTowelID(forRoutineID routineID: String) -> String {
+    "\(routineID)-towel"
+  }
+
+  private func nextAvailableRoutineID(basedOn baseID: String) -> String {
+    let existingIDs = Set(snapshot.routines.map(\.id))
+    guard existingIDs.contains(baseID) else { return baseID }
+
+    var suffix = 2
+    while existingIDs.contains("\(baseID)-\(suffix)") {
+      suffix += 1
+    }
+    return "\(baseID)-\(suffix)"
   }
 
   private func makeFollowUpReadyIfNeeded() {

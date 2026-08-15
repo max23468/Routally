@@ -34,6 +34,7 @@ struct CreationSheet: View {
   @State private var startsNextCycle = true
   @State private var saveError: String?
   @State private var isSaving = false
+  @State private var retryIncludesOptionalConfiguration = true
   @State private var showingDiscardConfirmation = false
 
   let store: RoutallyStore
@@ -287,7 +288,7 @@ struct CreationSheet: View {
         Label(saveError, systemImage: "exclamationmark.triangle")
           .foregroundStyle(RoutallyColor.statusAttention)
         Button(L10n.text(.riprova)) {
-          createRoutine()
+          createRoutine(includeOptionalConfiguration: retryIncludesOptionalConfiguration)
         }
       }
     }
@@ -316,15 +317,26 @@ struct CreationSheet: View {
     ToolbarItemGroup(placement: .bottomBar) {
       Spacer()
 
-      if step == .summary {
+      if step == .rule {
+        Button(L10n.text(.continuaAConfigurare)) {
+          move(by: 1)
+        }
+        .disabled(!canContinue || isSaving)
+        .accessibilityIdentifier("creation-continue-configuration")
+
+        Button {
+          createRoutine(includeOptionalConfiguration: false)
+        } label: {
+          creationButtonLabel
+        }
+        .buttonStyle(.glassProminent)
+        .disabled(!isMinimumValid || isSaving)
+        .accessibilityIdentifier("creation-create")
+      } else if step == .summary {
         Button {
           createRoutine()
         } label: {
-          if isSaving {
-            ProgressView()
-          } else {
-            Text(L10n.text(.creaRoutine))
-          }
+          creationButtonLabel
         }
         .buttonStyle(.glassProminent)
         .disabled(!isValid || isSaving)
@@ -337,6 +349,15 @@ struct CreationSheet: View {
         .disabled(!canContinue)
         .accessibilityIdentifier("creation-continue")
       }
+    }
+  }
+
+  @ViewBuilder
+  private var creationButtonLabel: some View {
+    if isSaving {
+      ProgressView()
+    } else {
+      Text(L10n.text(.creaRoutine))
     }
   }
 
@@ -361,11 +382,14 @@ struct CreationSheet: View {
   }
 
   private var isValid: Bool {
-    !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-      && weeklyTarget > 0
+    isMinimumValid
       && (!linksTowel
         || (!followUpTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
           && towelThreshold > 0))
+  }
+
+  private var isMinimumValid: Bool {
+    !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && weeklyTarget > 0
   }
 
   private var hasUnsavedChanges: Bool {
@@ -430,7 +454,8 @@ struct CreationSheet: View {
     }
   }
 
-  private func createRoutine() {
+  private func createRoutine(includeOptionalConfiguration: Bool = true) {
+    retryIncludesOptionalConfiguration = includeOptionalConfiguration
     isSaving = true
     defer { isSaving = false }
 
@@ -440,7 +465,7 @@ struct CreationSheet: View {
       symbol: symbol,
       area: areaLabel(area),
       weeklyTarget: weeklyTarget,
-      linksTowel: linksTowel,
+      linksTowel: includeOptionalConfiguration && linksTowel,
       towelThreshold: towelThreshold,
       followUpTitle: followUpTitle,
       usefulMoment: usefulMoment,
