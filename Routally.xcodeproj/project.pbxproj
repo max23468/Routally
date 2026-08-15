@@ -1,0 +1,465 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B10000000000000000000001 /* RoutallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* RoutallyApp.swift */; };
+		B10000000000000000000002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* Assets.xcassets */; };
+		B10000000000000000000003 /* RoutallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* RoutallyApp.swift */; };
+		B10000000000000000000004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* Assets.xcassets */; };
+		B10000000000000000000005 /* FoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000003 /* FoundationTests.swift */; };
+		B20000000000000000000011 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000011 /* RoutallyDomain */; };
+		B20000000000000000000012 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000012 /* RoutallyDesign */; };
+		B20000000000000000000013 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000013 /* RoutallyFeatures */; };
+		B20000000000000000000014 /* RoutallyFixtures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000014 /* RoutallyFixtures */; };
+		B20000000000000000000021 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000021 /* RoutallyDomain */; };
+		B20000000000000000000022 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000022 /* RoutallyDesign */; };
+		B20000000000000000000023 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000023 /* RoutallyFeatures */; };
+		B20000000000000000000031 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000031 /* RoutallyDomain */; };
+		B20000000000000000000032 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000032 /* RoutallyFeatures */; };
+		B20000000000000000000033 /* RoutallyFixtures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000033 /* RoutallyFixtures */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F10000000000000000000001 /* RoutallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutallyApp.swift; sourceTree = "<group>"; };
+		F10000000000000000000002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F10000000000000000000003 /* FoundationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationTests.swift; sourceTree = "<group>"; };
+		F10000000000000000000004 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		F10000000000000000000005 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		F10000000000000000000006 /* ReleaseCandidate.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ReleaseCandidate.xcconfig; sourceTree = "<group>"; };
+		F10000000000000000000007 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		F10000000000000000000101 /* Routally Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Routally Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F10000000000000000000102 /* Routally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routally.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F10000000000000000000103 /* RoutallyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutallyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		P20000000000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000011 /* RoutallyDomain in Frameworks */,
+				B20000000000000000000012 /* RoutallyDesign in Frameworks */,
+				B20000000000000000000013 /* RoutallyFeatures in Frameworks */,
+				B20000000000000000000014 /* RoutallyFixtures in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P20000000000000000000021 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000021 /* RoutallyDomain in Frameworks */,
+				B20000000000000000000022 /* RoutallyDesign in Frameworks */,
+				B20000000000000000000023 /* RoutallyFeatures in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P20000000000000000000031 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000031 /* RoutallyDomain in Frameworks */,
+				B20000000000000000000032 /* RoutallyFeatures in Frameworks */,
+				B20000000000000000000033 /* RoutallyFixtures in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G10000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				G10000000000000000000002 /* RoutallyApp */,
+				G10000000000000000000003 /* RoutallyTests */,
+				G10000000000000000000004 /* Configuration */,
+				G10000000000000000000005 /* Frameworks */,
+				G10000000000000000000006 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G10000000000000000000002 /* RoutallyApp */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000001 /* RoutallyApp.swift */,
+				F10000000000000000000002 /* Assets.xcassets */,
+			);
+			path = RoutallyApp;
+			sourceTree = "<group>";
+		};
+		G10000000000000000000003 /* RoutallyTests */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000003 /* FoundationTests.swift */,
+			);
+			path = RoutallyTests;
+			sourceTree = "<group>";
+		};
+		G10000000000000000000004 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000004 /* Base.xcconfig */,
+				F10000000000000000000005 /* Development.xcconfig */,
+				F10000000000000000000006 /* ReleaseCandidate.xcconfig */,
+				F10000000000000000000007 /* Release.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		G10000000000000000000005 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		G10000000000000000000006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000101 /* Routally Dev.app */,
+				F10000000000000000000102 /* Routally.app */,
+				F10000000000000000000103 /* RoutallyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000001 /* Routally Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C10000000000000000000011 /* Build configuration list for PBXNativeTarget "Routally Dev" */;
+			buildPhases = (
+				P10000000000000000000011 /* Sources */,
+				P20000000000000000000011 /* Frameworks */,
+				P30000000000000000000011 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Routally Dev";
+			packageProductDependencies = (
+				D20000000000000000000011 /* RoutallyDomain */,
+				D20000000000000000000012 /* RoutallyDesign */,
+				D20000000000000000000013 /* RoutallyFeatures */,
+				D20000000000000000000014 /* RoutallyFixtures */,
+			);
+			productName = "Routally Dev";
+			productReference = F10000000000000000000101 /* Routally Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A10000000000000000000002 /* Routally */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C10000000000000000000021 /* Build configuration list for PBXNativeTarget "Routally" */;
+			buildPhases = (
+				P10000000000000000000021 /* Sources */,
+				P20000000000000000000021 /* Frameworks */,
+				P30000000000000000000021 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Routally;
+			packageProductDependencies = (
+				D20000000000000000000021 /* RoutallyDomain */,
+				D20000000000000000000022 /* RoutallyDesign */,
+				D20000000000000000000023 /* RoutallyFeatures */,
+			);
+			productName = Routally;
+			productReference = F10000000000000000000102 /* Routally.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A10000000000000000000003 /* Routally Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C10000000000000000000031 /* Build configuration list for PBXNativeTarget "Routally Tests" */;
+			buildPhases = (
+				P10000000000000000000031 /* Sources */,
+				P20000000000000000000031 /* Frameworks */,
+				P30000000000000000000031 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Routally Tests";
+			packageProductDependencies = (
+				D20000000000000000000031 /* RoutallyDomain */,
+				D20000000000000000000032 /* RoutallyFeatures */,
+				D20000000000000000000033 /* RoutallyFixtures */,
+			);
+			productName = RoutallyTests;
+			productReference = F10000000000000000000103 /* RoutallyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					A10000000000000000000001 = { CreatedOnToolsVersion = 26.6; };
+					A10000000000000000000002 = { CreatedOnToolsVersion = 26.6; };
+					A10000000000000000000003 = { CreatedOnToolsVersion = 26.6; };
+				};
+			};
+			buildConfigurationList = C10000000000000000000001 /* Build configuration list for PBXProject "Routally" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = it;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				it,
+				en,
+				Base,
+			);
+			mainGroup = G10000000000000000000001;
+			packageReferences = (
+				X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */,
+			);
+			productRefGroup = G10000000000000000000006 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000001 /* Routally Dev */,
+				A10000000000000000000002 /* Routally */,
+				A10000000000000000000003 /* Routally Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		P30000000000000000000011 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000002 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P30000000000000000000021 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000004 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P30000000000000000000031 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		P10000000000000000000011 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000001 /* RoutallyApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P10000000000000000000021 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000003 /* RoutallyApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P10000000000000000000031 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000005 /* FoundationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C20000000000000000000001 /* Development */ = {isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; }; name = Development; };
+		C20000000000000000000002 /* ReleaseCandidate */ = {isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; }; name = ReleaseCandidate; };
+		C20000000000000000000003 /* Release */ = {isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; }; name = Release; };
+
+		C20000000000000000000011 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
+				PRODUCT_NAME = "Routally Dev";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Development;
+		};
+		C20000000000000000000012 /* ReleaseCandidate */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
+				PRODUCT_NAME = "Routally Dev";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = ReleaseCandidate;
+		};
+		C20000000000000000000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
+				PRODUCT_NAME = "Routally Dev";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Release;
+		};
+
+		C20000000000000000000021 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000006 /* ReleaseCandidate.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.provisional;
+				PRODUCT_NAME = Routally;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Development;
+		};
+		C20000000000000000000022 /* ReleaseCandidate */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000006 /* ReleaseCandidate.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.provisional;
+				PRODUCT_NAME = Routally;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = ReleaseCandidate;
+		};
+		C20000000000000000000023 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000007 /* Release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.provisional;
+				PRODUCT_NAME = Routally;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Release;
+		};
+
+		C20000000000000000000031 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.tests.provisional;
+				PRODUCT_NAME = RoutallyTests;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Development;
+		};
+		C20000000000000000000032 /* ReleaseCandidate */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000006 /* ReleaseCandidate.xcconfig */;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.tests.provisional;
+				PRODUCT_NAME = RoutallyTests;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = ReleaseCandidate;
+		};
+		C20000000000000000000033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000007 /* Release.xcconfig */;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.tests.provisional;
+				PRODUCT_NAME = RoutallyTests;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C10000000000000000000001 /* Build configuration list for PBXProject "Routally" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20000000000000000000001 /* Development */,
+				C20000000000000000000002 /* ReleaseCandidate */,
+				C20000000000000000000003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ReleaseCandidate;
+		};
+		C10000000000000000000011 /* Build configuration list for PBXNativeTarget "Routally Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20000000000000000000011 /* Development */,
+				C20000000000000000000012 /* ReleaseCandidate */,
+				C20000000000000000000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		C10000000000000000000021 /* Build configuration list for PBXNativeTarget "Routally" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20000000000000000000021 /* Development */,
+				C20000000000000000000022 /* ReleaseCandidate */,
+				C20000000000000000000023 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ReleaseCandidate;
+		};
+		C10000000000000000000031 /* Build configuration list for PBXNativeTarget "Routally Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20000000000000000000031 /* Development */,
+				C20000000000000000000032 /* ReleaseCandidate */,
+				C20000000000000000000033 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/RoutallyModules;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D20000000000000000000011 /* RoutallyDomain */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDomain; };
+		D20000000000000000000012 /* RoutallyDesign */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDesign; };
+		D20000000000000000000013 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };
+		D20000000000000000000014 /* RoutallyFixtures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFixtures; };
+		D20000000000000000000021 /* RoutallyDomain */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDomain; };
+		D20000000000000000000022 /* RoutallyDesign */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDesign; };
+		D20000000000000000000023 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };
+		D20000000000000000000031 /* RoutallyDomain */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDomain; };
+		D20000000000000000000032 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };
+		D20000000000000000000033 /* RoutallyFixtures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFixtures; };
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A00000000000000000000001 /* Project object */;
+}

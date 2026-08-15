@@ -18,6 +18,14 @@
 10. Prima di un handoff, lascia working tree pulito e documenta verifiche e problemi aperti.
 11. Segui il workflow operativo comune in `docs/ENGINEERING/agent-workflow.md`.
 
+## Verifiche locali
+
+```sh
+swift format lint --recursive --strict RoutallyApp RoutallyTests Packages/RoutallyModules
+xcodebuild build -project Routally.xcodeproj -scheme "Routally Dev" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+xcodebuild test -project Routally.xcodeproj -scheme "Routally Tests" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+```
+
 ## Significato di `Pubblica`
 
 Quando il proprietario, riferendosi alla repository o alla modifica corrente,
