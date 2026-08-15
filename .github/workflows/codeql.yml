@@ -6,15 +6,17 @@ on:
     paths:
       - "**/*.swift"
       - "**/*.xcodeproj/**"
-      - Package.swift
-      - Package.resolved
+      - "**/Package.swift"
+      - "**/Package.resolved"
+      - "Configuration/**"
   pull_request:
     branches: [main]
     paths:
       - "**/*.swift"
       - "**/*.xcodeproj/**"
-      - Package.swift
-      - Package.resolved
+      - "**/Package.swift"
+      - "**/Package.resolved"
+      - "Configuration/**"
 
 permissions:
   contents: read

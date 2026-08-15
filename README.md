@@ -22,8 +22,25 @@ di sistema e commercio → alpha → beta → App Store 1.0.
 
 ## Build
 
-Il progetto Xcode non è ancora stato creato. Le istruzioni di build verranno aggiunte
-durante Xcode & SwiftUI Foundation.
+Apri `Routally.xcodeproj` con Xcode 26.6 o usa la riga di comando:
+
+```sh
+xcodebuild build \
+  -project Routally.xcodeproj \
+  -scheme "Routally Dev" \
+  -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+
+xcodebuild test \
+  -project Routally.xcodeproj \
+  -scheme "Routally Tests" \
+  -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+```
+
+`Routally Dev` include soltanto fixture sintetiche e diagnostica locale. `Routally` è il
+prodotto pubblico e non collega il modulo `RoutallyFixtures`.
+
+La baseline completa della toolchain è in
+[docs/ENGINEERING/toolchain.md](docs/ENGINEERING/toolchain.md).
 
 ## Proprietà e contributi
 
