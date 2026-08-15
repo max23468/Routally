@@ -29,9 +29,9 @@ struct ConsequenceSummarySheet: View {
                   .font(RoutallyFont.supporting)
                   .foregroundStyle(RoutallyColor.contentSecondary)
 
-                if effect.id == "gym-towel", !effect.isExcluded {
-                  Button(L10n.text("Escludi Asciugamano palestra")) {
-                    store.excludeTowelEffect()
+                if let exclusionTarget = effect.exclusionTarget, !effect.isExcluded {
+                  Button(L10n.text(.consequenceExcludeAction(exclusionTarget))) {
+                    store.excludeEffect(id: effect.id)
                   }
                 }
               }
@@ -40,31 +40,30 @@ struct ConsequenceSummarySheet: View {
           }
 
           Section {
-            Button(L10n.text("Visualizza Palestra")) {
-              router.selectedRoutineID = "gym"
-              router.selectedTab = .routines
+            Button(L10n.text(.visualizzaPalestra)) {
+              router.showRoutine(id: "gym")
               store.clearConsequenceSummary()
               dismiss()
             }
-            Button(L10n.text("Annulla registrazione"), role: .destructive) {
+            Button(L10n.text(.annullaRegistrazione), role: .destructive) {
               store.undoWorkout()
               dismiss()
             }
           }
         } else {
           ContentUnavailableView(
-            L10n.text("Nessuna conseguenza"),
+            L10n.text(.nessunaConseguenza),
             systemImage: "checkmark.circle"
           )
         }
       }
       .navigationTitle(
-        store.consequenceSummary?.title ?? L10n.text("Riepilogo")
+        store.consequenceSummary?.title ?? L10n.text(.riepilogo)
       )
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
-          Button(L10n.text("Fatto")) {
+          Button(L10n.text(.fatto)) {
             store.clearConsequenceSummary()
             dismiss()
           }
@@ -75,3 +74,21 @@ struct ConsequenceSummarySheet: View {
     .accessibilityAddTraits(.isModal)
   }
 }
+
+#if DEBUG
+  #Preview("Conseguenze multiple · Light") {
+    ConsequenceSummarySheet(
+      store: PreviewFixtures.consequenceStore(),
+      router: AppRouter()
+    )
+  }
+
+  #Preview("Conseguenze multiple · Dark · AX5") {
+    ConsequenceSummarySheet(
+      store: PreviewFixtures.consequenceStore(),
+      router: AppRouter()
+    )
+    .preferredColorScheme(.dark)
+    .environment(\.dynamicTypeSize, .accessibility5)
+  }
+#endif

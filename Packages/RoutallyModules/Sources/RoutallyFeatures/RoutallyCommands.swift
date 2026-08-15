@@ -10,41 +10,41 @@ public struct RoutallyCommands: Commands {
 
   public var body: some Commands {
     CommandMenu("Routally") {
-      Button(L10n.text("Nuova routine")) {
+      Button(L10n.text(.nuovaRoutine)) {
         router.showCreation()
       }
       .keyboardShortcut("n", modifiers: .command)
 
       Divider()
 
-      Button(L10n.text("Oggi")) {
+      Button(L10n.text(.oggi)) {
         router.select(.today)
       }
       .keyboardShortcut("1", modifiers: .command)
 
-      Button(L10n.text("Routine")) {
+      Button(L10n.text(.routine)) {
         router.select(.routines)
       }
       .keyboardShortcut("2", modifiers: .command)
 
-      Button(L10n.text("Esplora")) {
+      Button(L10n.text(.esplora)) {
         router.select(.explore)
       }
       .keyboardShortcut("3", modifiers: .command)
 
-      Button(L10n.text("Analisi")) {
+      Button(L10n.text(.analisi)) {
         router.select(.insights)
       }
       .keyboardShortcut("4", modifiers: .command)
 
-      Button(L10n.text("Cerca")) {
+      Button(L10n.text(.cerca)) {
         router.select(.search)
       }
       .keyboardShortcut("f", modifiers: .command)
 
       Divider()
 
-      Button(L10n.text("Profilo")) {
+      Button(L10n.text(.profilo)) {
         router.showProfile()
       }
       .keyboardShortcut(",", modifiers: .command)

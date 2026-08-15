@@ -1,0 +1,2346 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "2 sessioni questa settimana": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 sessions this week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 sessioni questa settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Adesso": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Now"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adesso"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Aggiunge 1 utilizzo ad Asciugamano palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adds 1 use to Gym towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiunge 1 utilizzo ad Asciugamano palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Allenamento": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workout"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allenamento"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Allenamento registrato": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workout logged"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allenamento registrato"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Analisi": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analisi"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Annulla": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Annulla registrazione": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo log"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla registrazione"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Area": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Arrivo a Casa": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriving Home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrivo a Casa"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Asciugamano palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Avanzamento creazione": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creation progress"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avanzamento creazione"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Avvia il ciclo successivo al completamento": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start the next cycle after completion"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvia il ciclo successivo al completamento"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Benessere": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wellbeing"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benessere"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Casa": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casa"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Casa senza stress": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A calmer home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casa senza stress"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Cerca": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Che cosa vuoi gestire?": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What do you want to manage?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Che cosa vuoi gestire?"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Chiudi": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiudi"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Collega Asciugamano palestra": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link Gym towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collega Asciugamano palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Collegamenti": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Links"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collegamenti"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Come vuoi misurarlo?": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How do you want to measure it?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Come vuoi misurarlo?"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Completa Prepara un asciugamano pulito": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete Prepare a clean towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completa Prepara un asciugamano pulito"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Completato": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completed"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completato"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Configurazione": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuration"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurazione"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Conseguenze": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consequences"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conseguenze"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Continua": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Continua a modificare": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep editing"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua a modificare"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Cosa succede dopo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens next"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosa succede dopo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Crea routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Crea una routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea una routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Creato da Asciugamano palestra: soglia 4/4": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created by Gym towel: threshold 4/4"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creato da Asciugamano palestra: soglia 4/4"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Dati e servizio": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data and service"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dati e servizio"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Esplora": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esplora"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Fallback": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fallback"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fallback"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Fatto": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatto"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Fixture sintetica": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synthetic fixture"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixture sintetica"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Follow-up": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow-up"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow-up"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Follow-up pronto": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow-up ready"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Follow-up pronto"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Frequenza e obiettivo": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency and goal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequenza e obiettivo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "In corso": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In progress"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In corso"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Indietro": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indietro"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Inizia creando la prima routine.": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start by creating your first routine."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inizia creando la prima routine."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Inserisci Palestra per lo scenario canonico.": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Gym for the canonical scenario."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inserisci Palestra per lo scenario canonico."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Inserisci un nome per continuare.": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a name to continue."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inserisci un nome per continuare."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Lavatrice": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laundry"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lavatrice"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Le analisi appariranno quando potranno aiutare una decisione.": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights will appear when they can support a decision."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le analisi appariranno quando potranno aiutare una decisione."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Le modifiche non salvate andranno perse.": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unsaved changes will be lost."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le modifiche non salvate andranno perse."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Momento utile": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Useful moment"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Momento utile"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nessun account remoto": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No remote account"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun account remoto"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nessuna conseguenza": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No consequences"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna conseguenza"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nessuna routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nessuno": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuno"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nome routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine name"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Non è stato possibile creare la routine. I dati inseriti sono ancora qui.": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The routine could not be created. Your entered data is still here."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non è stato possibile creare la routine. I dati inseriti sono ancora qui."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Notifiche simulate": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulated notifications"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifiche simulate"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Nuova routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuova routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Obiettivo settimanale": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly goal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo settimanale"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Obiettivo: 3 volte a settimana": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: 3 times a week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo: 3 volte a settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Offline": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Oggi": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oggi"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Passo successivo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next step"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passo successivo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Per iniziare": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Getting started"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per iniziare"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Personale": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personale"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Personalizzato": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personalizzato"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Piano": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piano"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Prepara un asciugamano pulito": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare a clean towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepara un asciugamano pulito"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Profilo": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Profilo locale": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local profile"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilo locale"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Promemoria": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promemoria"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Quando ricordartelo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When should Routally remind you?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando ricordartelo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Questa sera": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This evening"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa sera"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Questa settimana": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Registra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Registra una volta, aggiorna tutto": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log once, update everything"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra una volta, aggiorna tutto"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Regola": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rule"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regola"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Riepilogo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summary"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riepilogo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Riepilogo conseguenze": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consequence summary"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riepilogo conseguenze"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Riprova": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprova"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Routally": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routally"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routally"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Routine": {
+      "comment": "Top-level navigation or screen title.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Routine collegate": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine collegate"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Routine non disponibile": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine unavailable"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine non disponibile"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Routine, follow-up e Kit": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routines, follow-ups, and Kits"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine, follow-up e Kit"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Scarta modifiche": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard changes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scarta modifiche"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Scegli una routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli una routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Scenario Dev": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dev scenario"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scenario Dev"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Servono ancora alcuni dati": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A little more data is needed"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servono ancora alcuni dati"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Si aggiorna quando registri Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates when you log Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si aggiorna quando registri Palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Simbolo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbol"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simbolo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Simula arrivo a Casa": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulate arriving Home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simula arrivo a Casa"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Simula fallback delle 20:00": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulate the 8:00 PM fallback"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simula fallback delle 20:00"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Soglia": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Threshold"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soglia"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Soglia raggiunta": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Threshold reached"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soglia raggiunta"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Solo dati locali nella Foundation": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local data only in Foundation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo dati locali nella Foundation"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Studio": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Study"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Studio"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Subito": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immediately"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subito"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Tutto sotto controllo": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All clear"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutto sotto controllo"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Usa il pulsante Nuova routine per iniziare.": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use New routine to get started."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa il pulsante Nuova routine per iniziare."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Visualizza Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visualizza Palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Vuoi interrompere la creazione?": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop creating this routine?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vuoi interrompere la creazione?"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "il follow-up": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the follow-up"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "il follow-up"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "questa routine": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "this routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "questa routine"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "consequence.effect.progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %d/%d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %d/%d"
+          }
+        }
+      },
+      "comment": "Formatted progress for a consequence effect; preserve name, current value, and target.",
+      "extractionState": "manual"
+    },
+    "summary.reminder.value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · %@"
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "routine.accessibility.progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %d of %d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %d di %d"
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "consequence.weekly.progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %d/%d this week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %d/%d questa settimana"
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "creation.threshold.uses": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d uses"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d utilizzi"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.goal.times": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d times"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d volte"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.goal.times_per_week": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d times a week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d volte a settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.rule.summary": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete %@ %d times every week."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completa %@ %d volte ogni settimana."
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "consequence.link.origin": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consequence of the link with %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conseguenza del collegamento con %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "followup.threshold.origin": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created by %@: threshold %d/%d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creato da %@: soglia %d/%d"
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "consequence.followup.created": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created: %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creato: %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "consequence.exclude.action": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exclude %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escludi %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "consequence.source.origin": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Event logged in %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evento registrato in %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "routine.goal.context": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: %d times a week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo: %d volte a settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.consequence.summary": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each %@ log adds one use to Gym towel. At %d/%d, %@ is created."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ogni registrazione di %@ aggiunge un utilizzo ad Asciugamano palestra. A %d/%d viene creato %@."
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "creation.progress.value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Step %d of %d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passaggio %d di %d"
+          }
+        }
+      },
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual"
+    },
+    "routine.log.action": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.summary.unlinked": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log %@ to update the weekly goal."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra %@ per aggiornare l’obiettivo settimanale."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "creation.summary.linked": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log %@ once: Routally updates the goal and towel cycle."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra %@ una volta: Routally aggiorna l’obiettivo e il ciclo dell’asciugamano."
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "fixture.routine.name": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "routine.link.context": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates when you log %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si aggiorna quando registri %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "followup.threshold.reached": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Threshold reached by %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soglia raggiunta da %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "status.offline.pending": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline · changes waiting to sync"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline · modifiche in attesa di sincronizzazione"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "status.cloud.conflict": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulated cloud conflict · local data preserved"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conflitto cloud simulato · dati locali preservati"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "status.event.retained": {
+      "comment": "Recoverable status or error copy shown without losing user data.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log not completed · event retained"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registrazione non completata · evento conservato"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "today.section.later": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Later"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Più tardi"
+          }
+        }
+      },
+      "extractionState": "manual"
+    }
+  },
+  "version": "1.0"
+}

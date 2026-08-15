@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "RoutallyModules",
-  defaultLocalization: "it",
+  defaultLocalization: "en",
   platforms: [.iOS(.v26)],
   products: [
     .library(name: "RoutallyDomain", targets: ["RoutallyDomain"]),

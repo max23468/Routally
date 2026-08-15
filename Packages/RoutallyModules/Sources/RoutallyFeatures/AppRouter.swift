@@ -8,6 +8,10 @@ public enum AppTab: Hashable, Sendable {
   case search
 }
 
+public enum RoutineRoute: Hashable, Sendable {
+  case detail(id: String)
+}
+
 enum SheetDestination: Hashable, Identifiable {
   case creation
   case profile
@@ -19,14 +23,21 @@ enum SheetDestination: Hashable, Identifiable {
 @MainActor
 @Observable
 public final class AppRouter {
-  var selectedTab: AppTab = .today
-  var selectedRoutineID: String?
+  public internal(set) var selectedTab: AppTab = .today
+  public internal(set) var selectedRoutineID: String?
+  public var routinesPath: [RoutineRoute] = []
   var sheet: SheetDestination?
 
   public init() {}
 
   public func select(_ tab: AppTab) {
     selectedTab = tab
+  }
+
+  public func showRoutine(id: String) {
+    selectedRoutineID = id
+    routinesPath = [.detail(id: id)]
+    selectedTab = .routines
   }
 
   public func showCreation() {

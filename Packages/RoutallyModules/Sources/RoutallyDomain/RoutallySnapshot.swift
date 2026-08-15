@@ -1,23 +1,16 @@
 import Foundation
 
-public enum DemoScenario: String, CaseIterable, Sendable {
-  case emptyProfile
-  case newUser
-  case typicalUser
-  case highlyOrganizedUser
-  case thresholdReached
-  case offlineWithPendingChanges
-  case cloudConflict
-  case freeLimitReached
-  case plusUser
-  case largeHistory
-}
-
 public enum RoutineState: String, Sendable {
   case active
   case thresholdReached
   case followUpReady
   case complete
+}
+
+public enum TodayPlacement: String, Sendable {
+  case now
+  case later
+  case thisWeek
 }
 
 public struct RoutineSummary: Identifiable, Equatable, Hashable, Sendable {
@@ -28,6 +21,7 @@ public struct RoutineSummary: Identifiable, Equatable, Hashable, Sendable {
   public var progress: Int
   public var target: Int
   public var state: RoutineState
+  public var todayPlacement: TodayPlacement
 
   public init(
     id: String,
@@ -36,7 +30,8 @@ public struct RoutineSummary: Identifiable, Equatable, Hashable, Sendable {
     context: String,
     progress: Int,
     target: Int,
-    state: RoutineState = .active
+    state: RoutineState = .active,
+    todayPlacement: TodayPlacement = .thisWeek
   ) {
     self.id = id
     self.name = name
@@ -45,6 +40,7 @@ public struct RoutineSummary: Identifiable, Equatable, Hashable, Sendable {
     self.progress = progress
     self.target = target
     self.state = state
+    self.todayPlacement = todayPlacement
   }
 }
 
@@ -69,7 +65,6 @@ public struct FollowUpSummary: Identifiable, Equatable, Hashable, Sendable {
 }
 
 public struct RoutallySnapshot: Equatable, Sendable {
-  public var scenario: DemoScenario?
   public var routines: [RoutineSummary]
   public var followUps: [FollowUpSummary]
   public var isOffline: Bool
@@ -77,18 +72,18 @@ public struct RoutallySnapshot: Equatable, Sendable {
   public var notificationCount: Int
   public var isPlus: Bool
   public var hasCloudConflict: Bool
+  public var hasRecoverableEventError: Bool
 
   public init(
-    scenario: DemoScenario? = nil,
     routines: [RoutineSummary] = [],
     followUps: [FollowUpSummary] = [],
     isOffline: Bool = false,
     hasPendingChanges: Bool = false,
     notificationCount: Int = 0,
     isPlus: Bool = false,
-    hasCloudConflict: Bool = false
+    hasCloudConflict: Bool = false,
+    hasRecoverableEventError: Bool = false
   ) {
-    self.scenario = scenario
     self.routines = routines
     self.followUps = followUps
     self.isOffline = isOffline
@@ -96,6 +91,7 @@ public struct RoutallySnapshot: Equatable, Sendable {
     self.notificationCount = notificationCount
     self.isPlus = isPlus
     self.hasCloudConflict = hasCloudConflict
+    self.hasRecoverableEventError = hasRecoverableEventError
   }
 
   public static let empty = RoutallySnapshot()

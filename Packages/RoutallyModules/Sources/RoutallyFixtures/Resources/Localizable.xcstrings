@@ -1,0 +1,150 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "2 sessioni questa settimana": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 sessions this week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 sessioni questa settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Asciugamano palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Fixture sintetica": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synthetic fixture"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixture sintetica"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Obiettivo: 3 volte a settimana": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: 3 times a week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo: 3 volte a settimana"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "fixture.routine.name": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Si aggiorna quando registri Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates when you log Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si aggiorna quando registri Palestra"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
+    "Studio": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Study"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Studio"
+          }
+        }
+      },
+      "extractionState": "manual"
+    }
+  },
+  "version": "1.0"
+}

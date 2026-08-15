@@ -22,23 +22,28 @@ public struct RoutallyRootView: View {
     @Bindable var router = router
 
     TabView(selection: $router.selectedTab) {
-      Tab(L10n.text("Oggi"), systemImage: "sun.max", value: .today) {
+      Tab(L10n.text(.oggi), systemImage: "sun.max", value: .today) {
         TodayView(store: store, router: router, featureFlags: featureFlags)
       }
 
-      Tab(L10n.text("Routine"), systemImage: "repeat", value: .routines) {
+      Tab(L10n.text(.routine), systemImage: "repeat", value: .routines) {
         RoutinesView(store: store, router: router)
       }
 
-      Tab(L10n.text("Esplora"), systemImage: "safari", value: .explore) {
+      Tab(L10n.text(.esplora), systemImage: "safari", value: .explore) {
         ExploreView(router: router)
       }
 
-      Tab(L10n.text("Analisi"), systemImage: "chart.xyaxis.line", value: .insights) {
+      Tab(L10n.text(.analisi), systemImage: "chart.xyaxis.line", value: .insights) {
         InsightsView(router: router)
       }
 
-      Tab(value: .search, role: .search) {
+      Tab(
+        L10n.text(.cerca),
+        systemImage: "magnifyingglass",
+        value: .search,
+        role: .search
+      ) {
         SearchView(store: store)
       }
     }
@@ -58,61 +63,80 @@ public struct RoutallyRootView: View {
 }
 
 #if DEBUG
-  #Preview("iPhone · Oggi vuoto · Light") {
+  #Preview("iPhone · Primo ingresso · Light") {
     RoutallyRootView(
-      store: RoutallyStore(snapshot: .empty),
+      store: RoutallyStore(snapshot: PreviewFixtures.empty),
       featureFlags: .development
     )
   }
 
-  #Preview("iPhone · Oggi · Dark") {
+  #Preview("iPhone · Adesso, Più tardi, settimana") {
     RoutallyRootView(
-      store: RoutallyStore(snapshot: .previewThresholdReached),
+      store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
+      featureFlags: .development
+    )
+  }
+
+  #Preview("iPhone · Soglia in attesa · Dark") {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.thresholdWaiting),
       featureFlags: .development
     )
     .preferredColorScheme(.dark)
   }
 
+  #Preview("iPhone · Follow-up pronto") {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.followUpReady),
+      featureFlags: .development
+    )
+  }
+
+  #Preview("iPhone · Offline pending · English") {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.offlinePending),
+      featureFlags: .development
+    )
+    .environment(\.locale, Locale(identifier: "en"))
+  }
+
+  #Preview("iPhone · Errore recuperabile") {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.recoverableError),
+      featureFlags: .development
+    )
+  }
+
+  #Preview("iPhone landscape · Giornata popolata", traits: .fixedLayout(width: 874, height: 402)) {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
+      featureFlags: .development
+    )
+  }
+
   #Preview("iPad · Routine · AX5", traits: .fixedLayout(width: 1_024, height: 768)) {
     RoutallyRootView(
-      store: RoutallyStore(snapshot: .previewThresholdReached),
+      store: RoutallyStore(snapshot: PreviewFixtures.thresholdWaiting),
       featureFlags: .development,
       router: routinePreviewRouter()
     )
     .environment(\.dynamicTypeSize, .accessibility5)
   }
 
+  #Preview("iPad · Routine · Dark", traits: .fixedLayout(width: 768, height: 1_024)) {
+    RoutallyRootView(
+      store: RoutallyStore(snapshot: PreviewFixtures.thresholdWaiting),
+      featureFlags: .development,
+      router: routinePreviewRouter()
+    )
+    .preferredColorScheme(.dark)
+  }
+
   @MainActor
   private func routinePreviewRouter() -> AppRouter {
     let router = AppRouter()
-    router.selectedTab = .routines
-    router.selectedRoutineID = "gym"
+    router.showRoutine(id: "gym")
     return router
   }
 
-  extension RoutallySnapshot {
-    fileprivate static var previewThresholdReached: RoutallySnapshot {
-      RoutallySnapshot(
-        scenario: .thresholdReached,
-        routines: [
-          RoutineSummary(
-            id: "gym",
-            name: "Palestra",
-            symbol: "figure.strengthtraining.traditional",
-            context: "Obiettivo: 3 volte a settimana",
-            progress: 1,
-            target: 3
-          ),
-          RoutineSummary(
-            id: "gym-towel",
-            name: "Asciugamano palestra",
-            symbol: "washer",
-            context: "Si aggiorna quando registri Palestra",
-            progress: 3,
-            target: 4
-          ),
-        ]
-      )
-    }
-  }
 #endif

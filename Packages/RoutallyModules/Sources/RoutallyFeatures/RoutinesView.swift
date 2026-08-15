@@ -17,12 +17,17 @@ struct RoutinesView: View {
   }
 
   private var compactView: some View {
-    NavigationStack {
+    @Bindable var router = router
+
+    return NavigationStack(path: $router.routinesPath) {
       compactRoutineList
-        .navigationDestination(for: String.self) { routineID in
-          RoutineDetailView(routine: routine(id: routineID), store: store)
+        .navigationDestination(for: RoutineRoute.self) { route in
+          switch route {
+          case .detail(let routineID):
+            RoutineDetailView(routine: routine(id: routineID), store: store)
+          }
         }
-        .navigationTitle(L10n.text("Routine"))
+        .navigationTitle(L10n.text(.routine))
         .toolbar { rootToolbar }
     }
   }
@@ -32,14 +37,14 @@ struct RoutinesView: View {
 
     return NavigationSplitView {
       selectableRoutineList
-        .navigationTitle(L10n.text("Routine"))
+        .navigationTitle(L10n.text(.routine))
         .toolbar { rootToolbar }
     } detail: {
       if let selectedRoutineID = router.selectedRoutineID {
         RoutineDetailView(routine: routine(id: selectedRoutineID), store: store)
       } else {
         ContentUnavailableView(
-          L10n.text("Scegli una routine"),
+          L10n.text(.scegliUnaRoutine),
           systemImage: "list.bullet.rectangle"
         )
       }
@@ -48,7 +53,9 @@ struct RoutinesView: View {
 
   private var compactRoutineList: some View {
     List(store.snapshot.routines) { routine in
-      routineLink(for: routine)
+      NavigationLink(value: RoutineRoute.detail(id: routine.id)) {
+        routineLabel(for: routine)
+      }
     }
     .overlay { emptyState }
   }
@@ -57,23 +64,23 @@ struct RoutinesView: View {
     @Bindable var router = router
 
     return List(store.snapshot.routines, selection: $router.selectedRoutineID) { routine in
-      routineLink(for: routine)
+      NavigationLink(value: routine.id) {
+        routineLabel(for: routine)
+      }
     }
     .overlay { emptyState }
   }
 
-  private func routineLink(for routine: RoutineSummary) -> some View {
-    NavigationLink(value: routine.id) {
-      Label {
-        VStack(alignment: .leading) {
-          Text(routine.name)
-          Text("\(routine.progress)/\(routine.target)")
-            .font(RoutallyFont.supporting)
-            .foregroundStyle(RoutallyColor.contentSecondary)
-        }
-      } icon: {
-        Image(systemName: routine.symbol)
+  private func routineLabel(for routine: RoutineSummary) -> some View {
+    Label {
+      VStack(alignment: .leading) {
+        Text(routine.name)
+        Text(verbatim: "\(routine.progress)/\(routine.target)")
+          .font(RoutallyFont.supporting)
+          .foregroundStyle(RoutallyColor.contentSecondary)
       }
+    } icon: {
+      Image(systemName: routine.symbol)
     }
   }
 
@@ -81,9 +88,9 @@ struct RoutinesView: View {
   private var emptyState: some View {
     if store.snapshot.routines.isEmpty {
       ContentUnavailableView(
-        L10n.text("Nessuna routine"),
+        L10n.text(.nessunaRoutine),
         systemImage: "repeat",
-        description: Text(L10n.text("Usa il pulsante Nuova routine per iniziare."))
+        description: Text(L10n.text(.usaIlPulsanteNuovaRoutinePerIniziare))
       )
     }
   }
@@ -94,7 +101,7 @@ struct RoutinesView: View {
       Button {
         router.sheet = .creation
       } label: {
-        Label(L10n.text("Nuova routine"), systemImage: "plus")
+        Label(L10n.text(.nuovaRoutine), systemImage: "plus")
       }
       .keyboardShortcut("n", modifiers: .command)
       .accessibilityIdentifier("new-routine-button")
@@ -106,7 +113,7 @@ struct RoutinesView: View {
       Button {
         router.sheet = .profile
       } label: {
-        Label(L10n.text("Profilo"), systemImage: "person.crop.circle")
+        Label(L10n.text(.profilo), systemImage: "person.crop.circle")
       }
       .keyboardShortcut(",", modifiers: .command)
     }
@@ -137,29 +144,29 @@ private struct RoutineDetailView: View {
         }
 
         if routine.id == "gym" {
-          Section(L10n.text("Conseguenze")) {
+          Section(L10n.text(.conseguenze)) {
             LabeledContent(
-              L10n.text("Obiettivo settimanale"),
+              L10n.text(.obiettivoSettimanale),
               value: "\(routine.progress)/\(routine.target)"
             )
             Label(
-              L10n.text("Aggiunge 1 utilizzo ad Asciugamano palestra"),
+              L10n.text(.aggiunge1UtilizzoAdAsciugamanoPalestra),
               systemImage: "link"
             )
           }
         }
 
-        Section(L10n.text("Configurazione")) {
-          Label(L10n.text("Frequenza e obiettivo"), systemImage: "calendar")
-          Label(L10n.text("Collegamenti"), systemImage: "link")
-          Label(L10n.text("Passo successivo"), systemImage: "arrow.forward.circle")
-          Label(L10n.text("Promemoria"), systemImage: "bell")
+        Section(L10n.text(.configurazione)) {
+          Label(L10n.text(.frequenzaEObiettivo), systemImage: "calendar")
+          Label(L10n.text(.collegamenti), systemImage: "link")
+          Label(L10n.text(.passoSuccessivo), systemImage: "arrow.forward.circle")
+          Label(L10n.text(.promemoria), systemImage: "bell")
         }
       }
       .navigationTitle(routine.name)
     } else {
       ContentUnavailableView(
-        L10n.text("Routine non disponibile"),
+        L10n.text(.routineNonDisponibile),
         systemImage: "exclamationmark.triangle"
       )
     }

@@ -12,8 +12,6 @@
 		B10000000000000000000003 /* RoutallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* RoutallyApp.swift */; };
 		B10000000000000000000004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* Assets.xcassets */; };
 		B10000000000000000000005 /* FoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000003 /* FoundationTests.swift */; };
-		B10000000000000000000006 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = V10000000000000000000001 /* Localizable.strings */; };
-		B10000000000000000000007 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = V10000000000000000000001 /* Localizable.strings */; };
 		B20000000000000000000011 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000011 /* RoutallyDomain */; };
 		B20000000000000000000012 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000012 /* RoutallyDesign */; };
 		B20000000000000000000013 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000013 /* RoutallyFeatures */; };
@@ -34,8 +32,6 @@
 		F10000000000000000000005 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		F10000000000000000000006 /* ReleaseCandidate.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ReleaseCandidate.xcconfig; sourceTree = "<group>"; };
 		F10000000000000000000007 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		F10000000000000000000008 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F10000000000000000000009 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F10000000000000000000101 /* Routally Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Routally Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000102 /* Routally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000103 /* RoutallyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutallyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,7 +88,6 @@
 			children = (
 				F10000000000000000000001 /* RoutallyApp.swift */,
 				F10000000000000000000002 /* Assets.xcassets */,
-				V10000000000000000000001 /* Localizable.strings */,
 			);
 			path = RoutallyApp;
 			sourceTree = "<group>";
@@ -248,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000002 /* Assets.xcassets in Resources */,
-				B10000000000000000000006 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +251,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000004 /* Assets.xcassets in Resources */,
-				B10000000000000000000007 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,18 +289,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		V10000000000000000000001 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F10000000000000000000008 /* it */,
-				F10000000000000000000009 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C20000000000000000000001 /* Development */ = {isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; }; name = Development; };

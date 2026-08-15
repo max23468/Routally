@@ -53,11 +53,30 @@ struct FoundationTests {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
     store.recordWorkout()
 
-    store.excludeTowelEffect()
+    store.excludeEffect(id: "gym-towel")
 
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 2)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 3)
     #expect(store.snapshot.followUps.isEmpty)
+  }
+
+  @Test("Escludere solo il follow-up preserva il ciclo dell'asciugamano")
+  func excludingFollowUpPreservesTowelCycle() {
+    let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
+    store.recordWorkout()
+
+    store.excludeEffect(id: "clean-gym-towel")
+
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 2)
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 4)
+    #expect(store.snapshot.followUps.isEmpty)
+    #expect(
+      store.consequenceSummary?.effects.first { $0.id == "gym-towel" }?.isExcluded == false
+    )
+    #expect(
+      store.consequenceSummary?.effects.first { $0.id == "clean-gym-towel" }?.isExcluded
+        == true
+    )
   }
 
   @Test("Annullare ripristina atomicamente lo stato della fixture")
@@ -77,7 +96,7 @@ struct FoundationTests {
   func undoAfterExclusionDoesNotApplyEffectTwice() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
     store.recordWorkout()
-    store.excludeTowelEffect()
+    store.excludeEffect(id: "gym-towel")
 
     store.undoWorkout()
 
@@ -90,7 +109,7 @@ struct FoundationTests {
   func recordAfterExclusionUsesCurrentProgress() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
     store.recordWorkout()
-    store.excludeTowelEffect()
+    store.excludeEffect(id: "gym-towel")
     store.clearConsequenceSummary()
 
     #expect(store.recordWorkout())
@@ -113,5 +132,42 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 0)
     #expect(store.snapshot.followUps.first?.state == .completed)
     #expect(store.snapshot.hasPendingChanges)
+  }
+
+  @Test("La creazione applica tutte le scelte configurate")
+  func creationAppliesConfiguredDraft() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    let draft = RoutineCreationDraft(
+      name: "  Corsa  ",
+      symbol: "heart",
+      area: "wellbeing",
+      weeklyTarget: 5,
+      linksTowel: true,
+      towelThreshold: 6,
+      followUpTitle: "  Prepara le scarpe  ",
+      usefulMoment: .evening,
+      fallbackMinutes: 1_200,
+      startsNextCycle: false
+    )
+
+    #expect(store.createRoutine(from: draft) == "gym")
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.name == "Corsa")
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.symbol == "heart")
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.target == 5)
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 0)
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.target == 6)
+    #expect(store.createdDraft?.followUpTitle == "Prepara le scarpe")
+    #expect(store.createdDraft?.startsNextCycle == false)
+  }
+
+  @Test("La navigazione programmatica apre il dettaglio della routine")
+  func programmaticRoutineNavigationSetsPath() {
+    let router = AppRouter()
+
+    router.showRoutine(id: "gym")
+
+    #expect(router.selectedTab == .routines)
+    #expect(router.selectedRoutineID == "gym")
+    #expect(router.routinesPath == [.detail(id: "gym")])
   }
 }

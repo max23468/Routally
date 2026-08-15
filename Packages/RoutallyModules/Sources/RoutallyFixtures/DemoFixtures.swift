@@ -1,24 +1,36 @@
 import Foundation
 import RoutallyDomain
 
+public enum DemoScenario: String, CaseIterable, Sendable {
+  case emptyProfile
+  case newUser
+  case typicalUser
+  case highlyOrganizedUser
+  case thresholdReached
+  case offlineWithPendingChanges
+  case cloudConflict
+  case freeLimitReached
+  case plusUser
+  case largeHistory
+}
+
 public enum DemoFixtures {
   public static func snapshot(
     for scenario: DemoScenario = .thresholdReached
   ) -> RoutallySnapshot {
     switch scenario {
     case .emptyProfile, .newUser:
-      RoutallySnapshot(scenario: scenario)
+      RoutallySnapshot()
     case .typicalUser:
-      connectedGymSnapshot(scenario: scenario, towelProgress: 2)
+      connectedGymSnapshot(towelProgress: 2)
     case .highlyOrganizedUser:
       RoutallySnapshot(
-        scenario: scenario,
         routines: connectedGymRoutines(towelProgress: 2) + [
           RoutineSummary(
             id: "studio",
-            name: text("Studio"),
+            name: text(.studio),
             symbol: "book.closed",
-            context: text("2 sessioni questa settimana"),
+            context: text(._2SessioniQuestaSettimana),
             progress: 2,
             target: 4
           )
@@ -26,34 +38,29 @@ public enum DemoFixtures {
         isPlus: true
       )
     case .thresholdReached:
-      connectedGymSnapshot(scenario: scenario, towelProgress: 3)
+      connectedGymSnapshot(towelProgress: 3)
     case .offlineWithPendingChanges:
       RoutallySnapshot(
-        scenario: scenario,
         routines: connectedGymRoutines(towelProgress: 3),
         isOffline: true,
         hasPendingChanges: true
       )
     case .cloudConflict:
       RoutallySnapshot(
-        scenario: scenario,
         routines: connectedGymRoutines(towelProgress: 3),
         hasCloudConflict: true
       )
     case .freeLimitReached:
       RoutallySnapshot(
-        scenario: scenario,
         routines: numberedRoutines(count: 10)
       )
     case .plusUser:
       RoutallySnapshot(
-        scenario: scenario,
         routines: connectedGymRoutines(towelProgress: 3),
         isPlus: true
       )
     case .largeHistory:
       RoutallySnapshot(
-        scenario: scenario,
         routines: numberedRoutines(count: 30),
         isPlus: true
       )
@@ -77,12 +84,8 @@ public enum DemoFixtures {
     return DemoScenario(rawValue: value).map(snapshot(for:)) ?? snapshot()
   }
 
-  private static func connectedGymSnapshot(
-    scenario: DemoScenario,
-    towelProgress: Int
-  ) -> RoutallySnapshot {
+  private static func connectedGymSnapshot(towelProgress: Int) -> RoutallySnapshot {
     RoutallySnapshot(
-      scenario: scenario,
       routines: connectedGymRoutines(towelProgress: towelProgress)
     )
   }
@@ -91,17 +94,17 @@ public enum DemoFixtures {
     [
       RoutineSummary(
         id: "gym",
-        name: text("Palestra"),
+        name: text(.palestra),
         symbol: "figure.strengthtraining.traditional",
-        context: text("Obiettivo: 3 volte a settimana"),
+        context: text(.obiettivo3VolteASettimana),
         progress: 1,
         target: 3
       ),
       RoutineSummary(
         id: "gym-towel",
-        name: text("Asciugamano palestra"),
+        name: text(.asciugamanoPalestra),
         symbol: "washer",
-        context: text("Si aggiorna quando registri Palestra"),
+        context: text(.siAggiornaQuandoRegistriPalestra),
         progress: towelProgress,
         target: 4
       ),
@@ -112,16 +115,16 @@ public enum DemoFixtures {
     (1...count).map { index in
       RoutineSummary(
         id: "routine-\(index)",
-        name: String(format: text("Routine %d"), index),
+        name: text(.fixtureRoutineName(Int32(index))),
         symbol: "circle.dotted",
-        context: text("Fixture sintetica"),
+        context: text(.fixtureSintetica),
         progress: index % 3,
         target: 3
       )
     }
   }
 
-  private static func text(_ key: String.LocalizationValue) -> String {
-    String(localized: key, bundle: .module)
+  private static func text(_ resource: LocalizedStringResource) -> String {
+    String(localized: resource)
   }
 }
