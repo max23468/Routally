@@ -70,11 +70,21 @@ public struct ConsequenceEffect: Identifiable, Equatable, Sendable {
 public struct ConsequenceSummary: Identifiable, Equatable, Sendable {
   public let id: String
   public let title: String
+  public let sourceRoutineID: String
+  public let sourceRoutineName: String
   public var effects: [ConsequenceEffect]
 
-  public init(id: String, title: String, effects: [ConsequenceEffect]) {
+  public init(
+    id: String,
+    title: String,
+    sourceRoutineID: String,
+    sourceRoutineName: String,
+    effects: [ConsequenceEffect]
+  ) {
     self.id = id
     self.title = title
+    self.sourceRoutineID = sourceRoutineID
+    self.sourceRoutineName = sourceRoutineName
     self.effects = effects
   }
 }
@@ -84,7 +94,7 @@ public struct ConsequenceSummary: Identifiable, Equatable, Sendable {
 public final class RoutallyStore {
   public private(set) var snapshot: RoutallySnapshot
   public private(set) var consequenceSummary: ConsequenceSummary?
-  public private(set) var createdDraft: RoutineCreationDraft?
+  public private(set) var creationDrafts: [String: RoutineCreationDraft] = [:]
 
   public init(snapshot: RoutallySnapshot) {
     self.snapshot = snapshot
@@ -105,9 +115,8 @@ public final class RoutallyStore {
     var normalizedDraft = draft
     normalizedDraft.name = normalizedName
     normalizedDraft.followUpTitle = normalizedFollowUp
-    createdDraft = normalizedDraft
-
     let routineID = nextAvailableRoutineID(basedOn: "gym")
+    creationDrafts[routineID] = normalizedDraft
     snapshot.routines.append(
       RoutineSummary(
         id: routineID,
@@ -137,29 +146,31 @@ public final class RoutallyStore {
   }
 
   @discardableResult
-  public func recordWorkout() -> Bool {
-    guard let gymIndex = routineIndex(id: "gym") else {
+  public func recordRoutine(id routineID: String) -> Bool {
+    guard let sourceIndex = routineIndex(id: routineID), canRecordRoutine(id: routineID) else {
       return false
     }
 
-    snapshot.routines[gymIndex].progress += 1
+    snapshot.routines[sourceIndex].progress += 1
     snapshot.hasPendingChanges = snapshot.isOffline
+    let sourceRoutine = snapshot.routines[sourceIndex]
 
     var effects = [
       ConsequenceEffect(
-        id: "gym-goal",
+        id: "\(routineID)-goal",
         title: L10n.text(
           .consequenceWeeklyProgress(
-            snapshot.routines[gymIndex].name,
-            Int32(snapshot.routines[gymIndex].progress),
-            Int32(snapshot.routines[gymIndex].target)
+            sourceRoutine.name,
+            Int32(sourceRoutine.progress),
+            Int32(sourceRoutine.target)
           )
         ),
-        origin: L10n.text(.consequenceSourceOrigin(snapshot.routines[gymIndex].name))
+        origin: L10n.text(.consequenceSourceOrigin(sourceRoutine.name))
       )
     ]
 
-    if let towelIndex = routineIndex(id: "gym-towel"),
+    let towelID = linkedTowelID(forRoutineID: routineID)
+    if let towelIndex = routineIndex(id: towelID),
       snapshot.routines[towelIndex].progress < snapshot.routines[towelIndex].target
     {
       snapshot.routines[towelIndex].progress += 1
@@ -170,7 +181,7 @@ public final class RoutallyStore {
       let towel = snapshot.routines[towelIndex]
       effects.append(
         ConsequenceEffect(
-          id: "gym-towel",
+          id: towelID,
           title: L10n.text(
             .consequenceEffectProgress(
               towel.name,
@@ -178,17 +189,21 @@ public final class RoutallyStore {
               Int32(towel.target)
             )
           ),
-          origin: L10n.text(.consequenceLinkOrigin(snapshot.routines[gymIndex].name)),
+          origin: L10n.text(.consequenceLinkOrigin(sourceRoutine.name)),
           exclusionTarget: towel.name
         )
       )
 
       if reachedThreshold {
-        let followUpTitle = effectiveFollowUpTitle
-        let isImmediatelyReady = createdDraft?.usefulMoment == .immediate
-        snapshot.followUps = [
+        let configuration = creationDrafts[routineID]
+        let followUpTitle =
+          configuration?.followUpTitle ?? L10n.text(.preparaUnAsciugamanoPulito)
+        let isImmediatelyReady = configuration?.usefulMoment == .immediate
+        let followUpID = followUpID(forLinkedRoutineID: towelID)
+        snapshot.followUps.removeAll { $0.id == followUpID }
+        snapshot.followUps.append(
           FollowUpSummary(
-            id: "clean-gym-towel",
+            id: followUpID,
             title: followUpTitle,
             origin: L10n.text(
               .followupThresholdOrigin(
@@ -199,13 +214,13 @@ public final class RoutallyStore {
             ),
             state: isImmediatelyReady ? .ready : .waitingForUsefulMoment
           )
-        ]
+        )
         if isImmediatelyReady {
           snapshot.routines[towelIndex].state = .followUpReady
         }
         effects.append(
           ConsequenceEffect(
-            id: "clean-gym-towel",
+            id: followUpID,
             title: L10n.text(.consequenceFollowupCreated(followUpTitle)),
             origin: L10n.text(.followupThresholdReached(towel.name)),
             exclusionTarget: followUpTitle
@@ -215,8 +230,10 @@ public final class RoutallyStore {
     }
 
     consequenceSummary = ConsequenceSummary(
-      id: "gym-registration",
+      id: "\(routineID)-registration",
       title: L10n.text(.allenamentoRegistrato),
+      sourceRoutineID: routineID,
+      sourceRoutineName: sourceRoutine.name,
       effects: effects
     )
     return true
@@ -225,53 +242,56 @@ public final class RoutallyStore {
   public func excludeEffect(id: String) {
     guard var updatedSummary = consequenceSummary else { return }
 
-    switch id {
-    case "gym-towel":
-      guard let towelIndex = routineIndex(id: "gym-towel") else { return }
-      snapshot.routines[towelIndex].progress = max(0, snapshot.routines[towelIndex].progress - 1)
-      snapshot.routines[towelIndex].state = .active
-      snapshot.followUps.removeAll { $0.id == "clean-gym-towel" }
-      snapshot.notificationCount = 0
+    if let linkedRoutineIndex = routineIndex(id: id) {
+      let linkedFollowUpID = followUpID(forLinkedRoutineID: id)
+      snapshot.routines[linkedRoutineIndex].progress = max(
+        0,
+        snapshot.routines[linkedRoutineIndex].progress - 1
+      )
+      snapshot.routines[linkedRoutineIndex].state = .active
+      snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
       updatedSummary.effects = updatedSummary.effects.map { effect in
-        guard effect.id == "gym-towel" || effect.id == "clean-gym-towel" else {
+        guard effect.id == id || effect.id == linkedFollowUpID else {
           return effect
         }
         var excludedEffect = effect
         excludedEffect.isExcluded = true
         return excludedEffect
       }
-    case "clean-gym-towel":
-      snapshot.followUps.removeAll { $0.id == "clean-gym-towel" }
-      snapshot.notificationCount = 0
+    } else if snapshot.followUps.contains(where: { $0.id == id }) {
+      snapshot.followUps.removeAll { $0.id == id }
       updatedSummary.effects = updatedSummary.effects.map { effect in
         guard effect.id == id else { return effect }
         var excludedEffect = effect
         excludedEffect.isExcluded = true
         return excludedEffect
       }
-    default:
+    } else {
       return
     }
 
+    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = updatedSummary
   }
 
-  public func undoWorkout() {
-    let towelEffectWasApplied =
-      consequenceSummary?.effects.first {
-        $0.id == "gym-towel"
-      }?.isExcluded == false
+  public func undoLastRecording() {
+    guard let summary = consequenceSummary else { return }
+    let towelID = linkedTowelID(forRoutineID: summary.sourceRoutineID)
+    let towelEffectWasApplied = summary.effects.first { $0.id == towelID }?.isExcluded == false
 
-    if let gymIndex = routineIndex(id: "gym") {
-      snapshot.routines[gymIndex].progress = max(0, snapshot.routines[gymIndex].progress - 1)
+    if let sourceIndex = routineIndex(id: summary.sourceRoutineID) {
+      snapshot.routines[sourceIndex].progress = max(
+        0,
+        snapshot.routines[sourceIndex].progress - 1
+      )
     }
-    if towelEffectWasApplied, let towelIndex = routineIndex(id: "gym-towel") {
+    if towelEffectWasApplied, let towelIndex = routineIndex(id: towelID) {
       snapshot.routines[towelIndex].progress = max(0, snapshot.routines[towelIndex].progress - 1)
       snapshot.routines[towelIndex].state = .active
     }
-    snapshot.followUps.removeAll { $0.id == "clean-gym-towel" }
-    snapshot.notificationCount = 0
+    snapshot.followUps.removeAll { $0.id == followUpID(forLinkedRoutineID: towelID) }
+    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = nil
   }
@@ -284,21 +304,25 @@ public final class RoutallyStore {
     makeFollowUpReadyIfNeeded()
   }
 
-  public func completeFollowUp() {
-    guard let followUpIndex = snapshot.followUps.firstIndex(where: { $0.id == "clean-gym-towel" })
+  public func completeFollowUp(id followUpID: String) {
+    guard
+      let followUpIndex = snapshot.followUps.firstIndex(where: { $0.id == followUpID }),
+      let linkedRoutineID = linkedRoutineID(forFollowUpID: followUpID),
+      let sourceRoutineID = sourceRoutineID(forLinkedRoutineID: linkedRoutineID)
     else {
       return
     }
 
     snapshot.followUps[followUpIndex].state = .completed
-    if let towelIndex = routineIndex(id: "gym-towel") {
-      if createdDraft?.startsNextCycle ?? true {
+    if let towelIndex = routineIndex(id: linkedRoutineID) {
+      if creationDrafts[sourceRoutineID]?.startsNextCycle ?? true {
         snapshot.routines[towelIndex].progress = 0
         snapshot.routines[towelIndex].state = .active
       } else {
         snapshot.routines[towelIndex].state = .complete
       }
     }
+    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
   }
 
@@ -310,13 +334,20 @@ public final class RoutallyStore {
     routineIndex(id: linkedTowelID(forRoutineID: routineID)) != nil
   }
 
+  public func canRecordRoutine(id routineID: String) -> Bool {
+    guard routineIndex(id: routineID) != nil else { return false }
+    return !snapshot.routines.contains { candidate in
+      candidate.id != routineID && linkedTowelID(forRoutineID: candidate.id) == routineID
+    }
+  }
+
+  public func creationDraft(forRoutineID routineID: String) -> RoutineCreationDraft? {
+    creationDrafts[routineID]
+  }
+
   public func retryRecoverableEvent() {
     snapshot.hasRecoverableEventError = false
     snapshot.hasPendingChanges = snapshot.isOffline
-  }
-
-  private var effectiveFollowUpTitle: String {
-    createdDraft?.followUpTitle ?? L10n.text(.preparaUnAsciugamanoPulito)
   }
 
   private func routineIndex(id: String) -> Int? {
@@ -325,6 +356,22 @@ public final class RoutallyStore {
 
   private func linkedTowelID(forRoutineID routineID: String) -> String {
     "\(routineID)-towel"
+  }
+
+  private func followUpID(forLinkedRoutineID linkedRoutineID: String) -> String {
+    "clean-\(linkedRoutineID)"
+  }
+
+  private func linkedRoutineID(forFollowUpID followUpID: String) -> String? {
+    let prefix = "clean-"
+    guard followUpID.hasPrefix(prefix) else { return nil }
+    return String(followUpID.dropFirst(prefix.count))
+  }
+
+  private func sourceRoutineID(forLinkedRoutineID linkedRoutineID: String) -> String? {
+    let suffix = "-towel"
+    guard linkedRoutineID.hasSuffix(suffix) else { return nil }
+    return String(linkedRoutineID.dropLast(suffix.count))
   }
 
   private func nextAvailableRoutineID(basedOn baseID: String) -> String {
@@ -341,17 +388,23 @@ public final class RoutallyStore {
   private func makeFollowUpReadyIfNeeded() {
     guard
       let followUpIndex = snapshot.followUps.firstIndex(where: {
-        $0.id == "clean-gym-towel"
+        $0.state == .waitingForUsefulMoment
       }),
-      snapshot.followUps[followUpIndex].state != .completed
+      let linkedRoutineID = linkedRoutineID(
+        forFollowUpID: snapshot.followUps[followUpIndex].id
+      )
     else {
       return
     }
 
     snapshot.followUps[followUpIndex].state = .ready
-    snapshot.notificationCount = min(1, snapshot.notificationCount + 1)
-    if let towelIndex = routineIndex(id: "gym-towel") {
+    refreshNotificationCount()
+    if let towelIndex = routineIndex(id: linkedRoutineID) {
       snapshot.routines[towelIndex].state = .followUpReady
     }
+  }
+
+  private func refreshNotificationCount() {
+    snapshot.notificationCount = snapshot.followUps.count { $0.state == .ready }
   }
 }

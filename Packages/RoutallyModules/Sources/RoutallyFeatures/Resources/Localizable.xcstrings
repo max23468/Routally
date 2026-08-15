@@ -2035,6 +2035,24 @@
       "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
       "extractionState": "manual"
     },
+    "consequence.view_routine.action": {
+      "comment": "Action that opens the source routine from a consequence summary.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visualizza %@"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
     "consequence.link.origin": {
       "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
       "localizations": {

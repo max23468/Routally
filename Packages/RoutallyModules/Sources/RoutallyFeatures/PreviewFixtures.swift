@@ -96,7 +96,7 @@
       let store = RoutallyStore(
         snapshot: RoutallySnapshot(routines: connectedGymRoutines(towelProgress: 3))
       )
-      store.recordWorkout()
+      store.recordRoutine(id: "gym")
       return store
     }
 

@@ -28,7 +28,7 @@ struct FoundationTests {
   func fourthWorkoutCreatesOneFollowUp() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
 
-    #expect(store.recordWorkout())
+    #expect(store.recordRoutine(id: "gym"))
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 2)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 4)
     #expect(store.snapshot.followUps.count == 1)
@@ -38,7 +38,7 @@ struct FoundationTests {
   @Test("Arrivo e fallback non duplicano il follow-up")
   func arrivalAndFallbackAreIdempotent() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
 
     store.revealFollowUpAtHome()
     store.triggerFallback()
@@ -51,7 +51,7 @@ struct FoundationTests {
   @Test("Escludere l'asciugamano preserva l'evento sorgente")
   func excludingTowelPreservesWorkout() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
 
     store.excludeEffect(id: "gym-towel")
 
@@ -63,7 +63,7 @@ struct FoundationTests {
   @Test("Escludere solo il follow-up preserva il ciclo dell'asciugamano")
   func excludingFollowUpPreservesTowelCycle() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
 
     store.excludeEffect(id: "clean-gym-towel")
 
@@ -82,9 +82,9 @@ struct FoundationTests {
   @Test("Annullare ripristina atomicamente lo stato della fixture")
   func undoRestoresFixtureState() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
 
-    store.undoWorkout()
+    store.undoLastRecording()
 
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 1)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 3)
@@ -95,10 +95,10 @@ struct FoundationTests {
   @Test("Annullare dopo Escludi non sottrae due volte la conseguenza")
   func undoAfterExclusionDoesNotApplyEffectTwice() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
     store.excludeEffect(id: "gym-towel")
 
-    store.undoWorkout()
+    store.undoLastRecording()
 
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 1)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 3)
@@ -108,11 +108,11 @@ struct FoundationTests {
   @Test("Una nuova registrazione dopo Escludi usa il progresso corrente")
   func recordAfterExclusionUsesCurrentProgress() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
     store.excludeEffect(id: "gym-towel")
     store.clearConsequenceSummary()
 
-    #expect(store.recordWorkout())
+    #expect(store.recordRoutine(id: "gym"))
 
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 3)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 4)
@@ -124,10 +124,10 @@ struct FoundationTests {
     let store = RoutallyStore(
       snapshot: DemoFixtures.snapshot(for: .offlineWithPendingChanges)
     )
-    store.recordWorkout()
+    store.recordRoutine(id: "gym")
     store.revealFollowUpAtHome()
 
-    store.completeFollowUp()
+    store.completeFollowUp(id: "clean-gym-towel")
 
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.progress == 0)
     #expect(store.snapshot.followUps.first?.state == .completed)
@@ -156,8 +156,8 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.target == 5)
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 0)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.target == 6)
-    #expect(store.createdDraft?.followUpTitle == "Prepara le scarpe")
-    #expect(store.createdDraft?.startsNextCycle == false)
+    #expect(store.creationDraft(forRoutineID: "gym")?.followUpTitle == "Prepara le scarpe")
+    #expect(store.creationDraft(forRoutineID: "gym")?.startsNextCycle == false)
   }
 
   @Test("Creare una seconda routine preserva lo stato esistente")
@@ -194,6 +194,54 @@ struct FoundationTests {
     #expect(store.snapshot.notificationCount == 1)
   }
 
+  @Test("Ogni routine creata può registrare il proprio progresso")
+  func everyCreatedRoutineCanBeRecorded() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    store.createRoutine(from: creationDraft(name: "Palestra"))
+    let secondRoutineID = store.createRoutine(from: creationDraft(name: "Corsa"))
+
+    #expect(secondRoutineID == "gym-2")
+    #expect(store.recordRoutine(id: "gym-2"))
+    #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 0)
+    #expect(store.snapshot.routines.first { $0.id == "gym-2" }?.progress == 1)
+    #expect(store.snapshot.routines.first { $0.id == "gym-2-towel" }?.progress == 1)
+    #expect(store.consequenceSummary?.sourceRoutineID == "gym-2")
+  }
+
+  @Test("Ogni routine usa la propria configurazione di follow-up")
+  func eachRoutineUsesItsOwnFollowUpConfiguration() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    var firstDraft = creationDraft(name: "Palestra")
+    firstDraft.towelThreshold = 1
+    firstDraft.followUpTitle = "Prepara l'asciugamano"
+    firstDraft.usefulMoment = .home
+    store.createRoutine(from: firstDraft)
+
+    var secondDraft = creationDraft(name: "Corsa")
+    secondDraft.towelThreshold = 1
+    secondDraft.followUpTitle = "Prepara le scarpe"
+    secondDraft.usefulMoment = .immediate
+    store.createRoutine(from: secondDraft)
+
+    #expect(store.recordRoutine(id: "gym"))
+    #expect(store.recordRoutine(id: "gym-2"))
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-towel" }?.title
+        == "Prepara l'asciugamano"
+    )
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-towel" }?.state
+        == .waitingForUsefulMoment
+    )
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.title
+        == "Prepara le scarpe"
+    )
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
+    )
+  }
+
   @Test("Il momento immediato rende subito disponibile il follow-up")
   func immediateUsefulMomentMakesFollowUpReady() {
     let store = RoutallyStore(snapshot: RoutallySnapshot())
@@ -202,7 +250,7 @@ struct FoundationTests {
     draft.usefulMoment = .immediate
     store.createRoutine(from: draft)
 
-    #expect(store.recordWorkout())
+    #expect(store.recordRoutine(id: "gym"))
     #expect(store.snapshot.followUps.first?.state == .ready)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
   }

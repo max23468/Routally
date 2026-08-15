@@ -40,13 +40,13 @@ struct ConsequenceSummarySheet: View {
           }
 
           Section {
-            Button(L10n.text(.visualizzaPalestra)) {
-              router.showRoutine(id: "gym")
+            Button(L10n.text(.consequenceViewRoutineAction(summary.sourceRoutineName))) {
+              router.showRoutine(id: summary.sourceRoutineID)
               store.clearConsequenceSummary()
               dismiss()
             }
             Button(L10n.text(.annullaRegistrazione), role: .destructive) {
-              store.undoWorkout()
+              store.undoLastRecording()
               dismiss()
             }
           }

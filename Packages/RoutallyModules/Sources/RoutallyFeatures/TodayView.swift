@@ -74,7 +74,7 @@ struct TodayView: View {
       Section(L10n.text(.adesso)) {
         ForEach(readyFollowUps) { followUp in
           FollowUpRow(followUp: followUp) {
-            store.completeFollowUp()
+            store.completeFollowUp(id: followUp.id)
           }
         }
         routineRows(nowRoutines)
@@ -128,10 +128,10 @@ struct TodayView: View {
 
   private func routineRows(_ routines: [RoutineSummary]) -> some View {
     ForEach(routines) { routine in
-      RoutineRow(routine: routine) {
+      RoutineRow(routine: routine, isRecordable: store.canRecordRoutine(id: routine.id)) {
         router.showRoutine(id: routine.id)
       } primaryAction: {
-        if routine.id == "gym", store.recordWorkout() {
+        if store.recordRoutine(id: routine.id) {
           router.sheet = .consequences
         }
       }
@@ -170,6 +170,7 @@ private struct RoutineRow: View {
   @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
   let routine: RoutineSummary
+  let isRecordable: Bool
   let openDetail: () -> Void
   let primaryAction: () -> Void
 
@@ -233,7 +234,7 @@ private struct RoutineRow: View {
 
   @ViewBuilder
   private var primaryButton: some View {
-    if routine.id == "gym" {
+    if isRecordable {
       Button(L10n.text(.registra), action: primaryAction)
         .buttonStyle(.glassProminent)
         .controlSize(dynamicTypeSize.isAccessibilitySize ? .large : .small)
