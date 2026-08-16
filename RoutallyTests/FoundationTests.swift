@@ -48,6 +48,34 @@ struct FoundationTests {
     #expect(store.snapshot.notificationCount == 1)
   }
 
+  @Test("Arrivo a casa rende pronti solo i follow-up configurati per casa")
+  func arrivalOnlyRevealsHomeFollowUps() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+
+    var eveningDraft = creationDraft(name: "Palestra")
+    eveningDraft.towelThreshold = 1
+    eveningDraft.usefulMoment = .evening
+    store.createRoutine(from: eveningDraft)
+
+    var homeDraft = creationDraft(name: "Corsa")
+    homeDraft.towelThreshold = 1
+    homeDraft.usefulMoment = .home
+    store.createRoutine(from: homeDraft)
+
+    store.recordRoutine(id: "gym")
+    store.recordRoutine(id: "gym-2")
+    store.revealFollowUpAtHome()
+
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-towel" }?.state
+        == .waitingForUsefulMoment
+    )
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
+    )
+    #expect(store.snapshot.notificationCount == 1)
+  }
+
   @Test("Escludere l'asciugamano preserva l'evento sorgente")
   func excludingTowelPreservesWorkout() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
@@ -188,6 +216,7 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.target == 5)
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 0)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.target == 6)
+    #expect(store.creationDraft(forRoutineID: "gym")?.area == "wellbeing")
     #expect(store.creationDraft(forRoutineID: "gym")?.followUpTitle == "Prepara le scarpe")
     #expect(store.creationDraft(forRoutineID: "gym")?.startsNextCycle == false)
   }
@@ -212,8 +241,7 @@ struct FoundationTests {
             target: 3
           )
         ],
-        followUps: [existingFollowUp],
-        notificationCount: 1
+        followUps: [existingFollowUp]
       )
     )
 
@@ -223,6 +251,26 @@ struct FoundationTests {
     #expect(store.snapshot.routines.map(\.id) == ["gym", "gym-2", "gym-2-towel"])
     #expect(store.snapshot.routines.first?.progress == 1)
     #expect(store.snapshot.followUps == [existingFollowUp])
+    #expect(store.snapshot.notificationCount == 1)
+  }
+
+  @Test("Lo store deriva il conteggio notifiche dai follow-up pronti")
+  func storeReconcilesNotificationCount() {
+    let store = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        followUps: [
+          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready),
+          FollowUpSummary(
+            id: "waiting",
+            title: "In attesa",
+            origin: "Test",
+            state: .waitingForUsefulMoment
+          ),
+        ],
+        notificationCount: 99
+      )
+    )
+
     #expect(store.snapshot.notificationCount == 1)
   }
 
@@ -272,6 +320,7 @@ struct FoundationTests {
     #expect(
       store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
     )
+    #expect(store.snapshot.notificationCount == 1)
   }
 
   @Test("Il momento immediato rende subito disponibile il follow-up")
@@ -285,6 +334,7 @@ struct FoundationTests {
     #expect(store.recordRoutine(id: "gym"))
     #expect(store.snapshot.followUps.first?.state == .ready)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
+    #expect(store.snapshot.notificationCount == 1)
   }
 
   @Test("La navigazione programmatica apre il dettaglio della routine")

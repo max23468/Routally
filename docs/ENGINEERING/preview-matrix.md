@@ -9,6 +9,12 @@ reali. Le fixture di lancio sono sintetiche, deterministiche e collegate soltant
 `Routally Dev`; il target pubblico non dipende da `RoutallyFixtures`. Le fixture usate
 direttamente dalle preview sono racchiuse in `#if DEBUG` nel modulo UI.
 
+Le stringhe UI generate dal catalogo restano `LocalizedStringResource` fino alla view,
+così la `Locale` dell'ambiente SwiftUI viene applicata anche nelle preview. I pochi testi
+che devono vivere come `String` nelle fixture sintetiche vengono invece risolti
+esplicitamente nella locale richiesta dalla fixture; la preview inglese non dipende quindi
+dalla locale del processo Xcode.
+
 ## Matrice eseguibile
 
 | View/stato | Device/layout | Aspetto e lingua | Dynamic Type | Evidenza |
@@ -64,7 +70,13 @@ La prova interattiva su iPhone copre:
 4. `Escludi` separato per ciclo collegato e follow-up, oltre ad `Annulla registrazione`;
 5. IT/EN, stato offline, errore recuperabile e preferenze di accessibilità sopra elencate.
 
-La suite automatica protegge fixture, idempotenza arrivo/fallback, undo atomico,
-esclusioni indipendenti, applicazione del draft e path di navigazione. Motore
-event-sourced, persistenza, geofencing e notifiche reali restano nelle epiche e nei
-Technical Gate previsti dal Master Plan; E03 usa simulazioni locali Dev.
+`CreationSheet` orchestra soltanto navigazione, dismissal e submit; stato e validazione
+del form sono separati dalle view dei singoli step. Il fallback partecipa al dirty state,
+l'area viene conservata come chiave stabile nella configurazione sintetica e resa visibile
+nel dettaglio della routine creata.
+
+La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
+follow-up per l'arrivo a casa, conteggio delle notifiche, undo atomico, esclusioni
+indipendenti, applicazione del draft e path di navigazione. Motore event-sourced,
+persistenza, geofencing e notifiche reali restano nelle epiche e nei Technical Gate
+previsti dal Master Plan; E03 usa simulazioni locali Dev.
