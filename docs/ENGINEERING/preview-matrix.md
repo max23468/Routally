@@ -78,7 +78,7 @@ nel dettaglio della routine creata.
 La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
 follow-up per l'arrivo a casa, conteggio delle notifiche, undo atomico, esclusioni
 indipendenti, applicazione del draft, propagazione della locale e path di navigazione.
-Il workflow `Swift tests` esegue la suite `Routally Tests` su un iPhone Simulator
-disponibile del runtime iOS più recente del runner macOS. Motore event-sourced,
-persistenza, geofencing e notifiche reali restano nelle epiche e nei Technical Gate
-previsti dal Master Plan; E03 usa simulazioni locali Dev.
+Le build e i test che richiedono Simulator restano nella pipeline Apple/Xcode Cloud,
+come previsto dalla ripartizione CI del Master Plan; GitHub Actions non duplica tale
+pipeline. Motore event-sourced, persistenza, geofencing e notifiche reali restano nelle
+epiche e nei Technical Gate previsti dal Master Plan; E03 usa simulazioni locali Dev.
