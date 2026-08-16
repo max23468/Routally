@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "**/*.swift"
+      - "**/*.xcstrings"
+      - "**/*.xcassets/**"
       - "**/*.xcodeproj/**"
       - "**/Package.swift"
       - "**/Package.resolved"
@@ -14,6 +16,8 @@ on:
     branches: [main]
     paths:
       - "**/*.swift"
+      - "**/*.xcstrings"
+      - "**/*.xcassets/**"
       - "**/*.xcodeproj/**"
       - "**/Package.swift"
       - "**/Package.resolved"
