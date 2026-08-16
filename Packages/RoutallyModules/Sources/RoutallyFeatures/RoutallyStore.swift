@@ -97,9 +97,10 @@ public final class RoutallyStore {
   public private(set) var consequenceSummary: ConsequenceSummary?
   public private(set) var creationDrafts: [String: RoutineCreationDraft] = [:]
 
+  private var simulatedNotifiedFollowUpIDs: Set<String> = []
+
   public init(snapshot: RoutallySnapshot) {
     self.snapshot = snapshot
-    refreshNotificationCount()
   }
 
   @discardableResult
@@ -226,6 +227,7 @@ public final class RoutallyStore {
           ?? L10n.string(.preparaUnAsciugamanoPulito, locale: locale)
         let isImmediatelyReady = configuration?.usefulMoment == .immediate
         snapshot.followUps.removeAll { $0.id == followUpID }
+        simulatedNotifiedFollowUpIDs.remove(followUpID)
         snapshot.followUps.append(
           FollowUpSummary(
             id: followUpID,
@@ -268,7 +270,6 @@ public final class RoutallyStore {
       sourceRoutineName: sourceRoutine.name,
       effects: effects
     )
-    refreshNotificationCount()
     return true
   }
 
@@ -283,6 +284,7 @@ public final class RoutallyStore {
       )
       snapshot.routines[linkedRoutineIndex].state = .active
       snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
+      simulatedNotifiedFollowUpIDs.remove(linkedFollowUpID)
       updatedSummary.effects = updatedSummary.effects.map { effect in
         guard effect.id == id || effect.id == linkedFollowUpID else {
           return effect
@@ -293,6 +295,7 @@ public final class RoutallyStore {
       }
     } else if snapshot.followUps.contains(where: { $0.id == id }) {
       snapshot.followUps.removeAll { $0.id == id }
+      simulatedNotifiedFollowUpIDs.remove(id)
       updatedSummary.effects = updatedSummary.effects.map { effect in
         guard effect.id == id else { return effect }
         var excludedEffect = effect
@@ -303,7 +306,6 @@ public final class RoutallyStore {
       return
     }
 
-    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = updatedSummary
   }
@@ -327,21 +329,36 @@ public final class RoutallyStore {
     }
     if followUpWasCreated {
       snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
+      simulatedNotifiedFollowUpIDs.remove(linkedFollowUpID)
     }
-    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = nil
   }
 
-  public func revealFollowUpAtHome() {
+  @discardableResult
+  public func revealFollowUpAtHome() -> [String] {
     makeFollowUpsReady { sourceRoutineID in
       creationDrafts[sourceRoutineID]?.usefulMoment == .home
         || creationDrafts[sourceRoutineID] == nil
     }
   }
 
-  public func triggerFallback() {
+  @discardableResult
+  public func triggerFallback() -> [String] {
     makeFollowUpsReady { _ in true }
+  }
+
+  public func simulateNotificationDelivery(for followUpIDs: [String]) {
+    let deliverableIDs = followUpIDs.filter { followUpID in
+      !simulatedNotifiedFollowUpIDs.contains(followUpID)
+        && snapshot.followUps.contains { followUp in
+          followUp.id == followUpID && followUp.state == .ready
+        }
+    }
+    guard !deliverableIDs.isEmpty else { return }
+
+    snapshot.notificationCount += deliverableIDs.count
+    simulatedNotifiedFollowUpIDs.formUnion(deliverableIDs)
   }
 
   public func completeFollowUp(id followUpID: String) {
@@ -354,6 +371,7 @@ public final class RoutallyStore {
     }
 
     snapshot.followUps[followUpIndex].state = .completed
+    simulatedNotifiedFollowUpIDs.remove(followUpID)
     if let towelIndex = routineIndex(id: linkedRoutineID) {
       if creationDrafts[sourceRoutineID]?.startsNextCycle ?? true {
         snapshot.routines[towelIndex].progress = 0
@@ -362,7 +380,6 @@ public final class RoutallyStore {
         snapshot.routines[towelIndex].state = .complete
       }
     }
-    refreshNotificationCount()
     snapshot.hasPendingChanges = snapshot.isOffline
   }
 
@@ -427,7 +444,9 @@ public final class RoutallyStore {
 
   private func makeFollowUpsReady(
     matching shouldReveal: (String) -> Bool
-  ) {
+  ) -> [String] {
+    var revealedFollowUpIDs: [String] = []
+
     for followUpIndex in snapshot.followUps.indices
     where snapshot.followUps[followUpIndex].state == .waitingForUsefulMoment {
       guard
@@ -441,14 +460,12 @@ public final class RoutallyStore {
       }
 
       snapshot.followUps[followUpIndex].state = .ready
+      revealedFollowUpIDs.append(snapshot.followUps[followUpIndex].id)
       if let linkedRoutineIndex = routineIndex(id: linkedRoutineID) {
         snapshot.routines[linkedRoutineIndex].state = .followUpReady
       }
     }
-    refreshNotificationCount()
-  }
 
-  private func refreshNotificationCount() {
-    snapshot.notificationCount = snapshot.followUps.count { $0.state == .ready }
+    return revealedFollowUpIDs
   }
 }
