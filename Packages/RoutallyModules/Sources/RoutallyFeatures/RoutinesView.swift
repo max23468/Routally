@@ -177,13 +177,13 @@ private struct RoutineDetailView: View {
     guard let rawArea = store.creationDraft(forRoutineID: routineID)?.area else { return nil }
     switch rawArea {
     case RoutineArea.wellbeing.rawValue:
-      .benessere
+      return LocalizedStringResource.benessere
     case RoutineArea.home.rawValue:
-      .casa
+      return LocalizedStringResource.casa
     case RoutineArea.personal.rawValue:
-      .personale
+      return LocalizedStringResource.personale
     default:
-      nil
+      return nil
     }
   }
 }
