@@ -42,8 +42,8 @@ struct FoundationTests {
     store.recordRoutine(id: "gym")
 
     let revealedAtHome = store.revealFollowUpAtHome()
-    let revealedAtFallback = store.triggerFallback()
-    store.simulateNotificationDelivery(for: revealedAtHome + revealedAtFallback)
+    let deliverableAtFallback = store.triggerFallback()
+    store.simulateNotificationDelivery(for: revealedAtHome + deliverableAtFallback)
 
     #expect(store.snapshot.followUps.count == 1)
     #expect(store.snapshot.followUps.first?.state == .ready)
@@ -305,6 +305,7 @@ struct FoundationTests {
 
     #expect(mutedStore.snapshot.notificationCount == 0)
     #expect(explicitStore.snapshot.notificationCount == 7)
+    #expect(explicitStore.triggerFallback().isEmpty)
   }
 
   @Test("Ogni routine creata può registrare il proprio progresso")
@@ -359,8 +360,8 @@ struct FoundationTests {
     #expect(store.snapshot.notificationCount == 1)
   }
 
-  @Test("Il momento immediato rende subito disponibile il follow-up")
-  func immediateUsefulMomentMakesFollowUpReady() {
+  @Test("Il momento immediato resta notificabile dal fallback Dev")
+  func immediateUsefulMomentCanBeDeliveredByFallback() {
     let store = RoutallyStore(snapshot: RoutallySnapshot())
     var draft = creationDraft(name: "Corsa")
     draft.towelThreshold = 1
@@ -372,9 +373,11 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
     #expect(store.snapshot.notificationCount == 0)
 
-    store.simulateNotificationDelivery(for: ["clean-gym-towel"])
-    store.simulateNotificationDelivery(for: ["clean-gym-towel"])
+    let deliverableAtFallback = store.triggerFallback()
+    #expect(deliverableAtFallback == ["clean-gym-towel"])
+    store.simulateNotificationDelivery(for: deliverableAtFallback + deliverableAtFallback)
     #expect(store.snapshot.notificationCount == 1)
+    #expect(store.triggerFallback().isEmpty)
   }
 
   @Test("La navigazione programmatica apre il dettaglio della routine")
