@@ -28,7 +28,6 @@ dalla locale del processo Xcode.
 | Routine + dettaglio | iPad landscape e portrait | Light/Dark, IT | Default/AX5 | `RoutallyRootView` preview |
 | Creazione iniziale | iPhone portrait | Light, IT | Default | `CreationSheet` preview e Simulator |
 | Creazione riepilogo | iPhone portrait | Dark, IT/EN | Default/AX5 | `CreationSheet` preview e Simulator |
-| Creazione con errore recuperabile | iPhone portrait | Light, IT | Default | `CreationSheet` preview |
 | Conseguenze con esclusioni indipendenti | iPhone portrait | Light/Dark, IT | Default/AX5 | preview, Simulator e test store |
 | Ricerca con risultati / vuota | iPhone portrait | Light/Dark, IT | Default/AX5 | `SearchView` preview |
 | Profilo Free / Plus | iPhone portrait | Light/Dark, IT | Default | `ProfileSheet` preview |

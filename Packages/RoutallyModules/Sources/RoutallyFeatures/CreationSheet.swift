@@ -7,7 +7,6 @@ struct CreationSheet: View {
   @FocusState private var isNameFocused: Bool
 
   @State private var form: CreationFormState
-  @State private var showsSaveError: Bool
   @State private var showingDiscardConfirmation = false
 
   let store: RoutallyStore
@@ -18,8 +17,7 @@ struct CreationSheet: View {
       store: store,
       router: router,
       initialStep: .routine,
-      initialName: "",
-      initialShowsSaveError: false
+      initialName: ""
     )
   }
 
@@ -27,8 +25,7 @@ struct CreationSheet: View {
     store: RoutallyStore,
     router: AppRouter,
     initialStep: CreationStep,
-    initialName: String,
-    initialShowsSaveError: Bool
+    initialName: String
   ) {
     self.store = store
     self.router = router
@@ -39,7 +36,6 @@ struct CreationSheet: View {
         followUpTitle: L10n.string(.preparaUnAsciugamanoPulito)
       )
     )
-    _showsSaveError = State(initialValue: initialShowsSaveError)
   }
 
   var body: some View {
@@ -47,7 +43,6 @@ struct CreationSheet: View {
       Form {
         progressSection
         stepContent
-        errorSection
       }
       .navigationTitle(form.step.title)
       .navigationBarTitleDisplayMode(.inline)
@@ -61,7 +56,6 @@ struct CreationSheet: View {
       }
       .onChange(of: form.step) { _, newStep in
         isNameFocused = newStep == .routine
-        showsSaveError = false
       }
       .onChange(of: locale.identifier) { _, _ in
         updateLocalizedDefaults(for: locale)
@@ -143,19 +137,6 @@ struct CreationSheet: View {
     }
   }
 
-  @ViewBuilder
-  private var errorSection: some View {
-    if showsSaveError {
-      Section {
-        Label(
-          .nonÈStatoPossibileCreareLaRoutineIDatiInseritiSonoAncoraQui,
-          systemImage: "exclamationmark.triangle"
-        )
-        .foregroundStyle(RoutallyColor.statusAttention)
-      }
-    }
-  }
-
   @ToolbarContentBuilder
   private var topToolbar: some ToolbarContent {
     if form.step != .routine {
@@ -227,15 +208,11 @@ struct CreationSheet: View {
   }
 
   private func createRoutine(includeOptionalConfiguration: Bool) {
-    showsSaveError = false
     guard
       let routineID = store.createRoutine(
         from: form.makeDraft(includeOptionalConfiguration: includeOptionalConfiguration)
       )
-    else {
-      showsSaveError = true
-      return
-    }
+    else { return }
 
     router.showRoutine(id: routineID)
     dismiss()
@@ -261,21 +238,11 @@ struct CreationSheet: View {
       store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
       router: AppRouter(),
       initialStep: .summary,
-      initialName: "Gym",
-      initialShowsSaveError: false
+      initialName: "Gym"
     )
     .preferredColorScheme(.dark)
     .environment(\.locale, Locale(identifier: "en"))
     .environment(\.dynamicTypeSize, .accessibility5)
   }
 
-  #Preview("Errore recuperabile") {
-    CreationSheet(
-      store: RoutallyStore(snapshot: .empty),
-      router: AppRouter(),
-      initialStep: .summary,
-      initialName: "Palestra",
-      initialShowsSaveError: true
-    )
-  }
 #endif
