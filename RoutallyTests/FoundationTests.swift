@@ -41,8 +41,9 @@ struct FoundationTests {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
     store.recordRoutine(id: "gym")
 
-    store.revealFollowUpAtHome()
-    store.triggerFallback()
+    let revealedAtHome = store.revealFollowUpAtHome()
+    let revealedAtFallback = store.triggerFallback()
+    store.simulateNotificationDelivery(for: revealedAtHome + revealedAtFallback)
 
     #expect(store.snapshot.followUps.count == 1)
     #expect(store.snapshot.followUps.first?.state == .ready)
@@ -65,7 +66,7 @@ struct FoundationTests {
 
     store.recordRoutine(id: "gym")
     store.recordRoutine(id: "gym-2")
-    store.revealFollowUpAtHome()
+    let revealedFollowUpIDs = store.revealFollowUpAtHome()
 
     #expect(
       store.snapshot.followUps.first { $0.id == "clean-gym-towel" }?.state
@@ -74,6 +75,9 @@ struct FoundationTests {
     #expect(
       store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
     )
+    #expect(store.snapshot.notificationCount == 0)
+
+    store.simulateNotificationDelivery(for: revealedFollowUpIDs)
     #expect(store.snapshot.notificationCount == 1)
   }
 
@@ -266,7 +270,8 @@ struct FoundationTests {
             target: 3
           )
         ],
-        followUps: [existingFollowUp]
+        followUps: [existingFollowUp],
+        notificationCount: 1
       )
     )
 
@@ -279,24 +284,27 @@ struct FoundationTests {
     #expect(store.snapshot.notificationCount == 1)
   }
 
-  @Test("Lo store deriva il conteggio notifiche dai follow-up pronti")
-  func storeReconcilesNotificationCount() {
-    let store = RoutallyStore(
+  @Test("Lo store preserva lo stato di consegna notifiche esplicito")
+  func storePreservesExplicitNotificationCount() {
+    let mutedStore = RoutallyStore(
       snapshot: RoutallySnapshot(
         followUps: [
-          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready),
-          FollowUpSummary(
-            id: "waiting",
-            title: "In attesa",
-            origin: "Test",
-            state: .waitingForUsefulMoment
-          ),
+          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready)
         ],
-        notificationCount: 99
+        notificationCount: 0
+      )
+    )
+    let explicitStore = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        followUps: [
+          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready)
+        ],
+        notificationCount: 7
       )
     )
 
-    #expect(store.snapshot.notificationCount == 1)
+    #expect(mutedStore.snapshot.notificationCount == 0)
+    #expect(explicitStore.snapshot.notificationCount == 7)
   }
 
   @Test("Ogni routine creata può registrare il proprio progresso")
@@ -345,6 +353,9 @@ struct FoundationTests {
     #expect(
       store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
     )
+    #expect(store.snapshot.notificationCount == 0)
+
+    store.simulateNotificationDelivery(for: ["clean-gym-2-towel"])
     #expect(store.snapshot.notificationCount == 1)
   }
 
@@ -359,6 +370,10 @@ struct FoundationTests {
     #expect(store.recordRoutine(id: "gym"))
     #expect(store.snapshot.followUps.first?.state == .ready)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
+    #expect(store.snapshot.notificationCount == 0)
+
+    store.simulateNotificationDelivery(for: ["clean-gym-towel"])
+    store.simulateNotificationDelivery(for: ["clean-gym-towel"])
     #expect(store.snapshot.notificationCount == 1)
   }
 
