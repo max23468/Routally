@@ -9,11 +9,12 @@ reali. Le fixture di lancio sono sintetiche, deterministiche e collegate soltant
 `Routally Dev`; il target pubblico non dipende da `RoutallyFixtures`. Le fixture usate
 direttamente dalle preview sono racchiuse in `#if DEBUG` nel modulo UI.
 
-Le stringhe UI generate dal catalogo restano `LocalizedStringResource` fino alla view,
-così la `Locale` dell'ambiente SwiftUI viene applicata anche nelle preview. I pochi testi
-che devono vivere come `String` nelle fixture sintetiche vengono invece risolti
-esplicitamente nella locale richiesta dalla fixture; la preview inglese non dipende quindi
-dalla locale del processo Xcode.
+Le stringhe UI generate dal catalogo restano `LocalizedStringResource` fino alla view
+quando il modello lo consente. I pochi testi che devono vivere come `String` nello store
+o nelle fixture sintetiche vengono risolti con la `Locale` esplicitamente richiesta dalla
+UI o dalla fixture; creazione e registrazione propagano quindi la locale dell'ambiente
+SwiftUI e la preview inglese non dipende dalla locale del processo Xcode. Anche gli orari
+del riepilogo di creazione usano un `Date.FormatStyle` configurato con la stessa locale.
 
 ## Matrice eseguibile
 
@@ -76,6 +77,8 @@ nel dettaglio della routine creata.
 
 La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
 follow-up per l'arrivo a casa, conteggio delle notifiche, undo atomico, esclusioni
-indipendenti, applicazione del draft e path di navigazione. Motore event-sourced,
+indipendenti, applicazione del draft, propagazione della locale e path di navigazione.
+Il workflow `Swift tests` esegue la suite `Routally Tests` su un iPhone Simulator
+disponibile del runtime iOS più recente del runner macOS. Motore event-sourced,
 persistenza, geofencing e notifiche reali restano nelle epiche e nei Technical Gate
 previsti dal Master Plan; E03 usa simulazioni locali Dev.

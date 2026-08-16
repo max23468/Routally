@@ -210,7 +210,8 @@ struct CreationSheet: View {
   private func createRoutine(includeOptionalConfiguration: Bool) {
     guard
       let routineID = store.createRoutine(
-        from: form.makeDraft(includeOptionalConfiguration: includeOptionalConfiguration)
+        from: form.makeDraft(includeOptionalConfiguration: includeOptionalConfiguration),
+        locale: locale
       )
     else { return }
 

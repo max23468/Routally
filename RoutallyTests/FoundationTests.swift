@@ -1,3 +1,4 @@
+import Foundation
 import RoutallyDomain
 import RoutallyFeatures
 import RoutallyFixtures
@@ -219,6 +220,30 @@ struct FoundationTests {
     #expect(store.creationDraft(forRoutineID: "gym")?.area == "wellbeing")
     #expect(store.creationDraft(forRoutineID: "gym")?.followUpTitle == "Prepara le scarpe")
     #expect(store.creationDraft(forRoutineID: "gym")?.startsNextCycle == false)
+  }
+
+  @Test("La creazione usa la locale richiesta per i testi sintetici")
+  func creationUsesRequestedLocale() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    let locale = Locale(identifier: "en")
+    let draft = creationDraft(name: "Gym")
+
+    #expect(store.createRoutine(from: draft, locale: locale) == "gym")
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.name == "Gym towel")
+  }
+
+  @Test("La registrazione usa la locale richiesta per conseguenze e follow-up")
+  func recordingUsesRequestedLocale() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    let locale = Locale(identifier: "en")
+    var draft = creationDraft(name: "Gym")
+    draft.towelThreshold = 1
+    draft.followUpTitle = "Prepare the equipment"
+    store.createRoutine(from: draft, locale: locale)
+
+    #expect(store.recordRoutine(id: "gym", locale: locale))
+    #expect(store.consequenceSummary?.title == "Workout logged")
+    #expect(store.snapshot.followUps.first?.origin.contains("Gym towel") == true)
   }
 
   @Test("Creare una seconda routine preserva lo stato esistente")

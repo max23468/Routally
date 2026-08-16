@@ -167,12 +167,19 @@ struct CreationSummaryStepView: View {
           Text(
             .summaryReminderValue(
               L10n.string(usefulMoment.label, locale: locale),
-              fallbackTime.formatted(date: .omitted, time: .shortened)
+              formattedFallbackTime
             )
           )
         }
       }
     }
+  }
+
+  private var formattedFallbackTime: String {
+    fallbackTime.formatted(
+      Date.FormatStyle(date: .omitted, time: .shortened)
+        .locale(locale)
+    )
   }
 
   private func summaryButton<Value: View>(

@@ -3,6 +3,8 @@ import RoutallyDomain
 import SwiftUI
 
 struct TodayView: View {
+  @Environment(\.locale) private var locale
+
   let store: RoutallyStore
   let router: AppRouter
   let featureFlags: FeatureFlags
@@ -128,7 +130,7 @@ struct TodayView: View {
       RoutineRow(routine: routine, isRecordable: store.canRecordRoutine(id: routine.id)) {
         router.showRoutine(id: routine.id)
       } primaryAction: {
-        if store.recordRoutine(id: routine.id) {
+        if store.recordRoutine(id: routine.id, locale: locale) {
           router.sheet = .consequences
         }
       }

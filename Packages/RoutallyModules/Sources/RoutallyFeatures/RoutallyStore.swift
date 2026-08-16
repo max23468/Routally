@@ -1,3 +1,4 @@
+import Foundation
 import Observation
 import RoutallyDomain
 
@@ -102,7 +103,10 @@ public final class RoutallyStore {
   }
 
   @discardableResult
-  public func createRoutine(from draft: RoutineCreationDraft) -> String? {
+  public func createRoutine(
+    from draft: RoutineCreationDraft,
+    locale: Locale = .current
+  ) -> String? {
     let normalizedName = draft.name.trimmingCharacters(in: .whitespacesAndNewlines)
     let normalizedFollowUp = draft.followUpTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     guard
@@ -123,7 +127,10 @@ public final class RoutallyStore {
         id: routineID,
         name: normalizedName,
         symbol: draft.symbol,
-        context: L10n.string(.routineGoalContext(Int32(draft.weeklyTarget))),
+        context: L10n.string(
+          .routineGoalContext(Int32(draft.weeklyTarget)),
+          locale: locale
+        ),
         progress: 0,
         target: draft.weeklyTarget
       )
@@ -133,9 +140,9 @@ public final class RoutallyStore {
       snapshot.routines.append(
         RoutineSummary(
           id: linkedTowelID(forRoutineID: routineID),
-          name: L10n.string(.asciugamanoPalestra),
+          name: L10n.string(.asciugamanoPalestra, locale: locale),
           symbol: "washer",
-          context: L10n.string(.routineLinkContext(normalizedName)),
+          context: L10n.string(.routineLinkContext(normalizedName), locale: locale),
           progress: 0,
           target: draft.towelThreshold
         )
@@ -147,7 +154,10 @@ public final class RoutallyStore {
   }
 
   @discardableResult
-  public func recordRoutine(id routineID: String) -> Bool {
+  public func recordRoutine(
+    id routineID: String,
+    locale: Locale = .current
+  ) -> Bool {
     guard let sourceIndex = routineIndex(id: routineID), canRecordRoutine(id: routineID) else {
       return false
     }
@@ -164,9 +174,13 @@ public final class RoutallyStore {
             sourceRoutine.name,
             Int32(sourceRoutine.progress),
             Int32(sourceRoutine.target)
-          )
+          ),
+          locale: locale
         ),
-        origin: L10n.string(.consequenceSourceOrigin(sourceRoutine.name))
+        origin: L10n.string(
+          .consequenceSourceOrigin(sourceRoutine.name),
+          locale: locale
+        )
       )
     ]
 
@@ -192,9 +206,13 @@ public final class RoutallyStore {
                 towel.name,
                 Int32(towel.progress),
                 Int32(towel.target)
-              )
+              ),
+              locale: locale
             ),
-            origin: L10n.string(.consequenceLinkOrigin(sourceRoutine.name)),
+            origin: L10n.string(
+              .consequenceLinkOrigin(sourceRoutine.name),
+              locale: locale
+            ),
             exclusionTarget: towel.name
           )
         )
@@ -204,7 +222,8 @@ public final class RoutallyStore {
         let towel = snapshot.routines[towelIndex]
         let configuration = creationDrafts[routineID]
         let followUpTitle =
-          configuration?.followUpTitle ?? L10n.string(.preparaUnAsciugamanoPulito)
+          configuration?.followUpTitle
+          ?? L10n.string(.preparaUnAsciugamanoPulito, locale: locale)
         let isImmediatelyReady = configuration?.usefulMoment == .immediate
         snapshot.followUps.removeAll { $0.id == followUpID }
         snapshot.followUps.append(
@@ -216,7 +235,8 @@ public final class RoutallyStore {
                 towel.name,
                 Int32(towel.progress),
                 Int32(towel.target)
-              )
+              ),
+              locale: locale
             ),
             state: isImmediatelyReady ? .ready : .waitingForUsefulMoment
           )
@@ -227,8 +247,14 @@ public final class RoutallyStore {
         effects.append(
           ConsequenceEffect(
             id: followUpID,
-            title: L10n.string(.consequenceFollowupCreated(followUpTitle)),
-            origin: L10n.string(.followupThresholdReached(towel.name)),
+            title: L10n.string(
+              .consequenceFollowupCreated(followUpTitle),
+              locale: locale
+            ),
+            origin: L10n.string(
+              .followupThresholdReached(towel.name),
+              locale: locale
+            ),
             exclusionTarget: followUpTitle
           )
         )
@@ -237,7 +263,7 @@ public final class RoutallyStore {
 
     consequenceSummary = ConsequenceSummary(
       id: "\(routineID)-registration",
-      title: L10n.string(.allenamentoRegistrato),
+      title: L10n.string(.allenamentoRegistrato, locale: locale),
       sourceRoutineID: routineID,
       sourceRoutineName: sourceRoutine.name,
       effects: effects
