@@ -97,10 +97,13 @@ public final class RoutallyStore {
   public private(set) var consequenceSummary: ConsequenceSummary?
   public private(set) var creationDrafts: [String: RoutineCreationDraft] = [:]
 
-  private var simulatedNotifiedFollowUpIDs: Set<String> = []
+  private var simulatedNotifiedFollowUpIDs: Set<String>
 
   public init(snapshot: RoutallySnapshot) {
     self.snapshot = snapshot
+    let readyFollowUpIDs = snapshot.followUps.filter { $0.state == .ready }.map(\.id)
+    let deliveredReadyCount = max(0, min(snapshot.notificationCount, readyFollowUpIDs.count))
+    simulatedNotifiedFollowUpIDs = Set(readyFollowUpIDs.prefix(deliveredReadyCount))
   }
 
   @discardableResult
@@ -345,11 +348,13 @@ public final class RoutallyStore {
 
   @discardableResult
   public func triggerFallback() -> [String] {
-    makeFollowUpsReady { _ in true }
+    _ = makeFollowUpsReady { _ in true }
+    return readyFollowUpIDsPendingSimulatedNotification
   }
 
   public func simulateNotificationDelivery(for followUpIDs: [String]) {
-    let deliverableIDs = followUpIDs.filter { followUpID in
+    let requestedIDs = Set(followUpIDs)
+    let deliverableIDs = requestedIDs.filter { followUpID in
       !simulatedNotifiedFollowUpIDs.contains(followUpID)
         && snapshot.followUps.contains { followUp in
           followUp.id == followUpID && followUp.state == .ready
@@ -405,6 +410,18 @@ public final class RoutallyStore {
   public func retryRecoverableEvent() {
     snapshot.hasRecoverableEventError = false
     snapshot.hasPendingChanges = snapshot.isOffline
+  }
+
+  private var readyFollowUpIDsPendingSimulatedNotification: [String] {
+    snapshot.followUps.compactMap { followUp in
+      guard
+        followUp.state == .ready,
+        !simulatedNotifiedFollowUpIDs.contains(followUp.id)
+      else {
+        return nil
+      }
+      return followUp.id
+    }
   }
 
   private func routineIndex(id: String) -> Int? {
