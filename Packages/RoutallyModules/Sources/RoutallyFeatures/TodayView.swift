@@ -142,10 +142,12 @@ struct TodayView: View {
     if featureFlags.developerDiagnosticsEnabled, !store.snapshot.followUps.isEmpty {
       Section(.scenarioDev) {
         Button(.simulaArrivoACasa) {
-          store.revealFollowUpAtHome()
+          let revealedFollowUpIDs = store.revealFollowUpAtHome()
+          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
         }
         Button(.simulaFallbackDelle2000) {
-          store.triggerFallback()
+          let revealedFollowUpIDs = store.triggerFallback()
+          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
         }
         LabeledContent(.notificheSimulate, value: String(store.snapshot.notificationCount))
       }
