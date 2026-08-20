@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo aperto alla soglia</title>
+  <desc id="desc">Stesso segno con un varco radiale di ventisei gradi centrato sulla diagonale: il ciclo che ha raggiunto la soglia ed e' pronto a ripartire. Il varco sta in alto a destra, il punto meno strutturale del segno, e lascia intatti fianco e gamba. Costruzione: ciclo con centro 540/440, contorno esterno ellittico 288 per 274 e contatore circolare di 168, quindi peso 120 sui fianchi e 106 sulle curve orizzontali secondo l'asse verticale tipografico; fianco largo 120 che continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata da 104 a 118 con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-28 0) scale(1)">
+    <path d="M 783.5 293.69 A 288 274 0 1 1 691.38 206.9 L 631.5 299.1 A 168 168 0 1 0 684 353.47 Z"/>
+    <rect x="252" y="440" width="120" height="408"/>
+    <path d="M 342.94 643.12 L 636.84 848 L 848.1 848 L 401.06 556.88 Z"/>
+  </g>
+</svg>

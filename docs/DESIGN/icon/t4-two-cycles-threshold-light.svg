@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — La soglia e il passo successivo</title>
+  <desc id="desc">La versione che racconta tutto il meccanismo: il ciclo raggiunge la soglia, si apre, e accanto compare il ciclo che ne consegue. E' la piu' ricca della serie e la piu' esigente alle dimensioni minime, dove varco e secondo contatore si chiudono otticamente. Costruzione: ciclo con centro 540/440, contorno esterno ellittico 288 per 274 e contatore circolare di 168, quindi peso 120 sui fianchi e 106 sulle curve orizzontali secondo l'asse verticale tipografico; fianco largo 120 che continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata da 104 a 118 con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-42 0) scale(1)">
+    <path d="M 783.5 293.69 A 288 274 0 1 1 691.38 206.9 L 631.5 299.1 A 168 168 0 1 0 684 353.47 Z"/>
+    <rect x="252" y="440" width="120" height="408"/>
+    <path d="M 338.31 659.61 L 551.03 848 L 733.23 848 L 405.69 580.39 Z"/>
+  </g>
+  <g id="accent" fill="#3429BD" color="#3429BD" transform="translate(-42 0) scale(1)">
+    <circle cx="764" cy="770" r="60" fill="none" stroke="currentColor" stroke-width="48"/>
+  </g>
+</svg>

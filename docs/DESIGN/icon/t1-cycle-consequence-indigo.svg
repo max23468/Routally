@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo e la conseguenza</title>
+  <desc id="desc">Il segno essenziale: il ciclo tiene tutto il peso, il suo fianco sinistro si raddrizza e scende alla linea di base, una gamba rastremata esce dal ciclo e appoggia accanto. La R si intravede senza mai dichiararsi, perche' nessuno dei suoi tratti e' stato disegnato come lettera. Costruzione: ciclo con centro 540/440, contorno esterno ellittico 288 per 274 e contatore circolare di 168, quindi peso 120 sui fianchi e 106 sulle curve orizzontali secondo l'asse verticale tipografico; fianco largo 120 che continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata da 104 a 118 con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-28 0) scale(1)">
+    <path fill-rule="evenodd" d="M 828 440 A 288 274 0 1 1 252 440 A 288 274 0 1 1 828 440 Z M 708 440 A 168 168 0 1 1 372 440 A 168 168 0 1 1 708 440 Z"/>
+    <rect x="252" y="440" width="120" height="408"/>
+    <path d="M 342.94 643.12 L 636.84 848 L 848.1 848 L 401.06 556.88 Z"/>
+  </g>
+</svg>
