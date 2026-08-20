@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Nucleo, ciclo e propagazione</title>
+  <desc id="desc">Direzione predefinita 4.8 — azione centrale e conseguenze collegate. Il ciclo si apre verso il basso e da quell'apertura escono due conseguenze decrescenti; il nucleo sull'asta è l'evento registrato una sola volta. La silhouette suggerisce discretamente una R. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" fill="none" stroke="#4C46D8" stroke-linecap="round" stroke-linejoin="round" color="#4C46D8">
+    <rect x="292" y="250" width="78" height="450" rx="39" fill="currentColor" stroke="none"/>
+    <path d="M 556.66 569.84 A 142 142 0 1 1 665.44 478.57" stroke-width="78"/>
+    <circle cx="632" cy="672" r="54" fill="currentColor" stroke="none"/>
+  </g>
+  <g id="accent" fill="none" stroke="#3429BD" stroke-linecap="round" stroke-linejoin="round" color="#3429BD">
+    <circle cx="756" cy="772" r="36" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

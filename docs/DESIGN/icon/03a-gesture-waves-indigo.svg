@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Gesto e tre onde</title>
+  <desc id="desc">Alternativa 4.8 n.2 — un gesto che genera più onde. Lettura letterale della direzione: il gesto genera tre onde di ampiezza decrescente e l'ultima porta la conseguenza. Esito verificato in rendering: nella sua forma fedele questa alternativa coincide con il glifo di segnale e non supera il criterio 4.8 di distinzione dalle reti. Resta nell'esplorazione come termine di paragone, non come candidata. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" color="#FFFFFF">
+    <circle cx="348" cy="692" r="78" fill="currentColor" stroke="none"/>
+    <path d="M 296.23 484.36 A 214 214 0 0 1 555.64 743.77" stroke-width="78"/>
+    <path d="M 302.07 365.21 A 330 330 0 0 1 674.79 737.93" stroke-width="68"/>
+    <path d="M 332.43 246.27 A 446 446 0 0 1 793.73 707.57" stroke-width="58"/>
+  </g>
+  <g id="accent" fill="none" stroke="#A9A5FF" stroke-linecap="round" stroke-linejoin="round" color="#A9A5FF">
+    <circle cx="793.6" cy="707.6" r="44" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

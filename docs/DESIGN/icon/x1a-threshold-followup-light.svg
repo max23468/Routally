@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Soglia e follow-up</title>
+  <desc id="desc">Proposta extra non prevista dal Master Plan 4.8: richiede approvazione del Product Owner e un aggiornamento della sezione 4.8 prima di entrare nel confronto ufficiale di DG-ICON. Il ciclo si interrompe alla soglia e genera, fuori dall'anello, il passo successivo: è la promessa del prodotto resa in un solo segno. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" fill="none" stroke="#4C46D8" stroke-linecap="round" stroke-linejoin="round" color="#4C46D8">
+    <path d="M 713.65 451.6 A 252 252 0 1 1 574.4 312.35" stroke-width="96"/>
+  </g>
+  <g id="accent" fill="none" stroke="#3429BD" stroke-linecap="round" stroke-linejoin="round" color="#3429BD">
+    <circle cx="746" cy="280" r="74" fill="currentColor" stroke="none"/>
+  </g>
+</svg>

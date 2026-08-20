@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Monogramma R con tally</title>
+  <desc id="desc">Proposta extra non prevista dal Master Plan 4.8: richiede approvazione del Product Owner e un aggiornamento della sezione 4.8 prima di entrare nel confronto ufficiale di DG-ICON. La gamba della R è spezzata in tre conteggi: monogramma e tally nello stesso segno, con l'ultimo tratto che porta la conseguenza. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" color="#FFFFFF">
+    <rect x="300" y="246" width="112" height="532" rx="56" fill="currentColor" stroke="none"/>
+    <circle cx="566" cy="388" r="146" stroke-width="112"/>
+    <path d="M 398 586 L 475.4 631.8" stroke-width="88"/>
+    <path d="M 528.9 663.4 L 606.3 709.2" stroke-width="88"/>
+  </g>
+  <g id="accent" fill="none" stroke="#A9A5FF" stroke-linecap="round" stroke-linejoin="round" color="#A9A5FF">
+    <path d="M 659.8 740.8 L 736 786" stroke-width="88"/>
+  </g>
+</svg>

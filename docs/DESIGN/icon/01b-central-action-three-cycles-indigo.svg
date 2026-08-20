@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Nucleo e tre cicli</title>
+  <desc id="desc">Direzione predefinita 4.8 — azione centrale e conseguenze collegate. Un solo evento centrale tocca tre cicli di scala diversa, senza connettori rettilinei per allontanarsi dal glifo di condivisione o di rete. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" color="#FFFFFF">
+    <circle cx="400" cy="512" r="112" fill="currentColor" stroke="none"/>
+    <circle cx="559" cy="335" r="96" stroke-width="60"/>
+    <circle cx="615" cy="535" r="76" stroke-width="54"/>
+  </g>
+  <g id="accent" fill="none" stroke="#A9A5FF" stroke-linecap="round" stroke-linejoin="round" color="#A9A5FF">
+    <circle cx="492" cy="685" r="58" stroke-width="48"/>
+  </g>
+</svg>
