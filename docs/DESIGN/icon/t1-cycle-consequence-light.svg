@@ -4,7 +4,7 @@
   <g id="background">
     <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
   </g>
-  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-28 0) scale(1)">
+  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-52.57 -20.38) scale(1.0263929618768328)">
     <path fill-rule="evenodd" d="M 828 440 A 288 274 0 1 1 252 440 A 288 274 0 1 1 828 440 Z M 708 440 A 168 168 0 1 1 372 440 A 168 168 0 1 1 708 440 Z"/>
     <rect x="252" y="440" width="120" height="408"/>
     <path d="M 342.94 643.12 L 636.84 848 L 848.1 848 L 401.06 556.88 Z"/>

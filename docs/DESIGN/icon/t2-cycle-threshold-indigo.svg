@@ -4,7 +4,7 @@
   <g id="background">
     <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
   </g>
-  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-28 0) scale(1)">
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-55.36 -24.46) scale(1.0312012020859729)">
     <path d="M 780.52 295.48 A 284.4 270.82 0 1 1 689.58 209.66 L 631.5 299.1 A 168 168 0 1 0 684 353.47 Z"/>
     <rect x="255.6" y="440" width="116.4" height="408"/>
     <path d="M 343.81 641.83 L 639.87 848 L 844.79 848 L 400.19 558.17 Z"/>

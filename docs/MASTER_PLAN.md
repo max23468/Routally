@@ -537,7 +537,10 @@ Regole di costruzione, vincolanti per ogni resa futura del segno:
 - overshoot ottico per le forme circolari che appoggiano alla linea di base;
 - varco della soglia, arresto dell'arco e apertura di un eventuale secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi, unico asse obliquo del sistema;
 - un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
-- la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione.
+- la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione;
+- il segno viene inquadrato sul proprio ingombro reale e centrato a `512/500`, quindi tredici unità sopra il centro geometrico: la massa è concentrata in basso, sulla linea di base, e senza quello scarto il segno appare basso nella tela.
+
+La variante approvata in revisione è `a1-air-medium`: distacco dell'arco a novantadue unità dal contorno del ciclo. Aumentare l'aria costa dimensione alla lettera, perché la tela dell'icona è fissa.
 
 Il segno senza arco esterno è la versione ridotta, a cui l'icona degrada alle misure minime. La build Dev della sezione 30.1 usa lo stesso segno con una fascia diagonale sull'angolo in basso a sinistra, senza testo.
 
