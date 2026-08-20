@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Solo il ciclo</title>
+  <desc id="desc">Nessun accenno di lettera: il ciclo con un varco radiale di ventotto gradi sulla diagonale, la soglia raggiunta. È il termine di paragone della scala, il grado zero rispetto al quale misurare quanto la R debba farsi sentire. Costruzione condivisa: ciclo con centro 540/440, circonferenza mediana 224 e spessore 112; il fianco coincide con la banda sinistra del ciclo e parte dal punto di tangenza verticale; gamba con spessore perpendicolare costante e taglio verticale sulla linea di base 848; tagli radiali sugli archi. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol. Famiglia richiesta dal Product Owner: motivo circolare dominante e R soltanto accennata; recepirla nella sezione 4.8 del Master Plan resta un passaggio da compiere. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" color="#FFFFFF" transform="translate(-14 4)">
+    <path d="M 732.01 324.63 A 224 224 0 1 1 655.37 247.99" fill="none" stroke="currentColor" stroke-width="112" stroke-linecap="butt"/>
+  </g>
+</svg>

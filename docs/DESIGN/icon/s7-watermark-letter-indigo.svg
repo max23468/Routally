@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — La lettera in filigrana</title>
+  <desc id="desc">Il ciclo tiene tutto il peso, asta e gamba scendono a peso ridotto e diventano filigrana: la costruzione della R c'è tutta, ma il primo colpo d'occhio resta il ciclo. L'asta è tangente al ciclo, la gamba parte dal ciclo e non dall'asta. Costruzione condivisa: ciclo con centro 540/440, circonferenza mediana 224 e spessore 112; il fianco coincide con la banda sinistra del ciclo e parte dal punto di tangenza verticale; gamba con spessore perpendicolare costante e taglio verticale sulla linea di base 848; tagli radiali sugli archi. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol. Famiglia richiesta dal Product Owner: motivo circolare dominante e R soltanto accennata; recepirla nella sezione 4.8 del Master Plan resta un passaggio da compiere. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" color="#FFFFFF" transform="translate(-2 4)">
+    <circle cx="540" cy="440" r="224" fill="none" stroke="currentColor" stroke-width="112"/>
+    <rect x="204" y="160" width="56" height="688" fill="currentColor"/>
+    <path d="M 379.4 669.36 L 474.56 669.36 L 720 848 L 624.84 848 Z" fill="currentColor"/>
+  </g>
+</svg>

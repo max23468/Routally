@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo, l'appoggio e la conseguenza</title>
+  <desc id="desc">Al fianco si aggiunge una gamba breve che scende verso destra: è il grado in cui la R comincia davvero a intravedersi, senza che il segno smetta di leggersi prima come ciclo. Costruzione condivisa: ciclo con centro 540/440, circonferenza mediana 224 e spessore 112; il fianco coincide con la banda sinistra del ciclo e parte dal punto di tangenza verticale; gamba con spessore perpendicolare costante e taglio verticale sulla linea di base 848; tagli radiali sugli archi. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol. Famiglia richiesta dal Product Owner: motivo circolare dominante e R soltanto accennata; recepirla nella sezione 4.8 del Master Plan resta un passaggio da compiere. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" color="#4C46D8" transform="translate(-14 4)">
+    <circle cx="540" cy="440" r="224" fill="none" stroke="currentColor" stroke-width="112"/>
+    <rect x="260" y="440" width="112" height="408" fill="currentColor"/>
+    <path d="M 372 600 L 521.32 600 L 740 848 L 590.68 848 Z" fill="currentColor"/>
+  </g>
+</svg>
