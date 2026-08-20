@@ -524,18 +524,30 @@ La personalità emerge da accento, Routine Cycles, microanimazioni native e feed
 
 ## 4.8 Icona
 
-### Direzione predefinita
+### Direzione confermata
 
-**Azione centrale e conseguenze collegate:** un elemento centrale dal quale si propagano tre cicli o elementi, con composizione che suggerisce discretamente una `R`.
+**Un ciclo con la `R` intravista:** un ciclo dal peso dominante, il cui fianco sinistro si raddrizza e scende alla linea di base, e una gamba che esce dal ciclo e appoggia accanto. Nessun tratto è disegnato come lettera: la `R` emerge dalla composizione e resta un indizio, mentre il motivo circolare è la forma principale. Il segno porta un arco esterno di progresso, staccato dal ciclo, che cresce lungo il percorso e si chiude in una testa piena.
 
-### Alternative da mantenere nell'esplorazione vettoriale
+Regole di costruzione, vincolanti per ogni resa futura del segno:
 
-1. `R` formata da due cicli collegati;
-2. un gesto che genera più onde;
-3. tre elementi che chiudono un ciclo;
-4. tally marks collegati.
+- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto, così il ciclo pesa più sui fianchi che sulle curve orizzontali, secondo l'asse verticale tipografico;
+- il fianco continua senza discontinuità la tangente verticale del ciclo e del contatore, con la stessa larghezza;
+- gamba rastremata verso il piede, con taglio orizzontale sulla linea di base;
+- terminali degli archi tagliati sui raggi, senza raccordi arrotondati: il sistema è costruito su tagli radiali e ortogonali e ammorbidirne una parte sola lo renderebbe incoerente;
+- overshoot ottico per le forme circolari che appoggiano alla linea di base;
+- varco della soglia, arresto dell'arco e apertura di un eventuale secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi, unico asse obliquo del sistema;
+- un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
+- la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione.
 
-La scelta finale avverrà dopo prove con asset SVG in Icon Composer e sui dispositivi target. Un piccolo user test deve mostrare le alternative senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
+Il segno senza arco esterno è la versione ridotta, a cui l'icona degrada alle misure minime. La build Dev della sezione 30.1 usa lo stesso segno con una fascia diagonale sull'angolo in basso a sinistra, senza testo.
+
+### Alternative esplorate e archiviate
+
+L'esplorazione vettoriale ha coperto la direzione «azione centrale e conseguenze collegate» e le quattro alternative precedenti — `R` formata da due cicli collegati, un gesto che genera più onde, tre elementi che chiudono un ciclo, tally marks collegati. Sono archiviate. In particolare «un gesto che genera più onde» non è percorribile nella forma letterale, perché coincide con il glifo di segnale e non supera il criterio di distinzione dalle reti.
+
+La scelta definitiva della variante avverrà dopo prove con asset SVG in Icon Composer e sui dispositivi target. Un piccolo user test deve mostrare le varianti senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
+
+Gli SVG a livelli dell'esplorazione, con i livelli separati per Icon Composer, sono in `docs/DESIGN/icon/`.
 
 Criteri:
 
@@ -5557,6 +5569,9 @@ Per evitare che documenti o chat precedenti vengano seguiti per errore:
 
 - **Superseded:** tre app Dev/TestFlight/App Store.  
   **Finale:** una variante Dev e un unico prodotto Routally per TestFlight/App Store.
+
+- **Superseded:** icona «azione centrale e conseguenze collegate» e le quattro alternative della 4.8.  
+  **Finale:** un ciclo con la `R` intravista e arco esterno di progresso; `DG-ICON` resta aperto per la scelta della variante.
 
 - **Superseded:** riunione cliente/follow-up come caso rappresentativo.  
   **Finale:** escluso perché il vantaggio è troppo debole.

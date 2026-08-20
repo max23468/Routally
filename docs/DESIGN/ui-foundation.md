@@ -173,16 +173,23 @@ Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
-La direzione principale è **azione centrale e conseguenze collegate**: un elemento
-centrale propaga tre cicli o elementi e suggerisce discretamente una `R`. Le alternative
-ammesse restano quelle del Master Plan: `R` con due cicli, onde originate da un gesto,
-tre elementi che chiudono un ciclo e tally marks collegati.
+La direzione confermata è **un ciclo con la `R` intravista**, definita nella sezione 4.8
+del Master Plan: il motivo circolare è la forma principale, la lettera resta un indizio e
+nessun tratto è disegnato come lettera. Il fianco del ciclo continua la sua tangente
+verticale fino alla linea di base, la gamba esce dal ciclo, e un arco esterno di
+progresso si stacca dal segno e si chiude in una testa piena.
 
-Ogni alternativa viene costruita con livelli SVG semplici e provata in Icon Composer in
-aspetto standard, dark e monocromatico. Il confronto avviene a dimensioni piccole e
-senza testo, verificando che non sembri un navigatore, un simbolo di condivisione, una
-rete o un'app di automazione. La scelta finale resta nel Decision Gate `DG-ICON`: E02
-chiude direzioni e criteri, non seleziona anticipatamente l'asset App Store.
+Le direzioni precedenti — azione centrale e conseguenze collegate, `R` con due cicli,
+onde originate da un gesto, tre elementi che chiudono un ciclo, tally marks collegati —
+sono archiviate.
+
+Le varianti sono costruite con livelli SVG separati e nominati `background`, `symbol` e
+`accent`, in due trattamenti cromatici, e provate in Icon Composer in aspetto standard,
+dark e monocromatico. Il confronto avviene a dimensioni piccole e senza testo,
+verificando che il segno non sembri un navigatore, un simbolo di condivisione, una rete
+o un'app di automazione. Gli asset sono in [icon/](icon/). La scelta della variante resta
+nel Decision Gate `DG-ICON`: E02 chiude direzioni e criteri, non seleziona
+anticipatamente l'asset App Store.
 
 ## Benchmark applicato
 
