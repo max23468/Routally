@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo che si incastra</title>
+  <desc id="desc">Il secondo ciclo non sta piu' accanto al segno ma dentro la sua struttura: si incastra nell'angolo fra gamba e linea di base ed e' tangente a tutte e tre, gamba, base e ciclo principale. Il raggio non e' scelto, e' l'unico che soddisfa le tre tangenze. Cosi' smette di leggersi come una lettera che segue e torna a essere un ciclo. Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 e contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-6 -6) scale(1)">
+    <path fill-rule="evenodd" d="M 660 400 A 240 228.33 0 1 1 180 400 A 240 228.33 0 1 1 660 400 Z M 540 400 A 120 120 0 1 1 300 400 A 120 120 0 1 1 540 400 Z"/>
+    <rect x="180" y="400" width="120" height="448"/>
+    <path d="M 257.29 589.66 L 429.15 848 L 572.84 848 L 342.71 530.34 Z"/>
+  </g>
+  <g id="accent" fill="#3429BD" color="#3429BD" transform="translate(-6 -6) scale(1)">
+    <path fill-rule="evenodd" d="M 689.47 735.64 A 124.4 118.36 0 1 1 440.66 735.64 A 124.4 118.36 0 1 1 689.47 735.64 Z M 635.47 735.64 A 70.4 70.4 0 1 1 494.66 735.64 A 70.4 70.4 0 1 1 635.47 735.64 Z"/>
+  </g>
+</svg>
