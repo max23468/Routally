@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — R di soli archi</title>
+  <desc id="desc">L'asta è l'unico tratto retto: la gamba diventa un arco tangente all'occhiello, con una curvatura di quaranta unità su una corda di cinquecento. È la tensione minima che si percepisce senza leggersi come una coda. Scheletro condiviso della famiglia: linea di maiuscola 208 e linea di base 840, asta di 96, occhiello con circonferenza mediana 142, contatore circolare tangente all'asta, overshoot ottico di 8, gamba con spessore perpendicolare 96 e tagli verticali. Trattamento cromatico: fondo chiaro, segno indaco brand. Livelli per Icon Composer: background, symbol. Famiglia richiesta dal Product Owner in sede di revisione, R sottile e motivi circolari: recepirla nella sezione 4.8 del Master Plan resta un passaggio da compiere prima che sostituisca le direzioni documentate. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" color="#4C46D8" transform="translate(42 -12)">
+    <rect x="264" y="208" width="96" height="632" fill="currentColor"/>
+    <circle cx="454" cy="390" r="142" fill="none" stroke="currentColor" stroke-width="96"/>
+    <path d="M 289.46 485 A 875.77 875.77 0 0 1 676 840" fill="none" stroke="currentColor" stroke-width="96" stroke-linecap="butt"/>
+  </g>
+</svg>

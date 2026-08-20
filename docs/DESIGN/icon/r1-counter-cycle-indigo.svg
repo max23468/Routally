@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo è il contatore</title>
+  <desc id="desc">Il ciclo non è appoggiato alla lettera: è lo spazio che la lettera racchiude. L'occhiello è un anello di spessore costante, il suo contatore un cerchio esatto tangente all'asta, e il cerchio supera di otto unità la linea di maiuscola per allinearsi otticamente all'asta. Scheletro condiviso della famiglia: linea di maiuscola 208 e linea di base 840, asta di 96, occhiello con circonferenza mediana 142, contatore circolare tangente all'asta, overshoot ottico di 8, gamba con spessore perpendicolare 96 e tagli verticali. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol. Famiglia richiesta dal Product Owner in sede di revisione, R sottile e motivi circolari: recepirla nella sezione 4.8 del Master Plan resta un passaggio da compiere prima che sostituisca le direzioni documentate. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" color="#FFFFFF" transform="translate(42 -12)">
+    <rect x="264" y="208" width="96" height="632" fill="currentColor"/>
+    <circle cx="454" cy="390" r="142" fill="none" stroke="currentColor" stroke-width="96"/>
+    <path d="M 360 484 L 470.81 484 L 676 840 L 565.19 840 Z" fill="currentColor"/>
+  </g>
+</svg>
