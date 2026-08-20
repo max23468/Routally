@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
   <title id="title">Routally — L'eco e il punto corrente</title>
-  <desc id="desc">L'arco termina in un punto pieno sulla diagonale: dove sei adesso dentro il ciclo. La testa chiude il movimento e da' all'eco una direzione, dal fianco verso l'alto a destra. Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 e contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base. Trattamento cromatico: fondo indaco brand, segno chiaro. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <desc id="desc">L'arco termina in una testa piena centrata esattamente sulla sua fine: dove sei adesso dentro il ciclo. Prima arco e testa si toccavano su un collo di sei unita' e la testa appariva strozzata; ora il passaggio e' pieno e il movimento si chiude. Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 con contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base; varco, arresto dell'eco e apertura del secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi. Trattamento cromatico: fondo indaco brand, segno chiaro, spessori compensati al 97 per cento per l'irradiazione. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
   <g id="background">
     <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
   </g>
   <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(9.8 62) scale(0.9)">
-    <path fill-rule="evenodd" d="M 828 440 A 288 274 0 1 1 252 440 A 288 274 0 1 1 828 440 Z M 708 440 A 168 168 0 1 1 372 440 A 168 168 0 1 1 708 440 Z"/>
-    <rect x="252" y="440" width="120" height="408"/>
-    <path d="M 342.94 643.12 L 636.84 848 L 848.1 848 L 401.06 556.88 Z"/>
+    <path fill-rule="evenodd" d="M 824.4 440 A 284.4 270.82 0 1 1 255.6 440 A 284.4 270.82 0 1 1 824.4 440 Z M 708 440 A 168 168 0 1 1 372 440 A 168 168 0 1 1 708 440 Z"/>
+    <rect x="255.6" y="440" width="116.4" height="408"/>
+    <path d="M 343.81 641.83 L 639.87 848 L 844.79 848 L 400.19 558.17 Z"/>
   </g>
   <g id="accent" fill="#A9A5FF" color="#A9A5FF" transform="translate(9.8 62) scale(0.9)">
-    <path d="M 196 440 A 344 330 0 0 1 806.7 231.63" fill="none" stroke="currentColor" stroke-width="38" stroke-linecap="butt"/>
-    <circle cx="834.71" cy="269.85" r="34" fill="currentColor"/>
+    <path d="M 199.6 440 A 340.4 326.82 0 0 1 831.69 271.59" fill="none" stroke="currentColor" stroke-width="36.86" stroke-linecap="butt"/>
+    <circle cx="831.69" cy="271.59" r="29.1" fill="currentColor"/>
   </g>
 </svg>
