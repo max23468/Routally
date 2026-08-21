@@ -10,7 +10,8 @@ portarla in Icon Composer.
 |---|---|
 | `a1-air-medium-*.svg` | variante approvata, in due trattamenti cromatici |
 | `t1-cycle-consequence-*.svg` | versione ridotta senza arco, per le misure minime |
-| `t2`, `v1`–`v7`, `a2`, `a3` | varianti dell'esplorazione, tenute per il confronto di `DG-ICON` |
+| `a2`, `a3` | stesso segno con più aria attorno all'arco |
+| `t2`, `v1`–`v3` | letture alternative: soglia sul ciclo singolo, secondo ciclo incastrato |
 | `dev-app-icon-*.svg` | build Dev della sezione 30.1 |
 | `layers/` | gli stessi segni con un file per livello, pronti per l'import |
 
