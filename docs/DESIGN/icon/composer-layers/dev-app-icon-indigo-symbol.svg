@@ -2,8 +2,8 @@
   <title id="title">dev-app-icon · indigo · symbol</title>
   <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
   <g id="symbol" fill="#FFFFFF" color="#FFFFFF">
-    <path fill-rule="evenodd" d="M 750.6009 454.0584 A 243.4583 231.8332 0 1 1 263.6843 454.0584 A 243.4583 231.8332 0 1 1 750.6009 454.0584 Z M 650.9576 454.0584 A 143.815 143.815 0 1 1 363.3276 454.0584 A 143.815 143.815 0 1 1 650.9576 454.0584 Z"/>
-    <rect x="263.6843" y="454.0584" width="99.6433" height="349.2651"/>
-    <path d="M 339.1957 626.8333 L 592.6355 803.3235 L 768.0556 803.3235 L 387.4594 555.2169 Z"/>
+    <path fill-rule="evenodd" d="M 751.0209 454.0584 A 243.4583 231.8332 0 1 1 264.1043 454.0584 A 243.4583 231.8332 0 1 1 751.0209 454.0584 Z M 651.3776 454.0584 A 143.815 143.815 0 1 1 363.7476 454.0584 A 143.815 143.815 0 1 1 651.3776 454.0584 Z"/>
+    <rect x="264.1043" y="454.0584" width="99.6433" height="349.2651"/>
+    <path d="M 339.6157 626.8333 L 593.0555 803.3235 L 768.4756 803.3235 L 387.8794 555.2169 Z"/>
   </g>
 </svg>

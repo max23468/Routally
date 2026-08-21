@@ -329,8 +329,8 @@ function verifyA1Geometry() {
   near(light.cycle.rx / light.cycle.ry, 288 / 274, 0.0001, "light: rapporto ellittico 288:274");
   near(indigo.cycle.rx, light.cycle.riX + (light.cycle.rx - light.cycle.riX) * 0.97, 0.02, "indigo: compensazione orizzontale 97%");
   near(indigo.cycle.ry, light.cycle.riY + (light.cycle.ry - light.cycle.riY) * 0.97, 0.02, "indigo: compensazione verticale 97%");
-  near(light.head.r, 54, 0.01, "light: testa canonica 54");
-  near(indigo.head.r, 54 * 0.97, 0.01, "indigo: testa canonica compensata");
+  near(light.head.r, 50, 0.01, "light: testa canonica 50");
+  near(indigo.head.r, 50 * 0.97, 0.01, "indigo: testa canonica 50 compensata");
 }
 
 function rightEdge(points) {
@@ -485,39 +485,37 @@ function normalizedWithoutMetadata(svg) {
 
 function verifyExperiments() {
   const expected = [
-    "a1-air-medium-head50-indigo.svg",
-    "a1-air-medium-head50-light.svg",
+    "a1-air-medium-head54-indigo.svg",
+    "a1-air-medium-head54-light.svg",
     "a1-air-medium-amber-indigo.svg",
     "a1-air-medium-amber-light.svg",
-    "a1-air-medium-head50-amber-indigo.svg",
-    "a1-air-medium-head50-amber-light.svg",
     "a1-air-medium-monochrome-simulation.svg",
   ];
   const actual = readdirSync(EXPERIMENT_DIR).filter((name) => name.endsWith(".svg")).sort();
-  check(actual.length === expected.length, "experiments: sette SVG di prova");
+  check(actual.length === expected.length, "experiments: cinque SVG di prova");
   check(expected.every((name) => actual.includes(name)), "experiments: matrice completa");
 
   for (const theme of THEMES) {
     const base = readIcon("a1-air-medium", theme);
-    const head50 = read(join(EXPERIMENT_DIR, `a1-air-medium-head50-${theme}.svg`));
+    const head54 = read(join(EXPERIMENT_DIR, `a1-air-medium-head54-${theme}.svg`));
     const amber = read(join(EXPERIMENT_DIR, `a1-air-medium-amber-${theme}.svg`));
-    const combined = read(join(EXPERIMENT_DIR, `a1-air-medium-head50-amber-${theme}.svg`));
-    const expectedRadius = theme === "indigo" ? 48.5 : 50;
-    const headRadius = circleElements(extractGroup(head50, "accent").body)[0].r;
-    const combinedRadius = circleElements(extractGroup(combined, "accent").body)[0].r;
-    near(headRadius, expectedRadius, 0.01, `${theme}: testa ridotta a 50`);
-    near(combinedRadius, expectedRadius, 0.01, `${theme}: testa ridotta nella variante Amber`);
+    const expectedBaseRadius = theme === "indigo" ? 48.5 : 50;
+    const expectedArchivedRadius = theme === "indigo" ? 52.38 : 54;
+    const baseRadius = circleElements(extractGroup(base, "accent").body)[0].r;
+    const archivedRadius = circleElements(extractGroup(head54, "accent").body)[0].r;
+    const amberRadius = circleElements(extractGroup(amber, "accent").body)[0].r;
+    near(baseRadius, expectedBaseRadius, 0.01, `${theme}: baseline canonica con testa 50`);
+    near(archivedRadius, expectedArchivedRadius, 0.01, `${theme}: confronto storico con testa 54`);
+    near(amberRadius, expectedBaseRadius, 0.01, `${theme}: controllo Amber mantiene la testa 50`);
     const amberColor = parseColor(extractGroup(amber, "accent").attributes, "fill");
-    const combinedColor = parseColor(extractGroup(combined, "accent").attributes, "fill");
     check(AMBER_COLORS.has(amberColor), `${theme}: accento Amber da token approvato`);
-    check(AMBER_COLORS.has(combinedColor), `${theme}: accento Amber combinato da token approvato`);
     check(
-      normalizedWithoutMetadata(base) === normalizedWithoutMetadata(head50),
-      `${theme}: la microvariante testa non altera il resto della geometria`,
+      normalizedWithoutMetadata(base) === normalizedWithoutMetadata(head54),
+      `${theme}: il confronto testa 54 non altera il resto della geometria`,
     );
     check(
       normalizedWithoutMetadata(base) === normalizedWithoutMetadata(amber),
-      `${theme}: la microvariante Amber non altera la geometria`,
+      `${theme}: il controllo Amber non altera la geometria`,
     );
   }
 

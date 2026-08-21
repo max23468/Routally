@@ -224,11 +224,11 @@ function buildExperiments() {
     const amber = theme === "indigo" ? "#FFBF66" : "#9A5B00";
 
     files.push([
-      `a1-air-medium-head50-${theme}.svg`,
+      `a1-air-medium-head54-${theme}.svg`,
       updateMetadata(
-        setHeadRadius(base, theme, 50),
-        "Routally — A1 con testa da 50",
-        "Microvariante di prova: testa terminale ridotta da 54 a 50 unità; il resto della geometria è invariato.",
+        setHeadRadius(base, theme, 54),
+        "Routally — A1 archiviata con testa da 54",
+        "Confronto storico archiviato: testa terminale da 54 unità; la baseline canonica usa 50.",
       ),
     ]);
     files.push([
@@ -236,15 +236,7 @@ function buildExperiments() {
       updateMetadata(
         setAccentColor(base, amber),
         "Routally — A1 con accento Amber",
-        "Microvariante di prova: accento sostituito con i token Amber già approvati; la geometria è invariata.",
-      ),
-    ]);
-    files.push([
-      `a1-air-medium-head50-amber-${theme}.svg`,
-      updateMetadata(
-        setHeadRadius(setAccentColor(base, amber), theme, 50),
-        "Routally — A1 con testa da 50 e accento Amber",
-        "Microvariante di prova: testa da 50 unità e token Amber; il resto della geometria è invariato.",
+        "Controllo cromatico per il test cieco: geometria canonica con testa da 50 e token Amber approvati.",
       ),
     ]);
   }
@@ -316,9 +308,9 @@ function buildCandidateComparison() {
   const sizes = [180, 120, 60, 40, 29];
   const xCenters = [420, 660, 860, 1040, 1200];
   const rows = [
-    ["a1-air-medium", "A1 · candidata preferita"],
-    ["a3-air-wide-short", "A3 · confronto obbligatorio"],
-    ["t1-cycle-consequence", "T1 · benchmark della silhouette"],
+    ["a1-air-medium", "A1 · baseline canonica Lavender 50"],
+    ["t1-cycle-consequence", "T1 · fallback globale"],
+    ["a3-air-wide-short", "A3 · alternativa archiviata"],
   ];
   const content = [];
 
@@ -340,33 +332,32 @@ function buildCandidateComparison() {
     1380,
     790,
     "DG-ICON · confronto dimensionale",
-    "Resa SVG piatta con maschera simulata; 29 e 40 pt restano da verificare in Icon Composer e su dispositivo.",
+    "Baseline canonica A1 Lavender 50, fallback T1 e alternativa A3 archiviata; 29 e 40 pt richiedono ancora la prova Apple.",
     content.join("\n"),
   );
 }
 
 function buildRefinementMatrix() {
   const variants = [
-    [readIcon("a1-air-medium", "indigo"), "54 · Lavender"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-head50-indigo.svg"), "utf8"), "50 · Lavender"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-amber-indigo.svg"), "utf8"), "54 · Amber"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-head50-amber-indigo.svg"), "utf8"), "50 · Amber"],
+    [readIcon("a1-air-medium", "indigo"), "50 · Lavender · baseline"],
+    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-amber-indigo.svg"), "utf8"), "50 · Amber · controllo"],
+    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-head54-indigo.svg"), "utf8"), "54 · Lavender · archivio"],
   ];
   const content = [];
   variants.forEach(([source, label], index) => {
-    const x = 70 + index * 320;
-    content.push(`<rect x="${x}" y="130" width="280" height="470" rx="28" class="panel"/>`);
-    content.push(`<text x="${x + 140}" y="170" text-anchor="middle" class="label">${label}</text>`);
-    content.push(iconCell(source, x + 30, 200, 220));
-    content.push(iconCell(source, x + 70, 460, 40, "40 pt"));
-    content.push(iconCell(source, x + 170, 465.5, 29, "29 pt"));
+    const x = 80 + index * 410;
+    content.push(`<rect x="${x}" y="130" width="350" height="470" rx="28" class="panel"/>`);
+    content.push(`<text x="${x + 175}" y="170" text-anchor="middle" class="label">${label}</text>`);
+    content.push(iconCell(source, x + 65, 200, 220));
+    content.push(iconCell(source, x + 95, 460, 40, "40 pt"));
+    content.push(iconCell(source, x + 230, 465.5, 29, "29 pt"));
   });
-  content.push(`<text x="70" y="650" class="note">Amber usa esclusivamente i token approvati #FFBF66 / #9A5B00; nessun nuovo colore di brand.</text>`);
+  content.push(`<text x="80" y="650" class="note">La decisione preliminare è chiusa: Lavender 50 è canonica; Amber 50 resta controllo, 54 è conservata soltanto come storico.</text>`);
   return board(
-    1390,
+    1320,
     710,
-    "A1 · matrice delle rifiniture",
-    "Confronto controllato: cambia soltanto la testa terminale e/o il token dell'accento.",
+    "A1 · baseline e controlli residui",
+    "Confronto finale predisposto per Icon Composer e user test senza riaprire le alternative già archiviate.",
     content.join("\n"),
   );
 }

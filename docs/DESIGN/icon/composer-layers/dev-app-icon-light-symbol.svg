@@ -2,8 +2,8 @@
   <title id="title">dev-app-icon · light · symbol</title>
   <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
   <g id="symbol" fill="#4C46D8" color="#4C46D8">
-    <path fill-rule="evenodd" d="M 752.4477 455.7496 A 245.2514 233.3294 0 1 1 261.945 455.7496 A 245.2514 233.3294 0 1 1 752.4477 455.7496 Z M 650.2596 455.7496 A 143.0633 143.0633 0 1 1 364.133 455.7496 A 143.0633 143.0633 0 1 1 650.2596 455.7496 Z"/>
-    <rect x="261.945" y="455.7496" width="102.1881" height="347.4394"/>
-    <path d="M 339.3865 628.7199 L 589.6621 803.189 L 769.5642 803.189 L 388.8796 555.2808 Z"/>
+    <path fill-rule="evenodd" d="M 752.8777 455.7496 A 245.2514 233.3294 0 1 1 262.375 455.7496 A 245.2514 233.3294 0 1 1 752.8777 455.7496 Z M 650.6896 455.7496 A 143.0633 143.0633 0 1 1 364.563 455.7496 A 143.0633 143.0633 0 1 1 650.6896 455.7496 Z"/>
+    <rect x="262.375" y="455.7496" width="102.1881" height="347.4394"/>
+    <path d="M 339.8165 628.7199 L 590.0921 803.189 L 769.9942 803.189 L 389.3096 555.2808 Z"/>
   </g>
 </svg>

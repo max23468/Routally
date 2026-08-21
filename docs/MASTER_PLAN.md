@@ -524,79 +524,62 @@ La personalità emerge da accento, Routine Cycles, microanimazioni native e feed
 
 ## 4.8 Icona
 
-### Direzione confermata
+### Direzione e baseline confermate
 
 **Monogramma `R` costruito attorno a un ciclo:** il ciclo è la forma dominante e genera
 la curva superiore della lettera; il fianco sinistro continua fino alla linea di base e la
 gamba diagonale completa una `R` riconoscibile. Un arco esterno di progresso, staccato dal
-segno, cresce lungo il percorso e termina in una testa piena. La descrizione non nasconde la
-lettura alfabetica: il monogramma collega il nome Routally al concetto di ciclo.
+segno, cresce lungo il percorso e termina in una testa piena.
 
 Regole di costruzione, vincolanti per ogni resa futura del segno:
 
-- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto,
-  così il ciclo pesa più sui fianchi che sulle curve orizzontali;
-- il fianco continua senza discontinuità la tangente verticale del ciclo e del contatore,
-  con la stessa larghezza;
-- gamba rastremata verso il piede, con taglio orizzontale sulla linea di base;
-- terminali degli archi tagliati sui raggi, senza raccordi arrotondati;
+- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto;
+- fianco continuo con la tangente verticale del ciclo e del contatore;
+- gamba rastremata con taglio orizzontale sulla linea di base;
+- terminali degli archi tagliati sui raggi;
 - overshoot ottico per le forme circolari che appoggiano alla linea di base;
-- il varco della soglia e l'apertura di un eventuale secondo ciclo cadono sulla diagonale a
-  quarantacinque gradi; l'arco esterno si ferma trenta gradi sopra l'orizzontale;
-- un eventuale secondo ciclo si incastra fra gamba e linea di base ed è tangente a gamba,
-  base e ciclo principale: il suo raggio è determinato, non scelto;
-- la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore per
-  compensare l'irradiazione;
-- l'arco usa su fondo indaco `#CAC7FF`: garantisce `4,13:1` contro i `3,00:1` di
-  `#A9A5FF`; il trattamento chiaro usa `#3429BD` e raggiunge `9,55:1`;
-- il trattamento su fondo indaco è la baseline;
-- con l'arco accessorio, il punto portato al centro della tela sta a tre quarti fra il centro
-  dell'ingombro e quello del monogramma; con un accento strutturale si centra l'ingombro.
+- varchi sulla diagonale a quarantacinque gradi e arco esterno fermo trenta gradi sopra
+  l'orizzontale;
+- eventuale secondo ciclo tangente a gamba, base e ciclo principale;
+- trattamento chiaro su indaco compensato al 97 per cento dello spessore;
+- fondo indaco come trattamento primario;
+- centraggio sul soggetto quando l'arco è accessorio e sull'ingombro quando l'accento è
+  strutturale.
 
-La candidata preferita è `a1-air-medium`, con distacco dell'arco a novantadue unità. Non è
-una scelta definitiva. Il confronto finale comprende almeno `a3-air-wide-short` e
-`t1-cycle-consequence`, oltre alle microvarianti A1 con testa 54/50 e accento
-Lavender/Amber.
+La **baseline canonica approvata per la validazione Apple** è `a1-air-medium` con:
 
-`t1-cycle-consequence` è il **benchmark della silhouette** senza arco. iOS non lo
-sostituisce automaticamente alle piccole dimensioni: può diventare soltanto un fallback
-globale scelto esplicitamente se la composizione completa non supera le prove a 29 e 40 pt.
-La build Dev usa la stessa candidata con una fascia diagonale in basso a sinistra.
+- fondo indaco `#4C46D8`;
+- monogramma bianco;
+- accento Lavender `#CAC7FF`;
+- testa terminale con raggio `50` prima della compensazione ottica.
 
-Gli asset canonici sono in `docs/DESIGN/icon/`; i livelli SVG autonomi per tutte le
-varianti sono in `composer-layers/`, le rifiniture controllate in `experiments/` e le
-tavole riproducibili in `evidence/`. Il controllo indipendente è
-`scripts/validate-icon-assets.mjs` e non importa il generatore parametrico.
+Il generatore canonico e la derivata Dev producono ora direttamente questa geometria. A1
+Amber con la stessa testa resta l'unico controllo cromatico; `t1-cycle-consequence` resta
+benchmark e fallback globale esplicito. A3 e la testa 54 sono archiviate e non rientrano nel
+confronto finale, salvo un problema concreto emerso nelle prove Apple.
+
+T1 non viene sostituita automaticamente da iOS alle piccole dimensioni. Può essere adottata
+soltanto come fallback globale se A1 non supera le verifiche a 29 e 40 pt.
 
 ### Alternative esplorate e archiviate
 
-L'esplorazione vettoriale ha coperto azione centrale e conseguenze collegate, `R` con due
-cicli, onde originate da un gesto, tre elementi che chiudono un ciclo e tally marks
-collegati. Sono archiviate. In particolare, le onde coincidono troppo con un glifo di
-segnale e le varianti a due cicli possono leggere come la sillaba «Ro».
+Sono archiviate azione centrale e conseguenze collegate, `R` con due cicli, onde originate
+da un gesto, tre elementi che chiudono un ciclo, tally marks collegati, A3 e la testa 54.
+Le varianti a due cicli possono leggere come «Ro» e le onde coincidono troppo con un glifo
+di segnale.
 
 ### Validazione e chiusura
 
-Prima della scelta definitiva sono obbligatori:
+La selezione visuale preliminare è conclusa, ma `DG-ICON` resta aperto. Prima della ratifica
+finale sono obbligatori:
 
 - import dei livelli autonomi in Icon Composer su macOS Tahoe 26.4 o successivo;
-- configurazione e verifica di Default, Dark e Mono, comprese le rese Clear e Tinted;
+- verifica di Default, Dark, Mono, Clear e Tinted, incluso Liquid Glass;
 - file `.icon` versionato e collegato ai target pubblico e Dev;
 - prova su iPhone e iPad reali, con attenzione a 29 e 40 pt;
-- user test cieco su almeno cinque persone, con obiettivo otto;
-- ricerca figurativa formale o accettazione esplicita del rischio residuo;
-- decision record approvato dal Product Owner.
-
-Criteri:
-
-- dimensioni piccole;
-- aspetti Default, Dark, Mono, Clear e Tinted;
-- distinzione da reminder generici, navigatori, condivisione, reti, sincronizzazione e app di
-  automazione;
-- percezione consumer e calma;
-- leggibilità senza testo;
-- coerenza con il nome;
-- originalità sufficiente nel settore software.
+- user test cieco fra A1 Lavender 50, A1 Amber 50 e T1;
+- verifica figurativa formale o accettazione esplicita del rischio residuo;
+- ratifica finale del Product Owner.
 
 **Decision Gate DG-ICON:** resta aperto e blocca il file definitivo e i materiali App Store
 finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate.

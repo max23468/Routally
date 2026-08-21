@@ -27,3 +27,4 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
   rifiniture A1 testa/Lavender/Amber, tavole dimensionali riproducibili, validazione
   geometrica indipendente, checklist Icon Composer e dispositivi, protocollo di user test,
   ricerca preliminare di originalità e decision record ancora aperto.
+- Promossa A1 Lavender con testa 50 a baseline canonica dell'icona e riallineati asset, derivata Dev, controlli e protocolli residui.

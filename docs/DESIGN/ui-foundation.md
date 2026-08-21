@@ -173,24 +173,18 @@ Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
-La direzione confermata è un **monogramma `R` costruito attorno a un ciclo**, definito nella
-sezione 4.8 del Master Plan. Il ciclo è la forma dominante, il fianco ne continua la tangente
-verticale fino alla base, la gamba completa la lettera e un arco esterno di progresso termina
-in una testa piena.
+La direzione confermata è un **monogramma `R` costruito attorno a un ciclo**. La baseline
+canonica per la validazione Apple è A1 con fondo indaco, monogramma bianco, accento Lavender
+e testa terminale da 50 unità. Il ciclo resta la forma dominante, il fianco ne continua la
+tangente verticale e la gamba completa la lettera.
 
-Le direzioni precedenti — azione centrale e conseguenze collegate, `R` con due cicli,
-onde originate da un gesto, tre elementi che chiudono un ciclo e tally marks collegati —
-sono archiviate.
+A1 Amber con testa 50 resta l'unico controllo cromatico; T1 è il benchmark e fallback
+globale. A3 e la testa 54 sono archiviate. I livelli autonomi sono in
+`docs/DESIGN/icon/composer-layers/`; le tavole SVG non simulano Liquid Glass.
 
-Ogni variante combinata mantiene gruppi SVG nominati. Per non presumere il comportamento di
-Icon Composer, il confronto usa però i file autonomi di
-`docs/DESIGN/icon/composer-layers/`, con coordinate già trasformate. A1 è soltanto la
-candidata preferita; A3 e T1 restano confronti obbligatori. T1 è il benchmark della
-silhouette e non viene sostituito automaticamente dal sistema alle piccole dimensioni.
-
-Le tavole SVG verificano in modo riproducibile dimensioni e contesti piatti, ma non simulano
-Liquid Glass. La scelta resta nel Decision Gate `DG-ICON` e richiede Icon Composer,
-dispositivi reali, user test cieco e verifica figurativa prima del file `.icon` definitivo.
+`DG-ICON` resta aperto per Icon Composer, modi di rendering Apple, file `.icon`, dispositivi
+reali, user test cieco e verifica figurativa. La selezione visuale non va riaperta in assenza
+di un problema concreto prodotto da queste verifiche.
 
 ## Benchmark applicato
 
