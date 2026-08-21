@@ -15,7 +15,8 @@ chiusura del gate. Restano manuali 7, 9, 10, 11, 17, 18 e 19.
 
 - **25 — Promozione della baseline ad asset canonico:** completato. Il generatore produce
   A1 Lavender 50 e la stessa geometria per Dev.
-- **26 — Pubblicazione della PR:** da completare con review sull'HEAD finale e merge.
+- **26 — Pubblicazione della PR:** autorizzata dal Product Owner; il merge della PR #19
+  completa il punto senza chiudere anticipatamente `DG-ICON`.
 
 ## Attività residue
 
