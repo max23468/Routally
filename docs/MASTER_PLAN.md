@@ -538,7 +538,7 @@ Regole di costruzione, vincolanti per ogni resa futura del segno:
 - varco della soglia, arresto dell'arco e apertura di un eventuale secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi, unico asse obliquo del sistema;
 - un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
 - la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione;
-- il segno viene inquadrato sul proprio ingombro reale e centrato a `512/500`, quindi tredici unità sopra il centro geometrico: la massa è concentrata in basso, sulla linea di base, e senza quello scarto il segno appare basso nella tela.
+- il segno viene inquadrato sul proprio ingombro reale, ma il punto portato al centro della tela non è il centro di quell'ingombro: sta a tre quarti fra questo e il centro della sola lettera. Quando l'arco è presente allunga l'ingombro verso l'alto e centrarlo lascerebbe la lettera trentanove unità sotto il centro, dove l'occhio la vede storta. Il criterio vale quando l'accento è un accessorio, come l'arco; quando è strutturale, come il secondo ciclo, si centra l'ingombro intero.
 
 La variante approvata in revisione è `a1-air-medium`: distacco dell'arco a novantadue unità dal contorno del ciclo. Aumentare l'aria costa dimensione alla lettera, perché la tela dell'icona è fissa.
 
