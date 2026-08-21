@@ -538,6 +538,8 @@ Regole di costruzione, vincolanti per ogni resa futura del segno:
 - varco della soglia, arresto dell'arco e apertura di un eventuale secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi, unico asse obliquo del sistema;
 - un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
 - la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione;
+- l'arco usa su fondo indaco la variante a contrasto aumentato `#CAC7FF` e non `#A9A5FF`: con quest'ultima il contrasto è `3,00:1`, esattamente la soglia minima per un elemento grafico, mentre lo stesso arco su fondo chiaro sta a `9,55:1`. Il simbolo è già bilanciato a `6,61:1` su entrambi i fondi; l'accento no, e la variante a contrasto aumentato lo porta a `4,13:1`;
+- la versione su fondo indaco è quella primaria: su uno sfondo chiaro il riquadro bianco si dissolve e l'icona perde il proprio contorno;
 - il segno viene inquadrato sul proprio ingombro reale, ma il punto portato al centro della tela non è il centro di quell'ingombro: sta a tre quarti fra questo e il centro della sola lettera. Quando l'arco è presente allunga l'ingombro verso l'alto e centrarlo lascerebbe la lettera trentanove unità sotto il centro, dove l'occhio la vede storta. Il criterio vale quando l'accento è un accessorio, come l'arco; quando è strutturale, come il secondo ciclo, si centra l'ingombro intero.
 
 La variante approvata in revisione è `a1-air-medium`: distacco dell'arco a novantadue unità dal contorno del ciclo. Aumentare l'aria costa dimensione alla lettera, perché la tela dell'icona è fissa.
