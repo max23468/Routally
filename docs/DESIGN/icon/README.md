@@ -1,74 +1,108 @@
-# Icona Routally — asset e import in Icon Composer
+# Icona Routally — asset, confronti e import
 
-Direzione, regole di costruzione e stato del gate stanno nella sezione 4.8 del
-[Master Plan](../../MASTER_PLAN.md). Qui c'è soltanto cosa contiene questa cartella e come
-portarla in Icon Composer.
+Direzione e regole vincolanti stanno nella sezione 4.8 del
+[Master Plan](../../MASTER_PLAN.md). Il segno è un **monogramma `R` costruito attorno a un
+ciclo**, con un arco esterno di progresso e una testa piena. `a1-air-medium` è la candidata
+preferita, non l'icona definitiva: `DG-ICON` resta aperto.
 
-## Cosa c'è
+## Struttura della cartella
 
-| File | Uso |
+| Percorso | Uso |
 |---|---|
-| `a1-air-medium-*.svg` | variante preferita in revisione, in attesa di `DG-ICON` |
-| `t1-cycle-consequence-*.svg` | versione ridotta senza arco, per le misure minime |
-| `a2`, `a3` | stesso segno con più aria attorno all'arco |
-| `t2`, `v1`–`v3` | letture alternative: soglia sul ciclo singolo, secondo ciclo incastrato |
-| `dev-app-icon-*.svg` | build Dev della sezione 30.1 |
-| `layers/` | gli stessi segni con un file per livello, pronti per l'import |
+| `a1-air-medium-*.svg` | candidata preferita in Lavender |
+| `a2-*`, `a3-*` | confronti sul distacco e sulla lunghezza dell'arco |
+| `t1-cycle-consequence-*` | benchmark della silhouette senza arco |
+| `t2-*`, `v1-*`–`v3-*` | alternative di soglia e secondo ciclo |
+| `dev-app-icon-*` | derivata Dev con fascia diagonale |
+| `layers/` | livelli autonomi storici per A1 e Dev |
+| `composer-layers/` | livelli autonomi per tutte le varianti e i due trattamenti |
+| `experiments/` | A1 testa 50, Amber e simulazione monocromatica |
+| `evidence/` | tavole comparative SVG riproducibili |
 
-Il suffisso `-indigo` è il segno chiaro su fondo indaco, `-light` è il segno indaco su
-fondo chiaro. **La versione indaco è quella primaria**: su uno sfondo chiaro il riquadro
-bianco si dissolve e l'icona perde il proprio contorno.
+Il suffisso `-indigo` indica segno chiaro su fondo indaco; `-light` indica segno indaco su
+fondo chiaro. Il trattamento indaco resta la baseline perché conserva il perimetro visivo
+dell'icona anche su sfondi chiari.
 
-**Ogni** file combinato espone già i livelli come gruppi nominati, quindi qualunque variante
-è importabile e separabile. La cartella `layers/` aggiunge, per il segno preferito e per la
-build Dev, gli stessi livelli come file distinti con le coordinate già trasformate, che non
-dipendono da alcun `transform` esterno: ricompongono il file unico corrispondente con uno
-scarto dello 0,06 per cento dei pixel, confinato all'antialiasing sul filo dell'arco.
+## Candidate per il confronto finale
 
-## Livelli
+Il confronto minimo comprende:
 
-| Livello | Contenuto | Perché è separato |
-|---|---|---|
-| `background` | il fondo pieno | Icon Composer può anche generarlo da un colore |
-| `symbol` | ciclo, fianco e gamba | è il soggetto e porta il contrasto pieno |
-| `accent` | arco di progresso e testa | è secondario e deve poter ricevere un trattamento proprio |
-| `overlay` | fascia diagonale, solo Dev | non appartiene al segno |
+- `a1-air-medium`, candidata preferita;
+- `a3-air-wide-short`, controllo su maggiore aria e gesto più breve;
+- `t1-cycle-consequence`, benchmark della silhouette.
 
-## Import
+T1 non è un asset che iOS sostituisce automaticamente alle piccole dimensioni. Serve a
+misurare quanto della silhouette rimane quando si rimuove l'accento e può diventare soltanto
+un fallback globale, scelto esplicitamente se A1 non regge nei contesti minimi.
 
-Icon Composer fa parte di Xcode 26 e gira su macOS: **questi passaggi non sono stati
-eseguiti**, perché l'esplorazione è stata condotta su Linux. Vanno confermati alla prima
-apertura dello strumento.
+Le rifiniture controllate di A1 cambiano una sola variabile alla volta:
 
-1. Nuovo documento in Icon Composer, tela 1024.
-2. Importa i tre file di `layers/` per `a1-air-medium`, nell'ordine fondo, simbolo, accento.
-3. Verifica che lo strumento accetti i livelli come artwork separati e non li appiattisca.
-4. Genera gli aspetti previsti e controlla il risultato in chiaro, scuro e monocromatico.
-5. Esporta e collega l'asset al target.
+| Variante | Testa | Accento |
+|---|---:|---|
+| baseline | 54 | Lavender |
+| `head50` | 50 | Lavender |
+| `amber` | 54 | Amber |
+| `head50-amber` | 50 | Amber |
 
-## Cosa guardare, una volta dentro lo strumento
+Amber usa esclusivamente i token già presenti nella UI Foundation: `#FFBF66` sul fondo
+indaco e `#9A5B00` sul fondo chiaro.
 
-Sono i punti che il rendering piatto non può prevedere.
+## Livelli per Icon Composer
 
-- **Come reagisce l'arco al materiale e alla riflessione speculare di iOS 26.** È l'elemento
-  più sottile del segno ed è il primo candidato a sparire o a diventare rumore.
-- **Se il monocromatico distingue ancora accento e simbolo**, che lì restano separati solo
-  per luminanza.
-- **Le misure minime su dispositivo**, 29 e 40 punti: sul foglio l'attacco sottile della
-  rastremazione regge, ma va visto a distanza di lettura. Se non tiene, la risposta è
-  `t1-cycle-consequence`, non un arco più spesso.
+Ogni file di `composer-layers/`:
 
-## Rigenerare gli asset
+- usa una tela 1024 × 1024;
+- contiene un solo livello nominato;
+- ha le coordinate già trasformate;
+- non dipende da `transform` esterni;
+- resta SVG nativo e non contiene raster.
 
-Gli SVG di questa cartella sono prodotti da una sorgente parametrica versionata.
+Per ciascuna variante importare `background`, `symbol`, `accent` quando presente e `overlay`
+soltanto per Dev. I gruppi interni agli SVG combinati restano utili alla lettura e alla
+ricomposizione, ma non vengono più assunti come prova sufficiente dell'importabilità nello
+strumento.
+
+## Icon Composer
+
+Icon Composer richiede **macOS Tahoe 26.4 o successivo**. I passaggi non sono stati eseguiti
+in questa PR perché richiedono macOS e lo strumento Apple:
+
+1. seguire [icon-composer-checklist.md](icon-composer-checklist.md);
+2. importare almeno A1, A3 e T1 dai file autonomi;
+3. configurare Default, Dark e Mono;
+4. verificare anche Clear light/dark e Tinted light/dark;
+5. salvare e versionare il file `.icon`;
+6. trascinarlo in Xcode e selezionarlo nei target pubblico e Dev;
+7. eseguire la prova su iPhone e iPad reali.
+
+Le tavole in `evidence/` sono verifiche piatte e non simulano Liquid Glass, rifrazione,
+highlight speculari o adattamento al wallpaper.
+
+## Evidenze e decisione
+
+- [validation-plan.md](validation-plan.md): matrice completa dei ventiquattro interventi;
+- [icon-composer-checklist.md](icon-composer-checklist.md): prova Apple manuale;
+- [user-test-protocol.md](user-test-protocol.md): test cieco su 5–8 persone;
+- [originality-scan.md](originality-scan.md): ricerca preliminare del segno;
+- [decision-record.md](decision-record.md): unica evidenza ammessa per chiudere `DG-ICON`.
+
+La scelta finale non va presa sull'anteprima grande o sulla sola resa SVG: richiede confronto
+in Icon Composer, 29 e 40 pt su dispositivo, user test e valutazione del rischio figurativo.
+
+## Generazione e controllo una tantum
+
+Gli SVG canonici restano prodotti dalla sorgente parametrica della PR #18. Le varianti di
+revisione e le tavole sono generate da uno script separato per non cambiare accidentalmente
+la baseline.
 
 ```sh
-node scripts/build-icon-assets.mjs    # rigenera gli asset
-node scripts/check-icon-assets.mjs    # verifica che i file coincidano con la sorgente
+node scripts/build-icon-assets.mjs
+node scripts/check-icon-assets.mjs
+node scripts/build-icon-review-assets.mjs
+node scripts/validate-icon-assets.mjs
 ```
 
-Una modifica alla geometria si fa sulla sorgente, non ritoccando gli SVG a mano: le misure
-tengono insieme tangenze, contrasto di spessore, compensazione ottica e centraggio, e una
-correzione su un file solo li disallinea fra i due trattamenti cromatici, i livelli
-separati e la derivata Dev. Il controllo fallisce proprio in quel caso, oltre che se un
-file manca o se ne avanza uno non più prodotto dalla sorgente.
+`check-icon-assets.mjs` verifica la corrispondenza con la sorgente parametrica;
+`validate-icon-assets.mjs` legge invece i file versionati senza importare quel generatore e
+controlla geometria, tangenze, angoli, contrasti, livelli autonomi, metadati e assenza di
+raster. Non viene aggiunto un workflow CI permanente dedicato all'icona.
