@@ -1,0 +1,26 @@
+name: One-shot repository snapshot
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    if: github.head_ref == 'codex/icon-validation-hardening'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Package repository
+        run: tar --exclude=.git -czf /tmp/routally-repository.tar.gz .
+      - name: Upload repository snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: routally-repository-snapshot
+          path: /tmp/routally-repository.tar.gz
+          retention-days: 1
+          if-no-files-found: error
