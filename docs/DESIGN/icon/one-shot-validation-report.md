@@ -46,6 +46,12 @@ posto del fianco destro. Il test è stato corretto limitando la scelta ai due bo
 longitudinali del quadrilatero. Dopo la correzione, la stessa matrice ha superato tutti i 607
 controlli.
 
+## Correzione successiva alla review Codex
+
+Il run una tantum `32469343025` ha verificato con un file sentinella non SVG che
+il builder e il checker eliminino e ripristinino esclusivamente gli SVG generati. README,
+screenshot o altre evidenze manuali presenti nelle tre cartelle restano intatti.
+
 ## Limiti
 
 Questa validazione copre file, geometria, tangenze, angoli, centraggio, contrasti, metadati,

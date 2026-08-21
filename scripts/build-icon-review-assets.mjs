@@ -35,9 +35,11 @@ const VARIANTS = [
 const round4 = (value) => Math.round(value * 10000) / 10000;
 const format = (value) => String(round4(value));
 
-function resetDirectory(path) {
-  rmSync(path, { recursive: true, force: true });
+function prepareGeneratedDirectory(path) {
   mkdirSync(path, { recursive: true });
+  for (const name of readdirSync(path)) {
+    if (name.endsWith(".svg")) rmSync(join(path, name), { force: true });
+  }
 }
 
 function readIcon(slug, theme, directory = ICON_DIR) {
@@ -489,7 +491,7 @@ function buildEvidence() {
 }
 
 export function buildIconReviewAssets() {
-  for (const path of [COMPOSER_DIR, EXPERIMENT_DIR, EVIDENCE_DIR]) resetDirectory(path);
+  for (const path of [COMPOSER_DIR, EXPERIMENT_DIR, EVIDENCE_DIR]) prepareGeneratedDirectory(path);
   const layers = buildComposerLayers();
   const experiments = buildExperiments();
   const evidence = buildEvidence();

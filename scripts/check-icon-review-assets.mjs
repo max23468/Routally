@@ -32,8 +32,11 @@ function snapshot() {
 
 function restore(files) {
   for (const directory of DIRECTORIES) {
-    rmSync(join(ICON_DIR, directory), { recursive: true, force: true });
-    mkdirSync(join(ICON_DIR, directory), { recursive: true });
+    const path = join(ICON_DIR, directory);
+    mkdirSync(path, { recursive: true });
+    for (const name of readdirSync(path)) {
+      if (name.endsWith(".svg")) rmSync(join(path, name), { force: true });
+    }
   }
   for (const [name, body] of files) writeFileSync(join(ICON_DIR, name), body, "utf8");
 }
