@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">t1-cycle-consequence · light · symbol</title>
+  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8">
+    <path fill-rule="evenodd" d="M 797.2834 431.2329 A 295.6012 281.2317 0 1 1 206.081 431.2329 A 295.6012 281.2317 0 1 1 797.2834 431.2329 Z M 674.1162 431.2329 A 172.434 172.434 0 1 1 329.2482 431.2329 A 172.434 172.434 0 1 1 674.1162 431.2329 Z"/>
+    <rect x="206.081" y="431.2329" width="123.1672" height="418.7683"/>
+    <path d="M 299.4212 639.7138 L 601.0781 850.0012 L 817.9139 850.0012 L 359.0752 551.1977 Z"/>
+  </g>
+</svg>

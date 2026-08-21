@@ -173,24 +173,24 @@ Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
-La direzione confermata è **un ciclo con la `R` intravista**, definita nella sezione 4.8
-del Master Plan: il motivo circolare è la forma principale, la lettera resta un indizio e
-nessun tratto è disegnato come lettera. Il fianco del ciclo continua la sua tangente
-verticale fino alla linea di base, la gamba esce dal ciclo, e un arco esterno di
-progresso si stacca dal segno e si chiude in una testa piena.
+La direzione confermata è un **monogramma `R` costruito attorno a un ciclo**, definito nella
+sezione 4.8 del Master Plan. Il ciclo è la forma dominante, il fianco ne continua la tangente
+verticale fino alla base, la gamba completa la lettera e un arco esterno di progresso termina
+in una testa piena.
 
 Le direzioni precedenti — azione centrale e conseguenze collegate, `R` con due cicli,
-onde originate da un gesto, tre elementi che chiudono un ciclo, tally marks collegati —
+onde originate da un gesto, tre elementi che chiudono un ciclo e tally marks collegati —
 sono archiviate.
 
-Ogni variante è costruita con livelli SVG nominati `background`, `symbol` e `accent`, in due
-trattamenti cromatici, ed è quindi importabile e separabile in Icon Composer per la prova in
-aspetto standard, dark e monocromatico. Il segno destinato alla produzione espone gli stessi
-livelli anche come file distinti. Il confronto avviene a dimensioni piccole e senza testo,
-verificando che il segno non sembri un navigatore, un simbolo di condivisione, una rete
-o un'app di automazione. Gli asset sono in [icon/](icon/). La scelta della variante resta
-nel Decision Gate `DG-ICON`: E02 chiude direzioni e criteri, non seleziona
-anticipatamente l'asset App Store.
+Ogni variante combinata mantiene gruppi SVG nominati. Per non presumere il comportamento di
+Icon Composer, il confronto usa però i file autonomi di
+`docs/DESIGN/icon/composer-layers/`, con coordinate già trasformate. A1 è soltanto la
+candidata preferita; A3 e T1 restano confronti obbligatori. T1 è il benchmark della
+silhouette e non viene sostituito automaticamente dal sistema alle piccole dimensioni.
+
+Le tavole SVG verificano in modo riproducibile dimensioni e contesti piatti, ma non simulano
+Liquid Glass. La scelta resta nel Decision Gate `DG-ICON` e richiede Icon Composer,
+dispositivi reali, user test cieco e verifica figurativa prima del file `.icon` definitivo.
 
 ## Benchmark applicato
 

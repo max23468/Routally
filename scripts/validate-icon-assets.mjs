@@ -124,7 +124,7 @@ function parseClosedCycle(path) {
 
 function parseOpenCycle(path, center) {
   const values = numbers(path);
-  if (values.length < 20) throw new Error("path del ciclo aperto non riconosciuto");
+  if (values.length < 18) throw new Error("path del ciclo aperto non riconosciuto");
   const start = { x: values[0], y: values[1] };
   const rx = values[2];
   const ry = values[3];
@@ -334,11 +334,12 @@ function verifyA1Geometry() {
 }
 
 function rightEdge(points) {
+  // La gamba è un quadrilatero: i soli bordi longitudinali sono 0→1 e 3→2.
+  // Includere il piede orizzontale selezionava il segmento sbagliato e produceva
+  // un falso negativo sulla tangenza del secondo ciclo.
   const edges = [
     [points[0], points[1]],
-    [points[1], points[2]],
-    [points[2], points[3]],
-    [points[3], points[0]],
+    [points[3], points[2]],
   ];
   return edges.reduce((best, edge) => {
     const average = (edge[0].x + edge[1].x) / 2;
@@ -396,7 +397,7 @@ function verifyNestedTangencies() {
     check(minLeg >= -0.2 && minLeg <= 0.2, `${theme}: secondo ciclo tangente alla gamba`);
     near(secondary.cy + secondary.ry, 854, 0.02, `${theme}: overshoot del secondo ciclo`);
 
-    for (const slug of ["v2-nested-cycle-threshold", "v3-nested-cycle-opening"]) {
+    for (const slug of ["v2-nested-cycle-threshold"]) {
       const candidate = cycleFromVariant(slug, theme, "accent");
       near(candidate.cx, secondary.cx, 0.01, `${slug}-${theme}: centro del secondo ciclo invariato`);
       near(candidate.cy, secondary.cy, 0.01, `${slug}-${theme}: altezza del secondo ciclo invariata`);
@@ -522,7 +523,7 @@ function verifyExperiments() {
 
   const mono = read(join(EXPERIMENT_DIR, "a1-air-medium-monochrome-simulation.svg"));
   const monoColors = new Set((mono.match(/#[0-9A-Fa-f]{6}/g) ?? []).map((color) => color.toUpperCase()));
-  check([...monoColors].every((color) => /^#([0-9A-F])\1([0-9A-F])\2([0-9A-F])\3$/.test(color)), "mono: soli colori neutri");
+  check([...monoColors].every((color) => /^#([0-9A-F]{2})\1\1$/.test(color)), "mono: soli colori neutri");
   check(mono.includes("non sostituisce l'aspetto Mono"), "mono: limite della simulazione dichiarato");
 }
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">v2-nested-cycle-threshold · light · symbol</title>
+  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8">
+    <path d="M 635.8783 255.6511 A 246.214 234.2418 0 1 1 555.8998 182.8949 L 495.3209 279.8416 A 123.107 123.107 0 1 0 534.4894 319.0102 Z"/>
+    <rect x="183.8705" y="384.2466" width="123.107" height="459.5994"/>
+    <path d="M 263.1616 578.8172 L 439.4714 843.846 L 586.8817 843.846 L 350.7933 517.9613 Z"/>
+  </g>
+</svg>
