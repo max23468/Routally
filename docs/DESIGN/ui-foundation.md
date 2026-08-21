@@ -173,24 +173,18 @@ Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
-La direzione confermata è **un ciclo con la `R` intravista**, definita nella sezione 4.8
-del Master Plan: il motivo circolare è la forma principale, la lettera resta un indizio e
-nessun tratto è disegnato come lettera. Il fianco del ciclo continua la sua tangente
-verticale fino alla linea di base, la gamba esce dal ciclo, e un arco esterno di
-progresso si stacca dal segno e si chiude in una testa piena.
+La direzione confermata è un **monogramma `R` costruito attorno a un ciclo**. La baseline
+canonica per la validazione Apple è A1 con fondo indaco, monogramma bianco, accento Lavender
+e testa terminale da 50 unità. Il ciclo resta la forma dominante, il fianco ne continua la
+tangente verticale e la gamba completa la lettera.
 
-Le direzioni precedenti — azione centrale e conseguenze collegate, `R` con due cicli,
-onde originate da un gesto, tre elementi che chiudono un ciclo, tally marks collegati —
-sono archiviate.
+A1 Amber con testa 50 resta l'unico controllo cromatico; T1 è il benchmark e fallback
+globale. A3 e la testa 54 sono archiviate. I livelli autonomi sono in
+`docs/DESIGN/icon/composer-layers/`; le tavole SVG non simulano Liquid Glass.
 
-Ogni variante è costruita con livelli SVG nominati `background`, `symbol` e `accent`, in due
-trattamenti cromatici, ed è quindi importabile e separabile in Icon Composer per la prova in
-aspetto standard, dark e monocromatico. Il segno destinato alla produzione espone gli stessi
-livelli anche come file distinti. Il confronto avviene a dimensioni piccole e senza testo,
-verificando che il segno non sembri un navigatore, un simbolo di condivisione, una rete
-o un'app di automazione. Gli asset sono in [icon/](icon/). La scelta della variante resta
-nel Decision Gate `DG-ICON`: E02 chiude direzioni e criteri, non seleziona
-anticipatamente l'asset App Store.
+`DG-ICON` resta aperto per Icon Composer, modi di rendering Apple, file `.icon`, dispositivi
+reali, user test cieco e verifica figurativa. La selezione visuale non va riaperta in assenza
+di un problema concreto prodotto da queste verifiche.
 
 ## Benchmark applicato
 

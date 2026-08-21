@@ -13,11 +13,12 @@ specifica completa.
 | ADR-0005 | La review delle pull request è un gate di CI | Confirmed | 1.0 | Risolve il conflitto fra esclusività degli agenti e gate required su ogni PR | Il gate vale per ogni PR e non richiede handoff fra agenti | 2026-08-14 |
 | MP-FREE-LIMITS | Limiti Free a 10 routine e 5 collegamenti | Confirmed | 1.0 | Con 5 e 2 un utente Free non poteva installare i 4 Kit introduttivi promessi | Rivedibile a 90 giorni, mai sotto la soglia dei 4 Kit | 2026-08-14 |
 | MP-WATERLINE | Linea di galleggiamento pre-approvata della 1.0 | Confirmed | 1.0 | Trasforma il rischio di scope da processo a scelta già presa | Ordine di sacrificio attivabile dal solo Product Owner | 2026-08-14 |
-| MP-ICON-DIRECTION | Direzione dell'icona: un ciclo con la `R` intravista | Confirmed | 1.0 | Le cinque direzioni della 4.8 sono state costruite in SVG e scartate in revisione | Vincola ogni resa futura del segno; `DG-ICON` resta aperto per la scelta della variante | 2026-08-21 |
+| MP-ICON-DIRECTION | Direzione dell'icona: monogramma `R` costruito attorno a un ciclo | Confirmed | 1.0 | Le direzioni alternative sono state costruite e archiviate | Vincola la costruzione; `DG-ICON` resta aperto per variante, resa Apple e originalità | 2026-08-21 |
+| MP-ICON-BASELINE | Baseline icona A1 Lavender con testa 50 | Confirmed | 1.0 | Miglior equilibrio visivo dopo confronto SVG | Non chiude `DG-ICON`: restano prove Apple, dispositivi, user test e rischio figurativo | 2026-08-21 |
 | TG-RECALC | Spike sul ricalcolo retroattivo deterministico | Decision Gate | 0.2 | Il ricalcolo è il cuore differenziante e il candidato più probabile a non scalare | Determina la strategia di ricalcolo prima di proiezioni e interfaccia | — |
 | DG-DOMAIN | Registrazione dominio, DNS ed email | Decision Gate | 0.5 | Servono ownership e recovery definitive | Blocca Universal Links, supporto e identificativi pubblici definitivi | — |
 | DG-TRADEMARK | Verifica formale di Routally e Temisfera | Decision Gate | 1.0 | La verifica preliminare non equivale a clearance | Influenza tutela e uso commerciale del brand | — |
-| DG-ICON | Scelta dell'icona definitiva | Decision Gate | 1.0 | Richiede esplorazione SVG, Icon Composer e user test | Blocca gli asset App Store finali | — |
+| DG-ICON | Scelta dell'icona definitiva | Decision Gate | 1.0 | Richiede SVG validati, Icon Composer, dispositivi, user test e verifica figurativa | Blocca file `.icon` e asset App Store finali | — |
 | DG-DEVELOPER-IDENTITY | Identità legale dello sviluppatore | Decision Gate | 0.8 | Account Holder e trasferibilità devono essere definiti | Blocca gli asset Apple definitivi | — |
 | DG-LAUNCH | Data di lancio ed eventuale preordine | Decision Gate | 0.9 | Richiede una Release Candidate stabile | Blocca comunicazione e rilascio pubblico | — |
 | DG-CLOUD-PRICING | Modello cloud e prezzi 2.0 | Decision Gate | 2.0 | Dipende dai costi reali del backend | Determina piani cloud e diritti futuri | — |

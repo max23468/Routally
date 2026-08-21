@@ -524,46 +524,65 @@ La personalità emerge da accento, Routine Cycles, microanimazioni native e feed
 
 ## 4.8 Icona
 
-### Direzione confermata
+### Direzione e baseline confermate
 
-**Un ciclo con la `R` intravista:** un ciclo dal peso dominante, il cui fianco sinistro si raddrizza e scende alla linea di base, e una gamba che esce dal ciclo e appoggia accanto. Nessun tratto è disegnato come lettera: la `R` emerge dalla composizione e resta un indizio, mentre il motivo circolare è la forma principale. Il segno porta un arco esterno di progresso, staccato dal ciclo, che cresce lungo il percorso e si chiude in una testa piena.
+**Monogramma `R` costruito attorno a un ciclo:** il ciclo è la forma dominante e genera
+la curva superiore della lettera; il fianco sinistro continua fino alla linea di base e la
+gamba diagonale completa una `R` riconoscibile. Un arco esterno di progresso, staccato dal
+segno, cresce lungo il percorso e termina in una testa piena.
 
 Regole di costruzione, vincolanti per ogni resa futura del segno:
 
-- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto, così il ciclo pesa più sui fianchi che sulle curve orizzontali, secondo l'asse verticale tipografico;
-- il fianco continua senza discontinuità la tangente verticale del ciclo e del contatore, con la stessa larghezza;
-- gamba rastremata verso il piede, con taglio orizzontale sulla linea di base;
-- terminali degli archi tagliati sui raggi, senza raccordi arrotondati: il sistema è costruito su tagli radiali e ortogonali e ammorbidirne una parte sola lo renderebbe incoerente;
+- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto;
+- fianco continuo con la tangente verticale del ciclo e del contatore;
+- gamba rastremata con taglio orizzontale sulla linea di base;
+- terminali degli archi tagliati sui raggi;
 - overshoot ottico per le forme circolari che appoggiano alla linea di base;
-- il varco della soglia e l'apertura di un eventuale secondo ciclo cadono sulla diagonale a quarantacinque gradi, unico asse obliquo del sistema; l'arco esterno si ferma invece trenta gradi sopra l'orizzontale, che è una misura propria dell'arco e non un allineamento a quell'asse;
-- un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
-- la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione;
-- l'arco usa su fondo indaco la variante a contrasto aumentato `#CAC7FF` e non `#A9A5FF`: con quest'ultima il contrasto è `3,00:1`, esattamente la soglia minima per un elemento grafico, mentre lo stesso arco su fondo chiaro sta a `9,55:1`. Il simbolo è già bilanciato a `6,61:1` su entrambi i fondi; l'accento no, e la variante a contrasto aumentato lo porta a `4,13:1`;
-- la versione su fondo indaco è quella primaria: su uno sfondo chiaro il riquadro bianco si dissolve e l'icona perde il proprio contorno;
-- il segno viene inquadrato sul proprio ingombro reale, ma il punto portato al centro della tela non è il centro di quell'ingombro: sta a tre quarti fra questo e il centro della sola lettera. Quando l'arco è presente allunga l'ingombro verso l'alto e centrarlo lascerebbe la lettera trentanove unità sotto il centro, dove l'occhio la vede storta. Il criterio vale quando l'accento è un accessorio, come l'arco; quando è strutturale, come il secondo ciclo, si centra l'ingombro intero.
+- varchi sulla diagonale a quarantacinque gradi e arco esterno fermo trenta gradi sopra
+  l'orizzontale;
+- eventuale secondo ciclo tangente a gamba, base e ciclo principale;
+- trattamento chiaro su indaco compensato al 97 per cento dello spessore;
+- fondo indaco come trattamento primario;
+- centraggio sul soggetto quando l'arco è accessorio e sull'ingombro quando l'accento è
+  strutturale.
 
-La variante preferita in revisione è `a1-air-medium`: distacco dell'arco a novantadue unità dal contorno del ciclo. Aumentare l'aria costa dimensione alla lettera, perché la tela dell'icona è fissa. Resta una candidata, non una scelta: la selezione definitiva appartiene a `DG-ICON` e avviene soltanto dopo Icon Composer, prova sui dispositivi e user test, quindi il confronto con le altre varianti non va saltato.
+La **baseline canonica approvata per la validazione Apple** è `a1-air-medium` con:
 
-Il segno senza arco esterno è la versione ridotta, a cui l'icona degrada alle misure minime. La build Dev della sezione 30.1 usa lo stesso segno con una fascia diagonale sull'angolo in basso a sinistra, senza testo.
+- fondo indaco `#4C46D8`;
+- monogramma bianco;
+- accento Lavender `#CAC7FF`;
+- testa terminale con raggio `50` prima della compensazione ottica.
+
+Il generatore canonico e la derivata Dev producono ora direttamente questa geometria. A1
+Amber con la stessa testa resta l'unico controllo cromatico; `t1-cycle-consequence` resta
+benchmark e fallback globale esplicito. A3 e la testa 54 sono archiviate e non rientrano nel
+confronto finale, salvo un problema concreto emerso nelle prove Apple.
+
+T1 non viene sostituita automaticamente da iOS alle piccole dimensioni. Può essere adottata
+soltanto come fallback globale se A1 non supera le verifiche a 29 e 40 pt.
 
 ### Alternative esplorate e archiviate
 
-L'esplorazione vettoriale ha coperto la direzione «azione centrale e conseguenze collegate» e le quattro alternative precedenti — `R` formata da due cicli collegati, un gesto che genera più onde, tre elementi che chiudono un ciclo, tally marks collegati. Sono archiviate. In particolare «un gesto che genera più onde» non è percorribile nella forma letterale, perché coincide con il glifo di segnale e non supera il criterio di distinzione dalle reti.
+Sono archiviate azione centrale e conseguenze collegate, `R` con due cicli, onde originate
+da un gesto, tre elementi che chiudono un ciclo, tally marks collegati, A3 e la testa 54.
+Le varianti a due cicli possono leggere come «Ro» e le onde coincidono troppo con un glifo
+di segnale.
 
-La scelta definitiva della variante avverrà dopo prove con asset SVG in Icon Composer e sui dispositivi target. Un piccolo user test deve mostrare le varianti senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
+### Validazione e chiusura
 
-Gli SVG a livelli dell'esplorazione, con i livelli separati per Icon Composer, sono in `docs/DESIGN/icon/`.
+La selezione visuale preliminare è conclusa, ma `DG-ICON` resta aperto. Prima della ratifica
+finale sono obbligatori:
 
-Criteri:
+- import dei livelli autonomi in Icon Composer su macOS Tahoe 26.4 o successivo;
+- verifica di Default, Dark, Mono, Clear e Tinted, incluso Liquid Glass;
+- file `.icon` versionato e collegato ai target pubblico e Dev;
+- prova su iPhone e iPad reali, con attenzione a 29 e 40 pt;
+- user test cieco fra A1 Lavender 50, A1 Amber 50 e T1;
+- verifica figurativa formale o accettazione esplicita del rischio residuo;
+- ratifica finale del Product Owner.
 
-- dimensioni piccole;
-- aspetto standard, scuro e monocromatico;
-- distinzione da reminder, navigatori, condivisione, reti, sincronizzazione e app di automazione;
-- percezione consumer;
-- leggibilità senza testo;
-- coerenza con il nome.
-
-**Decision Gate DG-ICON:** scelta definitiva prima della produzione dei materiali App Store.
+**Decision Gate DG-ICON:** resta aperto e blocca il file definitivo e i materiali App Store
+finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate.
 
 ## 4.9 Routine Kits visuali
 

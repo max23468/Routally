@@ -238,7 +238,7 @@ function subjectFocus(s, symBounds) {
 const ECHO = { d: 56, a0: 180, a1: 330 };
 
 const AIR = [
-  { slug: "a1-air-medium", title: "Aria misurata", d: 92, w0: 30, w1: 74, head: 54,
+  { slug: "a1-air-medium", title: "Aria misurata", d: 92, w0: 30, w1: 74, head: 50,
     concept: "L'eco si stacca dalla R di novantadue unita' invece di cinquantasei e ingrossa fino a settantaquattro. La R rimpicciolisce quel tanto che serve a fare posto: nella tela fissa dell'icona, o si allontana l'arco o si tiene grande la lettera, non entrambe." },
   { slug: "a2-air-wide", title: "Aria decisa", d: 128, w0: 36, w1: 86, head: 62,
     concept: "Il distacco sale a centoventotto e l'arco arriva a ottantasei: l'eco diventa un elemento autonomo che accompagna la lettera invece di appoggiarvisi. E' la lettura piu' netta e quella che regge meglio alle misure minime, dove un arco sottile e vicino si confonde con il ciclo." },
@@ -319,7 +319,7 @@ function buildConcepts(ink) {
       slug: "dev-app-icon",
       title: "Icona della build di sviluppo",
       concept:
-        "Il segno preferito in revisione con una fascia diagonale sull'angolo in basso a sinistra: distingue a colpo d'occhio la build Dev della sezione 30.1 da quella pubblica, senza ricorrere a testo, che in un'icona richiederebbe un font di sistema e sparirebbe alle misure minime. La fascia corre sotto il piede del fianco e non tocca nessun tratto del segno, che resta identico a quello pubblico.",
+        "La baseline canonica A1 Lavender 50 con una fascia diagonale sull'angolo in basso a sinistra: distingue a colpo d'occhio la build Dev della sezione 30.1 da quella pubblica, senza ricorrere a testo, che in un'icona richiederebbe un font di sistema e sparirebbe alle misure minime. La fascia corre sotto il piede del fianco e non tocca nessun tratto del segno, che resta identico a quello pubblico.",
       shift: box.shift,
       scale: box.scale,
       symbol,

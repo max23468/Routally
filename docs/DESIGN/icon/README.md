@@ -1,74 +1,65 @@
-# Icona Routally — asset e import in Icon Composer
+# Icona Routally — asset, baseline e import
 
-Direzione, regole di costruzione e stato del gate stanno nella sezione 4.8 del
-[Master Plan](../../MASTER_PLAN.md). Qui c'è soltanto cosa contiene questa cartella e come
-portarla in Icon Composer.
+La baseline canonica per la validazione Apple è **A1 Lavender con testa 50**. Il segno è un
+monogramma `R` costruito attorno a un ciclo; `DG-ICON` resta aperto per le prove Apple e
+umane, non per una nuova esplorazione visuale.
 
-## Cosa c'è
+## Struttura della cartella
 
-| File | Uso |
+| Percorso | Uso |
 |---|---|
-| `a1-air-medium-*.svg` | variante preferita in revisione, in attesa di `DG-ICON` |
-| `t1-cycle-consequence-*.svg` | versione ridotta senza arco, per le misure minime |
-| `a2`, `a3` | stesso segno con più aria attorno all'arco |
-| `t2`, `v1`–`v3` | letture alternative: soglia sul ciclo singolo, secondo ciclo incastrato |
-| `dev-app-icon-*.svg` | build Dev della sezione 30.1 |
-| `layers/` | gli stessi segni con un file per livello, pronti per l'import |
+| `a1-air-medium-*.svg` | baseline canonica Lavender 50 |
+| `dev-app-icon-*.svg` | stessa baseline con fascia Dev |
+| `t1-cycle-consequence-*` | fallback globale |
+| `a2-*`, `a3-*`, `t2-*`, `v1-*`–`v3-*` | alternative archiviate |
+| `composer-layers/` | livelli autonomi per tutte le varianti |
+| `experiments/a1-air-medium-amber-*` | controllo Amber 50 |
+| `experiments/a1-air-medium-head54-*` | confronto storico archiviato |
+| `experiments/*monochrome*` | simulazione piatta, non resa Apple |
+| `evidence/` | tavole comparative SVG riproducibili |
 
-Il suffisso `-indigo` è il segno chiaro su fondo indaco, `-light` è il segno indaco su
-fondo chiaro. **La versione indaco è quella primaria**: su uno sfondo chiaro il riquadro
-bianco si dissolve e l'icona perde il proprio contorno.
+Il generatore canonico produce direttamente testa 50 sia per A1 sia per la derivata Dev. Il
+trattamento primario usa fondo `#4C46D8`, monogramma bianco e accento `#CAC7FF`.
 
-**Ogni** file combinato espone già i livelli come gruppi nominati, quindi qualunque variante
-è importabile e separabile. La cartella `layers/` aggiunge, per il segno preferito e per la
-build Dev, gli stessi livelli come file distinti con le coordinate già trasformate, che non
-dipendono da alcun `transform` esterno: ricompongono il file unico corrispondente con uno
-scarto dello 0,06 per cento dei pixel, confinato all'antialiasing sul filo dell'arco.
+## Confronto residuo
 
-## Livelli
+Le sole varianti ammesse alle verifiche mancanti sono:
 
-| Livello | Contenuto | Perché è separato |
-|---|---|---|
-| `background` | il fondo pieno | Icon Composer può anche generarlo da un colore |
-| `symbol` | ciclo, fianco e gamba | è il soggetto e porta il contrasto pieno |
-| `accent` | arco di progresso e testa | è secondario e deve poter ricevere un trattamento proprio |
-| `overlay` | fascia diagonale, solo Dev | non appartiene al segno |
+1. A1 Lavender 50 — baseline;
+2. A1 Amber 50 — controllo cromatico;
+3. T1 — fallback globale.
 
-## Import
+A3 e testa 54 sono archiviate e si riaprono soltanto se Icon Composer o i dispositivi
+mostrano un problema concreto.
 
-Icon Composer fa parte di Xcode 26 e gira su macOS: **questi passaggi non sono stati
-eseguiti**, perché l'esplorazione è stata condotta su Linux. Vanno confermati alla prima
-apertura dello strumento.
+## Icon Composer
 
-1. Nuovo documento in Icon Composer, tela 1024.
-2. Importa i tre file di `layers/` per `a1-air-medium`, nell'ordine fondo, simbolo, accento.
-3. Verifica che lo strumento accetti i livelli come artwork separati e non li appiattisca.
-4. Genera gli aspetti previsti e controlla il risultato in chiaro, scuro e monocromatico.
-5. Esporta e collega l'asset al target.
+Icon Composer richiede macOS Tahoe 26.4 o successivo. Importare i livelli A1 da
+`composer-layers/`, duplicare il documento e applicare al solo accento i token Amber per il
+controllo cromatico, quindi importare T1 come fallback. Verificare Default, Dark, Mono,
+Clear e Tinted, salvare il file `.icon`, collegarlo ai target pubblico e Dev e provare il
+risultato su iPhone e iPad reali.
 
-## Cosa guardare, una volta dentro lo strumento
+T1 resta il benchmark della silhouette e non è una sostituzione automatica alle piccole dimensioni: è un eventuale fallback globale
+scelto esplicitamente.
 
-Sono i punti che il rendering piatto non può prevedere.
+## Evidenze
 
-- **Come reagisce l'arco al materiale e alla riflessione speculare di iOS 26.** È l'elemento
-  più sottile del segno ed è il primo candidato a sparire o a diventare rumore.
-- **Se il monocromatico distingue ancora accento e simbolo**, che lì restano separati solo
-  per luminanza.
-- **Le misure minime su dispositivo**, 29 e 40 punti: sul foglio l'attacco sottile della
-  rastremazione regge, ma va visto a distanza di lettura. Se non tiene, la risposta è
-  `t1-cycle-consequence`, non un arco più spesso.
+- [validation-plan.md](validation-plan.md): stato degli interventi;
+- [icon-composer-checklist.md](icon-composer-checklist.md): prova Apple;
+- [user-test-protocol.md](user-test-protocol.md): test cieco;
+- [originality-scan.md](originality-scan.md): ricerca preliminare;
+- [decision-record.md](decision-record.md): ratifica e chiusura di `DG-ICON`.
 
-## Rigenerare gli asset
-
-Gli SVG di questa cartella sono prodotti da una sorgente parametrica versionata.
+## Rigenerazione e controlli
 
 ```sh
-node scripts/build-icon-assets.mjs    # rigenera gli asset
-node scripts/check-icon-assets.mjs    # verifica che i file coincidano con la sorgente
+node scripts/build-icon-assets.mjs
+node scripts/check-icon-assets.mjs
+node scripts/build-icon-review-assets.mjs
+node scripts/check-icon-review-assets.mjs
+node scripts/validate-icon-assets.mjs
 ```
 
-Una modifica alla geometria si fa sulla sorgente, non ritoccando gli SVG a mano: le misure
-tengono insieme tangenze, contrasto di spessore, compensazione ottica e centraggio, e una
-correzione su un file solo li disallinea fra i due trattamenti cromatici, i livelli
-separati e la derivata Dev. Il controllo fallisce proprio in quel caso, oltre che se un
-file manca o se ne avanza uno non più prodotto dalla sorgente.
+Il builder elimina esclusivamente gli SVG generati e conserva qualsiasi evidenza manuale non
+SVG presente nelle cartelle.
