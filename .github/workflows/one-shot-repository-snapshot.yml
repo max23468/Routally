@@ -20,7 +20,9 @@ jobs:
           fetch-depth: 0
 
       - name: Apply canonical documentation updates
-        run: node scripts/apply-icon-review-updates-once.mjs
+        run: |
+          node scripts/apply-icon-review-updates-once.mjs
+          node scripts/fix-icon-validator-once.mjs
 
       - name: Regenerate and validate icon assets
         run: |
