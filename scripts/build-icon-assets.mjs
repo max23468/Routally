@@ -319,7 +319,7 @@ function buildConcepts(ink) {
       slug: "dev-app-icon",
       title: "Icona della build di sviluppo",
       concept:
-        "Il segno approvato con una fascia diagonale sull'angolo in basso a sinistra: distingue a colpo d'occhio la build Dev della sezione 30.1 da quella pubblica, senza ricorrere a testo, che in un'icona richiederebbe un font di sistema e sparirebbe alle misure minime. La fascia corre sotto il piede del fianco e non tocca nessun tratto del segno, che resta identico a quello pubblico.",
+        "Il segno preferito in revisione con una fascia diagonale sull'angolo in basso a sinistra: distingue a colpo d'occhio la build Dev della sezione 30.1 da quella pubblica, senza ricorrere a testo, che in un'icona richiederebbe un font di sistema e sparirebbe alle misure minime. La fascia corre sotto il piede del fianco e non tocca nessun tratto del segno, che resta identico a quello pubblico.",
       shift: box.shift,
       scale: box.scale,
       symbol,
@@ -345,7 +345,7 @@ const layer = (id, color, items, shift, scale = 1) =>
 
 function svg(c, themeName) {
   const t = THEMES[themeName];
-  const desc = `${c.concept} Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 con contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base; varco, arresto dell'eco e apertura del secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi. Trattamento cromatico: ${t.label}. Livelli per Icon Composer: background, symbol${c.accent.length ? ", accent" : ""}. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.`;
+  const desc = `${c.concept} Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 con contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base; varco della soglia e apertura di un eventuale secondo ciclo sulla diagonale a quarantacinque gradi, mentre l'arco esterno si ferma trenta gradi sopra l'orizzontale. Trattamento cromatico: ${t.label}. Livelli per Icon Composer: background, symbol${c.accent.length ? ", accent" : ""}. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.`;
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">`,
     `  <title id="title">Routally — ${c.title}</title>`,

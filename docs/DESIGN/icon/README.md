@@ -20,7 +20,7 @@ fondo chiaro. **La versione indaco è quella primaria**: su uno sfondo chiaro il
 bianco si dissolve e l'icona perde il proprio contorno.
 
 **Ogni** file combinato espone già i livelli come gruppi nominati, quindi qualunque variante
-è importabile e separabile. La cartella `layers/` aggiunge, per il segno approvato e per la
+è importabile e separabile. La cartella `layers/` aggiunge, per il segno preferito e per la
 build Dev, gli stessi livelli come file distinti con le coordinate già trasformate, che non
 dipendono da alcun `transform` esterno: ricompongono il file unico corrispondente con uno
 scarto dello 0,06 per cento dei pixel, confinato all'antialiasing sul filo dell'arco.
