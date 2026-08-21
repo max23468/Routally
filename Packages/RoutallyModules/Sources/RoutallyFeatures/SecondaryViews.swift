@@ -8,15 +8,15 @@ struct ExploreView: View {
   var body: some View {
     NavigationStack {
       List {
-        Section(L10n.text(.perIniziare)) {
-          Label(L10n.text(.palestra), systemImage: "figure.strengthtraining.traditional")
-          Label(L10n.text(.casaSenzaStress), systemImage: "house")
+        Section(.perIniziare) {
+          Label(.palestra, systemImage: "figure.strengthtraining.traditional")
+          Label(.casaSenzaStress, systemImage: "house")
         }
-        Section(L10n.text(.routineCollegate)) {
-          Label(L10n.text(.registraUnaVoltaAggiornaTutto), systemImage: "link")
+        Section(.routineCollegate) {
+          Label(.registraUnaVoltaAggiornaTutto, systemImage: "link")
         }
       }
-      .navigationTitle(L10n.text(.esplora))
+      .navigationTitle(.esplora)
       .toolbar { profileToolbar }
     }
   }
@@ -27,7 +27,7 @@ struct ExploreView: View {
       Button {
         router.sheet = .profile
       } label: {
-        Label(L10n.text(.profilo), systemImage: "person.crop.circle")
+        Label(.profilo, systemImage: "person.crop.circle")
       }
     }
   }
@@ -39,17 +39,17 @@ struct InsightsView: View {
   var body: some View {
     NavigationStack {
       ContentUnavailableView {
-        Label(L10n.text(.servonoAncoraAlcuniDati), systemImage: "chart.xyaxis.line")
+        Label(.servonoAncoraAlcuniDati, systemImage: "chart.xyaxis.line")
       } description: {
-        Text(L10n.text(.leAnalisiApparirannoQuandoPotrannoAiutareUnaDecisione))
+        Text(.leAnalisiApparirannoQuandoPotrannoAiutareUnaDecisione)
       }
-      .navigationTitle(L10n.text(.analisi))
+      .navigationTitle(.analisi)
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           Button {
             router.sheet = .profile
           } label: {
-            Label(L10n.text(.profilo), systemImage: "person.crop.circle")
+            Label(.profilo, systemImage: "person.crop.circle")
           }
         }
       }
@@ -65,15 +65,19 @@ struct SearchView: View {
   var body: some View {
     NavigationStack {
       List(filteredRoutines) { routine in
-        Label(routine.name, systemImage: routine.symbol)
+        Label {
+          Text(verbatim: routine.name)
+        } icon: {
+          Image(systemName: routine.symbol)
+        }
       }
       .overlay {
         if filteredRoutines.isEmpty {
           ContentUnavailableView.search(text: query)
         }
       }
-      .navigationTitle(L10n.text(.cerca))
-      .searchable(text: $query, prompt: L10n.text(.routineFollowUpEKit))
+      .navigationTitle(.cerca)
+      .searchable(text: $query, prompt: .routineFollowUpEKit)
     }
   }
 
@@ -93,27 +97,24 @@ struct ProfileSheet: View {
   var body: some View {
     NavigationStack {
       List {
-        Section(L10n.text(.profiloLocale)) {
-          Label(L10n.text(.nessunAccountRemoto), systemImage: "person.crop.circle")
-          LabeledContent(
-            L10n.text(.piano),
-            value: store.snapshot.isPlus ? "Routally Plus" : "Routally Free"
-          )
+        Section(.profiloLocale) {
+          Label(.nessunAccountRemoto, systemImage: "person.crop.circle")
+          LabeledContent(.piano, value: store.snapshot.isPlus ? "Routally Plus" : "Routally Free")
         }
 
-        Section(L10n.text(.datiEServizio)) {
+        Section(.datiEServizio) {
           Label(
             store.snapshot.isOffline
-              ? L10n.text(.offline)
-              : L10n.text(.soloDatiLocaliNellaFoundation),
+              ? LocalizedStringResource.offline
+              : .soloDatiLocaliNellaFoundation,
             systemImage: store.snapshot.isOffline ? "icloud.slash" : "internaldrive"
           )
         }
       }
-      .navigationTitle(L10n.text(.profilo))
+      .navigationTitle(.profilo)
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
-          Button(L10n.text(.fatto)) {
+          Button(.fatto) {
             dismiss()
           }
         }

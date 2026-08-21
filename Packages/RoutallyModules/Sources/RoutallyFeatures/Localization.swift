@@ -1,7 +1,11 @@
 import Foundation
 
 enum L10n {
-  static func text(_ resource: LocalizedStringResource) -> String {
-    String(localized: resource)
+  static func string(_ resource: LocalizedStringResource, locale: Locale? = nil) -> String {
+    var resource = resource
+    if let locale {
+      resource.locale = locale
+    }
+    return String(localized: resource)
   }
 }

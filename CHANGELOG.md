@@ -17,6 +17,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
   SwiftUI interattiva su iPhone e iPad.
 - Riallineata la UI Foundation E03 al contratto Liquid Glass: CTA primarie glass,
   `CycleVisualization` riusabile, stati accessibili e preview dedicate.
+- Stabilizzata M01 senza anticipare il Core Routine Engine: localizzazione SwiftUI
+  differita tramite `LocalizedStringResource`, ownership unica del router, creazione
+  suddivisa in step testabili e coerenza dei follow-up/notifiche sintetici.
 - Master Plan 1.3: limiti Free portati a 10 routine e 5 collegamenti perché i 4 Kit
   introduttivi fossero davvero installabili, conseguenze del downgrade rese visibili,
   lettura selettiva del piano per sezioni, linea di galleggiamento pre-approvata della 1.0,

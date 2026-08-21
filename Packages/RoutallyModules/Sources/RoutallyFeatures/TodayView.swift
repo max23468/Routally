@@ -3,6 +3,8 @@ import RoutallyDomain
 import SwiftUI
 
 struct TodayView: View {
+  @Environment(\.locale) private var locale
+
   let store: RoutallyStore
   let router: AppRouter
   let featureFlags: FeatureFlags
@@ -19,7 +21,7 @@ struct TodayView: View {
           developerSection
         }
       }
-      .navigationTitle(L10n.text(.oggi))
+      .navigationTitle(.oggi)
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           profileButton
@@ -34,8 +36,8 @@ struct TodayView: View {
       Section {
         Label(
           store.snapshot.hasPendingChanges
-            ? L10n.text(.statusOfflinePending)
-            : L10n.text(.offline),
+            ? LocalizedStringResource.statusOfflinePending
+            : .offline,
           systemImage: "icloud.slash"
         )
         .foregroundStyle(RoutallyColor.statusAttention)
@@ -44,22 +46,19 @@ struct TodayView: View {
 
     if store.snapshot.hasCloudConflict {
       Section {
-        Label(
-          L10n.text(.statusCloudConflict),
-          systemImage: "exclamationmark.icloud"
-        )
-        .foregroundStyle(RoutallyColor.statusAttention)
+        Label(.statusCloudConflict, systemImage: "exclamationmark.icloud")
+          .foregroundStyle(RoutallyColor.statusAttention)
       }
     }
 
     if store.snapshot.hasRecoverableEventError {
       Section {
         Label(
-          L10n.text(.statusEventRetained),
+          .statusEventRetained,
           systemImage: "exclamationmark.arrow.trianglehead.counterclockwise"
         )
         .foregroundStyle(RoutallyColor.statusAttention)
-        Button(L10n.text(.riprova)) {
+        Button(.riprova) {
           store.retryRecoverableEvent()
         }
       }
@@ -71,7 +70,7 @@ struct TodayView: View {
     let readyFollowUps = store.snapshot.followUps.filter { $0.state == .ready }
     let nowRoutines = routines(in: .now)
     if !readyFollowUps.isEmpty || !nowRoutines.isEmpty {
-      Section(L10n.text(.adesso)) {
+      Section(.adesso) {
         ForEach(readyFollowUps) { followUp in
           FollowUpRow(followUp: followUp) {
             store.completeFollowUp(id: followUp.id)
@@ -86,7 +85,7 @@ struct TodayView: View {
   private var laterSection: some View {
     let laterRoutines = routines(in: .later)
     if !laterRoutines.isEmpty {
-      Section(L10n.text(.todaySectionLater)) {
+      Section(.todaySectionLater) {
         routineRows(laterRoutines)
       }
     }
@@ -96,7 +95,7 @@ struct TodayView: View {
   private var weekSection: some View {
     let weekRoutines = routines(in: .thisWeek)
     if !weekRoutines.isEmpty {
-      Section(L10n.text(.questaSettimana)) {
+      Section(.questaSettimana) {
         routineRows(weekRoutines)
       }
     }
@@ -109,11 +108,11 @@ struct TodayView: View {
     {
       Section {
         ContentUnavailableView {
-          Label(L10n.text(.tuttoSottoControllo), systemImage: "checkmark.circle")
+          Label(.tuttoSottoControllo, systemImage: "checkmark.circle")
         } description: {
-          Text(L10n.text(.iniziaCreandoLaPrimaRoutine))
+          Text(.iniziaCreandoLaPrimaRoutine)
         } actions: {
-          Button(L10n.text(.creaUnaRoutine)) {
+          Button(.creaUnaRoutine) {
             router.sheet = .creation
           }
           .buttonStyle(.glassProminent)
@@ -131,7 +130,7 @@ struct TodayView: View {
       RoutineRow(routine: routine, isRecordable: store.canRecordRoutine(id: routine.id)) {
         router.showRoutine(id: routine.id)
       } primaryAction: {
-        if store.recordRoutine(id: routine.id) {
+        if store.recordRoutine(id: routine.id, locale: locale) {
           router.sheet = .consequences
         }
       }
@@ -141,17 +140,16 @@ struct TodayView: View {
   @ViewBuilder
   private var developerSection: some View {
     if featureFlags.developerDiagnosticsEnabled, !store.snapshot.followUps.isEmpty {
-      Section(L10n.text(.scenarioDev)) {
-        Button(L10n.text(.simulaArrivoACasa)) {
-          store.revealFollowUpAtHome()
+      Section(.scenarioDev) {
+        Button(.simulaArrivoACasa) {
+          let revealedFollowUpIDs = store.revealFollowUpAtHome()
+          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
         }
-        Button(L10n.text(.simulaFallbackDelle2000)) {
-          store.triggerFallback()
+        Button(.simulaFallbackDelle2000) {
+          let revealedFollowUpIDs = store.triggerFallback()
+          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
         }
-        LabeledContent(
-          L10n.text(.notificheSimulate),
-          value: String(store.snapshot.notificationCount)
-        )
+        LabeledContent(.notificheSimulate, value: String(store.snapshot.notificationCount))
       }
     }
   }
@@ -160,7 +158,7 @@ struct TodayView: View {
     Button {
       router.sheet = .profile
     } label: {
-      Label(L10n.text(.profilo), systemImage: "person.crop.circle")
+      Label(.profilo, systemImage: "person.crop.circle")
     }
     .accessibilityIdentifier("profile-button")
   }
@@ -168,6 +166,7 @@ struct TodayView: View {
 
 private struct RoutineRow: View {
   @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+  @Environment(\.locale) private var locale
 
   let routine: RoutineSummary
   let isRecordable: Bool
@@ -207,10 +206,10 @@ private struct RoutineRow: View {
         .accessibilityHidden(true)
 
         VStack(alignment: .leading, spacing: RoutallySpacing.space4) {
-          Text(routine.name)
+          Text(verbatim: routine.name)
             .font(RoutallyFont.itemTitle)
             .fontWeight(.semibold)
-          Text(routine.context)
+          Text(verbatim: routine.context)
             .font(RoutallyFont.itemContext)
             .foregroundStyle(RoutallyColor.contentSecondary)
         }
@@ -221,12 +220,10 @@ private struct RoutineRow: View {
     .buttonStyle(.plain)
     .accessibilityLabel(routine.name)
     .accessibilityValue(
-      L10n.text(
-        .routineAccessibilityProgress(
-          routine.cycleStateLabel,
-          Int32(routine.progress),
-          Int32(routine.target)
-        )
+      .routineAccessibilityProgress(
+        L10n.string(routine.cycleStateLabel, locale: locale),
+        Int32(routine.progress),
+        Int32(routine.target)
       )
     )
     .accessibilityHint(routine.context)
@@ -235,10 +232,10 @@ private struct RoutineRow: View {
   @ViewBuilder
   private var primaryButton: some View {
     if isRecordable {
-      Button(L10n.text(.registra), action: primaryAction)
+      Button(.registra, action: primaryAction)
         .buttonStyle(.glassProminent)
         .controlSize(dynamicTypeSize.isAccessibilitySize ? .large : .small)
-        .accessibilityLabel(L10n.text(.routineLogAction(routine.name)))
+        .accessibilityLabel(.routineLogAction(routine.name))
     }
   }
 }
@@ -249,14 +246,18 @@ private struct FollowUpRow: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: RoutallySpacing.space8) {
-      Label(followUp.title, systemImage: "tshirt")
-        .font(RoutallyFont.itemTitle)
-      Text(followUp.origin)
+      Label {
+        Text(verbatim: followUp.title)
+      } icon: {
+        Image(systemName: "tshirt")
+      }
+      .font(RoutallyFont.itemTitle)
+      Text(verbatim: followUp.origin)
         .font(RoutallyFont.itemContext)
         .foregroundStyle(RoutallyColor.contentSecondary)
-      Button(L10n.text(.fatto), action: complete)
+      Button(.fatto, action: complete)
         .buttonStyle(.glassProminent)
-        .accessibilityLabel(L10n.text(.followupCompleteAccessibility(followUp.title)))
+        .accessibilityLabel(.followupCompleteAccessibility(followUp.title))
     }
     .padding(.vertical, RoutallySpacing.space4)
   }
@@ -276,16 +277,16 @@ extension RoutineSummary {
     }
   }
 
-  var cycleStateLabel: String {
+  var cycleStateLabel: LocalizedStringResource {
     switch state {
     case .active:
-      L10n.text(.inCorso)
+      .inCorso
     case .thresholdReached:
-      L10n.text(.sogliaRaggiunta)
+      .sogliaRaggiunta
     case .followUpReady:
-      L10n.text(.followUpPronto)
+      .followUpPronto
     case .complete:
-      L10n.text(.completato)
+      .completato
     }
   }
 }

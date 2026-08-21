@@ -30,7 +30,7 @@ struct RoutinesView: View {
             RoutineDetailView(routine: routine(id: routineID), store: store)
           }
         }
-        .navigationTitle(L10n.text(.routine))
+        .navigationTitle(.routine)
         .toolbar { rootToolbar }
     }
   }
@@ -40,16 +40,13 @@ struct RoutinesView: View {
 
     return NavigationSplitView {
       selectableRoutineList
-        .navigationTitle(L10n.text(.routine))
+        .navigationTitle(.routine)
         .toolbar { rootToolbar }
     } detail: {
       if let selectedRoutineID = router.selectedRoutineID {
         RoutineDetailView(routine: routine(id: selectedRoutineID), store: store)
       } else {
-        ContentUnavailableView(
-          L10n.text(.scegliUnaRoutine),
-          systemImage: "list.bullet.rectangle"
-        )
+        ContentUnavailableView(.scegliUnaRoutine, systemImage: "list.bullet.rectangle")
       }
     }
   }
@@ -80,7 +77,7 @@ struct RoutinesView: View {
   private func routineLabel(for routine: RoutineSummary) -> some View {
     Label {
       VStack(alignment: .leading) {
-        Text(routine.name)
+        Text(verbatim: routine.name)
         Text(verbatim: "\(routine.progress)/\(routine.target)")
           .font(RoutallyFont.supporting)
           .foregroundStyle(RoutallyColor.contentSecondary)
@@ -94,9 +91,9 @@ struct RoutinesView: View {
   private var emptyState: some View {
     if store.snapshot.routines.isEmpty {
       ContentUnavailableView(
-        L10n.text(.nessunaRoutine),
+        .nessunaRoutine,
         systemImage: "repeat",
-        description: Text(L10n.text(.usaIlPulsanteNuovaRoutinePerIniziare))
+        description: Text(.usaIlPulsanteNuovaRoutinePerIniziare)
       )
     }
   }
@@ -107,7 +104,7 @@ struct RoutinesView: View {
       Button {
         router.sheet = .creation
       } label: {
-        Label(L10n.text(.nuovaRoutine), systemImage: "plus")
+        Label(.nuovaRoutine, systemImage: "plus")
       }
       .keyboardShortcut("n", modifiers: .command)
       .accessibilityIdentifier("new-routine-button")
@@ -119,7 +116,7 @@ struct RoutinesView: View {
       Button {
         router.sheet = .profile
       } label: {
-        Label(L10n.text(.profilo), systemImage: "person.crop.circle")
+        Label(.profilo, systemImage: "person.crop.circle")
       }
       .keyboardShortcut(",", modifiers: .command)
     }
@@ -149,34 +146,44 @@ private struct RoutineDetailView: View {
           .listRowBackground(Color.clear)
         }
 
-        if routine.id == "gym" {
-          Section(L10n.text(.conseguenze)) {
-            LabeledContent(
-              L10n.text(.obiettivoSettimanale),
-              value: "\(routine.progress)/\(routine.target)"
-            )
-            if store.hasLinkedTowel(forRoutineID: routine.id) {
-              Label(
-                L10n.text(.aggiunge1UtilizzoAdAsciugamanoPalestra),
-                systemImage: "link"
-              )
-            }
+        if store.hasLinkedTowel(forRoutineID: routine.id) {
+          Section(.conseguenze) {
+            LabeledContent(.obiettivoSettimanale, value: "\(routine.progress)/\(routine.target)")
+            Label(.aggiunge1UtilizzoAdAsciugamanoPalestra, systemImage: "link")
           }
         }
 
-        Section(L10n.text(.configurazione)) {
-          Label(L10n.text(.frequenzaEObiettivo), systemImage: "calendar")
-          Label(L10n.text(.collegamenti), systemImage: "link")
-          Label(L10n.text(.passoSuccessivo), systemImage: "arrow.forward.circle")
-          Label(L10n.text(.promemoria), systemImage: "bell")
+        Section(.configurazione) {
+          if let area = areaResource(for: routine.id) {
+            LabeledContent {
+              Text(area)
+            } label: {
+              Label(.area, systemImage: "square.grid.2x2")
+            }
+          }
+          Label(.frequenzaEObiettivo, systemImage: "calendar")
+          Label(.collegamenti, systemImage: "link")
+          Label(.passoSuccessivo, systemImage: "arrow.forward.circle")
+          Label(.promemoria, systemImage: "bell")
         }
       }
       .navigationTitle(routine.name)
     } else {
-      ContentUnavailableView(
-        L10n.text(.routineNonDisponibile),
-        systemImage: "exclamationmark.triangle"
-      )
+      ContentUnavailableView(.routineNonDisponibile, systemImage: "exclamationmark.triangle")
+    }
+  }
+
+  private func areaResource(for routineID: String) -> LocalizedStringResource? {
+    guard let rawArea = store.creationDraft(forRoutineID: routineID)?.area else { return nil }
+    switch rawArea {
+    case RoutineArea.wellbeing.rawValue:
+      return LocalizedStringResource.benessere
+    case RoutineArea.home.rawValue:
+      return LocalizedStringResource.casa
+    case RoutineArea.personal.rawValue:
+      return LocalizedStringResource.personale
+    default:
+      return nil
     }
   }
 }

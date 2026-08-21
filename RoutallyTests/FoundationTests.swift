@@ -1,3 +1,4 @@
+import Foundation
 import RoutallyDomain
 import RoutallyFeatures
 import RoutallyFixtures
@@ -40,11 +41,43 @@ struct FoundationTests {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
     store.recordRoutine(id: "gym")
 
-    store.revealFollowUpAtHome()
-    store.triggerFallback()
+    let revealedAtHome = store.revealFollowUpAtHome()
+    let deliverableAtFallback = store.triggerFallback()
+    store.simulateNotificationDelivery(for: revealedAtHome + deliverableAtFallback)
 
     #expect(store.snapshot.followUps.count == 1)
     #expect(store.snapshot.followUps.first?.state == .ready)
+    #expect(store.snapshot.notificationCount == 1)
+  }
+
+  @Test("Arrivo a casa rende pronti solo i follow-up configurati per casa")
+  func arrivalOnlyRevealsHomeFollowUps() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+
+    var eveningDraft = creationDraft(name: "Palestra")
+    eveningDraft.towelThreshold = 1
+    eveningDraft.usefulMoment = .evening
+    store.createRoutine(from: eveningDraft)
+
+    var homeDraft = creationDraft(name: "Corsa")
+    homeDraft.towelThreshold = 1
+    homeDraft.usefulMoment = .home
+    store.createRoutine(from: homeDraft)
+
+    store.recordRoutine(id: "gym")
+    store.recordRoutine(id: "gym-2")
+    let revealedFollowUpIDs = store.revealFollowUpAtHome()
+
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-towel" }?.state
+        == .waitingForUsefulMoment
+    )
+    #expect(
+      store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
+    )
+    #expect(store.snapshot.notificationCount == 0)
+
+    store.simulateNotificationDelivery(for: revealedFollowUpIDs)
     #expect(store.snapshot.notificationCount == 1)
   }
 
@@ -188,8 +221,33 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.target == 5)
     #expect(store.snapshot.routines.first { $0.id == "gym" }?.progress == 0)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.target == 6)
+    #expect(store.creationDraft(forRoutineID: "gym")?.area == "wellbeing")
     #expect(store.creationDraft(forRoutineID: "gym")?.followUpTitle == "Prepara le scarpe")
     #expect(store.creationDraft(forRoutineID: "gym")?.startsNextCycle == false)
+  }
+
+  @Test("La creazione usa la locale richiesta per i testi sintetici")
+  func creationUsesRequestedLocale() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    let locale = Locale(identifier: "en")
+    let draft = creationDraft(name: "Gym")
+
+    #expect(store.createRoutine(from: draft, locale: locale) == "gym")
+    #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.name == "Gym towel")
+  }
+
+  @Test("La registrazione usa la locale richiesta per conseguenze e follow-up")
+  func recordingUsesRequestedLocale() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    let locale = Locale(identifier: "en")
+    var draft = creationDraft(name: "Gym")
+    draft.towelThreshold = 1
+    draft.followUpTitle = "Prepare the equipment"
+    store.createRoutine(from: draft, locale: locale)
+
+    #expect(store.recordRoutine(id: "gym", locale: locale))
+    #expect(store.consequenceSummary?.title == "Workout logged")
+    #expect(store.snapshot.followUps.first?.origin.contains("Gym towel") == true)
   }
 
   @Test("Creare una seconda routine preserva lo stato esistente")
@@ -224,6 +282,30 @@ struct FoundationTests {
     #expect(store.snapshot.routines.first?.progress == 1)
     #expect(store.snapshot.followUps == [existingFollowUp])
     #expect(store.snapshot.notificationCount == 1)
+  }
+
+  @Test("Lo store preserva lo stato di consegna notifiche esplicito")
+  func storePreservesExplicitNotificationCount() {
+    let mutedStore = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        followUps: [
+          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready)
+        ],
+        notificationCount: 0
+      )
+    )
+    let explicitStore = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        followUps: [
+          FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready)
+        ],
+        notificationCount: 7
+      )
+    )
+
+    #expect(mutedStore.snapshot.notificationCount == 0)
+    #expect(explicitStore.snapshot.notificationCount == 7)
+    #expect(explicitStore.triggerFallback().isEmpty)
   }
 
   @Test("Ogni routine creata può registrare il proprio progresso")
@@ -272,10 +354,14 @@ struct FoundationTests {
     #expect(
       store.snapshot.followUps.first { $0.id == "clean-gym-2-towel" }?.state == .ready
     )
+    #expect(store.snapshot.notificationCount == 0)
+
+    store.simulateNotificationDelivery(for: ["clean-gym-2-towel"])
+    #expect(store.snapshot.notificationCount == 1)
   }
 
-  @Test("Il momento immediato rende subito disponibile il follow-up")
-  func immediateUsefulMomentMakesFollowUpReady() {
+  @Test("Il momento immediato resta notificabile dal fallback Dev")
+  func immediateUsefulMomentCanBeDeliveredByFallback() {
     let store = RoutallyStore(snapshot: RoutallySnapshot())
     var draft = creationDraft(name: "Corsa")
     draft.towelThreshold = 1
@@ -285,6 +371,13 @@ struct FoundationTests {
     #expect(store.recordRoutine(id: "gym"))
     #expect(store.snapshot.followUps.first?.state == .ready)
     #expect(store.snapshot.routines.first { $0.id == "gym-towel" }?.state == .followUpReady)
+    #expect(store.snapshot.notificationCount == 0)
+
+    let deliverableAtFallback = store.triggerFallback()
+    #expect(deliverableAtFallback == ["clean-gym-towel"])
+    store.simulateNotificationDelivery(for: deliverableAtFallback + deliverableAtFallback)
+    #expect(store.snapshot.notificationCount == 1)
+    #expect(store.triggerFallback().isEmpty)
   }
 
   @Test("La navigazione programmatica apre il dettaglio della routine")
