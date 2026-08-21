@@ -20,7 +20,18 @@ jobs:
           fetch-depth: 0
 
       - name: Apply approved canonical baseline
-        run: python3 scripts/finalize-icon-baseline-once.py prepare
+        run: |
+          python3 scripts/finalize-icon-baseline-once.py prepare
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("docs/DESIGN/icon/README.md")
+          text = path.read_text(encoding="utf-8")
+          needle = "T1 non è una sostituzione automatica alle piccole dimensioni:"
+          replacement = "T1 resta il benchmark della silhouette e non è una sostituzione automatica alle piccole dimensioni:"
+          if needle not in text:
+              raise SystemExit("Frase T1 non trovata")
+          path.write_text(text.replace(needle, replacement, 1), encoding="utf-8")
+          PY
 
       - name: Regenerate and validate
         run: |
