@@ -71,7 +71,9 @@ function makeShapes(ink) {
     add(c.cx - c.rx, c.cy, c.cx - c.ri, BASE),
     `<rect x="${n(c.cx - c.rx)}" y="${n(c.cy)}" width="${n(c.rx - c.ri)}" height="${n(BASE - c.cy)}"/>`);
 
-  function leg(jx, jy, footX, t0 = 104, t1 = 118) {
+  // Vertici della gamba: servono sia a disegnarla sia a risolvere la tangenza del
+  // secondo ciclo, che deve appoggiarsi al suo bordo destro.
+  function legPolygon(jx, jy, footX, t0 = 104, t1 = 118) {
     const a = t0 * ink, b = t1 * ink;
     const dx = footX - jx, dy = BASE - jy, len = Math.hypot(dx, dy);
     const nx = -dy / len, ny = dx / len;
@@ -79,12 +81,17 @@ function makeShapes(ink) {
       const p0 = [jx + sg * nx * (a / 2), jy + sg * ny * (a / 2)];
       const p1 = [footX + sg * nx * (b / 2), BASE + sg * ny * (b / 2)];
       const k = (BASE - p0[1]) / (p1[1] - p0[1]);
-      return { top: p0, foot: p0[0] + k * (p1[0] - p0[0]) };
+      return [[p0[0], p0[1]], [p0[0] + k * (p1[0] - p0[0]), BASE]];
     };
-    const p = edge(1), q = edge(-1);
-    add(Math.min(p.top[0], q.top[0], p.foot, q.foot), Math.min(p.top[1], q.top[1]),
-        Math.max(p.top[0], q.top[0], p.foot, q.foot), BASE);
-    return `<path d="M ${n(p.top[0])} ${n(p.top[1])} L ${n(p.foot)} ${BASE} L ${n(q.foot)} ${BASE} L ${n(q.top[0])} ${n(q.top[1])} Z"/>`;
+    const [pTop, pFoot] = edge(1), [qTop, qFoot] = edge(-1);
+    return [pTop, pFoot, qFoot, qTop];
+  }
+
+  function leg(jx, jy, footX, t0 = 104, t1 = 118) {
+    const pts = legPolygon(jx, jy, footX, t0, t1);
+    add(Math.min(...pts.map((q) => q[0])), Math.min(...pts.map((q) => q[1])),
+        Math.max(...pts.map((q) => q[0])), Math.max(...pts.map((q) => q[1])));
+    return `<path d="M ${pts.map(([x, y]) => `${n(x)} ${n(y)}`).join(" L ")} Z"/>`;
   }
 
   function echoTaper(c, a0, a1, d, w0, w1, steps = 96) {
@@ -123,23 +130,62 @@ function makeShapes(ink) {
   // Composizione a due cicli: il secondo ricavato per tripla tangenza.
   const M = mk(420, 400, 240, 120);
   const LEG = { jx: 300, jy: 560, foot: 500 };
-  const distToCycle = (c, px, py) => {
-    let best = Infinity;
-    for (let i = 0; i < 1440; i += 1) {
-      const [x, y] = onE(c, (i * 360) / 1440);
-      best = Math.min(best, Math.hypot(x - px, y - py));
+
+  // Il secondo ciclo non viene collocato ma ricavato: tangente alla linea di base, al
+  // bordo destro della gamba e al ciclo principale. Le tre condizioni vanno risolte
+  // sull'ellisse nella sua posizione finale. Risolvere su un cerchio e poi schiacciarlo
+  // in ellisse e riappoggiarlo alla base distrugge entrambe le tangenze: e' l'errore
+  // corretto qui, che lasciava sedici unita' di luce dal ciclo e faceva compenetrare
+  // la gamba.
+  function solveSecondCycle() {
+    const pts = legPolygon(LEG.jx, LEG.jy, LEG.foot);
+    const edges = [[pts[0], pts[1]], [pts[3], pts[2]]];
+    const [a, b] = edges.reduce((best, e) => (e[0][0] + e[1][0] > best[0][0] + best[1][0] ? e : best));
+    const ex = b[0] - a[0], ey = b[1] - a[1], elen = Math.hypot(ex, ey);
+    let nx = ey / elen, ny = -ex / elen;
+    if (nx < 0) { nx = -nx; ny = -ny; }
+
+    const SAMPLES = 720;
+    const shape = (rx, cx) => ({ cx, cy: BASE + OVER - rx / STRESS, rx, ry: rx / STRESS });
+    const contour = (e) =>
+      Array.from({ length: SAMPLES }, (_, i) => {
+        const t = (i * 2 * Math.PI) / SAMPLES;
+        return [e.cx + e.rx * Math.cos(t), e.cy + e.ry * Math.sin(t)];
+      });
+    // Distanza con segno dal bordo della gamba: negativa se l'ellisse lo attraversa.
+    const legClearance = (rx, cx) =>
+      Math.min(...contour(shape(rx, cx)).map(([x, y]) => (x - a[0]) * nx + (y - a[1]) * ny));
+    // Posizione rispetto al ciclo principale: negativa se lo compenetra.
+    const mainClearance = (rx, cx) =>
+      Math.min(
+        ...contour(shape(rx, cx)).map(
+          ([x, y]) => ((x - M.cx) / M.rx) ** 2 + ((y - M.cy) / M.ry) ** 2 - 1,
+        ),
+      );
+
+    // Per un raggio dato, l'unica posizione orizzontale che tocca la gamba senza entrarci.
+    const cxTangent = (rx) => {
+      let lo = LEG.foot - 400, hi = LEG.foot + 900;
+      for (let i = 0; i < 90; i += 1) {
+        const mid = (lo + hi) / 2;
+        if (legClearance(rx, mid) < 0) lo = mid;
+        else hi = mid;
+      }
+      return (lo + hi) / 2;
+    };
+    // Il raggio cresce finche' l'ellisse, gia' tangente a gamba e base, tocca il ciclo.
+    let lo = 40, hi = 320;
+    for (let i = 0; i < 90; i += 1) {
+      const rx = (lo + hi) / 2;
+      if (mainClearance(rx, cxTangent(rx)) > 0) lo = rx;
+      else hi = rx;
     }
-    return best;
-  };
-  const ang = Math.atan2(BASE - LEG.jy, LEG.foot - LEG.jx), half = (Math.PI - ang) / 2;
-  const center = (R) => [LEG.foot + Math.cos(-half) * (R / Math.sin(half)), BASE + Math.sin(-half) * (R / Math.sin(half))];
-  let lo = 40, hi = 260;
-  for (let i = 0; i < 80; i += 1) {
-    const R = (lo + hi) / 2, [cx, cy] = center(R);
-    if (distToCycle(M, cx, cy) - R > 0) lo = R; else hi = R;
+    const rx = (lo + hi) / 2;
+    return { rx, cx: cxTangent(rx) };
   }
-  const R2 = (lo + hi) / 2, [sx] = center(R2);
-  const S = mk(sx, 0, R2, R2 - 54);
+
+  const SOL = solveSecondCycle();
+  const S = mk(SOL.cx, 0, SOL.rx, SOL.rx - 54);
   S.cy = BASE + OVER - S.ry;
 
   const E = mk(540, 440, 288, 168);

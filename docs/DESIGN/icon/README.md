@@ -8,7 +8,7 @@ portarla in Icon Composer.
 
 | File | Uso |
 |---|---|
-| `a1-air-medium-*.svg` | variante approvata, in due trattamenti cromatici |
+| `a1-air-medium-*.svg` | variante preferita in revisione, in attesa di `DG-ICON` |
 | `t1-cycle-consequence-*.svg` | versione ridotta senza arco, per le misure minime |
 | `a2`, `a3` | stesso segno con più aria attorno all'arco |
 | `t2`, `v1`–`v3` | letture alternative: soglia sul ciclo singolo, secondo ciclo incastrato |

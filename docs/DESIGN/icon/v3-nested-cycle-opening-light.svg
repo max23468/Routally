@@ -4,12 +4,12 @@
   <g id="background">
     <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
   </g>
-  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(66.01 -26.11) scale(1.0258915486077187)">
+  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-0.79 -26.11) scale(1.0258915486077187)">
     <path fill-rule="evenodd" d="M 660 400 A 240 228.33 0 1 1 180 400 A 240 228.33 0 1 1 660 400 Z M 540 400 A 120 120 0 1 1 300 400 A 120 120 0 1 1 540 400 Z"/>
     <rect x="180" y="400" width="120" height="448"/>
     <path d="M 257.29 589.66 L 429.15 848 L 572.84 848 L 342.71 530.34 Z"/>
   </g>
-  <g id="accent" fill="#3429BD" color="#3429BD" transform="translate(66.01 -26.11) scale(1.0258915486077187)">
-    <path d="M 496.1 637.14 A 124.4 118.36 0 1 1 453.36 683.55 L 501.26 705.89 A 70.4 70.4 0 1 0 524.69 677.97 Z"/>
+  <g id="accent" fill="#3429BD" color="#3429BD" transform="translate(-0.79 -26.11) scale(1.0258915486077187)">
+    <path d="M 572.56 576.85 A 158.99 151.26 0 1 1 517.94 636.17 L 565.55 658.37 A 104.99 104.99 0 1 0 600.48 616.74 Z"/>
   </g>
 </svg>

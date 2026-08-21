@@ -4,12 +4,12 @@
   <g id="background">
     <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
   </g>
-  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(61.34 -30.3) scale(1.0308013253159898)">
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-4.31 -30.3) scale(1.0308013253159898)">
     <path fill-rule="evenodd" d="M 656.4 400 A 236.4 225.08 0 1 1 183.6 400 A 236.4 225.08 0 1 1 656.4 400 Z M 540 400 A 120 120 0 1 1 300 400 A 120 120 0 1 1 540 400 Z"/>
     <rect x="183.6" y="400" width="116.4" height="448"/>
     <path d="M 258.57 588.77 L 431.25 848 L 570.63 848 L 341.43 531.23 Z"/>
   </g>
-  <g id="accent" fill="#CAC7FF" color="#CAC7FF" transform="translate(61.34 -30.3) scale(1.0308013253159898)">
-    <path fill-rule="evenodd" d="M 690.78 735.25 A 124.71 118.75 0 1 1 441.37 735.25 A 124.71 118.75 0 1 1 690.78 735.25 Z M 638.4 735.25 A 72.33 72.33 0 1 1 493.75 735.25 A 72.33 72.33 0 1 1 638.4 735.25 Z"/>
+  <g id="accent" fill="#CAC7FF" color="#CAC7FF" transform="translate(-4.31 -30.3) scale(1.0308013253159898)">
+    <path fill-rule="evenodd" d="M 818.16 702.72 A 158.84 151.28 0 1 1 500.47 702.72 A 158.84 151.28 0 1 1 818.16 702.72 Z M 765.78 702.72 A 106.46 106.46 0 1 1 552.85 702.72 A 106.46 106.46 0 1 1 765.78 702.72 Z"/>
   </g>
 </svg>
