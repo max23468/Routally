@@ -183,9 +183,10 @@ Le direzioni precedenti — azione centrale e conseguenze collegate, `R` con due
 onde originate da un gesto, tre elementi che chiudono un ciclo, tally marks collegati —
 sono archiviate.
 
-Le varianti sono costruite con livelli SVG separati e nominati `background`, `symbol` e
-`accent`, in due trattamenti cromatici, e provate in Icon Composer in aspetto standard,
-dark e monocromatico. Il confronto avviene a dimensioni piccole e senza testo,
+Ogni variante è costruita con livelli SVG nominati `background`, `symbol` e `accent`, in due
+trattamenti cromatici, ed è quindi importabile e separabile in Icon Composer per la prova in
+aspetto standard, dark e monocromatico. Il segno destinato alla produzione espone gli stessi
+livelli anche come file distinti. Il confronto avviene a dimensioni piccole e senza testo,
 verificando che il segno non sembri un navigatore, un simbolo di condivisione, una rete
 o un'app di automazione. Gli asset sono in [icon/](icon/). La scelta della variante resta
 nel Decision Gate `DG-ICON`: E02 chiude direzioni e criteri, non seleziona

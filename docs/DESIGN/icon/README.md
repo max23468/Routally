@@ -19,9 +19,11 @@ Il suffisso `-indigo` è il segno chiaro su fondo indaco, `-light` è il segno i
 fondo chiaro. **La versione indaco è quella primaria**: su uno sfondo chiaro il riquadro
 bianco si dissolve e l'icona perde il proprio contorno.
 
-I file in `layers/` hanno le coordinate già trasformate e non dipendono da alcun `transform`
-esterno. Ricompongono il file unico corrispondente con uno scarto dello 0,06 per cento dei
-pixel, confinato all'antialiasing sul filo dell'arco.
+**Ogni** file combinato espone già i livelli come gruppi nominati, quindi qualunque variante
+è importabile e separabile. La cartella `layers/` aggiunge, per il segno approvato e per la
+build Dev, gli stessi livelli come file distinti con le coordinate già trasformate, che non
+dipendono da alcun `transform` esterno: ricompongono il file unico corrispondente con uno
+scarto dello 0,06 per cento dei pixel, confinato all'antialiasing sul filo dell'arco.
 
 ## Livelli
 
@@ -58,6 +60,15 @@ Sono i punti che il rendering piatto non può prevedere.
 
 ## Rigenerare gli asset
 
-I file sono prodotti da un generatore deterministico che non è versionato: la fonte
-canonica sono gli SVG. Una modifica alla geometria si fa sul segno, non ritoccando i file
-a mano, per non perdere le tangenze e le compensazioni ottiche descritte nella 4.8.
+Gli SVG di questa cartella sono prodotti da una sorgente parametrica versionata.
+
+```sh
+node scripts/build-icon-assets.mjs    # rigenera gli asset
+node scripts/check-icon-assets.mjs    # verifica che i file coincidano con la sorgente
+```
+
+Una modifica alla geometria si fa sulla sorgente, non ritoccando gli SVG a mano: le misure
+tengono insieme tangenze, contrasto di spessore, compensazione ottica e centraggio, e una
+correzione su un file solo li disallinea fra i due trattamenti cromatici, i livelli
+separati e la derivata Dev. Il controllo fallisce proprio in quel caso, oltre che se un
+file manca o se ne avanza uno non più prodotto dalla sorgente.
