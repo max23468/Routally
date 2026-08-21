@@ -23,3 +23,7 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
   spike TG-RECALC sul ricalcolo retroattivo, soglie di beta dichiarate qualitative e
   regola deterministica per «Questa settimana».
 - Aggiunto ADR-0005: la review delle pull request è un gate di CI e non un ruolo di agente.
+- Consolidata la preparazione di `DG-ICON`: livelli SVG autonomi per tutte le varianti,
+  rifiniture A1 testa/Lavender/Amber, tavole dimensionali riproducibili, validazione
+  geometrica indipendente, checklist Icon Composer e dispositivi, protocollo di user test,
+  ricerca preliminare di originalità e decision record ancora aperto.
