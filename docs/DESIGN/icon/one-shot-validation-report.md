@@ -1,9 +1,9 @@
 # Rapporto di validazione una tantum
 
 - **Data:** 21 agosto 2026
-- **GitHub Actions run:** `32468007802`
-- **Job:** `96728666505`
-- **Working tree validato e materializzato nel commit:** `d9c08bef5b1386f4f1e446d9908c66aef9365853`
+- **GitHub Actions run:** `32468397569`
+- **Job:** `96729835805`
+- **Working tree validato e materializzato nel commit:** `89062f387148ec7e769ee704cc12fdda9a4977e2`
 - **Esito:** superato
 
 Il job temporaneo è stato usato soltanto per disporre di un checkout Linux completo del
@@ -16,6 +16,7 @@ permanente dell'icona e viene rimosso prima della revisione finale della PR.
 node scripts/build-icon-assets.mjs
 node scripts/check-icon-assets.mjs
 node scripts/build-icon-review-assets.mjs
+node scripts/check-icon-review-assets.mjs
 node scripts/validate-icon-assets.mjs
 node scripts/check-reading-matrix.mjs
 node scripts/check-roadmap-hierarchy.mjs
@@ -27,9 +28,11 @@ git diff --check
 | Controllo | Risultato |
 |---|---:|
 | SVG canonici generati e allineati | 32 file |
+| Asset di revisione generati | 64 file |
 | Livelli autonomi per Icon Composer | 52 file |
 | Microvarianti A1 | 7 file |
 | Tavole di evidenza | 5 file |
+| Asset di revisione allineati al builder | 64 file |
 | Controlli indipendenti dell'icona | 607 superati |
 | Matrice di lettura del Master Plan | 54 sezioni, nessuna irraggiungibile |
 | Gerarchia roadmap | 12 milestone, 22 epiche, 35 requisiti, 7 gate |
@@ -46,7 +49,8 @@ controlli.
 ## Limiti
 
 Questa validazione copre file, geometria, tangenze, angoli, centraggio, contrasti, metadati,
-assenza di raster, livelli autonomi e coerenza documentale. Non prova:
+assenza di raster, livelli autonomi, riproducibilità del builder e coerenza documentale. Non
+prova:
 
 - import effettivo in Icon Composer;
 - materiali Liquid Glass;
