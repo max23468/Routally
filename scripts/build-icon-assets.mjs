@@ -287,7 +287,7 @@ function buildConcepts(ink) {
     "t2-cycle-threshold",
     "Il ciclo aperto alla soglia",
     "Il segno ridotto con un varco radiale di ventisei gradi centrato sulla diagonale: il ciclo che ha raggiunto la soglia ed e' pronto a ripartire. Il varco sta nel punto meno strutturale del segno e lascia intatti fianco e gamba.",
-    () => ({ symbol: [s.cycleOpen(s.E, 329, 303), s.flank(s.E), s.leg(372, 600, 740)], accent: [] }),
+    () => ({ symbol: [s.cycleOpen(s.E, 328, 302), s.flank(s.E), s.leg(372, 600, 740)], accent: [] }),
   );
   push(
     "v1-nested-cycle",
@@ -299,13 +299,13 @@ function buildConcepts(ink) {
     "v2-nested-cycle-threshold",
     "L'incastro e la soglia",
     "La stessa costruzione con il varco radiale nel ciclo principale: la soglia raggiunta e il ciclo che ne consegue, incastrato nella struttura invece che appoggiato di fianco.",
-    () => ({ symbol: [s.cycleOpen(s.M, 329, 303), s.flank(s.M), s.leg(s.LEG.jx, s.LEG.jy, s.LEG.foot)], accent: [s.cycle(s.S)] }),
+    () => ({ symbol: [s.cycleOpen(s.M, 328, 302), s.flank(s.M), s.leg(s.LEG.jx, s.LEG.jy, s.LEG.foot)], accent: [s.cycle(s.S)] }),
   );
   push(
     "v3-nested-cycle-opening",
     "L'incastro appena aperto",
     "Il ciclo principale e' compiuto, il secondo si apre verso la gamba che lo raggiunge. La conseguenza non e' un oggetto consegnato ma un ciclo che comincia, e il varco impedisce al cerchio di leggersi come una lettera.",
-    () => ({ symbol: [s.cycle(s.M), s.flank(s.M), s.leg(s.LEG.jx, s.LEG.jy, s.LEG.foot)], accent: [s.cycleOpen(s.S, 235, 205)] }),
+    () => ({ symbol: [s.cycle(s.M), s.flank(s.M), s.leg(s.LEG.jx, s.LEG.jy, s.LEG.foot)], accent: [s.cycleOpen(s.S, 240, 210)] }),
   );
 
   const dev = (() => {
