@@ -145,8 +145,18 @@ function makeShapes(ink) {
     let nx = ey / elen, ny = -ex / elen;
     if (nx < 0) { nx = -nx; ny = -ny; }
 
+    // Campioni del contorno. La tangenza risulta risolta entro un decimo di unita' su una
+    // tela di 1024, cioe' sotto la precisione di qualunque resa: alzarli a 2880 sposta il
+    // residuo fra i due trattamenti invece di ridurlo, e porta la generazione a venti secondi.
     const SAMPLES = 720;
-    const shape = (rx, cx) => ({ cx, cy: BASE + OVER - rx / STRESS, rx, ry: rx / STRESS });
+    // La forma provata dal solutore deve essere quella che finisce nel file, cioe' gia'
+    // assottigliata dalla compensazione ottica: risolvere sull'ellisse piena e comprimerla
+    // dopo lascia la tangenza solo al trattamento chiaro e la perde su quello indaco.
+    const shape = (rx, cx) => {
+      const ri = rx - 54;
+      const ry = ri + (rx / STRESS - ri) * ink;
+      return { cx, cy: BASE + OVER - ry, rx: ri + (rx - ri) * ink, ry };
+    };
     const contour = (e) =>
       Array.from({ length: SAMPLES }, (_, i) => {
         const t = (i * 2 * Math.PI) / SAMPLES;

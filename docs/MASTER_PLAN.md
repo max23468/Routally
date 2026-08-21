@@ -535,7 +535,7 @@ Regole di costruzione, vincolanti per ogni resa futura del segno:
 - gamba rastremata verso il piede, con taglio orizzontale sulla linea di base;
 - terminali degli archi tagliati sui raggi, senza raccordi arrotondati: il sistema è costruito su tagli radiali e ortogonali e ammorbidirne una parte sola lo renderebbe incoerente;
 - overshoot ottico per le forme circolari che appoggiano alla linea di base;
-- varco della soglia, arresto dell'arco e apertura di un eventuale secondo ciclo cadono tutti sulla stessa diagonale a quarantacinque gradi, unico asse obliquo del sistema;
+- il varco della soglia e l'apertura di un eventuale secondo ciclo cadono sulla diagonale a quarantacinque gradi, unico asse obliquo del sistema; l'arco esterno si ferma invece trenta gradi sopra l'orizzontale, che è una misura propria dell'arco e non un allineamento a quell'asse;
 - un eventuale secondo ciclo si incastra nell'angolo fra gamba e linea di base ed è tangente a gamba, base e ciclo principale: il suo raggio è determinato, non scelto;
 - la versione chiara su fondo indaco è disegnata al 97 per cento dello spessore, per compensare l'irradiazione;
 - l'arco usa su fondo indaco la variante a contrasto aumentato `#CAC7FF` e non `#A9A5FF`: con quest'ultima il contrasto è `3,00:1`, esattamente la soglia minima per un elemento grafico, mentre lo stesso arco su fondo chiaro sta a `9,55:1`. Il simbolo è già bilanciato a `6,61:1` su entrambi i fondi; l'accento no, e la variante a contrasto aumentato lo porta a `4,13:1`;
