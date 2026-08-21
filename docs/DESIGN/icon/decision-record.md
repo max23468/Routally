@@ -1,41 +1,54 @@
 # Decision record — DG-ICON
 
 - **Stato:** Open
-- **Candidata preferita:** `a1-air-medium`
-- **Decisione definitiva:** non presa
+- **Baseline approvata dal Product Owner per la validazione Apple:** A1 Lavender, testa 50
+- **Alternativa di controllo:** A1 Amber, testa 50
+- **Fallback globale:** T1 senza arco
+- **Icona Dev:** fascia diagonale attuale
+- **Decisione definitiva:** subordinata a Icon Composer, dispositivi, user test e rischio figurativo
 - **Responsabile della chiusura:** Product Owner
 
-Questo documento diventa l'evidenza di chiusura di `DG-ICON`. Non va impostato su
-`Confirmed` finché le sezioni obbligatorie non sono compilate.
+La conferma del Product Owner del 21 agosto 2026 chiude la selezione visuale preliminare, ma
+non chiude `DG-ICON`: la baseline deve ancora superare le verifiche Apple e umane elencate
+sotto.
 
-## Candidate ammesse al confronto finale
+## Decisioni già prese
+
+| Tema | Decisione |
+|---|---|
+| Forma principale | A1, monogramma `R` costruito attorno a un ciclo |
+| Testa terminale | raggio 50 |
+| Colore dell'accento | Lavender |
+| Controllo cromatico nel test | Amber, sempre con testa 50 |
+| T1 | solo benchmark/fallback globale esplicito |
+| A3 e testa 54 | archiviate dopo il confronto SVG piatto; recuperabili soltanto se i test Apple evidenziano un problema |
+| Icona Dev | fascia diagonale attuale |
+
+## Varianti ammesse alla validazione residua
 
 | Variante | Ruolo |
 |---|---|
-| A1 Lavender, testa 54 | baseline e candidata preferita |
-| A1 Lavender, testa 50 | rifinitura della testa terminale |
-| A1 Amber, testa 54 | rifinitura cromatica con token esistente |
-| A1 Amber, testa 50 | rifinitura combinata |
-| A3 | controllo su arco più breve e maggiore distacco |
-| T1 | benchmark della silhouette e possibile fallback globale |
+| A1 Lavender, testa 50 | baseline approvata dal Product Owner |
+| A1 Amber, testa 50 | unico controllo cromatico nel test cieco |
+| T1 | fallback globale, da usare soltanto se A1 non supera le misure minime |
 
 ## Evidenze tecniche
 
 | Evidenza | Stato | Riferimento |
 |---|---|---|
-| Asset canonici allineati al generatore | Da eseguire sul commit finale | `scripts/check-icon-assets.mjs` |
-| Asset di revisione allineati al builder | Da eseguire sul commit finale | `scripts/check-icon-review-assets.mjs` |
-| Invarianti geometriche indipendenti | Da eseguire sul commit finale | `scripts/validate-icon-assets.mjs` |
+| Asset canonici allineati al generatore | Superato nel controllo una tantum | `scripts/check-icon-assets.mjs` |
+| Asset di revisione allineati al builder | Superato nel controllo una tantum | `scripts/check-icon-review-assets.mjs` |
+| Invarianti geometriche indipendenti | 607 controlli superati | `scripts/validate-icon-assets.mjs` |
 | Livelli autonomi per Icon Composer | Preparati | `composer-layers/` |
-| Confronto 180/120/60/40/29 pt | Preparato in SVG | `evidence/candidate-comparison.svg` |
-| Matrice testa/colore | Preparata in SVG | `evidence/refinement-matrix.svg` |
-| Icona pubblica/Dev | Preparata in SVG | `evidence/dev-comparison.svg` |
+| Confronto 180/120/60/40/29 pt | Completato in SVG | `evidence/candidate-comparison.svg` |
+| Matrice testa/colore | Completata; decisione preliminare presa | `evidence/refinement-matrix.svg` |
+| Icona pubblica/Dev | Verifica piatta completata | `evidence/dev-comparison.svg` |
 | Import in Icon Composer | Mancante | compilare checklist |
-| Default, Dark e Mono | Mancante | compilare checklist |
-| File `.icon` e collegamento Xcode | Mancante | percorso e commit |
+| Default, Dark, Mono, Clear e Tinted | Mancante | compilare checklist |
+| File `.icon` e collegamento Xcode | Mancante | percorso, commit e build |
 | iPhone e iPad reali | Mancante | modelli, sistemi e screenshot |
 | User test cieco | Mancante | protocollo compilato |
-| Verifica figurativa | Solo scansione preliminare | esito professionale o accettazione rischio |
+| Verifica figurativa | Solo scansione preliminare | esito professionale o accettazione esplicita del rischio |
 
 ## Risultati Icon Composer
 
@@ -43,7 +56,9 @@ Questo documento diventa l'evidenza di chiusura di `DG-ICON`. Non va impostato s
 - **Icon Composer:**
 - **Xcode:**
 - **File `.icon`:**
-- **Variante importata senza correzioni:**
+- **Import A1 Lavender testa 50:**
+- **Import A1 Amber testa 50:**
+- **Import T1:**
 - **Correzioni richieste dallo strumento:**
 - **Esito Default:**
 - **Esito Dark:**
@@ -61,6 +76,7 @@ Questo documento diventa l'evidenza di chiusura di `DG-ICON`. Non va impostato s
 
 - **Partecipanti:**
 - **Ordine randomizzato:** sì/no
+- **Confronto:** A1 Lavender 50 / A1 Amber 50 / T1
 - **Variante preferita prima della spiegazione:**
 - **Associazioni prevalenti:**
 - **Associazioni a routing/rete/sincronizzazione:**
@@ -75,23 +91,25 @@ Questo documento diventa l'evidenza di chiusura di `DG-ICON`. Non va impostato s
 - **Rischio residuo accettato:** sì/no
 - **Note:**
 
-## Decisione finale
+## Ratifica finale
 
-- **Variante scelta:**
-- **Colore dell'accento:**
-- **Raggio della testa:**
-- **Motivazione:**
-- **Alternative scartate e motivo:**
+- **Variante prevista:** A1
+- **Colore previsto:** Lavender
+- **Raggio previsto:** 50
+- **Fallback previsto:** T1
+- **Motivazione:** equilibrio migliore della testa, coerenza con il tono calmo e maggiore distintività rispetto a T1
 - **Commit del file `.icon`:**
-- **Data:**
-- **Approvazione Product Owner:**
+- **Data della ratifica:**
+- **Approvazione finale Product Owner:**
 
 ## Chiusura del gate
 
 `DG-ICON` può passare da `Open` a `Confirmed` soltanto dopo:
 
-1. compilazione completa delle evidenze mancanti;
-2. scelta di una sola variante;
-3. file `.icon` versionato e build verificata;
-4. approvazione esplicita del Product Owner;
-5. aggiornamento coerente di Master Plan, Decision Register e questo documento.
+1. import riuscito in Icon Composer;
+2. verifica di tutti i modi di rendering Apple;
+3. file `.icon` versionato e build dei target pubblico e Dev;
+4. prova su iPhone e iPad reali;
+5. user test cieco completato;
+6. verifica figurativa formale oppure accettazione esplicita del rischio;
+7. ratifica finale del Product Owner e aggiornamento coerente di Master Plan e Decision Register.
