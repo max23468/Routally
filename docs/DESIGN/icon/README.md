@@ -99,6 +99,7 @@ la baseline.
 node scripts/build-icon-assets.mjs
 node scripts/check-icon-assets.mjs
 node scripts/build-icon-review-assets.mjs
+node scripts/check-icon-review-assets.mjs
 node scripts/validate-icon-assets.mjs
 ```
 

@@ -24,6 +24,7 @@ Questo documento diventa l'evidenza di chiusura di `DG-ICON`. Non va impostato s
 | Evidenza | Stato | Riferimento |
 |---|---|---|
 | Asset canonici allineati al generatore | Da eseguire sul commit finale | `scripts/check-icon-assets.mjs` |
+| Asset di revisione allineati al builder | Da eseguire sul commit finale | `scripts/check-icon-review-assets.mjs` |
 | Invarianti geometriche indipendenti | Da eseguire sul commit finale | `scripts/validate-icon-assets.mjs` |
 | Livelli autonomi per Icon Composer | Preparati | `composer-layers/` |
 | Confronto 180/120/60/40/29 pt | Preparato in SVG | `evidence/candidate-comparison.svg` |

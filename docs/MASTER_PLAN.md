@@ -599,7 +599,7 @@ Criteri:
 - originalità sufficiente nel settore software.
 
 **Decision Gate DG-ICON:** resta aperto e blocca il file definitivo e i materiali App Store
-finché tutte le evidenze del `decision-record.md` non sono complete e approvate.
+finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate.
 
 ## 4.9 Routine Kits visuali
 
