@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il segno ridotto</title>
+  <desc id="desc">Il ciclo, il fianco che scende, la gamba. E' il segno essenziale e insieme la versione ridotta di tutte le altre: quando l'eco o il secondo ciclo si chiudono otticamente alle misure minime, e' su questo che il marchio degrada. Per questo resta agli atti anche se le varianti scelte sono altre. Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 con contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base; varco della soglia e apertura di un eventuale secondo ciclo sulla diagonale a quarantacinque gradi, mentre l'arco esterno si ferma trenta gradi sopra l'orizzontale. Trattamento cromatico: fondo chiaro, segno indaco brand, spessori pieni. Livelli per Icon Composer: background, symbol. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8" transform="translate(-52.57 -20.38) scale(1.0263929618768328)">
+    <path fill-rule="evenodd" d="M 828 440 A 288 274 0 1 1 252 440 A 288 274 0 1 1 828 440 Z M 708 440 A 168 168 0 1 1 372 440 A 168 168 0 1 1 708 440 Z"/>
+    <rect x="252" y="440" width="120" height="408"/>
+    <path d="M 342.94 643.12 L 636.84 848 L 848.1 848 L 401.06 556.88 Z"/>
+  </g>
+</svg>

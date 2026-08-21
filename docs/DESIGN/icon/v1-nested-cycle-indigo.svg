@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">Routally — Il ciclo che si incastra</title>
+  <desc id="desc">Il secondo ciclo non sta accanto al segno ma dentro la sua struttura: si incastra nell'angolo fra gamba e linea di base ed e' tangente a tutte e tre, gamba, base e ciclo principale. Il raggio non e' scelto, e' l'unico che soddisfa le tre tangenze. Sistema condiviso: contorno esterno ellittico in rapporto 288 a 274 con contatore circolare esatto, per cui il ciclo pesa piu' sui fianchi che sulle curve orizzontali secondo l'asse verticale tipografico; il fianco continua la tangente verticale del ciclo fino alla linea di base 848; gamba rastremata con taglio orizzontale sul piede; terminali degli archi tagliati sui raggi; overshoot ottico di 6 per le forme circolari che appoggiano alla base; varco della soglia e apertura di un eventuale secondo ciclo sulla diagonale a quarantacinque gradi, mentre l'arco esterno si ferma trenta gradi sopra l'orizzontale. Trattamento cromatico: fondo indaco brand, segno chiaro, accento nella variante a contrasto aumentato, spessori compensati al 97 per cento per l'irradiazione. Livelli per Icon Composer: background, symbol, accent. Esplorazione per il Decision Gate DG-ICON: nessuna scelta definitiva.</desc>
+  <g id="background">
+    <rect x="0" y="0" width="1024" height="1024" fill="#4C46D8"/>
+  </g>
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF" transform="translate(-4.97 -30.3) scale(1.0308013253159898)">
+    <path fill-rule="evenodd" d="M 656.4 400 A 236.4 225.08 0 1 1 183.6 400 A 236.4 225.08 0 1 1 656.4 400 Z M 540 400 A 120 120 0 1 1 300 400 A 120 120 0 1 1 540 400 Z"/>
+    <rect x="183.6" y="400" width="116.4" height="448"/>
+    <path d="M 258.57 588.77 L 431.25 848 L 570.63 848 L 341.43 531.23 Z"/>
+  </g>
+  <g id="accent" fill="#CAC7FF" color="#CAC7FF" transform="translate(-4.97 -30.3) scale(1.0308013253159898)">
+    <path fill-rule="evenodd" d="M 819.45 701.35 A 160.28 152.65 0 1 1 498.89 701.35 A 160.28 152.65 0 1 1 819.45 701.35 Z M 767.07 701.35 A 107.9 107.9 0 1 1 551.27 701.35 A 107.9 107.9 0 1 1 767.07 701.35 Z"/>
+  </g>
+</svg>
