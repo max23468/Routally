@@ -4738,7 +4738,7 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 | Bundle ID | team Apple owner | ruoli | account Apple | delicato |
 | CloudKit container | team Apple owner | entitlement | account Apple | delicato |
 | App Groups | team Apple owner | entitlement | account Apple | delicato |
-| StoreKit products futuri | App Store Connect owner | ruoli | Account Holder | creati solo dopo `DG-PLUS-LAUNCH`; con app transfer |
+| StoreKit products futuri | App Store Connect owner | ruoli | Account Holder | creazione non pubblica dopo il checkpoint A di `DG-PLUS-LAUNCH`; pubblicazione dopo il checkpoint B; con app transfer |
 | Xcode Cloud | team Apple | ruoli | Account Holder/Admin | legato al team |
 | Sito GitHub Pages | GitHub owner | repo actions | GitHub recovery | trasferibile |
 | Codice/brand pre-società | Matteo | copyright | documentazione | cessione/licenza a Temisfera |
