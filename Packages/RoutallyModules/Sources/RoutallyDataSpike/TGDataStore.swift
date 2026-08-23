@@ -163,17 +163,21 @@ public final class TGDataEventStore {
   }
 
   public func merge(_ batch: TGDataSyncBatch) throws {
-    var eventIDs = Set(
-      try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRecord>()).map(\.id)
+    var eventFingerprints = Set(
+      try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRecord>()).map(EventFingerprint.init)
     )
-    var revisionIDs = Set(
-      try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRevisionRecord>()).map(\.id)
+    var revisionFingerprints = Set(
+      try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRevisionRecord>()).map(
+        RevisionFingerprint.init
+      )
     )
-    var tombstoneIDs = Set(
-      try context.fetch(FetchDescriptor<TGDataSchemaV2.TombstoneRecord>()).map(\.id)
+    var tombstoneFingerprints = Set(
+      try context.fetch(FetchDescriptor<TGDataSchemaV2.TombstoneRecord>()).map(
+        TombstoneFingerprint.init
+      )
     )
 
-    for event in batch.events where eventIDs.insert(event.id).inserted {
+    for event in batch.events where eventFingerprints.insert(EventFingerprint(event)).inserted {
       context.insert(
         TGDataSchemaV2.EventRecord(
           id: event.id,
@@ -187,7 +191,8 @@ public final class TGDataEventStore {
       )
     }
 
-    for revision in batch.revisions where revisionIDs.insert(revision.id).inserted {
+    for revision in batch.revisions
+    where revisionFingerprints.insert(RevisionFingerprint(revision)).inserted {
       context.insert(
         TGDataSchemaV2.EventRevisionRecord(
           id: revision.id,
@@ -199,7 +204,8 @@ public final class TGDataEventStore {
       )
     }
 
-    for tombstone in batch.tombstones where tombstoneIDs.insert(tombstone.id).inserted {
+    for tombstone in batch.tombstones
+    where tombstoneFingerprints.insert(TombstoneFingerprint(tombstone)).inserted {
       context.insert(
         TGDataSchemaV2.TombstoneRecord(
           id: tombstone.id,
@@ -231,7 +237,10 @@ public final class TGDataEventStore {
 
     return canonicalEvents.compactMap { event in
       let latestRevision = revisionsByEvent[event.id]?.max(by: revisionPrecedes)
-      let effectiveClock = max(event.logicalClock, latestRevision?.logicalClock ?? .min)
+      let appliedRevision = latestRevision.flatMap { revision in
+        revision.logicalClock > event.logicalClock ? revision : nil
+      }
+      let effectiveClock = appliedRevision?.logicalClock ?? event.logicalClock
       let latestTombstone = tombstonesByEvent[event.id]?.max(by: tombstonePrecedes)
       guard latestTombstone?.logicalClock ?? .min < effectiveClock else { return nil }
 
@@ -240,7 +249,7 @@ public final class TGDataEventStore {
         routineID: event.routineID,
         occurredAt: event.occurredAt,
         logicalClock: effectiveClock,
-        payload: latestRevision?.payload ?? event.payload
+        payload: appliedRevision?.payload ?? event.payload
       )
     }
     .sorted {
@@ -358,6 +367,84 @@ public final class TGDataEventStore {
   ) -> Bool {
     (lhs.logicalClock, lhs.deletedAt, lhs.id.uuidString)
       < (rhs.logicalClock, rhs.deletedAt, rhs.id.uuidString)
+  }
+}
+
+private struct EventFingerprint: Hashable {
+  let id: UUID
+  let routineID: UUID
+  let occurredAt: Date
+  let logicalClock: Int64
+  let payload: String
+  let origin: String
+  let originalTimeZoneIdentifier: String
+
+  init(_ event: TGDataEvent) {
+    id = event.id
+    routineID = event.routineID
+    occurredAt = event.occurredAt
+    logicalClock = event.logicalClock
+    payload = event.payload
+    origin = event.origin
+    originalTimeZoneIdentifier = event.originalTimeZoneIdentifier
+  }
+
+  init(_ record: TGDataSchemaV2.EventRecord) {
+    id = record.id
+    routineID = record.routineID
+    occurredAt = record.occurredAt
+    logicalClock = record.logicalClock
+    payload = record.payload
+    origin = record.origin
+    originalTimeZoneIdentifier = record.originalTimeZoneIdentifier
+  }
+}
+
+private struct RevisionFingerprint: Hashable {
+  let id: UUID
+  let eventID: UUID
+  let authoredAt: Date
+  let logicalClock: Int64
+  let payload: String
+
+  init(_ revision: TGDataRevision) {
+    id = revision.id
+    eventID = revision.eventID
+    authoredAt = revision.authoredAt
+    logicalClock = revision.logicalClock
+    payload = revision.payload
+  }
+
+  init(_ record: TGDataSchemaV2.EventRevisionRecord) {
+    id = record.id
+    eventID = record.eventID
+    authoredAt = record.authoredAt
+    logicalClock = record.logicalClock
+    payload = record.payload
+  }
+}
+
+private struct TombstoneFingerprint: Hashable {
+  let id: UUID
+  let recordID: UUID
+  let recordKind: String
+  let deletedAt: Date
+  let logicalClock: Int64
+
+  init(_ tombstone: TGDataTombstone) {
+    id = tombstone.id
+    recordID = tombstone.recordID
+    recordKind = tombstone.recordKind
+    deletedAt = tombstone.deletedAt
+    logicalClock = tombstone.logicalClock
+  }
+
+  init(_ record: TGDataSchemaV2.TombstoneRecord) {
+    id = record.id
+    recordID = record.recordID
+    recordKind = record.recordKind
+    deletedAt = record.deletedAt
+    logicalClock = record.logicalClock
   }
 }
 

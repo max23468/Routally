@@ -2507,7 +2507,7 @@ Default:
 
 - SwiftData;
 - `ModelConfiguration` con App Group e CloudKit;
-- dopo DG-DEVELOPER-IDENTITY, preferibilmente un unico container iCloud Routally definitivo con ambienti CloudKit Development e Production separati, associato agli App ID necessari; prima del gate gli spike usano container e identificativi di sviluppo provvisori e sacrificabili;
+- fino a `M09`, identificativi App Group e CloudKit iniettati e validazioni locali su Simulator, senza creare asset Apple remoti; in `M10`, dopo `DG-DEVELOPER-IDENTITY`, preferibilmente un unico container iCloud Routally definitivo con ambienti CloudKit Development e Production separati, associato agli App ID necessari;
 - schema versionato dalla prima release;
 - `SchemaMigrationPlan` esplicito;
 - un confine di persistenza sufficiente a testare il dominio senza SwiftData.
@@ -2975,7 +2975,10 @@ Non ricrea pulsanti, picker, tab, navigation bar, sheet o search se esiste un eq
 
 Default confermato: SwiftData + CloudKit.
 
-**Technical Gate TG-DATA:** uno spike deve verificare registro eventi, migrazioni, App Group, widget, sync offline e dataset di riferimento.
+**Technical Gate TG-DATA:** uno spike locale deve verificare registro eventi, migrazioni,
+contratto App Group/widget, convergenza offline e dataset di riferimento. La validazione
+del servizio CloudKit Development su asset Apple definitivi è un criterio di accettazione
+di integrazione rinviato a `M10`, dopo `DG-DEVELOPER-IDENTITY`, e non riapre il gate.
 
 Se il gate fallisce per limiti dimostrati, il dominio e il contratto dello store restano
 invariati e viene valutata una persistenza Apple-native alternativa, preferibilmente Core
@@ -2998,7 +3001,7 @@ dipendenze esterne.
 | Simulator/build agent | XcodeBuildMCP |
 | Formatter | `swift-format` della toolchain |
 | Package manager | Swift Package Manager, package locali |
-| CI/CD Apple | Xcode Cloud |
+| CI/CD Apple | verifiche locali obbligatorie fino a `M09`; Xcode Cloud da `M10` |
 | CI complementare | GitHub Actions leggere |
 | Beta | TestFlight |
 | Distribuzione | App Store Connect |
@@ -3148,7 +3151,13 @@ Regole:
 
 ## 26.7 Ripartizione CI
 
-**Xcode Cloud** è la fonte primaria per build Apple, test, archivi e TestFlight.
+Fino a `M09`, prima dell'iscrizione all'Apple Developer Program, il gate Apple è eseguito
+su un Mac controllato con la toolchain bloccata: `swift-format`, build degli scheme
+`Routally Dev` e `Routally`, suite `Routally Tests` sul Simulator canonico e registrazione
+dell'esito nella pull request. Queste verifiche locali sono obbligatorie prima del merge.
+
+Da `M10`, dopo `DG-DEVELOPER-IDENTITY` e l'iscrizione, **Xcode Cloud** diventa la fonte
+primaria per build Apple, test, archivi e TestFlight.
 
 **GitHub Actions** resta complementare e limitata a:
 
@@ -3157,7 +3166,8 @@ Regole:
 - CodeQL e controlli di sicurezza;
 - verifiche che non richiedono firma, Simulator o infrastruttura Apple completa.
 
-Non duplicare inutilmente la pipeline Xcode Cloud.
+Da `M10` non duplicare inutilmente la pipeline Xcode Cloud; prima di allora GitHub Actions
+non sostituisce le verifiche Apple locali obbligatorie.
 
 ---
 
@@ -3435,7 +3445,7 @@ Non esistono tre app pubbliche.
 - bundle ID distinto;
 - installabile localmente;
 - dati sintetici;
-- prima del gate identità, CloudKit Development su un container provvisorio e sacrificabile del team corrente; dopo il gate può usare l'ambiente Development del container definitivo se la configurazione Apple lo consente senza rischi di trasferimento;
+- fino a `M09`, configurazione CloudKit/App Group iniettata e verifiche locali su Simulator, senza asset Apple remoti; in `M10`, dopo il gate identità, ambiente Development del container definitivo;
 - strumenti diagnostici;
 - icona DEV;
 - mai pubblicata.
@@ -3450,7 +3460,12 @@ Unica identità definitiva:
 - dati TestFlight preservati nella versione App Store;
 - nessun prodotto o configurazione StoreKit nella 1.0; gli eventuali acquisti 1.X usano lo stesso record App Store dopo la chiusura dei relativi gate.
 
-Gli asset Apple definitivi della 1.0 — Bundle ID, App Groups, container CloudKit Production e record App Store — vengono creati soltanto dopo `DG-DEVELOPER-IDENTITY`. La creazione non pubblica degli eventuali prodotti StoreKit della 1.X richiede il checkpoint A di `DG-PLUS-LAUNCH`; la pubblicazione richiede il checkpoint B. La Foundation può usare identificativi provvisori esplicitamente non trasferibili e non destinati alla produzione.
+Gli asset Apple definitivi della 1.0 — Bundle ID, App Groups, container CloudKit e record
+App Store — vengono creati soltanto dopo `DG-DEVELOPER-IDENTITY`, in `M10`. Prima di
+allora lo sviluppo usa configurazioni locali e identificativi iniettati, senza richiedere
+l'iscrizione a pagamento all'Apple Developer Program. La creazione non pubblica degli
+eventuali prodotti StoreKit della 1.X richiede il checkpoint A di `DG-PLUS-LAUNCH`; la
+pubblicazione richiede il checkpoint B.
 
 ## 30.2 Configurazioni
 
@@ -3470,7 +3485,10 @@ Schemes:
 
 ## 30.3 Xcode Cloud
 
-Workflow:
+Si attiva in `M10`, dopo `DG-DEVELOPER-IDENTITY` e l'iscrizione all'Apple Developer
+Program. Fino a `M09` si applica il gate locale della sezione 26.7.
+
+Workflow da `M10`:
 
 - PR Validation;
 - Nightly;
@@ -4314,16 +4332,16 @@ della milestone: sono condizioni che ne precedono o vincolano il completamento.
 
 | Fase/versione | Milestone | Epiche primarie | Gate e prerequisiti principali |
 |---|---|---|---|
-| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA`; prototipi mirati per le integrazioni UI/sistema |
-| `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle feature dipendenti |
+| `0.1` | `M01` Foundation | `E01`–`E03` | `TG-DATA` chiuso **Adapt** su evidenze locali; prototipi mirati per le integrazioni UI/sistema |
+| `0.2` | `M02` Core Routine Engine | `E04`–`E05` | adattamenti di `TG-DATA` applicati; `TG-RECALC` prima delle feature dipendenti |
 | `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili, senza anticipare le integrazioni di sistema complete |
 | `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
 | `0.5` | `M05` Explore & Kits | `E11` | motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
-| `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 verificati; iCloud Development operativo |
+| `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 implementati e verificati localmente; predisposizione iCloud testata su Simulator |
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
 | `0.6` | `M08` Free Core & Release Foundations | `E17`–`E18` | garanzia gratuita, assenza di commercio 1.0, supporto, legale e App Store foundations completi |
 | `0.7` | `M09` Accessibility & Localization | `E19` | `M01`–`M08` feature complete; avvio del feature freeze |
-| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; gate performance della sezione 36; audit privacy e sicurezza; evidenze real-device e user test di `DG-ICON` raccolte |
+| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; asset Apple definitivi e CloudKit Development validati realmente; gate performance della sezione 36; audit privacy e sicurezza; evidenze real-device e user test di `DG-ICON` raccolte |
 | `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; decisione figurativa e ratifica di `DG-ICON`; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
 | `1.0` | `M12` App Store 1.0 | `E22` | release gate delle sezioni 35, 46 e 52; submission approvata e rilascio manuale autorizzato |
 
@@ -4552,24 +4570,26 @@ Regole:
 
 ## 40.1 TG-DATA — SwiftData/CloudKit
 
-**Stato:** aperto, con esito candidato **Adapt**. Le evidenze locali su UUID e deduplica
-applicativi, migrazioni, offline, recovery su disco e dataset sono in
-`docs/ENGINEERING/tg-data-spike.md`. Prima di `E05` restano obbligatorie sincronizzazione,
-recovery fra client e inizializzazione dello schema su un container CloudKit provvisorio.
-La promozione dello schema definitivo Production appartiene a `E21` dopo i prerequisiti
-Apple.
+**Stato:** chiuso — **Adapt**. Le evidenze locali su UUID e deduplica applicativi,
+migrazioni, offline, recovery su disco, convergenza deterministica e dataset sono in
+`docs/ENGINEERING/tg-data-spike.md`. L'esito sblocca `E05` e vincola l'implementazione a
+UUID di dominio, deduplica applicativa, schema versionato e identificativi iniettati.
+
+Il gate risolve l'incertezza architetturale, ma non certifica il servizio CloudKit. La
+sincronizzazione reale, il recovery fra client, l'App Group firmato e lo schema CloudKit
+Development saranno verificati in `M10`, dopo `DG-DEVELOPER-IDENTITY`, sugli asset Apple
+definitivi. La promozione e verifica dello schema Production appartengono a `E21` / `M11`.
 
 Verificare:
 
 - event store;
 - dataset di riferimento della sezione 36;
-- App Group/widget;
+- contratto App Group/widget simulato localmente;
 - offline;
-- multi-device;
+- convergenza multi-client simulata;
 - revisioni/tombstone;
 - migrazioni;
-- container provvisorio pre-gate e passaggio al container definitivo;
-- CloudKit production schema;
+- configurazione iniettata per il futuro container definitivo;
 - recovery.
 
 Esito:
@@ -4711,7 +4731,7 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 
 | Rischio | P | I | Segnale | Mitigazione | Gate/fallback |
 |---|---|---|---|---|---|
-| SwiftData/CloudKit non regge il registro eventi | M | A | conflitti/migrazioni fragili | spike mirato e fallback concreto | TG-DATA, Core Data fallback |
+| SwiftData/CloudKit non regge il registro eventi | M | A | conflitti/migrazioni fragili | `TG-DATA` locale chiuso Adapt e prova reale Development in M10 | fallback Core Data se l'integrazione reale dimostra un limite bloccante |
 | Creazione troppo complessa | A | A | abbandono/test assistiti | rapido default, preset, Kit | beta gate |
 | Geofencing inaffidabile | M | A | reminder mancanti/duplicati | fallback, deduplica e prova su device | sezioni 18 e 35 |
 | Analisi poco utile | M | M | tab vuota/generica | evidence gates, insight decisionali | ridurre contenuti, non eliminare senza decisione |
@@ -4797,10 +4817,11 @@ Sostenibile, ma non gratuito a qualsiasi costo. La gratuità commerciale della 1
 - GitHub Pages;
 - Xcode;
 - framework Apple;
-- TestFlight;
 - Instruments;
-- quote Xcode Cloud incluse;
 - nessun backend/analytics/helpdesk SaaS 1.0.
+
+Da `M10`, TestFlight e le quote Xcode Cloud incluse nell'iscrizione Apple già necessaria
+per la distribuzione non costituiscono un costo aggiuntivo separato.
 
 ## 45.4 Nuovi costi ricorrenti
 
@@ -4969,7 +4990,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - permission fallbacks;
 - `DG-DOMAIN` chiuso e Universal Links verificati sul dominio definitivo;
 - local profile e controlli dei dati;
-- sincronizzazione CloudKit Development, conflitti e recovery;
+- integrazione CloudKit, conflitti e recovery implementati e verificati localmente su Simulator; la prova sul servizio Development è rinviata a `M10`;
 - CSV e cancellazione completa verificati.
 
 ## 48.7 M07 — Insights & Search
@@ -5007,6 +5028,8 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - icona verificata nelle superfici della build feature-complete su iPhone e iPad reali;
 - user test cieco dell'icona completato e risultati registrati;
 - `DG-DEVELOPER-IDENTITY` chiuso;
+- iscrizione all'Apple Developer Program completata e asset definitivi di Bundle ID, App Group e container iCloud creati;
+- sincronizzazione CloudKit Development, conflitti, offline, riavvio, reinstallazione, recovery e schema verificati realmente fra almeno due client;
 - security/privacy audits;
 - performance baseline;
 - checklist operativa aggiornata con i problemi osservati.
@@ -5057,13 +5080,13 @@ la terza volta i requisiti delle sezioni di prodotto.
 | `E11` Explore & Kits | catalogo dei 12 Kit, installazione libera e copie configurabili |
 | `E12` Notifications & Location | notifiche, trigger geografici, fallback e dispositivo principale |
 | `E13` System Surfaces | widget, Lock Screen, App Intents, link e background |
-| `E14` Profile, Data & iCloud | profilo locale, CloudKit, conflitti, export e cancellazione dati |
+| `E14` Profile, Data & iCloud | profilo locale, implementazione CloudKit predisposta e testata localmente, conflitti, export e cancellazione dati |
 | `E15` Analysis | metriche, insight spiegabili, grafici e stati senza dati sufficienti |
 | `E16` Search | indice locale, sinonimi, filtri, risultati e azioni |
 | `E17` Free Core & Product Readiness | garanzia gratuita, assenza di limiti/IAP e preparazione del futuro Premium Value Gate |
 | `E18` Support, Legal & App Store Foundations | supporto, documenti IT/EN, metadata e checklist submission gratuita |
 | `E19` Accessibility & Localization | audit completo, IT/EN e matrice di accessibilità |
-| `E20` Alpha | TestFlight interno, gate identità, audit, stabilizzazione, prove real-device e user test dell'icona |
+| `E20` Alpha | TestFlight interno, gate identità, asset Apple definitivi, validazione CloudKit Development, audit, stabilizzazione, prove real-device e user test dell'icona |
 | `E21` Beta | beta, CloudKit Production, asset ed evidence package della 1.0 gratuita, decisione figurativa e ratifica dell'icona |
 | `E22` App Store Release | submission, App Review, rilascio controllato e contingenza 1.0.1 |
 
@@ -5111,6 +5134,7 @@ Fase 0.8:
 - impatto su Bundle ID, CloudKit, App Groups, Xcode Cloud, pagamenti e trasferimento;
 - impatto futuro sui prodotti StoreKit, che non vengono creati nella 1.0;
 - riservare il Bundle ID finale soltanto dopo la chiusura coerente di questo gate;
+- iscriversi all'Apple Developer Program e creare Bundle ID, App Group e container iCloud definitivi soltanto in `M10`, quindi eseguire la validazione reale CloudKit Development prevista dalla sezione 40.1;
 - developer name scelto prima del primo record App Store.
 
 ## DG-LAUNCH
