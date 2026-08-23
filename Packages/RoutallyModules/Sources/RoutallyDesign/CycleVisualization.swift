@@ -17,7 +17,7 @@ public struct CycleVisualization: View {
   private let current: Int
   private let target: Int
   private let state: CycleVisualizationState
-  private let stateLabel: String
+  private let stateLabel: LocalizedStringResource
   private let size: CycleVisualizationSize
   private let isInteractive: Bool
 
@@ -26,7 +26,7 @@ public struct CycleVisualization: View {
     current: Int,
     target: Int,
     state: CycleVisualizationState,
-    stateLabel: String,
+    stateLabel: LocalizedStringResource,
     size: CycleVisualizationSize = .detail,
     isInteractive: Bool = false
   ) {
@@ -74,9 +74,9 @@ public struct CycleVisualization: View {
 
   private var gauge: some View {
     Gauge(value: normalizedProgress, in: 0...1) {
-      Text(title)
+      Text(verbatim: title)
     } currentValueLabel: {
-      Text("\(current)/\(target)")
+      Text(verbatim: "\(current)/\(target)")
         .font(size == .compact ? RoutallyFont.supporting : RoutallyFont.cycleValue)
         .fontWeight(.semibold)
     }
@@ -89,8 +89,8 @@ public struct CycleVisualization: View {
     return min(max(Double(current) / Double(target), 0), 1)
   }
 
-  private var accessibilityValue: String {
-    "\(current) / \(target), \(stateLabel)"
+  private var accessibilityValue: Text {
+    Text(verbatim: "\(current) / \(target), ") + Text(stateLabel)
   }
 
   private var tint: Color {

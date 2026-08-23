@@ -1477,6 +1477,24 @@
       },
       "extractionState": "manual"
     },
+    "Salvataggio in corso": {
+      "comment": "Accessible status announced while a routine is being created.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvataggio in corso"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
     "Routine": {
       "comment": "Top-level navigation or screen title.",
       "localizations": {

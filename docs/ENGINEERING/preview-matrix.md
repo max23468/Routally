@@ -9,6 +9,13 @@ reali. Le fixture di lancio sono sintetiche, deterministiche e collegate soltant
 `Routally Dev`; il target pubblico non dipende da `RoutallyFixtures`. Le fixture usate
 direttamente dalle preview sono racchiuse in `#if DEBUG` nel modulo UI.
 
+Le stringhe UI generate dal catalogo restano `LocalizedStringResource` fino alla view
+quando il modello lo consente. I pochi testi che devono vivere come `String` nello store
+o nelle fixture sintetiche vengono risolti con la `Locale` esplicitamente richiesta dalla
+UI o dalla fixture; creazione e registrazione propagano quindi la locale dell'ambiente
+SwiftUI e la preview inglese non dipende dalla locale del processo Xcode. Anche gli orari
+del riepilogo di creazione usano un `Date.FormatStyle` configurato con la stessa locale.
+
 ## Matrice eseguibile
 
 | View/stato | Device/layout | Aspetto e lingua | Dynamic Type | Evidenza |
@@ -64,7 +71,19 @@ La prova interattiva su iPhone copre:
 4. `Escludi` separato per ciclo collegato e follow-up, oltre ad `Annulla registrazione`;
 5. IT/EN, stato offline, errore recuperabile e preferenze di accessibilità sopra elencate.
 
-La suite automatica protegge fixture, idempotenza arrivo/fallback, undo atomico,
-esclusioni indipendenti, applicazione del draft e path di navigazione. Registro eventi e
-reducer, persistenza, geofencing e notifiche reali restano nelle epiche e nei
-Technical Gate previsti dal Master Plan; E03 usa simulazioni locali Dev.
+`CreationSheet` orchestra soltanto navigazione, dismissal e submit; stato e validazione
+del form sono separati dalle view dei singoli step. La submission attraversa gli stati
+idle, salvataggio ed errore recuperabile: il controllo resta disabilitato durante il
+salvataggio, l'errore riceve il focus accessibile e `Riprova` conserva il draft. Il
+fallback partecipa al dirty state, l'area viene conservata come chiave stabile nella
+configurazione sintetica e resa visibile nel dettaglio della routine creata.
+
+La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
+follow-up per l'arrivo a casa, separazione tra visibilità del follow-up e consegna della
+notifica simulata con identità esplicita, ricreazione dopo esclusioni, undo atomico,
+stati di submission, applicazione del draft, propagazione della locale e path di
+navigazione. Le build e i test che richiedono Simulator restano nella pipeline
+Apple/Xcode Cloud, come previsto dalla ripartizione CI del Master Plan; GitHub Actions non
+duplica tale pipeline. Registro eventi e reducer, persistenza, geofencing e notifiche
+reali restano nelle epiche e nei Technical Gate previsti dal Master Plan; E03 usa
+simulazioni locali Dev.

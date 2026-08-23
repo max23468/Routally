@@ -3,47 +3,41 @@ import RoutallyDomain
 import SwiftUI
 
 public struct RoutallyRootView: View {
-  @State private var router: AppRouter
-
   private let store: RoutallyStore
   private let featureFlags: FeatureFlags
+  private let router: AppRouter
 
   public init(
     store: RoutallyStore,
     featureFlags: FeatureFlags,
-    router: AppRouter = AppRouter()
+    router: AppRouter
   ) {
     self.store = store
     self.featureFlags = featureFlags
-    _router = State(initialValue: router)
+    self.router = router
   }
 
   public var body: some View {
     @Bindable var router = router
 
     TabView(selection: $router.selectedTab) {
-      Tab(L10n.text(.oggi), systemImage: "sun.max", value: .today) {
+      Tab(.oggi, systemImage: "sun.max", value: .today) {
         TodayView(store: store, router: router, featureFlags: featureFlags)
       }
 
-      Tab(L10n.text(.routine), systemImage: "repeat", value: .routines) {
+      Tab(.routine, systemImage: "repeat", value: .routines) {
         RoutinesView(store: store, router: router)
       }
 
-      Tab(L10n.text(.esplora), systemImage: "safari", value: .explore) {
+      Tab(.esplora, systemImage: "safari", value: .explore) {
         ExploreView(router: router)
       }
 
-      Tab(L10n.text(.analisi), systemImage: "chart.xyaxis.line", value: .insights) {
+      Tab(.analisi, systemImage: "chart.xyaxis.line", value: .insights) {
         InsightsView(router: router)
       }
 
-      Tab(
-        L10n.text(.cerca),
-        systemImage: "magnifyingglass",
-        value: .search,
-        role: .search
-      ) {
+      Tab(.cerca, systemImage: "magnifyingglass", value: .search, role: .search) {
         SearchView(store: store)
       }
     }
@@ -66,21 +60,24 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Primo ingresso · Light") {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.empty),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
   }
 
   #Preview("iPhone · Adesso, Più tardi, settimana") {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
   }
 
   #Preview("iPhone · Soglia in attesa · Dark") {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.thresholdWaiting),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
     .preferredColorScheme(.dark)
   }
@@ -88,14 +85,18 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Follow-up pronto") {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.followUpReady),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
   }
 
   #Preview("iPhone · Offline pending · English") {
     RoutallyRootView(
-      store: RoutallyStore(snapshot: PreviewFixtures.offlinePending),
-      featureFlags: .development
+      store: RoutallyStore(
+        snapshot: PreviewFixtures.offlinePending(locale: Locale(identifier: "en"))
+      ),
+      featureFlags: .development,
+      router: AppRouter()
     )
     .environment(\.locale, Locale(identifier: "en"))
   }
@@ -103,14 +104,16 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Errore recuperabile") {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.recoverableError),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
   }
 
   #Preview("iPhone landscape · Giornata popolata", traits: .fixedLayout(width: 874, height: 402)) {
     RoutallyRootView(
       store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
-      featureFlags: .development
+      featureFlags: .development,
+      router: AppRouter()
     )
   }
 
@@ -138,5 +141,4 @@ public struct RoutallyRootView: View {
     router.showRoutine(id: "gym")
     return router
   }
-
 #endif
