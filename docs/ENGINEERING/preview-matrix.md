@@ -2,12 +2,16 @@
 
 - **Stato:** Implemented
 - **Epic:** E03 — Xcode & SwiftUI Foundation
-- **Target:** iOS e iPadOS 26
+- **Target Foundation:** iOS e iPadOS 26; la matrice di release 1.0 è iPhone
 
-La matrice rende verificabili gli stati della UI Foundation senza dati o servizi
+La matrice rende verificabili gli stati storici della UI Foundation senza dati o servizi
 reali. Le fixture di lancio sono sintetiche, deterministiche e collegate soltanto a
 `Routally Dev`; il target pubblico non dipende da `RoutallyFixtures`. Le fixture usate
 direttamente dalle preview sono racchiuse in `#if DEBUG` nel modulo UI.
+
+Le preview iPad, Cerca, Analisi, conflitto cloud e sincronizzazione pendente restano
+prototipi Dev di E03; non sono requisiti della 1.0 e non autorizzano capability o
+persistenza future.
 
 ## Matrice eseguibile
 
@@ -64,7 +68,7 @@ La prova interattiva su iPhone copre:
 4. `Escludi` separato per ciclo collegato e follow-up, oltre ad `Annulla registrazione`;
 5. IT/EN, stato offline, errore recuperabile e preferenze di accessibilità sopra elencate.
 
-La suite automatica protegge fixture, idempotenza arrivo/fallback, undo atomico,
-esclusioni indipendenti, applicazione del draft e path di navigazione. Motore
-event-sourced, persistenza, geofencing e notifiche reali restano nelle epiche e nei
-Technical Gate previsti dal Master Plan; E03 usa simulazioni locali Dev.
+La suite automatica protegge fixture, idempotenza, undo atomico, esclusioni indipendenti,
+applicazione del draft e path di navigazione. Journal, reducer, persistenza locale e
+notifiche reali appartengono a M02–M05; geofencing e CloudKit sono rinviati alla 1.1. E03
+usa soltanto simulazioni locali Dev.

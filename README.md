@@ -12,13 +12,16 @@ distribuzione e roadmap è [docs/MASTER_PLAN.md](docs/MASTER_PLAN.md).
 
 ## Piattaforme
 
-La 1.0 è prevista come app universale nativa per iPhone e iPad, sviluppata con Swift 6
-e SwiftUI per iOS e iPadOS 26.
+La 1.0 è progettata e verificata per iPhone con iOS 26, Swift 6 e SwiftUI. La Foundation
+resta adattiva su iPad, la cui esperienza ottimizzata è pianificata per la 1.1.
 
 ## Roadmap sintetica
 
-Foundation → motore delle routine → vertical slice → esperienza completa → integrazioni
-di sistema e commercio → alpha → beta → App Store 1.0.
+Foundation → motore e dati locali → vertical slice → esperienza essenziale → fondamenta
+di release → alpha, beta e App Store 1.0.
+
+CloudKit, geofencing, iPad ottimizzato, Analisi, ricerca e commercio ricorrente sono
+conservati nella [roadmap 1.1+](docs/PRODUCT/ROADMAP.md), senza vincolare la 1.0.
 
 ## Build
 

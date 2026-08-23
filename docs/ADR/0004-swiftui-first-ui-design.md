@@ -17,8 +17,9 @@ adattivi.
   accettazione.
 - SwiftUI è la rappresentazione eseguibile e primaria dell'interfaccia.
 - Le view mantengono `#Preview` locali con fixture fittizie e stati rappresentativi.
-- Xcode Previews, Simulator e dispositivi reali verificano interazioni, iPhone/iPad,
-  Light/Dark Mode, Dynamic Type e accessibilità.
+- Xcode Previews, Simulator e dispositivi reali verificano interazioni, iPhone,
+  Light/Dark Mode, Dynamic Type e accessibilità della 1.0; le preview iPad esistenti
+  restano evidenza adattiva, non un gate di release.
 - Asset Catalog contiene colori e asset semantici; costanti dedicate vengono introdotte
   soltanto quando esiste una ricorrenza reale.
 - Le alternative dell'icona usano livelli SVG e Icon Composer.
@@ -33,4 +34,4 @@ adattivi.
 
 ## Riferimenti
 
-- Master Plan, sezioni 0.1, 26.5, 37.1, 48.1 e 49.
+- Master Plan, sezioni 0, 3, 9 e 10.

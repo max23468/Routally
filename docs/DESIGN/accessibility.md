@@ -2,7 +2,7 @@
 
 - **Stato:** Confirmed
 - **Epic:** E02 — Apple-native UI Direction
-- **Fonte canonica:** [Master Plan](../MASTER_PLAN.md), sezione 23
+- **Fonte canonica:** [Master Plan](../MASTER_PLAN.md), sezioni 3.4 e 10
 
 ## Principio
 
@@ -21,7 +21,7 @@ Transparency ne controllino l'aspetto.
 - il focus segue ordine visuale e semantico, non l'ordine accidentale delle subview;
 - aggiornamenti importanti, errori e risultati vengono annunciati senza ripetizioni;
 - swipe e pressione prolungata sono scorciatoie, mai l'unico accesso;
-- controlli nativi mantengono hover, pointer, Voice Control e Full Keyboard Access.
+- controlli nativi mantengono Voice Control e il comportamento di focus di sistema.
 
 ## Dynamic Type e layout
 
@@ -29,7 +29,7 @@ Transparency ne controllino l'aspetto.
 - nessun titolo o valore essenziale usa una singola riga obbligatoria;
 - righe con testo e CTA passano a disposizione verticale alle categorie accessibility;
 - grafici e Cycle Visualization mantengono una descrizione testuale equivalente;
-- su iPad le colonne possono collassare, ma il contenuto e il focus restano disponibili;
+- i layout iPhone restano scorrevoli e non perdono azioni a testo massimo;
 - truncation è ammessa soltanto per dati ripetibili e mai per azioni, errori o stato.
 
 ## Colore, contrasto e vetro
@@ -54,15 +54,14 @@ Transparency ne controllino l'aspetto.
 
 ## Matrice E03
 
-| Scenario | VoiceOver/Voice Control | Dynamic Type | Aspetto | Input iPad |
+| Scenario | VoiceOver/Voice Control | Dynamic Type | Aspetto | Input |
 |---|---|---|---|---|
-| Oggi vuoto | ordine e CTA | AX5 | Light/Dark/contrast | tastiera/pointer |
-| Oggi popolato | sezioni, righe, azioni | AX5 | Light/Dark/contrast | tastiera/pointer |
-| Routine e dettaglio | selezione e stato | AX5 | Light/Dark/contrast | split/focus |
+| Oggi vuoto | ordine e CTA | AX5 | Light/Dark/contrast | focus sistema |
+| Oggi popolato | sezioni, righe, azioni | AX5 | Light/Dark/contrast | focus sistema |
+| Routine e dettaglio | selezione e stato | AX5 | Light/Dark/contrast | focus sistema |
 | Nuova routine | campi, errori, CTA | AX5 | Light/Dark/contrast | Return/Escape |
 | Consequence Summary | annuncio ed effetti | AX5 | transparency on/off | focus sheet |
 | Follow-up/reset | stato e completamento | AX5 | motion on/off | keyboard action |
-| Search | campo, filtri, risultati | AX5 | Light/Dark/contrast | `⌘F`/frecce |
 
 `AX5` indica la categoria di testo accessibility più grande disponibile nella toolchain
 usata da E03; la denominazione effettiva viene registrata nella preview matrix.
@@ -75,7 +74,7 @@ usata da E03; la denominazione effettiva viene registrata nella preview matrix.
 - nessun token cromatico rappresenta due significati incompatibili;
 - Liquid Glass resta controllato dal sistema e leggibile con contrasto e trasparenza
   modificati;
-- la matrice copre iPhone e iPad, Light/Dark, contrasto, trasparenza, movimento, input e
+- la matrice copre iPhone, Light/Dark, contrasto, trasparenza, movimento, input e
   tecnologie assistive;
 - le dichiarazioni App Store restano sospese fino all'audit reale previsto dal piano.
 

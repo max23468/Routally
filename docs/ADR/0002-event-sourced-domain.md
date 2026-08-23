@@ -1,4 +1,4 @@
-# ADR 0002 — Dominio event-sourced
+# ADR 0002 — Journal eventi e reducer essenziale
 
 - **Stato:** Confirmed
 - **Data:** 2026-08-05
@@ -7,21 +7,24 @@
 ## Contesto
 
 Una registrazione può aggiornare più obiettivi e cicli, generare follow-up e venire
-corretta o eliminata successivamente. Lo stato deve restare deterministico anche con
-sincronizzazione offline e consegna CloudKit fuori ordine.
+corretta o eliminata. Serve uno storico affidabile, ma CloudKit e il comportamento
+distribuito sono rinviati alla 1.1 e non giustificano una piattaforma event-sourced nella
+1.0.
 
 ## Decisione
 
-Eventi e revisioni sono la fonte canonica. Stato corrente, Oggi, follow-up, ricerca,
-Analisi e widget sono proiezioni materializzate e ricostruibili.
+Le registrazioni vivono in un journal con identificativi stabili. Un reducer di dominio
+deterministico calcola gli effetti diretti e aggiorna journal e stato corrente nella stessa
+transazione SwiftData. Correzioni ed esclusioni ricalcolano soltanto le routine coinvolte.
+Non esistono proiettori generici, snapshot materializzati o Consistency Engine.
 
 ## Conseguenze
 
-- correzioni e annullamenti producono ricalcoli deterministici;
-- retry e sincronizzazione devono essere idempotenti;
-- ogni invariante di dominio richiede un test automatico;
-- le cache non possono diventare fonte di verità.
+- correzioni e annullamenti producono risultati deterministici;
+- gli input ripetuti sono idempotenti;
+- le invarianti critiche hanno test automatici;
+- proiezioni e replay completo verranno valutati soltanto con misure o CloudKit attivo.
 
 ## Riferimenti
 
-- Master Plan, sezioni 15, 16, 21 e 35.
+- Master Plan, sezioni 4, 5 e 10.

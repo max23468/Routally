@@ -6,9 +6,9 @@
 
 ## Contesto
 
-Il Master Plan conteneva due regole in conflitto diretto.
+La baseline 1.4 del Master Plan conteneva due regole in conflitto diretto.
 
-La sezione 27.2 stabiliva che Codex e Claude Code sono agenti alternativi e che non esiste
+La vecchia sezione 27.2 stabiliva che Codex e Claude Code sono agenti alternativi e che non esiste
 «nessuna revisione automatica obbligatoria dell'altro». La sezione 28.3.1 richiede invece
 lo status `codex-review` sull'HEAD corrente di **ogni** pull request.
 
@@ -35,7 +35,7 @@ Ne consegue che:
 - un finding non richiede handoff e non trasferisce il lavoro all'altra interfaccia;
 - la sostituzione futura dello strumento di review non cambia queste regole.
 
-Resta invariato il comportamento del gate definito nella sezione 28.3.1: finding P0/P1
+Resta invariato il comportamento del gate ora definito in `AGENTS.md`: finding P0/P1
 bloccanti sull'HEAD esatto, P2/P3 advisory, nessun riuso di segnali riferiti a commit
 precedenti.
 
@@ -50,13 +50,12 @@ precedenti.
 
 ## Conseguenze
 
-- La sezione 27.2 non menziona più la revisione reciproca e la nuova sezione 27.3 esplicita
-  la natura del gate.
-- La sezione 28.3.1 rimanda alla 27.3.
+- Il Master Plan semplificato non duplica più la governance operativa degli agenti.
 - `AGENTS.md`, `CLAUDE.md` e `docs/ENGINEERING/agent-workflow.md` riportano la stessa regola.
 - Nessuna modifica al workflow, allo script del gate o alla branch protection.
 
 ## Riferimenti
 
-- Master Plan, sezioni 27.2, 27.3 e 28.3.1.
+- `AGENTS.md` e `docs/ENGINEERING/agent-workflow.md`.
+- Piano storico `docs/ARCHIVE/MASTER_PLAN-before-simplification.md`, sezioni 27–28.
 - `.github/workflows/codex-review-gate.yml` e `scripts/codex-review-gate.mjs`.

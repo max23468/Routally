@@ -1,12 +1,12 @@
 # Istruzioni per gli agenti
 
-1. `docs/MASTER_PLAN.md` è la fonte canonica. Non leggerlo integralmente: leggi sempre le
-   sezioni 0, 5, 6, 40, 50 e 51, poi quelle che il tuo intervento tocca secondo la matrice in
-   `docs/ENGINEERING/agent-workflow.md`. In dubbio consulta l'Indice, non l'intero documento.
-   Un technical gate aperto della sezione 40 precede l'implementazione che vincola. La
-   matrice copre l'oggetto dell'intervento, non le dimensioni trasversali della sezione 0.4
-   — Free/Plus, accessibilità, localizzazione, privacy, persistenza, correzione, notifiche
-   e test — che restano obbligatorie e sono mappate in `agent-workflow.md`.
+1. `docs/MASTER_PLAN.md` è la fonte canonica. Prima di un intervento non banale leggi
+   le sezioni 0–2 e 9–11, poi quelle direttamente toccate; per modifiche a scope, roadmap,
+   pricing, architettura o release leggilo integralmente. Lo scope rinviato vive in
+   `docs/PRODUCT/ROADMAP.md` e non autorizza implementazioni preparatorie. Un Technical Gate
+   aperto precede l'implementazione che vincola. Le dimensioni trasversali — Free/Plus,
+   accessibilità, localizzazione, privacy, persistenza, correzione, notifiche e test —
+   restano obbligatorie dove applicabili senza richiedere documenti duplicati.
 2. Non reinterpretare scope, prodotto, pricing, UX, architettura o roadmap.
 3. Non aggiungere dipendenze, servizi esterni, analytics, AI o backend senza approvazione.
 4. Usa framework Apple nativi e la toolchain approvata.

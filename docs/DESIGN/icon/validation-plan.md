@@ -38,7 +38,6 @@ node scripts/check-icon-assets.mjs
 node scripts/build-icon-review-assets.mjs
 node scripts/check-icon-review-assets.mjs
 node scripts/validate-icon-assets.mjs
-node scripts/check-reading-matrix.mjs
 node scripts/check-roadmap-hierarchy.mjs
 git diff --check
 ```

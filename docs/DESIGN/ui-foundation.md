@@ -2,7 +2,7 @@
 
 - **Stato:** Confirmed
 - **Epic:** E02 — Apple-native UI Direction
-- **Piattaforme:** iOS 26 e iPadOS 26
+- **Piattaforma di release 1.0:** iPhone con iOS 26; adattamento iPad non bloccante
 - **Fonte canonica:** [Master Plan](../MASTER_PLAN.md)
 - **Baseline Apple verificata:** 6 agosto 2026
 
@@ -17,7 +17,7 @@ vengono mostrate le conseguenze, non da decorazioni sovrapposte.
 ## Gerarchia visuale
 
 1. **Contenuto:** liste, testi, grafici e schede Kit usano sfondi e materiali standard.
-2. **Interazione:** tab bar, sidebar, navigation bar, toolbar, search, sheet, menu,
+2. **Interazione:** tab bar, navigation bar, toolbar, sheet, menu,
    picker e pulsanti adottano automaticamente Liquid Glass tramite componenti SwiftUI.
 3. **Brand:** l'accento Routally evidenzia selezione, azione primaria e progresso; non
    tinge indiscriminatamente navigazione e contenuto.
@@ -25,7 +25,7 @@ vengono mostrate le conseguenze, non da decorazioni sovrapposte.
 
 “Predominante” descrive la copertura del livello interattivo, non la quantità di vetro
 sullo schermo: ogni azione primaria visibile usa `glassProminent`, mentre barre,
-toolbar, search e presentazioni lasciano il materiale al sistema. Il contenuto non viene
+toolbar e presentazioni lasciano il materiale al sistema. Il contenuto non viene
 reso glass per compensare un controllo implementato con uno stile non coerente.
 
 Il contenuto scorre sotto le superfici di navigazione affinché il vetro reagisca al
@@ -36,8 +36,7 @@ interferirebbero con lo scroll-edge effect e con l'adattamento automatico del ma
 
 | Area | Scelta |
 |---|---|
-| Tab bar e Search role | componente di sistema, sempre |
-| Sidebar iPad | superficie di sistema sopra il contenuto |
+| Tab bar | componente di sistema, sempre |
 | Navigation bar e toolbar | item nativi raggruppati per relazione |
 | Sheet, popover, menu e dialog | presentazione nativa senza background custom |
 | Pulsante primario | `glassProminent` di sistema con tint brand |
@@ -143,13 +142,11 @@ esistono token di shadow custom: profondità, separazione e vibrancy sono del si
 
 | Esigenza | Componente/pattern SwiftUI |
 |---|---|
-| shell e destinazioni | `TabView`, search role, `NavigationStack` |
-| layout adattivo iPad | `NavigationSplitView` |
+| shell e destinazioni | `TabView`, `NavigationStack` |
 | contenuti e configurazione | `List`, `Form`, `Section`, `LabeledContent` |
 | input | `TextField`, `Picker`, `DatePicker`, `Stepper`, `Toggle` |
 | azioni | `Button`, `Menu`, `swipeActions`, toolbar |
 | presentazioni | `sheet`, `popover`, `confirmationDialog`, `alert` |
-| ricerca | `searchable`, suggestion e scope di sistema |
 | feedback | `ContentUnavailableView`, `ProgressView`, sheet di riepilogo |
 | simboli | SF Symbols con rendering semantico |
 
@@ -169,7 +166,7 @@ API SwiftUI.
 | `AllClearState` | conferma che non serve agire | nuovo utente, giornata libera | messaggio breve, nessuna animazione obbligatoria |
 | `AttentionIndicator` | livello di attenzione | in arrivo, da fare, attenzione | simbolo + etichetta + colore |
 
-Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
+Pulsanti, picker, toggle, menu, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
@@ -191,7 +188,7 @@ di un problema concreto prodotto da queste verifiche.
 | Fonte | Pattern adottato | Limite mantenuto |
 |---|---|---|
 | HIG e app Apple | struttura e controlli nativi con Liquid Glass | niente glass decorativo nel contenuto |
-| Health | Search come destinazione separata e globale | non diventa una quinta area di prodotto |
+| Health | gerarchia leggibile e fatti osservati | Analisi e ricerca restano rinviate |
 | Reminders | liste leggibili, azioni familiari e undo | Routally non diventa un task manager |
 | Tody e DoneAgo | priorità reale e stato calmo | niente debito permanente o streak |
 | KountEm | progresso di utilizzo leggibile | il ciclo resta collegato all'evento sorgente |
@@ -230,7 +227,7 @@ immediatamente disponibile con scroll inverso o selezione della tab.
 - follow-up pronto;
 - conseguenze multiple appena applicate;
 - errore recuperabile senza perdita dell'evento;
-- offline con modifiche pendenti;
+- offline;
 - Free e Plus dove il comportamento differisce.
 
 ## Criteri di accettazione E02
@@ -250,7 +247,7 @@ immediatamente disponibile con scroll inverso o selezione della tab.
 |---|---|
 | baseline HIG e componenti Apple | gerarchia Liquid Glass, componenti Apple e riferimenti in questo documento |
 | token semantici | colore, tipografia, spaziatura, forma, movimento e feedback in questo documento |
-| navigazione iPhone/iPad | [navigation.md](navigation.md) |
+| navigazione iPhone | [navigation.md](navigation.md) |
 | flusso Oggi | sezione Oggi e stati obbligatori in questo documento |
 | flusso di creazione | [creation-flow.md](creation-flow.md) |
 | vertical slice | criteri `E02-VS-01`…`E02-VS-13` in [creation-flow.md](creation-flow.md) |
@@ -263,7 +260,7 @@ usati per dichiarare completato lavoro non ancora iniziato.
 
 ## Riferimenti
 
-- Master Plan, sezioni 4.6–4.9, 7, 9, 23, 25.5, 26.5 e 49.
+- Master Plan, sezioni 1, 3, 9 e 10.
 - Apple HIG — [Materials](https://developer.apple.com/design/human-interface-guidelines/materials)
 - Apple HIG — [Color](https://developer.apple.com/design/human-interface-guidelines/color)
 - Apple — [Build a SwiftUI app with the new design](https://developer.apple.com/videos/play/wwdc2025/323/)

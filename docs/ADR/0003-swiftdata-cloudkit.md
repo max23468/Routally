@@ -1,4 +1,4 @@
-# ADR 0003 — SwiftData e CloudKit
+# ADR 0003 — SwiftData locale e backup lossless
 
 - **Stato:** Confirmed
 - **Technical Gate:** `TG-DATA` aperto
@@ -7,23 +7,27 @@
 
 ## Contesto
 
-La 1.0 deve essere local-first, funzionare offline, sincronizzare dati privati tramite
-iCloud e non dipendere da account Routally, backend o runtime esterni.
+La 1.0 deve essere local-first, funzionare offline e offrire un recupero controllabile
+senza introdurre subito sincronizzazione multi-device, conflitti CloudKit o adapter per un
+backend futuro.
 
 ## Decisione
 
-L'adapter predefinito usa SwiftData, App Group e CloudKit. Il dominio dipende da
-repository protocol e UUID propri, non da modelli SwiftData o identificatori persistenti.
+La 1.0 usa uno store SwiftData locale concreto. Il dominio conserva UUID stabili e
+funzioni pure dove serve, ma non richiede repository intercambiabili per ogni entità.
+Backup lossless versionato, reimportabile e CSV sono le strategie di portabilità e
+recupero. CloudKit è rinviato alla 1.1 e avrà un gate dedicato.
 
 ## Conseguenze
 
-- le azioni quotidiane scrivono subito in locale e non attendono CloudKit;
-- schema e migrazioni sono versionati dalla prima release;
-- widget e app condividono proiezioni tramite App Group;
-- `TG-DATA` deve validare event store, migrazioni, offline, sync e 100.000 eventi;
-- se il gate fallisce, cambia soltanto l'adapter, preferibilmente verso Core Data con
-  `NSPersistentCloudKitContainer`.
+- le azioni quotidiane scrivono subito in locale;
+- schema e migrazioni sono versionati dalla prima release pubblica;
+- `TG-DATA` valida transazioni, backup/import, idempotenza e 10.000 eventi;
+- 100.000 eventi restano uno stress test esplorativo;
+- nessun fallback Core Data o adapter alternativo viene costruito senza un limite
+  dimostrato.
 
 ## Riferimenti
 
-- Master Plan, sezioni 21, 25.6 e 40.1.
+- Master Plan, sezioni 5, 9 e 10.
+- Roadmap, sezione 1.1 «CloudKit e multi-device».
