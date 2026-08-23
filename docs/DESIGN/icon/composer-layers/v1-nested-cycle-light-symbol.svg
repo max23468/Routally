@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">v1-nested-cycle · light · symbol</title>
+  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8">
+    <path fill-rule="evenodd" d="M 676.2984 384.2466 A 246.214 234.2418 0 1 1 183.8705 384.2466 A 246.214 234.2418 0 1 1 676.2984 384.2466 Z M 553.1914 384.2466 A 123.107 123.107 0 1 1 306.9775 384.2466 A 123.107 123.107 0 1 1 553.1914 384.2466 Z"/>
+    <rect x="183.8705" y="384.2466" width="123.107" height="459.5994"/>
+    <path d="M 263.1616 578.8172 L 439.4714 843.846 L 586.8817 843.846 L 350.7933 517.9613 Z"/>
+  </g>
+</svg>

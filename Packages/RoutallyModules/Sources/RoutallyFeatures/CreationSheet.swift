@@ -5,8 +5,11 @@ struct CreationSheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.locale) private var locale
   @FocusState private var isNameFocused: Bool
+  @AccessibilityFocusState private var isSaveErrorFocused: Bool
 
   @State private var form: CreationFormState
+  @State private var submissionState: CreationSubmissionState
+  @State private var retryIncludesOptionalConfiguration = true
   @State private var showingDiscardConfirmation = false
 
   let store: RoutallyStore
@@ -17,7 +20,8 @@ struct CreationSheet: View {
       store: store,
       router: router,
       initialStep: .routine,
-      initialName: ""
+      initialName: "",
+      initialSubmissionState: .idle
     )
   }
 
@@ -25,7 +29,8 @@ struct CreationSheet: View {
     store: RoutallyStore,
     router: AppRouter,
     initialStep: CreationStep,
-    initialName: String
+    initialName: String,
+    initialSubmissionState: CreationSubmissionState = .idle
   ) {
     self.store = store
     self.router = router
@@ -36,6 +41,7 @@ struct CreationSheet: View {
         followUpTitle: L10n.string(.preparaUnAsciugamanoPulito)
       )
     )
+    _submissionState = State(initialValue: initialSubmissionState)
   }
 
   var body: some View {
@@ -43,7 +49,9 @@ struct CreationSheet: View {
       Form {
         progressSection
         stepContent
+        errorSection
       }
+      .disabled(submissionState.isSaving)
       .navigationTitle(form.step.title)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -56,12 +64,13 @@ struct CreationSheet: View {
       }
       .onChange(of: form.step) { _, newStep in
         isNameFocused = newStep == .routine
+        submissionState.resetFailure()
       }
       .onChange(of: locale.identifier) { _, _ in
         updateLocalizedDefaults(for: locale)
       }
     }
-    .interactiveDismissDisabled(form.hasUnsavedChanges)
+    .interactiveDismissDisabled(form.hasUnsavedChanges || submissionState.isSaving)
     .presentationDetents([.large])
     .confirmationDialog(
       .vuoiInterrompereLaCreazione,
@@ -74,6 +83,25 @@ struct CreationSheet: View {
       }
     } message: {
       Text(.leModificheNonSalvateAndrannoPerse)
+    }
+  }
+
+  @ViewBuilder
+  private var errorSection: some View {
+    if submissionState.hasFailed {
+      Section {
+        Label(
+          .nonÈStatoPossibileCreareLaRoutineIDatiInseritiSonoAncoraQui,
+          systemImage: "exclamationmark.triangle"
+        )
+        .foregroundStyle(RoutallyColor.statusAttention)
+        .accessibilityFocused($isSaveErrorFocused)
+        .accessibilityIdentifier("creation-error")
+
+        Button(.riprova) {
+          createRoutine(includeOptionalConfiguration: retryIncludesOptionalConfiguration)
+        }
+      }
     }
   }
 
@@ -144,6 +172,7 @@ struct CreationSheet: View {
         Button(.indietro, systemImage: "chevron.backward") {
           form.move(by: -1)
         }
+        .disabled(submissionState.isSaving)
         .accessibilityIdentifier("creation-back")
       }
     }
@@ -152,6 +181,7 @@ struct CreationSheet: View {
       Button(.chiudi) {
         requestDismissal()
       }
+      .disabled(submissionState.isSaving)
     }
   }
 
@@ -164,30 +194,44 @@ struct CreationSheet: View {
         Button(.continuaAConfigurare) {
           form.move(by: 1)
         }
-        .disabled(!form.canContinue)
+        .disabled(!form.canContinue || submissionState.isSaving)
         .accessibilityIdentifier("creation-continue-configuration")
 
-        Button(.creaRoutine) {
+        Button {
           createRoutine(includeOptionalConfiguration: false)
+        } label: {
+          creationButtonLabel
         }
         .buttonStyle(.glassProminent)
-        .disabled(!form.isMinimumValid)
+        .disabled(!form.isMinimumValid || submissionState.isSaving)
         .accessibilityIdentifier("creation-create")
       } else if form.step == .summary {
-        Button(.creaRoutine) {
+        Button {
           createRoutine(includeOptionalConfiguration: true)
+        } label: {
+          creationButtonLabel
         }
         .buttonStyle(.glassProminent)
-        .disabled(!form.isValid)
+        .disabled(!form.isValid || submissionState.isSaving)
         .accessibilityIdentifier("creation-create")
       } else {
         Button(.continua) {
           form.move(by: 1)
         }
         .buttonStyle(.glassProminent)
-        .disabled(!form.canContinue)
+        .disabled(!form.canContinue || submissionState.isSaving)
         .accessibilityIdentifier("creation-continue")
       }
+    }
+  }
+
+  @ViewBuilder
+  private var creationButtonLabel: some View {
+    if submissionState.isSaving {
+      ProgressView()
+        .accessibilityLabel(.salvataggioInCorso)
+    } else {
+      Text(.creaRoutine)
     }
   }
 
@@ -208,15 +252,24 @@ struct CreationSheet: View {
   }
 
   private func createRoutine(includeOptionalConfiguration: Bool) {
-    guard
-      let routineID = store.createRoutine(
-        from: form.makeDraft(includeOptionalConfiguration: includeOptionalConfiguration),
-        locale: locale
-      )
-    else { return }
+    guard !submissionState.isSaving else { return }
 
-    router.showRoutine(id: routineID)
-    dismiss()
+    retryIncludesOptionalConfiguration = includeOptionalConfiguration
+    let draft = form.makeDraft(includeOptionalConfiguration: includeOptionalConfiguration)
+    let submissionLocale = locale
+    submissionState.begin()
+
+    Task { @MainActor in
+      await Task.yield()
+      guard let routineID = store.createRoutine(from: draft, locale: submissionLocale) else {
+        submissionState.fail()
+        isSaveErrorFocused = true
+        return
+      }
+
+      router.showRoutine(id: routineID)
+      dismiss()
+    }
   }
 
   private func updateLocalizedDefaults(for locale: Locale) {
@@ -244,6 +297,16 @@ struct CreationSheet: View {
     .preferredColorScheme(.dark)
     .environment(\.locale, Locale(identifier: "en"))
     .environment(\.dynamicTypeSize, .accessibility5)
+  }
+
+  #Preview("Errore recuperabile") {
+    CreationSheet(
+      store: RoutallyStore(snapshot: .empty),
+      router: AppRouter(),
+      initialStep: .summary,
+      initialName: "Palestra",
+      initialSubmissionState: .failed
+    )
   }
 
 #endif

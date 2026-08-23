@@ -70,6 +70,7 @@ public struct RoutallySnapshot: Equatable, Sendable {
   public var isOffline: Bool
   public var hasPendingChanges: Bool
   public var notificationCount: Int
+  public var notifiedFollowUpIDs: Set<String>
   public var isPlus: Bool
   public var hasCloudConflict: Bool
   public var hasRecoverableEventError: Bool
@@ -80,6 +81,7 @@ public struct RoutallySnapshot: Equatable, Sendable {
     isOffline: Bool = false,
     hasPendingChanges: Bool = false,
     notificationCount: Int = 0,
+    notifiedFollowUpIDs: Set<String> = [],
     isPlus: Bool = false,
     hasCloudConflict: Bool = false,
     hasRecoverableEventError: Bool = false
@@ -89,6 +91,7 @@ public struct RoutallySnapshot: Equatable, Sendable {
     self.isOffline = isOffline
     self.hasPendingChanges = hasPendingChanges
     self.notificationCount = notificationCount
+    self.notifiedFollowUpIDs = notifiedFollowUpIDs
     self.isPlus = isPlus
     self.hasCloudConflict = hasCloudConflict
     self.hasRecoverableEventError = hasRecoverableEventError

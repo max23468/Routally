@@ -1,5 +1,33 @@
 import Foundation
 
+enum CreationSubmissionState: Equatable {
+  case idle
+  case saving
+  case failed
+
+  var isSaving: Bool {
+    self == .saving
+  }
+
+  var hasFailed: Bool {
+    self == .failed
+  }
+
+  mutating func begin() {
+    self = .saving
+  }
+
+  mutating func fail() {
+    self = .failed
+  }
+
+  mutating func resetFailure() {
+    if hasFailed {
+      self = .idle
+    }
+  }
+}
+
 enum CreationStep: Int, CaseIterable {
   case routine
   case rule

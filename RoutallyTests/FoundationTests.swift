@@ -1,8 +1,9 @@
 import Foundation
 import RoutallyDomain
-import RoutallyFeatures
 import RoutallyFixtures
 import Testing
+
+@testable import RoutallyFeatures
 
 @Suite("M01 E03 Foundation")
 @MainActor
@@ -127,6 +128,23 @@ struct FoundationTests {
     #expect(
       store.consequenceSummary?.effects.contains { $0.id == "clean-gym-towel" } == true
     )
+  }
+
+  @Test("Un follow-up immediato escluso può essere ricreato")
+  func excludingImmediateFollowUpAllowsRecreation() {
+    let store = RoutallyStore(snapshot: RoutallySnapshot())
+    var draft = creationDraft(name: "Corsa")
+    draft.towelThreshold = 1
+    draft.usefulMoment = .immediate
+    store.createRoutine(from: draft)
+
+    #expect(store.recordRoutine(id: "gym"))
+    store.excludeEffect(id: "clean-gym-towel")
+    store.clearConsequenceSummary()
+
+    #expect(store.recordRoutine(id: "gym"))
+    #expect(store.snapshot.followUps.first?.id == "clean-gym-towel")
+    #expect(store.snapshot.followUps.first?.state == .ready)
   }
 
   @Test("Annullare ripristina atomicamente lo stato della fixture")
@@ -284,8 +302,8 @@ struct FoundationTests {
     #expect(store.snapshot.notificationCount == 1)
   }
 
-  @Test("Lo store preserva lo stato di consegna notifiche esplicito")
-  func storePreservesExplicitNotificationCount() {
+  @Test("Lo store preserva conteggio e identità di consegna espliciti")
+  func storePreservesExplicitNotificationState() {
     let mutedStore = RoutallyStore(
       snapshot: RoutallySnapshot(
         followUps: [
@@ -299,13 +317,47 @@ struct FoundationTests {
         followUps: [
           FollowUpSummary(id: "ready", title: "Pronto", origin: "Test", state: .ready)
         ],
-        notificationCount: 7
+        notificationCount: 7,
+        notifiedFollowUpIDs: ["ready"]
       )
     )
 
     #expect(mutedStore.snapshot.notificationCount == 0)
     #expect(explicitStore.snapshot.notificationCount == 7)
+    #expect(mutedStore.triggerFallback() == ["ready"])
     #expect(explicitStore.triggerFallback().isEmpty)
+  }
+
+  @Test("Una consegna storica non sopprime un nuovo follow-up pronto")
+  func historicalDeliveryDoesNotSuppressNewReadyFollowUp() {
+    let store = RoutallyStore(
+      snapshot: RoutallySnapshot(
+        followUps: [
+          FollowUpSummary(
+            id: "completed",
+            title: "Completato",
+            origin: "Test",
+            state: .completed
+          ),
+          FollowUpSummary(id: "new-ready", title: "Nuovo", origin: "Test", state: .ready),
+        ],
+        notificationCount: 1
+      )
+    )
+
+    #expect(store.triggerFallback() == ["new-ready"])
+  }
+
+  @Test("La creazione espone salvataggio, errore e retry")
+  func creationSubmissionStateIsRecoverable() {
+    var state = CreationSubmissionState.idle
+
+    state.begin()
+    #expect(state.isSaving)
+    state.fail()
+    #expect(state.hasFailed)
+    state.begin()
+    #expect(state.isSaving)
   }
 
   @Test("Ogni routine creata può registrare il proprio progresso")

@@ -12,8 +12,8 @@ della 1.0 (6), i technical spike e i validation gate (40), i Decision Gate apert
 decisioni sostituite (51).
 
 La sezione 40 è sempre letta perché un gate tecnico vincola il lavoro di altre sezioni:
-TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LOCATION precede i trigger
-geografici. Prima di implementare, verifica che il gate applicabile al tuo intervento sia
+TG-RECALC precede le feature che dipendono dal ricalcolo, TG-DATA precede lo schema e
+TG-STOREKIT precede il commercio. Prima di implementare, verifica che il gate applicabile al tuo intervento sia
 chiuso; se è aperto, l'esito dello spike precede l'implementazione.
 
 Poi leggi soltanto le sezioni che il tuo intervento tocca:
@@ -25,7 +25,7 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 | Esplora, Routine Kits, catalogo editoriale | 12, 20 |
 | Analisi, insight, grafici | 13 |
 | Onboarding e flusso di creazione | 14 |
-| Motore, regole, cicli, collegamenti, event sourcing | 15, 16, 17 |
+| Motore, regole, cicli, collegamenti, registro eventi | 15, 16, 17 |
 | Follow-up, notifiche, luoghi, geofencing | 18 |
 | Widget, App Intents, Universal Links, background | 19 |
 | Persistenza, iCloud, schema, migrazioni, export | 21 |
@@ -37,9 +37,9 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 | Sito, supporto, legale, App Store, compliance | 32, 33, 46, 52 |
 | Metriche, strategia di test, performance | 34, 35, 36 |
 | Milestone, roadmap, technical spike e gate | 37, 38, 39, 40 |
-| Casi limite, runbook operativi, rischi | 41, 42, 43 |
+| Casi limite, checklist operativa, rischi | 41, 42, 43 |
 | Ownership di account e asset, budget | 44, 45 |
-| Traceability, Definition of Done, backlog per epiche | 47, 48, 49 |
+| Tracciabilità, Definition of Done, backlog per epiche | 47, 48, 49 |
 
 In dubbio sulla sezione competente, consulta l'Indice del documento invece di leggerlo
 tutto. Quando una richiesta sembra uscire dallo scope confermato o riproporre una scelta
@@ -53,10 +53,11 @@ facoltativa: si corregge prima di procedere.
 
 Il controllo è eseguibile con `scripts/check-reading-matrix.mjs`.
 
-Quando cambiano versioni, milestone, epiche, Definition of Done o tracciabilità, esegui
+Quando cambiano milestone, epiche, Definition of Done o tracciabilità, esegui
 anche `node scripts/check-roadmap-hierarchy.mjs`. Il controllo richiede identificativi
 contigui, una sola milestone primaria per epica, corrispondenza con le Definition of Done,
-tracciabilità requisito → fase → milestone → epica e copertura di tutti i Technical Gate.
+e copertura di tutti i Technical Gate. Requisiti e attività non vengono duplicati in
+tassonomie parallele.
 
 ## Dimensioni trasversali
 
@@ -81,7 +82,7 @@ dimensioni applicabili:
 
 Esempio: un intervento sui widget legge la riga della matrice (19) e, poiché il widget ha
 un limite nel piano Free, anche la sezione 31. Un intervento sul motore legge 15–17 e, se
-tocca proiezioni o ricalcolo, il gate applicabile della sezione 40.
+tocca stato derivato o ricalcolo, il gate applicabile della sezione 40.
 
 Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
 

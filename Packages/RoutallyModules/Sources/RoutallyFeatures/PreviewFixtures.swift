@@ -65,7 +65,8 @@
             state: .ready
           )
         ],
-        notificationCount: 1
+        notificationCount: 1,
+        notifiedFollowUpIDs: ["clean-gym-towel"]
       )
     }
 

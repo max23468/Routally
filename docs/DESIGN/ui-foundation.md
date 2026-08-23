@@ -173,16 +173,18 @@ Pulsanti, picker, toggle, menu, search, tab, sheet e barre non vengono ricreati.
 
 ## Direzione dell'icona
 
-La direzione principale è **azione centrale e conseguenze collegate**: un elemento
-centrale propaga tre cicli o elementi e suggerisce discretamente una `R`. Le alternative
-ammesse restano quelle del Master Plan: `R` con due cicli, onde originate da un gesto,
-tre elementi che chiudono un ciclo e tally marks collegati.
+La direzione confermata è un **monogramma `R` costruito attorno a un ciclo**. La baseline
+canonica per la validazione Apple è A1 con fondo indaco, monogramma bianco, accento Lavender
+e testa terminale da 50 unità. Il ciclo resta la forma dominante, il fianco ne continua la
+tangente verticale e la gamba completa la lettera.
 
-Ogni alternativa viene costruita con livelli SVG semplici e provata in Icon Composer in
-aspetto standard, dark e monocromatico. Il confronto avviene a dimensioni piccole e
-senza testo, verificando che non sembri un navigatore, un simbolo di condivisione, una
-rete o un'app di automazione. La scelta finale resta nel Decision Gate `DG-ICON`: E02
-chiude direzioni e criteri, non seleziona anticipatamente l'asset App Store.
+A1 Amber con testa 50 resta l'unico controllo cromatico; T1 è il benchmark e fallback
+globale. A3 e la testa 54 sono archiviate. I livelli autonomi sono in
+`docs/DESIGN/icon/composer-layers/`; le tavole SVG non simulano Liquid Glass.
+
+`DG-ICON` resta aperto per Icon Composer, modi di rendering Apple, file `.icon`, dispositivi
+reali, user test cieco e verifica figurativa. La selezione visuale non va riaperta in assenza
+di un problema concreto prodotto da queste verifiche.
 
 ## Benchmark applicato
 

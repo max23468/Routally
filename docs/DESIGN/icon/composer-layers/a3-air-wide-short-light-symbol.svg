@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">a3-air-wide-short · light · symbol</title>
+  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
+  <g id="symbol" fill="#4C46D8" color="#4C46D8">
+    <path fill-rule="evenodd" d="M 730.5221 462.9732 A 227.2668 216.2191 0 1 1 275.9885 462.9732 A 227.2668 216.2191 0 1 1 730.5221 462.9732 Z M 635.8276 462.9732 A 132.5723 132.5723 0 1 1 370.683 462.9732 A 132.5723 132.5723 0 1 1 635.8276 462.9732 Z"/>
+    <rect x="275.9885" y="462.9732" width="94.6945" height="321.9613"/>
+    <path d="M 347.7511 623.2594 L 579.6737 784.9345 L 746.3834 784.9345 L 393.6148 555.2056 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
+  <title id="title">t1-cycle-consequence · indigo · symbol</title>
+  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
+  <g id="symbol" fill="#FFFFFF" color="#FFFFFF">
+    <path fill-rule="evenodd" d="M 794.7623 429.2685 A 293.2736 279.2699 0 1 1 208.215 429.2685 A 293.2736 279.2699 0 1 1 794.7623 429.2685 Z M 674.7305 429.2685 A 173.2418 173.2418 0 1 1 328.2468 429.2685 A 173.2418 173.2418 0 1 1 674.7305 429.2685 Z"/>
+    <rect x="208.215" y="429.2685" width="120.0318" height="420.7301"/>
+    <path d="M 299.1773 637.3959 L 604.4747 849.9986 L 815.7885 849.9986 L 357.3164 551.1256 Z"/>
+  </g>
+</svg>

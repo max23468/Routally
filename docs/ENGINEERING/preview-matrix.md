@@ -29,6 +29,7 @@ del riepilogo di creazione usano un `Date.FormatStyle` configurato con la stessa
 | Routine + dettaglio | iPad landscape e portrait | Light/Dark, IT | Default/AX5 | `RoutallyRootView` preview |
 | Creazione iniziale | iPhone portrait | Light, IT | Default | `CreationSheet` preview e Simulator |
 | Creazione riepilogo | iPhone portrait | Dark, IT/EN | Default/AX5 | `CreationSheet` preview e Simulator |
+| Creazione con errore recuperabile | iPhone portrait | Light, IT | Default | `CreationSheet` preview |
 | Conseguenze con esclusioni indipendenti | iPhone portrait | Light/Dark, IT | Default/AX5 | preview, Simulator e test store |
 | Ricerca con risultati / vuota | iPhone portrait | Light/Dark, IT | Default/AX5 | `SearchView` preview |
 | Profilo Free / Plus | iPhone portrait | Light/Dark, IT | Default | `ProfileSheet` preview |
@@ -71,15 +72,18 @@ La prova interattiva su iPhone copre:
 5. IT/EN, stato offline, errore recuperabile e preferenze di accessibilità sopra elencate.
 
 `CreationSheet` orchestra soltanto navigazione, dismissal e submit; stato e validazione
-del form sono separati dalle view dei singoli step. Il fallback partecipa al dirty state,
-l'area viene conservata come chiave stabile nella configurazione sintetica e resa visibile
-nel dettaglio della routine creata.
+del form sono separati dalle view dei singoli step. La submission attraversa gli stati
+idle, salvataggio ed errore recuperabile: il controllo resta disabilitato durante il
+salvataggio, l'errore riceve il focus accessibile e `Riprova` conserva il draft. Il
+fallback partecipa al dirty state, l'area viene conservata come chiave stabile nella
+configurazione sintetica e resa visibile nel dettaglio della routine creata.
 
 La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
 follow-up per l'arrivo a casa, separazione tra visibilità del follow-up e consegna della
-notifica simulata, undo atomico, esclusioni indipendenti, applicazione del draft,
-propagazione della locale e path di navigazione. Le build e i test che richiedono
-Simulator restano nella pipeline Apple/Xcode Cloud, come previsto dalla ripartizione CI
-del Master Plan; GitHub Actions non duplica tale pipeline. Motore event-sourced,
-persistenza, geofencing e notifiche reali restano nelle epiche e nei Technical Gate
-previsti dal Master Plan; E03 usa simulazioni locali Dev.
+notifica simulata con identità esplicita, ricreazione dopo esclusioni, undo atomico,
+stati di submission, applicazione del draft, propagazione della locale e path di
+navigazione. Le build e i test che richiedono Simulator restano nella pipeline
+Apple/Xcode Cloud, come previsto dalla ripartizione CI del Master Plan; GitHub Actions non
+duplica tale pipeline. Registro eventi e reducer, persistenza, geofencing e notifiche
+reali restano nelle epiche e nei Technical Gate previsti dal Master Plan; E03 usa
+simulazioni locali Dev.

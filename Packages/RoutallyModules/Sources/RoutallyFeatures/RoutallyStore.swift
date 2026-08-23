@@ -97,13 +97,8 @@ public final class RoutallyStore {
   public private(set) var consequenceSummary: ConsequenceSummary?
   public private(set) var creationDrafts: [String: RoutineCreationDraft] = [:]
 
-  private var simulatedNotifiedFollowUpIDs: Set<String>
-
   public init(snapshot: RoutallySnapshot) {
     self.snapshot = snapshot
-    let readyFollowUpIDs = snapshot.followUps.filter { $0.state == .ready }.map(\.id)
-    let deliveredReadyCount = max(0, min(snapshot.notificationCount, readyFollowUpIDs.count))
-    simulatedNotifiedFollowUpIDs = Set(readyFollowUpIDs.prefix(deliveredReadyCount))
   }
 
   @discardableResult
@@ -230,7 +225,7 @@ public final class RoutallyStore {
           ?? L10n.string(.preparaUnAsciugamanoPulito, locale: locale)
         let isImmediatelyReady = configuration?.usefulMoment == .immediate
         snapshot.followUps.removeAll { $0.id == followUpID }
-        simulatedNotifiedFollowUpIDs.remove(followUpID)
+        snapshot.notifiedFollowUpIDs.remove(followUpID)
         snapshot.followUps.append(
           FollowUpSummary(
             id: followUpID,
@@ -287,7 +282,7 @@ public final class RoutallyStore {
       )
       snapshot.routines[linkedRoutineIndex].state = .active
       snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
-      simulatedNotifiedFollowUpIDs.remove(linkedFollowUpID)
+      snapshot.notifiedFollowUpIDs.remove(linkedFollowUpID)
       updatedSummary.effects = updatedSummary.effects.map { effect in
         guard effect.id == id || effect.id == linkedFollowUpID else {
           return effect
@@ -297,8 +292,13 @@ public final class RoutallyStore {
         return excludedEffect
       }
     } else if snapshot.followUps.contains(where: { $0.id == id }) {
+      if let linkedRoutineID = linkedRoutineID(forFollowUpID: id),
+        let linkedRoutineIndex = routineIndex(id: linkedRoutineID)
+      {
+        snapshot.routines[linkedRoutineIndex].state = .thresholdReached
+      }
       snapshot.followUps.removeAll { $0.id == id }
-      simulatedNotifiedFollowUpIDs.remove(id)
+      snapshot.notifiedFollowUpIDs.remove(id)
       updatedSummary.effects = updatedSummary.effects.map { effect in
         guard effect.id == id else { return effect }
         var excludedEffect = effect
@@ -332,7 +332,7 @@ public final class RoutallyStore {
     }
     if followUpWasCreated {
       snapshot.followUps.removeAll { $0.id == linkedFollowUpID }
-      simulatedNotifiedFollowUpIDs.remove(linkedFollowUpID)
+      snapshot.notifiedFollowUpIDs.remove(linkedFollowUpID)
     }
     snapshot.hasPendingChanges = snapshot.isOffline
     consequenceSummary = nil
@@ -355,7 +355,7 @@ public final class RoutallyStore {
   public func simulateNotificationDelivery(for followUpIDs: [String]) {
     let requestedIDs = Set(followUpIDs)
     let deliverableIDs = requestedIDs.filter { followUpID in
-      !simulatedNotifiedFollowUpIDs.contains(followUpID)
+      !snapshot.notifiedFollowUpIDs.contains(followUpID)
         && snapshot.followUps.contains { followUp in
           followUp.id == followUpID && followUp.state == .ready
         }
@@ -363,7 +363,7 @@ public final class RoutallyStore {
     guard !deliverableIDs.isEmpty else { return }
 
     snapshot.notificationCount += deliverableIDs.count
-    simulatedNotifiedFollowUpIDs.formUnion(deliverableIDs)
+    snapshot.notifiedFollowUpIDs.formUnion(deliverableIDs)
   }
 
   public func completeFollowUp(id followUpID: String) {
@@ -376,7 +376,7 @@ public final class RoutallyStore {
     }
 
     snapshot.followUps[followUpIndex].state = .completed
-    simulatedNotifiedFollowUpIDs.remove(followUpID)
+    snapshot.notifiedFollowUpIDs.remove(followUpID)
     if let towelIndex = routineIndex(id: linkedRoutineID) {
       if creationDrafts[sourceRoutineID]?.startsNextCycle ?? true {
         snapshot.routines[towelIndex].progress = 0
@@ -416,7 +416,7 @@ public final class RoutallyStore {
     snapshot.followUps.compactMap { followUp in
       guard
         followUp.state == .ready,
-        !simulatedNotifiedFollowUpIDs.contains(followUp.id)
+        !snapshot.notifiedFollowUpIDs.contains(followUp.id)
       else {
         return nil
       }

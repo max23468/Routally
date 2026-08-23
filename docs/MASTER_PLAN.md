@@ -1,10 +1,8 @@
 # Routally — Master Plan
 
 - **Documento canonico:** `docs/MASTER_PLAN.md`
-- **Versione del piano:** 1.4 Operational Hierarchy Baseline
 - **Stato:** approvato per l'avvio della progettazione e dello sviluppo
 - **Data:** 14 agosto 2026
-- **Audit di completezza rispetto alla chat:** completato prima dell'handoff a Codex
 - **Owner di prodotto:** Matteo
 - **Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile e commercializzabile, mantenendo una roadmap esplicita per le versioni 1.X, 2.X e successive.
 
@@ -27,7 +25,7 @@
 - [13. Tab Analisi](#13-tab-analisi)
 - [14. Onboarding e creazione](#14-onboarding-e-creazione)
 - [15. Motore funzionale](#15-motore-funzionale)
-- [16. Event sourcing, correzione e consistenza](#16-event-sourcing-correzione-e-consistenza)
+- [16. Registro eventi, correzione e consistenza](#16-registro-eventi-correzione-e-consistenza)
 - [17. Pausa, archiviazione ed eliminazione](#17-pausa-archiviazione-ed-eliminazione)
 - [18. Smart Follow-ups, notifiche e luoghi](#18-smart-follow-ups-notifiche-e-luoghi)
 - [19. Integrazioni Apple della 1.0](#19-integrazioni-apple-della-10)
@@ -53,14 +51,14 @@
 - [39. Roadmap 2.X e lungo termine](#39-roadmap-2x-e-lungo-termine)
 - [40. Technical spikes e validation gates](#40-technical-spikes-e-validation-gates)
 - [41. Matrice delle eccezioni](#41-matrice-delle-eccezioni)
-- [42. Runbook operativi](#42-runbook-operativi)
+- [42. Checklist operativa](#42-checklist-operativa)
 - [43. Risk register iniziale](#43-risk-register-iniziale)
 - [44. Ownership di account, asset e credenziali](#44-ownership-di-account-asset-e-credenziali)
 - [45. Budget e sostenibilità operativa](#45-budget-e-sostenibilità-operativa)
 - [46. Compliance e checklist App Store](#46-compliance-e-checklist-app-store)
-- [47. Requirement traceability baseline](#47-requirement-traceability-baseline)
+- [47. Tracciabilità operativa](#47-tracciabilità-operativa)
 - [48. Definition of Done per milestone](#48-definition-of-done-per-milestone)
-- [49. Backlog iniziale per epiche](#49-backlog-iniziale-per-epiche)
+- [49. Backlog per epiche](#49-backlog-per-epiche)
 - [50. Decision Gate aperti](#50-decision-gate-aperti)
 - [51. Decisioni esplicitamente sostituite](#51-decisioni-esplicitamente-sostituite)
 - [52. Quality bar finale](#52-quality-bar-finale)
@@ -146,8 +144,8 @@ sostituite (51); poi soltanto le sezioni che il proprio intervento tocca, second
 matrice in `docs/ENGINEERING/agent-workflow.md`.
 
 La sezione 40 rientra fra quelle sempre lette perché un gate tecnico vincola il lavoro di
-altre sezioni: TG-RECALC precede le proiezioni, TG-DATA precede lo schema, TG-LOCATION
-precede i trigger geografici. Leggerla solo quando si lavora sulla roadmap significherebbe
+altre sezioni: TG-RECALC precede le feature che dipendono dal ricalcolo, TG-DATA precede
+lo schema e TG-STOREKIT precede il commercio. Leggerla solo quando si lavora sulla roadmap significherebbe
 scoprire il vincolo dopo averlo violato.
 
 La matrice indica le sezioni che descrivono l'oggetto dell'intervento, non l'insieme
@@ -291,7 +289,7 @@ La tesi commerciale approvata è prudente:
 
 - Routally è una buona opportunità per un prodotto consumer indipendente;
 - non si presume che sia automaticamente una startup venture-scale;
-- il costo di costruzione Apple-native è compatibile con una validazione lean;
+- il costo di costruzione Apple-native è compatibile con una validazione mirata;
 - il rischio principale non è la fattibilità del motore, ma acquisizione, comprensione, abitudine alla registrazione e retention;
 - la differenziazione deve derivare dall'insieme `single log + closed cycles + right-time follow-up + Kits + calm UX`, non da una sola feature facilmente replicabile.
 
@@ -524,29 +522,65 @@ La personalità emerge da accento, Routine Cycles, microanimazioni native e feed
 
 ## 4.8 Icona
 
-### Direzione predefinita
+### Direzione e baseline confermate
 
-**Azione centrale e conseguenze collegate:** un elemento centrale dal quale si propagano tre cicli o elementi, con composizione che suggerisce discretamente una `R`.
+**Monogramma `R` costruito attorno a un ciclo:** il ciclo è la forma dominante e genera
+la curva superiore della lettera; il fianco sinistro continua fino alla linea di base e la
+gamba diagonale completa una `R` riconoscibile. Un arco esterno di progresso, staccato dal
+segno, cresce lungo il percorso e termina in una testa piena.
 
-### Alternative da mantenere nell'esplorazione vettoriale
+Regole di costruzione, vincolanti per ogni resa futura del segno:
 
-1. `R` formata da due cicli collegati;
-2. un gesto che genera più onde;
-3. tre elementi che chiudono un ciclo;
-4. tally marks collegati.
+- contorno esterno del ciclo ellittico in rapporto `288:274` e contatore circolare esatto;
+- fianco continuo con la tangente verticale del ciclo e del contatore;
+- gamba rastremata con taglio orizzontale sulla linea di base;
+- terminali degli archi tagliati sui raggi;
+- overshoot ottico per le forme circolari che appoggiano alla linea di base;
+- varchi sulla diagonale a quarantacinque gradi e arco esterno fermo trenta gradi sopra
+  l'orizzontale;
+- eventuale secondo ciclo tangente a gamba, base e ciclo principale;
+- trattamento chiaro su indaco compensato al 97 per cento dello spessore;
+- fondo indaco come trattamento primario;
+- centraggio sul soggetto quando l'arco è accessorio e sull'ingombro quando l'accento è
+  strutturale.
 
-La scelta finale avverrà dopo prove con asset SVG in Icon Composer e sui dispositivi target. Un piccolo user test deve mostrare le alternative senza spiegazione preventiva, per verificare riconoscibilità e associazioni spontanee.
+La **baseline canonica approvata per la validazione Apple** è `a1-air-medium` con:
 
-Criteri:
+- fondo indaco `#4C46D8`;
+- monogramma bianco;
+- accento Lavender `#CAC7FF`;
+- testa terminale con raggio `50` prima della compensazione ottica.
 
-- dimensioni piccole;
-- aspetto standard, scuro e monocromatico;
-- distinzione da reminder, navigatori, condivisione, reti, sincronizzazione e app di automazione;
-- percezione consumer;
-- leggibilità senza testo;
-- coerenza con il nome.
+Il generatore canonico e la derivata Dev producono ora direttamente questa geometria. A1
+Amber con la stessa testa resta l'unico controllo cromatico; `t1-cycle-consequence` resta
+benchmark e fallback globale esplicito. A3 e la testa 54 sono archiviate e non rientrano nel
+confronto finale, salvo un problema concreto emerso nelle prove Apple.
 
-**Decision Gate DG-ICON:** scelta definitiva prima della produzione dei materiali App Store.
+T1 non viene sostituita automaticamente da iOS alle piccole dimensioni. Può essere adottata
+soltanto come fallback globale se A1 non supera le verifiche a 29 e 40 pt.
+
+### Alternative esplorate e archiviate
+
+Sono archiviate azione centrale e conseguenze collegate, `R` con due cicli, onde originate
+da un gesto, tre elementi che chiudono un ciclo, tally marks collegati, A3 e la testa 54.
+Le varianti a due cicli possono leggere come «Ro» e le onde coincidono troppo con un glifo
+di segnale.
+
+### Validazione e chiusura
+
+La selezione visuale preliminare è conclusa, ma `DG-ICON` resta aperto. Prima della ratifica
+finale sono obbligatori:
+
+- import dei livelli autonomi in Icon Composer su macOS Tahoe 26.4 o successivo;
+- verifica di Default, Dark, Mono, Clear e Tinted, incluso Liquid Glass;
+- file `.icon` versionato e collegato ai target pubblico e Dev;
+- prova su iPhone e iPad reali, con attenzione a 29 e 40 pt;
+- user test cieco fra A1 Lavender 50, A1 Amber 50 e T1;
+- verifica figurativa formale o accettazione esplicita del rischio residuo;
+- ratifica finale del Product Owner.
+
+**Decision Gate DG-ICON:** resta aperto e blocca il file definitivo e i materiali App Store
+finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate.
 
 ## 4.9 Routine Kits visuali
 
@@ -1458,7 +1492,6 @@ Componenti indicativi:
 - `CycleState`
 - `RoutineEvent`
 - `EventRevision`
-- `ProjectionSnapshot`
 - `SyncMetadata`
 - `Tombstone`
 
@@ -1723,7 +1756,7 @@ Allegati rinviati alla 1.X.
 
 ---
 
-# 16. Event sourcing, correzione e consistenza
+# 16. Registro eventi, correzione e consistenza
 
 ## 16.1 Fonte canonica
 
@@ -1746,18 +1779,15 @@ Da questi eventi vengono derivate:
 - cronologia;
 - notifiche pertinenti.
 
-## 16.2 Proiezioni materializzate
+## 16.2 Stato derivato
 
-Per prestazioni, Routally mantiene proiezioni ricostruibili:
+Un reducer deterministico deriva dagli eventi lo stato necessario a routine, Oggi,
+follow-up, Analisi, ricerca e widget. Nella baseline 1.0 lo stato viene calcolato su lettura
+o aggiornato nella stessa transazione che registra l'evento.
 
-- stato corrente della routine;
-- Oggi;
-- follow-up aperti;
-- indice di ricerca;
-- metriche di Analisi;
-- snapshot per widget.
-
-Le proiezioni non sono canoniche e possono essere rigenerate.
+Cache o indici persistenti si introducono soltanto per una query misurata come lenta e
+restano eliminabili senza perdita di dati. Non esistono nella baseline un sottosistema di
+proiezioni, una coda di aggiornamento o una gerarchia di snapshot da riconciliare.
 
 ## 16.3 Correzione retroattiva
 
@@ -1785,27 +1815,15 @@ Una modifica rilevante mostra:
 - gli eventi passati non vengono attribuiti retroattivamente a una nuova sorgente;
 - nessun «ricalcola tutta la storia con il nuovo link» nella 1.0.
 
-## 16.5 Consistency Engine
+## 16.5 Controlli di integrità
 
-Componente interno responsabile di:
+Non esiste un `Consistency Engine` autonomo. Scrittura, modifica e sincronizzazione
+validano gli invarianti nella stessa operazione; retry e deduplica usano gli UUID degli
+eventi. Se una cache opzionale è incoerente viene scartata e ricalcolata dal reducer.
 
-1. verificare proiezioni e indice;
-2. ricostruire lo stato dagli eventi;
-3. individuare follow-up mancanti o duplicati;
-4. riallineare notifiche;
-5. aggiornare widget e ricerca;
-6. produrre esito diagnostico redatto.
-
-Nella build Dev:
-
-- Verifica integrità;
-- Ricostruisci proiezioni;
-- Simula evento duplicato;
-- Simula conflitto;
-- Simula notifica mancante;
-- Genera dataset di stress.
-
-Questi strumenti sono esclusi a compilazione da TestFlight e App Store.
+La build Dev può validare gli invarianti e generare fixture realistiche. Simulatori di
+corruzione, dashboard diagnostiche e procedure di repair dedicate si aggiungono soltanto
+dopo un guasto riproducibile che i normali test non coprono.
 
 ## 16.6 Invarianti di dominio
 
@@ -1819,7 +1837,7 @@ Le seguenti proprietà non possono essere violate:
 6. eliminare la sorgente non elimina le routine dipendenti;
 7. un link circolare è rifiutato;
 8. quantità e durata non generano stati impossibili;
-9. le proiezioni sono ricostruibili dagli eventi canonici;
+9. lo stato derivato è riproducibile dagli eventi canonici;
 10. l'ordine di consegna CloudKit non cambia il risultato finale;
 11. retry e riconciliazioni sono idempotenti;
 12. un follow-up completato su un dispositivo non viene completato due volte altrove;
@@ -1828,7 +1846,7 @@ Le seguenti proprietà non possono essere violate:
 15. una routine archiviata non riceve aggiornamenti automatici;
 16. una routine in pausa non viene incrementata da link, salvo registrazione manuale esplicita della routine stessa secondo le regole approvate;
 17. ogni modifica che altera conseguenze conserva una traccia revisionale;
-18. nessuna cache può diventare fonte di verità.
+18. nessuna cache o indice può diventare fonte di verità.
 
 Ogni invariante deve avere test automatici.
 
@@ -2136,7 +2154,7 @@ Il background è opportunistico e non essenziale.
 Può:
 
 - riconciliare CloudKit;
-- aggiornare proiezioni;
+- aggiornare stato derivato e indici necessari;
 - riprogrammare notifiche;
 - aggiornare widget e ricerca;
 - ripulire cache;
@@ -2494,7 +2512,7 @@ Default:
 - dopo DG-DEVELOPER-IDENTITY, preferibilmente un unico container iCloud Routally definitivo con ambienti CloudKit Development e Production separati, associato agli App ID necessari; prima del gate gli spike usano container e identificativi di sviluppo provvisori e sacrificabili;
 - schema versionato dalla prima release;
 - `SchemaMigrationPlan` esplicito;
-- adapter separato dal dominio.
+- un confine di persistenza sufficiente a testare il dominio senza SwiftData.
 
 Architettura:
 
@@ -2505,17 +2523,9 @@ Feature state / use case
   ↓
 Domain engine
   ↓
-Repository protocols
+Routally store
   ↓
-SwiftData + CloudKit adapter
-```
-
-Futuro:
-
-```text
-Repository
-  ├── SwiftData/iCloud
-  └── Routally Backend
+SwiftData + CloudKit
 ```
 
 ## 21.3 Indipendenza dal framework
@@ -2523,8 +2533,10 @@ Repository
 - i tipi di dominio non sono direttamente modelli SwiftData esposti alla UI;
 - gli UUID sono indipendenti da `PersistentIdentifier`;
 - CloudKit non viene chiamato dalla feature;
-- l'adapter è sostituibile;
-- import/export del futuro account non dipende da dettagli iCloud.
+- il formato di esportazione non dipende da dettagli SwiftData.
+
+La possibile 2.0 non impone adapter, repository sostituibili o compatibilità preventiva
+alla 1.0. Una migrazione futura verrà progettata sui dati e sui requisiti reali di allora.
 
 ## 21.4 Schema V1
 
@@ -2541,7 +2553,7 @@ Il primo schema è formalmente versionato. I modelli persistenti indicativi comp
 - luoghi;
 - Aree;
 - Kit origin;
-- proiezioni;
+- eventuali indici locali motivati da misure;
 - tombstone;
 - device preference;
 - entitlement cache non canonica.
@@ -2657,7 +2669,8 @@ Strumenti consentiti:
 - OSLog con privacy redaction;
 - feedback volontario.
 
-`AnalyticsClient` esiste con `NullAnalyticsClient`, per evitare accoppiamenti futuri.
+Non esiste un protocollo analytics vuoto: se una futura decisione autorizzerà analytics,
+l'integrazione verrà progettata allora sui requisiti approvati.
 
 ## 22.2 Dati sensibili
 
@@ -2714,18 +2727,14 @@ Il repository è pubblico ma proprietario.
 
 Deve coprire almeno:
 
-- file o input corrotti;
-- sincronizzazione ostile/incoerente;
-- duplicazione eventi;
-- perdita o riapparizione di dati eliminati;
-- escalation Free/Plus;
-- esposizione di luoghi e note;
-- Universal Link manipolati;
-- widget su lock screen;
-- secret nel repository;
-- abuso di App Intents;
-- denial of service locale con dataset enorme;
-- supply chain GitHub Actions.
+- perdita o corruzione dati, inclusi sync incoerente, duplicati e riapparizione di eliminati;
+- esposizione involontaria di note, luoghi o profilo tramite log e superfici di sistema;
+- manipolazione degli entitlement Free/Plus;
+- input esterni non fidati, inclusi link, App Intents e file importati;
+- repository e supply chain, inclusi secret e GitHub Actions.
+
+Il threat model resta un controllo breve aggiornato quando cambia una superficie reale; non
+richiede scenari, infrastrutture o contromisure per servizi che Routally non usa.
 
 ## 22.8 Principio del minimo privilegio
 
@@ -2878,9 +2887,7 @@ RoutallyApp
 ├── RoutallyData
 │   ├── SwiftData
 │   ├── CloudKit
-│   ├── Repositories
-│   ├── Migration
-│   └── Projections
+│   └── Migration
 │
 ├── RoutallyFeatures
 │   ├── Today
@@ -2912,7 +2919,7 @@ RoutallyApp
 
 - strict concurrency dal primo commit;
 - `async/await`;
-- actor per persistenza, ricalcolo, notifiche e sync;
+- isolamento con actor dove esiste stato mutabile condiviso, senza creare un actor per ogni servizio in anticipo;
 - tipi `Sendable` quando appropriato;
 - niente callback legacy senza necessità;
 - nessun singleton globale come scorciatoia;
@@ -2932,23 +2939,22 @@ RoutallyApp
 - niente `AnyView` come scorciatoia;
 - niente logica business in `body`.
 
-## 25.4 Repository protocols
+## 25.4 Confini dei servizi
 
-Interfacce minime indicative:
+Si introducono soltanto confini usati dall'app o necessari a test deterministici. La
+baseline indicativa è:
 
 ```swift
-protocol RoutineRepository: Sendable { ... }
-protocol EventRepository: Sendable { ... }
-protocol ProjectionRepository: Sendable { ... }
-protocol ReminderScheduler: Sendable { ... }
-protocol LocationReminderService: Sendable { ... }
-protocol EntitlementProvider: Sendable { ... }
-protocol AnalyticsClient: Sendable { ... }
+protocol RoutallyStore: Sendable { ... }
+protocol ReminderScheduling: Sendable { ... }
+protocol LocationReminding: Sendable { ... }
+protocol EntitlementProviding: Sendable { ... }
 protocol Clock: Sendable { ... }
-protocol IdentifierGenerator: Sendable { ... }
 ```
 
-`Clock`, calendario e ID devono essere iniettabili per test deterministici.
+`Clock` e calendario devono essere controllabili nei test. Non si crea un protocollo per
+ogni modello, framework o possibile fornitore futuro; un nuovo confine richiede almeno due
+implementazioni reali o un test che non può essere scritto in modo più semplice.
 
 ## 25.5 Design system
 
@@ -2972,9 +2978,12 @@ Non ricrea pulsanti, picker, tab, navigation bar, sheet o search se esiste un eq
 
 Default confermato: SwiftData + CloudKit.
 
-**Technical Gate TG-DATA:** uno spike deve verificare event store, migrazioni, App Group, widget, sync offline e dataset esteso.
+**Technical Gate TG-DATA:** uno spike deve verificare registro eventi, migrazioni, App Group, widget, sync offline e dataset di riferimento.
 
-Se il gate fallisce per limiti dimostrati, il dominio e i repository restano invariati e viene valutato un adapter Apple-native alternativo, preferibilmente Core Data + `NSPersistentCloudKitContainer`. Il fallback non modifica l'esperienza né autorizza dipendenze esterne.
+Se il gate fallisce per limiti dimostrati, il dominio e il contratto dello store restano
+invariati e viene valutata una persistenza Apple-native alternativa, preferibilmente Core
+Data + `NSPersistentCloudKitContainer`. Il fallback non modifica l'esperienza né autorizza
+dipendenze esterne.
 
 ---
 
@@ -3369,7 +3378,6 @@ docs/
 │   ├── event-engine.md
 │   ├── persistence-sync.md
 │   ├── notifications.md
-│   ├── consistency-engine.md
 │   ├── testing-strategy.md
 │   └── agent-workflow.md
 ├── RELEASE/
@@ -3378,16 +3386,10 @@ docs/
 │   ├── testflight.md
 │   ├── review-evidence.md
 │   └── release-checklist.md
-├── RUNBOOKS/
-│   ├── cloudkit-sync.md
-│   ├── projection-repair.md
-│   ├── notifications.md
-│   ├── storekit.md
-│   ├── app-review.md
-│   └── security-incident.md
+├── OPERATIONS.md
 └── ADR/
     ├── 0001-ios-26-minimum.md
-    ├── 0002-event-sourced-domain.md
+    ├── 0002-deterministic-event-journal.md
     ├── 0003-swiftdata-cloudkit.md
     ├── 0004-swiftui-first-ui-design.md
     └── ...
@@ -4000,27 +4002,20 @@ La preferenza attuale è account individuale o organizzazione propria; publisher
 
 ### Natura delle soglie
 
-Queste soglie sono **qualitative**, non statistiche. Routally non usa analytics (sezione
-22.1) e la beta privata conta 20–40 tester: i valori sotto derivano da questionari
-auto-riferiti e da osservazione diretta su un campione piccolo e non rappresentativo.
-
-Vanno quindi lette come segnali di allineamento, non come misure. Un valore sotto soglia
-apre un'indagine qualitativa sul motivo; non è di per sé un blocco aritmetico, e un valore
-sopra soglia non certifica il prodotto. La decisione di procedere alla 0.9 resta del
-Product Owner e si basa sui problemi osservati, non sulla percentuale.
-
-Nessuna di queste percentuali va usata in comunicazione esterna, materiali App Store o
-affermazioni pubbliche: non hanno la solidità per sostenerle.
+La beta privata produce evidenze qualitative da sessioni osservate, questionari e feedback
+TestFlight. La numerosità dipende dai tester realmente disponibili e non viene presentata
+come campione statistico. La decisione di procedere alla 0.9 resta del Product Owner e si
+basa sui problemi osservati, non su percentuali prive di potenza statistica.
 
 ### Soglie
 
-Senza analytics nascosti, tramite TestFlight e questionari:
+Senza analytics nascosti, tramite TestFlight e ricerca diretta, si verificano:
 
-- almeno 80% dei percorsi assegnati completato senza assistenza;
+- percorsi assegnati completati senza un pattern ricorrente di assistenza;
 - nessuno dei quattro archetipi con problema strutturale;
-- almeno 60% crea una routine reale propria;
-- almeno 50% usa l'app alla quarta settimana;
-- almeno 40% dichiara disponibilità a pagare Annual o Lifetime;
+- creazione di routine reali proprie dopo i casi guidati;
+- uso continuato sufficiente a osservare almeno un ciclo reale;
+- comprensione del valore Plus e reazioni al prezzo;
 - zero perdita/duplicazione irreversibile;
 - nessun flusso principale sistematicamente frainteso.
 
@@ -4041,15 +4036,11 @@ Tester:
 
 ## 34.2 Primi 90 giorni
 
-Target interni, da rivedere con dati reali:
-
-- retention 7/28 giorni almeno in linea con peer benchmark;
-- conversione pagina almeno mediana;
-- crash rate pari o migliore del peer group;
-- trial → annuale almeno 25%;
-- refund rate sotto 5%;
-- volume supporto sostenibile;
-- nessun problema ricorrente sul motore fondamentale.
+Nei primi 90 giorni si raccolgono baseline reali per retention, conversione pagina,
+stabilità, acquisti, rimborsi e volume di supporto. I confronti con peer e gli obiettivi
+numerici vengono fissati soltanto dopo avere dati omogenei e una numerosità dichiarata.
+Resta immediatamente bloccante qualunque problema ricorrente del motore fondamentale o di
+integrità dei dati.
 
 ## 34.3 Metriche non usate
 
@@ -4176,33 +4167,34 @@ Dalla 1.1: phased release di default.
 
 ## 36.1 Budget
 
-- first useful content ≤ 1,5 s cold launch su dispositivo minimo supportato;
-- feedback visivo/aptico ≤ 100 ms;
-- aggiornamento ordinario UI/proiezioni ≤ 300 ms;
-- scroll fluido;
-- nessun blocco su CloudKit;
-- azioni offline;
-- ricalcoli pesanti fuori dal percorso immediato;
-- cronologia paginata.
+Prima della beta vengono misurati su un dispositivo minimo supportato cold launch, risposta
+alle azioni principali, scroll, memoria ed energia. I numeri iniziali sono baseline da
+registrare, non soglie inventate a priori.
 
-## 36.2 Dataset di stress
+Restano vincoli funzionali:
 
-- 300 routine attive;
-- 1.000 archiviate;
-- 100.000 eventi;
-- 500 link;
-- 2.000 follow-up;
-- più anni e fusi;
-- revisioni/tombstone;
-- conflitti multi-device.
+- il feedback di una registrazione è immediato e non attende CloudKit;
+- nessuna operazione di rete blocca la UI;
+- le azioni quotidiane funzionano offline;
+- ricalcoli percepibili espongono progresso e cancellazione senza stato parziale;
+- la cronologia usa paginazione quando la misura ne dimostra la necessità.
+
+## 36.2 Dataset di verifica
+
+Fino ai dati della beta, la fixture di riferimento rappresenta un uso intenso ma
+plausibile: 50 routine attive, 200 archiviate, 10.000 eventi, 100 collegamenti e 500
+follow-up distribuiti su più anni, fusi, revisioni, tombstone e conflitti multi-device.
+
+Il volume viene aggiornato dopo la beta usando il percentile alto osservato con un margine
+esplicito. Dataset molto maggiori possono essere esplorativi, ma non bloccano la release
+se non rappresentano un uso reale supportato.
 
 ## 36.3 Strategie
 
-- proiezioni;
 - ricalcolo dipendenze coinvolte;
 - paginazione;
-- cache ricostruibili;
-- actor dedicati;
+- cache o indici soltanto dopo profiling;
+- isolamento della persistenza e delle operazioni pesanti;
 - cancellation;
 - indici;
 - niente full scan all'avvio;
@@ -4211,17 +4203,10 @@ Dalla 1.1: phased release di default.
 
 ## 36.4 Gate
 
-- launch instruments;
-- hitch/scroll;
-- memory/leaks;
-- energy;
-- stress database;
-- export grande;
-- ricalcolo retroattivo;
-- offline lungo;
-- sync;
-- widget/intents;
-- Debug vs Release.
+La Release Candidate viene misurata in configurazione Release su device fisico per cold
+launch, interazioni principali, scroll, memoria, energia, database, ricalcolo, offline e
+sync. Il gate fallisce per regressioni rispetto alla baseline o per un problema percepibile
+e riproducibile, non perché manca un numero arbitrario definito prima delle misure.
 
 ---
 
@@ -4248,7 +4233,7 @@ Include:
 - Routally Dev;
 - CI;
 - architettura base;
-- spike dati, StoreKit, location, navigation/search e iPad/accessibilità.
+- spike dati e StoreKit; prototipi mirati per location, navigation/search e iPad/accessibilità.
 
 ### 0.2 — Core Routine Engine
 
@@ -4257,10 +4242,10 @@ Include:
 - misure;
 - obiettivi;
 - cicli;
-- proiezioni;
+- reducer e stato derivato;
 - invarianti;
 - test dominio;
-- spike TG-RECALC sul ricalcolo retroattivo, prima di costruire proiezioni e interfaccia sopra il motore.
+- spike TG-RECALC sul ricalcolo retroattivo, prima di costruire interfacce che dipendono dal motore.
 
 ### 0.3 — Vertical slice
 
@@ -4372,16 +4357,16 @@ milestone: sono condizioni che ne precedono o vincolano il completamento.
 
 | Fase/versione | Milestone | Epiche primarie | Gate e prerequisiti principali |
 |---|---|---|---|
-| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA`, `TG-LOCATION`, `TG-STOREKIT`, `TG-SEARCH`, `TG-IPAD-ACCESSIBILITY` |
-| `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle proiezioni |
-| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite adapter testabili, senza anticipare le integrazioni di sistema complete |
+| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA` e `TG-STOREKIT`; prototipi mirati per le integrazioni UI/sistema |
+| `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle feature dipendenti |
+| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili, senza anticipare le integrazioni di sistema complete |
 | `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
 | `0.5` | `M05` Explore & Kits | `E11` | motore, creazione e comportamento Free/Plus disponibili |
-| `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; esiti `TG-LOCATION` e `TG-IPAD-ACCESSIBILITY`; iCloud Development verificato |
-| `0.6` | `M07` Insights & Search | `E15`–`E16` | esito `TG-SEARCH`; gate di evidenza degli insight |
+| `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 verificati; iCloud Development operativo |
+| `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
 | `0.6` | `M08` Commerce & Release Foundations | `E17`–`E18` | esito `TG-STOREKIT`; matrice commerciale, supporto, legale e App Store foundations completi |
 | `0.7` | `M09` Accessibility & Localization | `E19` | `M01`–`M08` feature complete; avvio del feature freeze |
-| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; `TG-PERFORMANCE`; audit privacy e sicurezza |
+| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; gate performance della sezione 36; audit privacy e sicurezza |
 | `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
 | `1.0` | `M12` App Store 1.0 | `E22` | release gate delle sezioni 35, 46 e 52; submission approvata e rilascio manuale autorizzato |
 
@@ -4414,39 +4399,22 @@ Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in setti
 
 **Decision Gate DG-LAUNCH:** data e possibile preordine dopo RC stabile.
 
-## 37.5 Linea di galleggiamento della 1.0
+## 37.5 Gestione dello scope 1.0
 
-Il rischio «Scope 1.0 troppo ampio» della sezione 43 è classificato con probabilità e
-impatto alti, ma la sua unica mitigazione era finora un processo — milestone, freeze e
-rinvio esplicito — non una scelta. Con un solo sviluppatore la decisione di taglio verrà
-comunque presa: questa sezione la prende in anticipo, a mente fredda, invece di lasciarla
-maturare sotto pressione alla 0.7.
+Lo scope della sezione 6 resta interamente nella 1.0 per decisione del Product Owner. La
+sua ampiezza è un rischio consapevole, non un’autorizzazione a preparare architetture
+generiche o a comprimere i requisiti di prodotto.
 
-Questa sezione non riduce lo scope della sezione 6 e non autorizza un agente a ridurlo. È
-un elenco pre-approvato di rinunce che il **Product Owner** può attivare, una alla volta e
-in quest'ordine, quando una milestone slitta in modo materiale. Ogni attivazione viene
-registrata nel Decision Register con data e motivo.
+La mitigazione è operativa:
 
-### Ordine di sacrificio
+1. implementare nell’ordine delle milestone, chiudendo prima motore e vertical slice;
+2. costruire la soluzione più semplice che soddisfa il requisito corrente;
+3. introdurre ottimizzazioni e astrazioni soltanto dopo una misura o un secondo caso reale;
+4. applicare il feature freeze dalla 0.7;
+5. se la qualità non è sufficiente, spostare la data di lancio.
 
-1. **Catalogo Kit da 12 a 6.** Restano i 4 introduttivi più Corsa e Rasatura, che coprono i quattro archetipi. Gli altri sei passano alla 1.1. Esplora resta, con meno raccolte.
-2. **Analisi ridotta alla sola panoramica descrittiva.** Restano «In evidenza» con fatti osservati e la panoramica del periodo; «Routine da rivedere» e i suggerimenti passano alla 1.1. I gate di evidenza della sezione 13.4 restano validi per ciò che resta.
-3. **iPad a parità di layout adattivo senza `NavigationSplitView`.** L'app resta universale, ridimensionabile, accessibile e conforme alla sezione 7.3 per Dynamic Type, tastiera e puntatore; le due colonne di Routine ed Esplora passano alla 1.1.
-4. **Ricerca globale ridotta a routine e follow-up.** Kit, Aree e sinonimi estesi passano alla 1.1. La ricerca resta presente: la sezione 40.5 conferma che è un requisito, non un'opzione.
-
-### Non sacrificabile
-
-Non entrano in questo elenco, in nessuna circostanza e a nessuna milestone:
-
-- il motore e le sue invarianti, incluse correzione retroattiva e ricostruibilità;
-- l'affidabilità dei dati, iCloud, offline e recupero;
-- accessibilità e localizzazione IT/EN complete;
-- privacy, sicurezza e assenza di telemetria;
-- la trasparenza e l'annullabilità delle conseguenze;
-- la correttezza commerciale di Free, Plus, downgrade e ripristino acquisti.
-
-Se il taglio necessario dovesse toccare uno di questi punti, la risposta corretta è
-spostare la data, non pubblicare una 1.0 fragile: vale la sezione 52.
+Nessuna funzione passa automaticamente alla 1.1. Un eventuale cambio di scope richiede una
+nuova decisione esplicita del Product Owner e il normale change control.
 
 ---
 
@@ -4601,7 +4569,7 @@ Regole:
 Verificare:
 
 - event store;
-- 100k eventi;
+- dataset di riferimento della sezione 36;
 - App Group/widget;
 - offline;
 - multi-device;
@@ -4619,88 +4587,26 @@ Esito:
 
 ## 40.2 TG-RECALC — ricalcolo retroattivo deterministico
 
-Il ricalcolo su correzione retroattiva è il cuore del valore differenziante — sezioni 16.3,
-16.5, requisiti RTY-010 e RTY-034 — ed è la parte del motore che più probabilmente si
-rivela lenta o non deterministica sotto carico reale. Finora compariva solo come dataset di
-stress nella sezione 36.2, senza un esito formale.
+Il ricalcolo su correzione retroattiva è parte del valore distintivo e viene validato nella
+0.2 prima che le feature dipendano dal suo comportamento.
 
-Lo spike si esegue nella 0.2, prima che Oggi, Analisi e le proiezioni vengano costruite
-sopra il motore.
+Sul dataset di riferimento della sezione 36 verificare:
 
-Verificare, sul dataset di stress della sezione 36.2:
+- due esecuzioni sugli stessi eventi producono lo stesso risultato;
+- ordini di consegna CloudKit diversi convergono allo stesso stato;
+- la modifica propaga soltanto alle dipendenze coinvolte;
+- follow-up rimossi o rigenerati rispettano la matrice della sezione 41.1;
+- l'operazione non blocca la UI e non persiste stati parziali se cancellata.
 
-- modifica di un evento di alcuni mesi prima con 100.000 eventi, 500 collegamenti e 2.000 follow-up;
-- determinismo: due ricalcoli sullo stesso stato producono lo stesso risultato, indipendentemente dall'ordine di applicazione;
-- convergenza multi-device: lo stesso insieme di eventi consegnato in ordini diversi da CloudKit converge, secondo l'invariante 10 della sezione 16.6;
-- propagazione lungo più collegamenti dallo stesso evento sorgente;
-- rimozione e rigenerazione dei follow-up secondo la matrice della sezione 41.1, incluso il caso di soglia ridotta sotto il progresso quando un follow-up del ciclo precedente è già stato completato;
-- costo del ricalcolo mantenuto fuori dal percorso immediato, con la UI che rispetta il budget della sezione 36.1;
-- cancellazione del ricalcolo in corso senza stati intermedi persistiti;
-- confronto per checksum tra stato ricalcolato e stato ricostruito da zero dagli eventi canonici.
+Lo spike sceglie fra ricalcolo sincrono e asincrono in base alle misure. Non autorizza a
+rimuovere la correzione retroattiva né a costruire proiezioni persistenti o un repair
+engine senza un collo di bottiglia dimostrato.
 
-Esito:
+## 40.3 TG-STOREKIT
 
-- **Go:** ricalcolo incrementale sulle sole dipendenze coinvolte.
-- **Adapt:** ricalcolo incrementale con finestra limitata e ricostruzione completa differita in background.
-- **Fallback:** ricostruzione completa asincrona con stato esplicito in interfaccia; la correzione retroattiva resta disponibile, la sua applicazione non è istantanea.
-
-In nessun esito la correzione retroattiva viene rimossa dalla 1.0 o resa non deterministica:
-è coperta dalla sezione 37.5 tra le funzioni non sacrificabili.
-
-## 40.3 TG-LOCATION — geofencing
-
-Verificare:
-
-- arrivo/uscita;
-- next visit;
-- fallback;
-- deduplica;
-- limite trigger;
-- revoca permesso;
-- device principale;
-- battery impact.
-
-## 40.4 TG-STOREKIT
-
-Verificare:
-
-- Annual;
-- trial;
-- Lifetime;
-- Family;
-- grace;
-- refund/revoke;
-- downgrade;
-- offline;
-- TestFlight.
-
-## 40.5 TG-SEARCH
-
-Verificare:
-
-- search tab iOS 26;
-- 20–50 routine;
-- Kit e follow-up;
-- sinonimi IT/EN;
-- accessibilità;
-- performance.
-
-Cerca rimane requisito confermato; lo spike definisce implementazione, non la sua presenza.
-
-## 40.6 TG-IPAD-ACCESSIBILITY
-
-Verificare:
-
-- split view;
-- resizable windows;
-- keyboard/pointer;
-- VoiceOver;
-- max Dynamic Type;
-- Liquid Glass reduce transparency.
-
-## 40.7 TG-PERFORMANCE
-
-Verificare budget con build Release e device fisici.
+Verificare Annual, trial, Lifetime, Family Sharing, grace period, refund/revoke, downgrade,
+offline e TestFlight. Lo spike chiude soltanto le incertezze dell’integrazione StoreKit;
+la matrice commerciale e i test di release restano nelle sezioni 31 e 35.
 
 ---
 
@@ -4754,7 +4660,7 @@ La specifica operativa deve definire per ogni caso fonte di verità, UI, fallbac
 | Due modifiche config | Revisioni; latest con recovery o conflitto guidato |
 | Cambio Apple Account | Avviso, nessuna cancellazione silenziosa |
 | Reinstallazione | Recupero CloudKit se disponibile |
-| Migrazione interrotta | Transazione/rollback; runbook |
+| Migrazione interrotta | Transazione/rollback; checklist operativa |
 
 ## 41.5 StoreKit
 
@@ -4770,108 +4676,24 @@ La specifica operativa deve definire per ogni caso fonte di verità, UI, fallbac
 
 ---
 
-# 42. Runbook operativi
+# 42. Checklist operativa
 
-Devono essere pronti prima della 0.9.
+Prima della 0.9 serve una sola checklist operativa, aggiornata con problemi realmente
+osservati in sviluppo e beta. Ogni incidente segue questo flusso:
 
-## 42.1 CloudKit non sincronizza
+1. proteggere i dati locali e impedire nuove scritture parziali o distruttive;
+2. classificare impatto, riproducibilità e componente coinvolto;
+3. verificare stato e permessi Apple pertinenti senza raccogliere dati personali;
+4. applicare retry, fallback o rollback già previsti dalla matrice delle eccezioni;
+5. comunicare uno stato comprensibile all'utente quando il problema è visibile;
+6. correggere la causa con un test di regressione;
+7. per bug critici, sospendere promozione o phased release e preparare un hotfix;
+8. per vulnerabilità, usare il canale privato di `SECURITY.md` e valutare disclosure dopo il fix.
 
-- rilevazione;
-- stato utente;
-- preservare locale;
-- retry;
-- log redatto;
-- verifica quota/account;
-- repair projections;
-- escalation Apple Feedback Assistant.
-
-## 42.2 Proiezione incoerente
-
-- Consistency Engine;
-- ricostruzione;
-- confronto checksum;
-- preservare eventi;
-- nessuna cancellazione automatica canonica;
-- regression test.
-
-## 42.3 Migrazione fallita
-
-- bloccare scritture parziali;
-- conservare store precedente;
-- diagnostica;
-- fallback;
-- hotfix;
-- test nuova migrazione.
-
-## 42.4 Notifiche mancanti
-
-- autorizzazioni;
-- device principale;
-- richieste programmate;
-- fallback;
-- Focus/system settings;
-- non promettere delivery esatta.
-
-## 42.5 StoreKit entitlement
-
-- current entitlements;
-- transaction updates;
-- restore;
-- grace/refund/revoke;
-- stato offline;
-- messaggio supporto.
-
-## 42.6 App Review rejection
-
-- classificare motivo;
-- riprodurre;
-- rispondere con evidenze;
-- modifica minima;
-- nessun cambio frettoloso di modello;
-- nuova submission.
-
-## 42.7 Bug critico post-lancio
-
-- severità;
-- sospendere promozione;
-- hotfix;
-- test regressione;
-- support communication;
-- phased release 1.1+;
-- postmortem.
-
-## 42.8 Vulnerabilità
-
-- canale privato;
-- triage;
-- patch;
-- segreti/entitlement;
-- disclosure dopo fix;
-- advisory se appropriato.
-
-## 42.9 Geofencing inaffidabile
-
-- verificare permessi, regioni attive e priorità;
-- controllare deduplica con fallback;
-- mantenere il follow-up in Oggi;
-- passare a reminder temporale quando necessario;
-- regression test su arrivo, uscita e next visit.
-
-## 42.10 Widget, App Intents o ricerca non aggiornati
-
-- verificare App Group e proiezioni;
-- rigenerare snapshot/indice;
-- preservare l'event store;
-- invalidare cache ricostruibili;
-- testare device bloccato e offline.
-
-## 42.11 Dominio, email o Apple membership
-
-- monitorare rinnovi;
-- recovery owner documentato;
-- evitare scadenze di dominio e membership;
-- verificare certificati, accordi e ruoli;
-- piano di comunicazione se supporto o download sono impattati.
+CloudKit, migrazioni, notifiche/geofencing, StoreKit, App Review e asset operativi
+riutilizzano questo flusso con le rispettive verifiche della sezione 41. Runbook separati
+si scrivono soltanto quando un incidente reale o una procedura Apple non banale richiede
+passaggi ripetibili aggiuntivi.
 
 ---
 
@@ -4881,22 +4703,22 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 
 | Rischio | P | I | Segnale | Mitigazione | Gate/fallback |
 |---|---|---|---|---|---|
-| SwiftData/CloudKit non regge event model | M | A | conflitti/migrazioni fragili | spike e adapter | TG-DATA, Core Data fallback |
+| SwiftData/CloudKit non regge il registro eventi | M | A | conflitti/migrazioni fragili | spike mirato e fallback concreto | TG-DATA, Core Data fallback |
 | Creazione troppo complessa | A | A | abbandono/test assistiti | rapido default, preset, Kit | beta gate |
-| Geofencing inaffidabile | M | A | reminder mancanti/duplicati | fallback e dedup | TG-LOCATION |
+| Geofencing inaffidabile | M | A | reminder mancanti/duplicati | fallback, deduplica e prova su device | sezioni 18 e 35 |
 | Analisi poco utile | M | M | tab vuota/generica | evidence gates, insight decisionali | ridurre contenuti, non eliminare senza decisione |
-| Search sovradimensionata | M | B | scarso uso/confusione | search globale chiara | TG-SEARCH |
-| Scope 1.0 troppo ampio | A | A | ritardi e fragilità | milestone, 0.7 freeze, linea di galleggiamento pre-approvata | 37.5, Product Owner |
-| Ricalcolo retroattivo lento o non deterministico | M | A | correzione che blocca la UI o produce esiti divergenti tra dispositivi | ricalcolo incrementale, checksum, invarianti testate | TG-RECALC |
+| Search sovradimensionata | M | B | scarso uso/confusione | ricerca globale chiara e test con dati reali | sezioni 8 e 35 |
+| Scope 1.0 troppo ampio | A | A | ritardi e fragilità | milestone, soluzione minima conforme, 0.7 freeze e slittamento della data se serve | 37.5, Product Owner |
+| Ricalcolo retroattivo lento o non deterministico | M | A | correzione che blocca la UI o produce esiti divergenti tra dispositivi | reducer deterministico, misura e ricalcolo delle sole dipendenze | TG-RECALC |
 | App percepita ossessiva | M | A | tester ansiosi, troppe notifiche | Calm View, no streak, Kit criteria | beta UX |
 | App percepita troppo tecnica | M | A | confusione link/regole | linguaggio naturale, trasparenza | Simulator/usability testing |
-| Performance cronologia | M | A | launch/scroll lenti | projections/index/paging | TG-PERFORMANCE |
+| Performance cronologia | M | A | launch/scroll lenti | profiling, indici mirati e paginazione | sezione 36 |
 | Doppie notifiche multi-device | M | M | feedback duplicazioni | primary device | integration tests |
 | Free troppo generoso | M | M | bassa conversione | limiti quantitativi, mai sotto la soglia dei 4 Kit introduttivi | 31.1.1, 90-day review |
 | Free troppo limitato | M | A | nessun valore provato | core engine gratuito | beta pricing |
 | Lifetime insostenibile 2.0 | M | A | costi cloud | separazione cloud | DG-CLOUD-PRICING |
 | Identità legale ritardata | M | A | impossibile creare store record | gate 0.8 | DG-DEVELOPER-IDENTITY |
-| App Review pricing/location | M | M | rejection | notes, terms, evidence | review runbook |
+| App Review pricing/location | M | M | rejection | notes, terms, evidence | checklist operativa |
 | Repository pubblico espone asset | B | M | clone/indexing | copyright, asset review, secrets | security baseline |
 | Assenza analytics limita diagnosi | M | M | poco insight uso | beta qualitativa, App Store data | decisione futura esplicita |
 | Acquisizione insufficiente | M | A | poco traffico e poche prove | ASO, custom pages, creator, lancio in due fasi | 90-day review |
@@ -4949,7 +4771,7 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 
 ## 45.1 Principio
 
-Lean, ma non gratuito a qualsiasi costo.
+Sostenibile, ma non gratuito a qualsiasi costo.
 
 ## 45.2 Costi ammessi
 
@@ -5060,51 +4882,12 @@ Devono spiegare:
 
 ---
 
-# 47. Requirement traceability baseline
+# 47. Tracciabilità operativa
 
-La matrice completa deve essere mantenuta in un file operativo. Questa baseline definisce i requisiti più critici.
-
-| ID | Requisito | UI | Dominio/Dati | Integrazione | Test minimo | Fase/versione | Milestone primaria | Epica primaria |
-|---|---|---|---|---|---|---|---|---|
-| RTY-001 | Registrare evento una volta e propagare | Oggi/Dettaglio | Event + Link Engine | Widget/Intent | unit + UI | 0.3 | M03 | E06 |
-| RTY-002 | Obiettivo X volte/periodo | Oggi/Routine | GoalRule | Notification | unit timezone | 0.2 | M02 | E04 |
-| RTY-003 | Dopo ultima esecuzione | Oggi/Routine | FrequencyRule | Calendar notif | DST/month | 0.2 | M02 | E04 |
-| RTY-004 | Giorni stabiliti | Routine | ScheduledOccurrence | Calendar notif | missed occurrence | 0.2 | M02 | E04 |
-| RTY-005 | Evento/durata/quantità | Creation/Log | MeasurementRule | Intent/widget | parameterized | 0.2 | M02 | E04 |
-| RTY-006 | Usage OR time | Creation/Detail | ThresholdRule | Scheduler | boundary tests | 0.2 | M02 | E04 |
-| RTY-007 | Soglia genera follow-up | Oggi | FollowUpPolicy | Notification | dedup | 0.3 | M03 | E06 |
-| RTY-008 | Follow-up completa/reset | Oggi | Cycle Engine | Sync | multi-device | 0.3 | M03 | E06 |
-| RTY-009 | Right-time location reminder | Creation/Oggi | ReminderPolicy | Core Location/UN | fallback/dedup | 0.5 | M06 | E12 |
-| RTY-010 | Correzione retroattiva | History | EventRevision | CloudKit | recalculation | 0.3 | M03 | E06 |
-| RTY-011 | Undo | Snackbar/sheet | Reversal event | — | action tests | 0.3 | M03 | E06 |
-| RTY-012 | Pause/archive/delete | Detail/Profile | State policy/tombstone | CloudKit | restore | 0.4 | M04 | E10 |
-| RTY-013 | Recently deleted 30d | Profile | Tombstone retention | CloudKit | expiry/restore | 0.4 | M04 | E10 |
-| RTY-014 | Calm View selettiva | Oggi | Today Projection | Widget | relevance tests | 0.4 | M04 | E09 |
-| RTY-015 | Riepilogo conseguenze | Bottom sheet | Applied effects | Haptics | accessibility/UI | 0.4 | M04 | E09 |
-| RTY-016 | Unified creation | Creation | Builders/presets | TipKit | usability | 0.4 | M04 | E08 |
-| RTY-017 | 12 Kits | Esplora | Kit definitions | StoreKit gate | install tests | 0.5 | M05 | E11 |
-| RTY-018 | Analisi evidence-gated | Analisi | Insight rules | Swift Charts | statistical guard | 0.6 | M07 | E15 |
-| RTY-019 | Search globale | Search | local index | search tab | typo/synonym | 0.6 | M07 | E16 |
-| RTY-020 | Profilo locale | Profile | LocalProfile | iCloud | migration | 0.5 | M06 | E14 |
-| RTY-021 | iCloud seamless | Profile/all | Repositories/events | CloudKit | offline/conflict | 0.5 | M06 | E14 |
-| RTY-022 | Primary reminder device | Profile | Device policy | UN/CloudKit | duplicate tests | 0.5 | M06 | E12 |
-| RTY-023 | Widgets | System | projections | WidgetKit | snapshot/action | 0.5 | M06 | E13 |
-| RTY-024 | App Intents | System | use cases | AppIntents | invocation | 0.5 | M06 | E13 |
-| RTY-025 | Universal Links | Router | typed route | Associated Domains | installed/web | 0.5 | M06 | E13 |
-| RTY-026 | Free limits | Paywall | Limit policy | StoreKit | matrix | 0.6 | M08 | E17 |
-| RTY-027 | Plus Annual/Lifetime | Paywall/Profile | Entitlement | StoreKit 2 | sandbox | 0.6 | M08 | E17 |
-| RTY-028 | Protected downgrade | Profile | Entitlement/activation | StoreKit | transition | 0.6 | M08 | E17 |
-| RTY-029 | IT/EN complete | All | string catalogs | App Store | snapshot/manual | 0.7 | M09 | E19 |
-| RTY-030 | Accessibility gate | All | accessible models | iOS accessibility | matrix | 0.7 | M09 | E19 |
-| RTY-031 | No third-party telemetry | All | Null analytics | Privacy manifest | binary audit | 0.8 | M10 | E20 |
-| RTY-032 | CSV export | Profile | event serialization | Share sheet | large data | 0.5 | M06 | E14 |
-| RTY-033 | Complete data deletion | Profile | delete/tombstone | CloudKit | multi-device | 0.5 | M06 | E14 |
-| RTY-034 | Consistency repair | Dev/automatic | Consistency Engine | Background | corruption tests | 0.2 | M02 | E04 |
-| RTY-035 | App Store launch | Store | release assets | ASC/TestFlight | checklist | 1.0 | M12 | E22 |
-
-La fase indica quando il requisito raggiunge la propria milestone primaria; le verifiche
-trasversali e di release restano obbligatorie nelle milestone successive. Ogni requisito
-deve avere owner, attività/PR, specifica e stato aggiornati.
+La tracciabilità non duplica più i requisiti in una matrice separata. L'albero canonico
+fase → milestone → epiche → gate è nella sezione 37.2; le Definition of Done della sezione
+48 indicano l'esito verificabile. Ogni PR collega la propria epica, i requisiti di prodotto
+coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*`.
 
 ---
 
@@ -5126,11 +4909,11 @@ deve avere owner, attività/PR, specifica e stato aggiornati.
 - quattro archetipi rappresentabili;
 - invarianti testate;
 - event revisions;
-- projections;
+- reducer e stato derivato;
 - deterministic replay;
-- repository adapter e persistenza locale offline;
+- confine di store e persistenza locale offline;
 - schema locale V1 versionato e migrazione baseline;
-- 100k dataset baseline;
+- dataset di riferimento della sezione 36;
 - no UI dependency.
 
 ## 48.3 M03 — Vertical Slice
@@ -5139,7 +4922,7 @@ deve avere owner, attività/PR, specifica e stato aggiornati.
 - offline;
 - undo/correction;
 - follow-up;
-- reminder/fallback tramite adapter testabili, senza dipendere dai trigger di sistema completi;
+- reminder/fallback tramite confini testabili, senza dipendere dai trigger di sistema completi;
 - accessibility base;
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
@@ -5216,7 +4999,7 @@ deve avere owner, attività/PR, specifica e stato aggiornati.
 - `DG-DEVELOPER-IDENTITY` chiuso;
 - security/privacy audits;
 - performance baseline;
-- runbooks draft.
+- checklist operativa aggiornata con i problemi osservati.
 
 ## 48.11 M11 — Beta
 
@@ -5240,232 +5023,40 @@ deve avere owner, attività/PR, specifica e stato aggiornati.
 
 ---
 
-# 49. Backlog iniziale per epiche
+# 49. Backlog per epiche
 
-## E01 — Repository & Governance
+La sezione 37.2 assegna ogni epica a una sola milestone; la sezione 48 definisce il
+risultato della milestone. Questo catalogo conserva nomi e obiettivi, senza riscrivere per
+la terza volta i requisiti delle sezioni di prodotto.
 
-- create repo;
-- README/copyright/security;
-- AGENTS/CLAUDE;
-- branch protection;
-- CodeQL;
-- docs structure;
-- decision register.
+| Epica | Obiettivo |
+|---|---|
+| `E01` Repository & Governance | repository, regole operative e controlli di base |
+| `E02` Apple-native UI Direction | contratti di navigazione, creazione, accessibilità e icona |
+| `E03` Xcode & SwiftUI Foundation | progetto, target, configurazioni, componenti e preview eseguibili |
+| `E04` Domain Engine | registro eventi, reducer, regole, cicli, link, follow-up e invarianti |
+| `E05` Local Persistence Foundation | schema SwiftData locale, migrazioni, offline e store testabile |
+| `E06` Vertical Slice Integration | flusso collegato completo con correzione, conseguenze e fallback |
+| `E07` App Shell | tab, navigazione, routing, sheet e deep link |
+| `E08` Creation | flusso unico progressivo, preset, validazione e ingresso dai Kit |
+| `E09` Today | Calm View, azioni e riepilogo delle conseguenze |
+| `E10` Routines | lista, dettaglio, cronologia, modifica e ciclo di eliminazione |
+| `E11` Explore & Kits | catalogo dei 12 Kit, installazione e comportamento Free/Plus |
+| `E12` Notifications & Location | notifiche, trigger geografici, fallback e dispositivo principale |
+| `E13` System Surfaces | widget, Lock Screen, App Intents, link e background |
+| `E14` Profile, Data & iCloud | profilo locale, CloudKit, conflitti, export e cancellazione dati |
+| `E15` Analysis | metriche, insight spiegabili, grafici e stati senza dati sufficienti |
+| `E16` Search | indice locale, sinonimi, filtri, risultati e azioni |
+| `E17` Commerce | StoreKit, entitlement, limiti, paywall e downgrade protetto |
+| `E18` Support, Legal & App Store Foundations | supporto, documenti IT/EN, metadata e checklist submission |
+| `E19` Accessibility & Localization | audit completo, IT/EN e matrice di accessibilità |
+| `E20` Alpha | TestFlight interno, gate identità, audit e stabilizzazione |
+| `E21` Beta | beta, StoreKit Sandbox, CloudKit Production, asset ed evidence package |
+| `E22` App Store Release | submission, App Review, rilascio controllato e contingenza 1.0.1 |
 
-## E02 — Apple-native UI Direction
-
-- baseline Human Interface Guidelines e componenti Apple nativi;
-- token semantici definiti;
-- navigazione iPhone/iPad definita;
-- flusso Oggi definito;
-- flusso di creazione definito;
-- scenario e criteri di accettazione della vertical slice;
-- direzioni e criteri dell'esplorazione icona.
-
-## E03 — Xcode & SwiftUI Foundation
-
-- project/targets;
-- Dev/Public bundles con identificativi provvisori finché DG-DEVELOPER-IDENTITY è aperto;
-- xcconfig;
-- SPM local packages;
-- CI;
-- feature flags;
-- fixture system;
-- Asset Catalog e token semantici;
-- componenti e schermate SwiftUI con `#Preview`;
-- preview matrix iPhone/iPad, Light/Dark e Dynamic Type;
-- vertical slice interattiva con fixture locali.
-
-## E04 — Domain Engine
-
-- IDs/Clock/Calendar;
-- routine models;
-- event store;
-- rule engine;
-- cycle engine;
-- links;
-- follow-ups;
-- revisions/tombstones;
-- projections;
-- consistency.
-
-## E05 — Local Persistence Foundation
-
-- SwiftData models;
-- schema locale V1 versionato;
-- repository adapter;
-- persistenza condivisa con App Group;
-- letture e scritture offline;
-- migrazioni locali;
-- stress del database locale.
-
-## E06 — Vertical Slice Integration
-
-- routine sorgente e routine collegata su dominio e persistenza locale reali;
-- soglia, follow-up e reminder contestuale con fallback tramite adapter testabili;
-- completamento, reset e cronologia;
-- riepilogo delle conseguenze, esclusione del singolo effetto e annullamento;
-- correzione retroattiva e ricostruzione deterministica;
-- funzionamento offline e stato di sincronizzazione pendente simulato;
-- verifica su device dei criteri `E02-VS-01`–`E02-VS-13`;
-- nessuna pretesa di completare CloudKit, geofencing o notifiche di sistema, che appartengono a `M06`;
-- nessun hardcode del caso Palestra nel dominio.
-
-## E07 — App Shell
-
-- TabView;
-- search role;
-- NavigationStack per tab;
-- Profile button;
-- routing;
-- sheets;
-- deep links.
-
-## E08 — Creation
-
-- presets;
-- rapid default;
-- progressive steps;
-- natural summary;
-- validation;
-- Kit entry.
-
-## E09 — Today
-
-- projection;
-- sections;
-- rows;
-- actions;
-- effect summary;
-- pins/relevant goals;
-- empty state.
-
-## E10 — Routines
-
-- list/areas/filters;
-- detail;
-- history;
-- edit;
-- pause/archive/delete;
-- recently deleted.
-
-## E11 — Explore & Kits
-
-- catalog;
-- 12 specs;
-- cards;
-- detail preview;
-- add/configure;
-- Free/Plus gate.
-
-## E12 — Notifications & Location
-
-- permission flow;
-- scheduler;
-- categories;
-- actions;
-- location triggers;
-- fallback/dedup;
-- primary device;
-- badge.
-
-## E13 — System Surfaces
-
-- widgets;
-- lock screen;
-- intents;
-- Spotlight;
-- control/action button;
-- universal links;
-- background.
-
-## E14 — Profile, Data & iCloud
-
-- local profile;
-- appearance;
-- locations;
-- CloudKit adapter e container Development;
-- sincronizzazione multi-device;
-- conflitti e recovery;
-- iCloud status;
-- CSV;
-- delete data;
-- support.
-
-## E15 — Analysis
-
-- metrics;
-- insights;
-- thresholds;
-- charts;
-- history filters;
-- empty/insufficient data.
-
-## E16 — Search
-
-- index;
-- normalized terms;
-- synonyms;
-- recent;
-- filters;
-- results/actions.
-
-## E17 — Commerce
-
-- StoreKit config;
-- entitlements;
-- Free limits;
-- paywall;
-- trial/grace/family;
-- lifetime;
-- downgrade;
-- Beta Plus.
-
-## E18 — Support, Legal & App Store Foundations
-
-- struttura del sito di supporto;
-- Privacy Policy, Termini, Termini Plus e pagina Accessibilità baseline IT/EN;
-- metadata App Store baseline;
-- checklist di submission e piano dell'evidence package;
-- processo di supporto e ownership dei contenuti;
-- nessun asset finale derivato da prototipi.
-
-## E19 — Accessibility/Localization
-
-- string catalogs;
-- IT/EN;
-- VoiceOver;
-- Dynamic Type;
-- contrast/motion;
-- iPad keyboard/pointer;
-- audit.
-
-## E20 — Alpha
-
-- TestFlight;
-- flussi interni e raccolta strutturata del feedback;
-- chiusura di `DG-DEVELOPER-IDENTITY`;
-- audit privacy, sicurezza e performance;
-- verifica dei runbook;
-- triage e stabilizzazione senza nuove feature.
-
-## E21 — Beta
-
-- beta privata e ampliata;
-- metriche/questionari;
-- StoreKit Sandbox;
-- schema CloudKit production;
-- evidence package per App Review;
-- revisione legale finale e supporto pronto;
-- screenshot, video e Custom Product Pages dalla release candidate reale;
-- finalizzazione asset e release candidate;
-- chiusura di `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH`.
-
-## E22 — App Store Release
-
-- submission e ciclo App Review;
-- rilascio manuale e controlled launch;
-- supporto e piano di contingenza `1.0.1`.
+Il backlog non deve duplicare il Master Plan: ogni attività indica epica, criterio di
+accettazione, dipendenze e verifiche applicabili. Una nuova attività non amplia lo scope
+dell’epica né della 1.0 senza change control.
 
 ---
 
@@ -5558,6 +5149,9 @@ Per evitare che documenti o chat precedenti vengano seguiti per errore:
 - **Superseded:** tre app Dev/TestFlight/App Store.  
   **Finale:** una variante Dev e un unico prodotto Routally per TestFlight/App Store.
 
+- **Superseded:** icona «azione centrale e conseguenze collegate» e le quattro alternative della 4.8.  
+  **Finale:** un ciclo con la `R` intravista e arco esterno di progresso; `DG-ICON` resta aperto per la scelta della variante.
+
 - **Superseded:** riunione cliente/follow-up come caso rappresentativo.  
   **Finale:** escluso perché il vantaggio è troppo debole.
 
@@ -5648,46 +5242,3 @@ Con l'approvazione di questo documento:
 - la 1.0 rimane l'obiettivo principale e la roadmap futura non ne deve compromettere qualità e semplicità.
 
 **Fine del Master Plan.**
-
----
-
-## Nota di audit 1.1
-
-Questa baseline è stata ricontrollata contro l'intera conversazione di definizione prima dell'handoff a Codex. Le integrazioni 1.1 hanno recuperato dettagli su naming, benchmark, creazione per archetipi, strumenti di design, governance del primo commit, continuità CloudKit/TestFlight, Kit Free/Plus, App Store, identità dello sviluppatore, use-case backlog e runbook. Le idee non approvate sono marcate come ipotesi o Decision Gate, non come scope.
-
-## Nota di audit 1.2
-
-Con approvazione del Product Owner del 6 agosto 2026, Routally adotta un processo SwiftUI-first: specifiche e criteri di accettazione restano documentali, mentre interfaccia, componenti e prototipi diventano artefatti eseguibili in Xcode Previews, Simulator e dispositivi reali. Icon Composer gestisce le varianti dell'icona e gli asset App Store derivano esclusivamente dalla release candidate reale.
-
-## Nota di audit 1.3
-
-Con approvazione del Product Owner del 14 agosto 2026, la baseline recepisce una revisione
-critica del piano stesso. Le modifiche non ampliano lo scope della 1.0: chiudono
-contraddizioni interne, rendono verificabili regole finora descrittive e anticipano
-decisioni che sarebbero altrimenti maturate sotto pressione.
-
-| Ambito | Modifica | Sezioni |
-|---|---|---|
-| Limiti Free | 10 routine e 5 collegamenti: con 5 e 2 i 4 Kit introduttivi promessi non erano installabili | 20.1, 31.1, 31.1.1, 31.1.2, 43 |
-| Downgrade | Le conseguenze sospese dalla pausa diventano visibili invece di interrompersi in silenzio | 31.8, 31.8.1, 31.9 |
-| Lettura del piano | Lettura selettiva per sezioni invece della lettura integrale obbligatoria | 0.6, `agent-workflow.md` |
-| Governance agenti | Il gate di review è un controllo di CI, non un ruolo di agente | 27.2, 27.3, 28.3.1, ADR-0005 |
-| Motore | Nuovo spike TG-RECALC sul ricalcolo retroattivo deterministico, in 0.2 | 37.1, 40.2, 43 |
-| Scope | Linea di galleggiamento pre-approvata con ordine di sacrificio e funzioni non sacrificabili | 37.5, 43 |
-| Metriche | Le soglie della beta privata sono dichiarate qualitative e non statistiche | 34.1 |
-| Calm View | La rilevanza di «Questa settimana» diventa una regola deterministica e testabile | 9.2 |
-
-Restano invariati posizionamento, perimetro funzionale della 1.0, prezzi, architettura,
-privacy e roadmap.
-
-## Nota di audit 1.4
-
-Con approvazione del Product Owner del 14 agosto 2026, versioni interne, milestone, epiche
-e gate adottano una gerarchia operativa univoca. Le milestone usano identificativi `M01`–
-`M12`, le epiche `E01`–`E22` e ogni epica appartiene a una sola milestone primaria. La
-Vertical Slice diventa una milestone e un'epica di integrazione esplicite; Alpha, Beta e
-App Store diventano epiche distinte. La persistenza locale viene separata dalle
-integrazioni iCloud e la preparazione di supporto, legale e App Store riceve un'epica
-propria nella 0.6. La modifica non amplia lo scope funzionale della 1.0.
-La coerenza della gerarchia e della tracciabilità è verificata in modo eseguibile da
-`scripts/check-roadmap-hierarchy.mjs` e dal workflow del gate Codex.
