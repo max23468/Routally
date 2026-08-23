@@ -3001,7 +3001,7 @@ dipendenze esterne.
 | Simulator/build agent | XcodeBuildMCP |
 | Formatter | `swift-format` della toolchain |
 | Package manager | Swift Package Manager, package locali |
-| CI/CD Apple | Xcode Cloud |
+| CI/CD Apple | verifiche locali obbligatorie fino a `M09`; Xcode Cloud da `M10` |
 | CI complementare | GitHub Actions leggere |
 | Beta | TestFlight |
 | Distribuzione | App Store Connect |
@@ -3151,7 +3151,13 @@ Regole:
 
 ## 26.7 Ripartizione CI
 
-**Xcode Cloud** è la fonte primaria per build Apple, test, archivi e TestFlight.
+Fino a `M09`, prima dell'iscrizione all'Apple Developer Program, il gate Apple è eseguito
+su un Mac controllato con la toolchain bloccata: `swift-format`, build degli scheme
+`Routally Dev` e `Routally`, suite `Routally Tests` sul Simulator canonico e registrazione
+dell'esito nella pull request. Queste verifiche locali sono obbligatorie prima del merge.
+
+Da `M10`, dopo `DG-DEVELOPER-IDENTITY` e l'iscrizione, **Xcode Cloud** diventa la fonte
+primaria per build Apple, test, archivi e TestFlight.
 
 **GitHub Actions** resta complementare e limitata a:
 
@@ -3160,7 +3166,8 @@ Regole:
 - CodeQL e controlli di sicurezza;
 - verifiche che non richiedono firma, Simulator o infrastruttura Apple completa.
 
-Non duplicare inutilmente la pipeline Xcode Cloud.
+Da `M10` non duplicare inutilmente la pipeline Xcode Cloud; prima di allora GitHub Actions
+non sostituisce le verifiche Apple locali obbligatorie.
 
 ---
 
@@ -3478,7 +3485,10 @@ Schemes:
 
 ## 30.3 Xcode Cloud
 
-Workflow:
+Si attiva in `M10`, dopo `DG-DEVELOPER-IDENTITY` e l'iscrizione all'Apple Developer
+Program. Fino a `M09` si applica il gate locale della sezione 26.7.
+
+Workflow da `M10`:
 
 - PR Validation;
 - Nightly;
@@ -4807,10 +4817,11 @@ Sostenibile, ma non gratuito a qualsiasi costo. La gratuità commerciale della 1
 - GitHub Pages;
 - Xcode;
 - framework Apple;
-- TestFlight;
 - Instruments;
-- quote Xcode Cloud incluse;
 - nessun backend/analytics/helpdesk SaaS 1.0.
+
+Da `M10`, TestFlight e le quote Xcode Cloud incluse nell'iscrizione Apple già necessaria
+per la distribuzione non costituiscono un costo aggiuntivo separato.
 
 ## 45.4 Nuovi costi ricorrenti
 
