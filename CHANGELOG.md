@@ -6,7 +6,8 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 - Adottato il nuovo modello commerciale: Routally 1.0 completamente gratuita e senza
   limiti, core 1.0 gratuito permanente, tutti i 12 Kit inclusi e StoreKit differito;
-  Plus 1.X richiede un Premium Value Gate e sarà un acquisto una tantum da 29,99 €.
+  Plus 1.X richiede un Premium Value Gate in due checkpoint e sarà un acquisto una tantum
+  da 29,99 €.
 - Semplificato il Master Plan senza ridurre lo scope 1.0: reducer al posto di proiezioni e
   Consistency Engine, un solo confine di store, misure derivate da baseline reali,
   tracciabilità non duplicata e un'unica checklist operativa.
