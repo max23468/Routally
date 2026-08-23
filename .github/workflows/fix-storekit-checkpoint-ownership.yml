@@ -1,0 +1,54 @@
+# Trigger della correzione documentale
+name: Fix StoreKit checkpoint ownership
+
+on:
+  push:
+    branches:
+      - docs/free-core-plus-1x
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Correggi e verifica la matrice di ownership
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('docs/MASTER_PLAN.md')
+          text = path.read_text(encoding='utf-8')
+          old = '| StoreKit products futuri | App Store Connect owner | ruoli | Account Holder | creati solo dopo `DG-PLUS-LAUNCH`; con app transfer |'
+          new = '| StoreKit products futuri | App Store Connect owner | ruoli | Account Holder | creazione non pubblica dopo il checkpoint A di `DG-PLUS-LAUNCH`; pubblicazione dopo il checkpoint B; con app transfer |'
+          count = text.count(old)
+          if count != 1:
+              raise RuntimeError(f'Attesa una riga StoreKit obsoleta, trovate {count}')
+          text = text.replace(old, new, 1)
+          if old in text:
+              raise RuntimeError('Riga StoreKit obsoleta ancora presente')
+          path.write_text(text, encoding='utf-8')
+          PY
+
+          node scripts/check-reading-matrix.mjs
+          node scripts/check-roadmap-hierarchy.mjs
+          git diff --check
+
+      - name: Commit finale
+        shell: bash
+        run: |
+          git rm .github/workflows/fix-storekit-checkpoint-ownership.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs: allinea ownership StoreKit ai checkpoint Plus"
+          git push origin HEAD:docs/free-core-plus-1x
