@@ -1,0 +1,61 @@
+name: Trigger free core model
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout head branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Estrai ed esegui la migrazione
+        run: |
+          awk '/python3 - <<'\''PY'\''/{capture=1; next} capture && /^          PY$/{exit} capture{sub(/^          /, ""); print}' \
+            .github/workflows/apply-free-core-model.yml > /tmp/apply_free_core.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('/tmp/apply_free_core.py')
+          script = path.read_text(encoding='utf-8')
+          pattern = re.compile(
+              r"plan = replace_once\(\n\s+plan,\n\s+'14\. il downgrade Plus.*?\n\s+'invariante commerciale',\n\s+\)\n",
+              re.S,
+          )
+          replacement = """plan = replace_once(
+              plan,
+              '14. il downgrade Plus non cancella dati;',
+              '14. il core della 1.0 non dipende da entitlement commerciali né da limiti quantitativi;',
+              'invariante commerciale',
+          )
+"""
+          script, count = pattern.subn(replacement, script, count=1)
+          if count != 1:
+              raise RuntimeError(f'patch invarianti: attesa 1 sostituzione, trovate {count}')
+          path.write_text(script, encoding='utf-8')
+          PY
+          python3 /tmp/apply_free_core.py
+          node scripts/check-reading-matrix.mjs
+          node scripts/check-roadmap-hierarchy.mjs
+          git diff --check
+
+      - name: Commit finale
+        run: |
+          git rm .github/workflows/apply-free-core-model.yml
+          git rm .github/workflows/trigger-free-core-model.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs: adotta core gratuito e Plus 1.X"
+          git push origin HEAD:${{ github.head_ref }}
