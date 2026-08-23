@@ -9,9 +9,14 @@ on:
       - "**/Package.swift"
       - "**/Package.resolved"
       - "Configuration/**"
-  schedule:
-    - cron: "23 4 * * 1"
-  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/*.swift"
+      - "**/*.xcodeproj/**"
+      - "**/Package.swift"
+      - "**/Package.resolved"
+      - "Configuration/**"
 
 permissions:
   contents: read

@@ -14,9 +14,9 @@
 | swift-format | 6.3.0 | `.swift-format`, workflow `swift-format.yml` |
 | XcodeBuildMCP | 2.7.0 | baseline locale di build, test e Simulator |
 
-Xcode Cloud non viene configurato finché M06 non richiede una pipeline TestFlight reale.
-GitHub Actions esegue `swift-format`; CodeQL gira su `main`, a cadenza settimanale o su
-avvio manuale. I workflow Apple usano il runner `macos-26` e selezionano Xcode 26.6.
+La build Apple primaria resta destinata a Xcode Cloud; GitHub Actions esegue soltanto i
+controlli complementari ammessi dal Master Plan. `codeql.yml` e `swift-format.yml` usano
+il runner `macos-26` e selezionano Xcode 26.6 esplicitamente.
 
 Il package locale `RoutallyModules` non dichiara dipendenze runtime esterne. La fixture e
 la matrice visuale sono bloccate in [preview-matrix.md](preview-matrix.md). Schema

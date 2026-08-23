@@ -2,7 +2,7 @@
 
 - **Stato:** Confirmed
 - **Epic:** E02 — Apple-native UI Direction
-- **Fonte canonica:** [Master Plan](../MASTER_PLAN.md), sezioni 3, 4 e 9
+- **Fonte canonica:** [Master Plan](../MASTER_PLAN.md), sezioni 10.3, 14 e 26.5
 
 ## Un solo flusso
 
@@ -24,7 +24,8 @@ navigazione. Non esistono modalità rapida, guidata o avanzata separate.
 - azione primaria nella toolbar inferiore di sistema;
 - nessun background glass custom sul contenuto della form.
 
-Su iPhone la sheet parte ampia e può diventare full-height seguendo il sistema.
+Su iPhone la sheet parte ampia e può diventare full-height seguendo il sistema. Su iPad
+resta una form sheet leggibile. La gerarchia, i campi e la validazione sono identici.
 
 ## Passi
 
@@ -53,9 +54,10 @@ secondaria e porta alle conseguenze.
 
 ### 4. Quando ricordartelo
 
-- momento utile: subito, questa sera, giorno/orario scelto oppure nessun reminder;
-- la richiesta delle notifiche avviene soltanto quando si salva il primo reminder;
-- luogo e geofencing passano alla 1.1 e non producono campi o permessi nella 1.0.
+- momento utile: subito, questa sera, luogo salvato o scelta personalizzata;
+- un reminder geografico richiede sempre un fallback temporale;
+- il permesso viene chiesto soltanto dopo la scelta di un luogo;
+- la negazione del permesso conserva la configurazione con fallback.
 
 ### 5. Riepilogo
 
@@ -81,8 +83,8 @@ sta ancora digitando. Il testo descrive come correggere, non soltanto cosa è sb
 
 Il percorso parte da `NewUser`, senza routine. L'utente crea Palestra con obiettivo
 `3 volte a settimana`, collega Asciugamano palestra con soglia `4 utilizzi`, configura
-`Prepara un asciugamano pulito` per questa sera alle 20:00 e sceglie di avviare il ciclo
-successivo al completamento.
+`Prepara un asciugamano pulito` all'arrivo a Casa con fallback alle 20:00 e sceglie di
+avviare il ciclo successivo al completamento.
 
 Per verificare rapidamente soglia e follow-up, la fixture `ThresholdReached` riproduce
 la stessa configurazione dopo tre allenamenti storici: Palestra è a `1/3` nel periodo
@@ -98,13 +100,13 @@ corrente e Asciugamano a `3/4`. Non cambia le regole e non introduce dati reali.
 | `E02-VS-04` | registrare il quarto evento della fixture | Palestra passa a `2/3`, Asciugamano a `4/4`, nasce un solo follow-up |
 | `E02-VS-05` | leggere il riepilogo | ogni conseguenza e la sua origine sono visibili; `Escludi` è disponibile per ogni effetto derivato, insieme ad `Annulla` e `Visualizza` |
 | `E02-VS-06` | chiudere il riepilogo | Asciugamano resta a `4/4`; la soglia non resetta il ciclo |
-| `E02-VS-07` | raggiungere il momento temporale | il follow-up entra in Adesso ed è notificabile una sola volta |
-| `E02-VS-08` | rivalutare lo scheduler | non viene creato né notificato un secondo follow-up |
+| `E02-VS-07` | simulare arrivo a Casa | il follow-up entra in Adesso ed è notificabile una sola volta |
+| `E02-VS-08` | far scattare anche il fallback | non viene creato né notificato un secondo follow-up |
 | `E02-VS-09` | completare il follow-up | il follow-up è completato e Asciugamano apre un nuovo ciclo a `0/4` |
 | `E02-VS-10` | escludere l'effetto Asciugamano dal riepilogo | l'evento Palestra e gli altri effetti restano; incremento, soglia e follow-up di Asciugamano vengono rimossi o ricalcolati come una correzione revisionale |
 | `E02-VS-11` | annullare la registrazione | conseguenze, soglia e follow-up vengono rimossi o ricalcolati atomicamente |
-| `E02-VS-12` | ripetere offline | tutte le azioni restano disponibili senza stato di sincronizzazione |
-| `E02-VS-13` | esportare e reimportare | un backup lossless conserva routine, journal, collegamento e ciclo senza duplicazioni |
+| `E02-VS-12` | ripetere offline | tutte le azioni restano disponibili e indicano sincronizzazione pendente |
+| `E02-VS-13` | usare iPad | lista e dettaglio restano coordinati durante creazione e completamento |
 
 Ogni criterio deve essere verificabile in E03 con fixture e preview e, quando richiede
 integrazione reale, nelle milestone tecniche pertinenti. E02 definisce il comportamento,
