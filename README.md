@@ -24,7 +24,8 @@ e SwiftUI per iOS e iPadOS 26.
 ## Roadmap sintetica
 
 Foundation → motore delle routine → vertical slice → esperienza completa → integrazioni
-di sistema e commercio → alpha → beta → App Store 1.0.
+di sistema → Analisi e ricerca → core gratuito e preparazione release → alpha → beta →
+App Store 1.0.
 
 ## Build
 
