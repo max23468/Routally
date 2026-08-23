@@ -12,16 +12,17 @@ iCloud e non dipendere da account Routally, backend o runtime esterni.
 
 ## Decisione
 
-L'adapter predefinito usa SwiftData, App Group e CloudKit. Il dominio dipende da
-repository protocol e UUID propri, non da modelli SwiftData o identificatori persistenti.
+La persistenza usa SwiftData, App Group e CloudKit. Il dominio dipende da un unico confine
+di store e da UUID propri, non da modelli SwiftData o identificatori persistenti. Non si
+predispongono adapter per il backend ipotetico della 2.0.
 
 ## Conseguenze
 
 - le azioni quotidiane scrivono subito in locale e non attendono CloudKit;
 - schema e migrazioni sono versionati dalla prima release;
-- widget e app condividono proiezioni tramite App Group;
-- `TG-DATA` deve validare event store, migrazioni, offline, sync e 100.000 eventi;
-- se il gate fallisce, cambia soltanto l'adapter, preferibilmente verso Core Data con
+- widget e app condividono soltanto i dati o gli indici necessari tramite App Group;
+- `TG-DATA` deve validare registro eventi, migrazioni, offline, sync e il dataset realistico della sezione 36;
+- se il gate dimostra un limite bloccante, si valuta Core Data con
   `NSPersistentCloudKitContainer`.
 
 ## Riferimenti

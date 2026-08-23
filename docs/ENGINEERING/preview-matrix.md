@@ -65,6 +65,6 @@ La prova interattiva su iPhone copre:
 5. IT/EN, stato offline, errore recuperabile e preferenze di accessibilità sopra elencate.
 
 La suite automatica protegge fixture, idempotenza arrivo/fallback, undo atomico,
-esclusioni indipendenti, applicazione del draft e path di navigazione. Motore
-event-sourced, persistenza, geofencing e notifiche reali restano nelle epiche e nei
+esclusioni indipendenti, applicazione del draft e path di navigazione. Registro eventi e
+reducer, persistenza, geofencing e notifiche reali restano nelle epiche e nei
 Technical Gate previsti dal Master Plan; E03 usa simulazioni locali Dev.

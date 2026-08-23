@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Verifica la gerarchia operativa del Master Plan:
-// fase/versione -> milestone -> epiche e relativa tracciabilità dei requisiti.
+// fase/versione -> milestone -> epiche -> gate, senza inventari duplicati.
 //
 // Uso: node scripts/check-roadmap-hierarchy.mjs
 
@@ -9,7 +9,6 @@ import { readFileSync } from "node:fs";
 const PLAN = "docs/MASTER_PLAN.md";
 const EXPECTED_MILESTONES = 12;
 const EXPECTED_EPICS = 22;
-const EXPECTED_REQUIREMENTS = 35;
 const EXPECTED_PHASES = [
   "0.1",
   "0.2",
@@ -34,9 +33,8 @@ const section = (start, end) => {
 };
 
 const roadmap = section("## 37.2 Milestone operative", "## 37.3 Feature freeze");
-const traceability = section("# 47. Requirement traceability baseline", "# 48.");
 const definitions = section("# 48. Definition of Done per milestone", "# 49.");
-const epics = section("# 49. Backlog iniziale per epiche", "# 50.");
+const epicCatalog = section("# 49. Backlog per epiche", "# 50.");
 const technicalGates = section("# 40. Technical spikes e validation gates", "# 41.");
 
 const fail = (message) => {
@@ -79,9 +77,9 @@ for (const cells of rows) {
 const definitionMilestones = [...definitions.matchAll(/^## 48\.\d+ (M\d{2})/gm)].map(
   (match) => match[1],
 );
-const epicHeadings = [...epics.matchAll(/^## (E\d{2})/gm)].map((match) => match[1]);
+const catalogEpics = [...epicCatalog.matchAll(/^\| `(E\d{2})` /gm)].map((match) => match[1]);
 const expectedMilestones = expectedSequence("M", mappedMilestones.length);
-const expectedEpics = expectedSequence("E", epicHeadings.length);
+const expectedEpics = expectedSequence("E", EXPECTED_EPICS);
 
 if (rows.length !== EXPECTED_MILESTONES || !same(mappedPhases, EXPECTED_PHASES)) {
   fail(`Fasi o numero di milestone inattesi: ${mappedPhases.join(", ")}.`);
@@ -93,36 +91,11 @@ if (!same(mappedMilestones, expectedMilestones)) {
 if (!same(definitionMilestones, mappedMilestones)) {
   fail("Le Definition of Done non corrispondono alle milestone della mappa canonica.");
 }
-if (!unique(epicHeadings) || !same(epicHeadings, expectedEpics)) {
-  fail(`Epiche non contigue, duplicate o fuori ordine: ${epicHeadings.join(", ")}.`);
+if (!unique(mappedEpics) || !same(mappedEpics, expectedEpics)) {
+  fail(`Epiche non contigue, duplicate o fuori ordine: ${mappedEpics.join(", ")}.`);
 }
-if (epicHeadings.length !== EXPECTED_EPICS) {
-  fail(`Numero di epiche inatteso: ${epicHeadings.length}, attese ${EXPECTED_EPICS}.`);
-}
-if (!same(mappedEpics, epicHeadings)) {
-  fail("Le epiche della mappa non corrispondono, nello stesso ordine, al backlog per epiche.");
-}
-
-const requirementRows = traceability
-  .split("\n")
-  .filter((line) => /^\| RTY-\d{3} /.test(line))
-  .map((line) => line.split("|").slice(1, -1).map(clean));
-
-if (requirementRows.length !== EXPECTED_REQUIREMENTS) {
-  fail(
-    `Numero di requisiti tracciati inatteso: ${requirementRows.length}, ` +
-      `attesi ${EXPECTED_REQUIREMENTS}.`,
-  );
-}
-
-for (const cells of requirementRows) {
-  const [id, , , , , , phase, milestone, epic] = cells;
-  if (!/^(?:0\.\d|1\.0)$/.test(phase)) fail(`${id}: fase/versione non valida (${phase}).`);
-  if (!mappedMilestones.includes(milestone)) fail(`${id}: milestone sconosciuta (${milestone}).`);
-  if (!epicHeadings.includes(epic)) fail(`${id}: epica sconosciuta (${epic}).`);
-  if (epicToMilestone.get(epic) !== milestone) {
-    fail(`${id}: ${epic} appartiene a ${epicToMilestone.get(epic)}, non a ${milestone}.`);
-  }
+if (!same(catalogEpics, mappedEpics)) {
+  fail("Il catalogo delle epiche non corrisponde alla mappa canonica.");
 }
 
 const gateIds = [...technicalGates.matchAll(/^## 40\.\d+ (TG-[A-Z-]+)/gm)].map(
@@ -137,7 +110,7 @@ if (!roadmap.includes("DG-CLOUD-PRICING") || !roadmap.includes("DG-FUTURE-ANALYT
 
 if (!process.exitCode) {
   console.log(
-    `Gerarchia completa: ${mappedMilestones.length} milestone, ${epicHeadings.length} epiche, ` +
-      `${requirementRows.length} requisiti tracciati e ${gateIds.length} Technical Gate coperti.`,
+    `Gerarchia completa: ${mappedMilestones.length} milestone, ${mappedEpics.length} epiche ` +
+      `e ${gateIds.length} Technical Gate coperti.`,
   );
 }

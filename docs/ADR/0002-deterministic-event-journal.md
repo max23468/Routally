@@ -1,4 +1,4 @@
-# ADR 0002 — Dominio event-sourced
+# ADR 0002 — Registro eventi deterministico
 
 - **Stato:** Confirmed
 - **Data:** 2026-08-05
@@ -12,15 +12,18 @@ sincronizzazione offline e consegna CloudKit fuori ordine.
 
 ## Decisione
 
-Eventi e revisioni sono la fonte canonica. Stato corrente, Oggi, follow-up, ricerca,
-Analisi e widget sono proiezioni materializzate e ricostruibili.
+Eventi e revisioni sono la fonte canonica. Un reducer puro deriva lo stato necessario a
+routine, Oggi, follow-up, ricerca, Analisi e widget. Cache o indici persistenti vengono
+aggiunti soltanto per query misurate come lente e non costituiscono un sottosistema
+autonomo.
 
 ## Conseguenze
 
 - correzioni e annullamenti producono ricalcoli deterministici;
 - retry e sincronizzazione devono essere idempotenti;
 - ogni invariante di dominio richiede un test automatico;
-- le cache non possono diventare fonte di verità.
+- le cache non possono diventare fonte di verità;
+- non esiste un Consistency Engine separato nella baseline 1.0.
 
 ## Riferimenti
 
