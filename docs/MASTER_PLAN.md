@@ -2939,9 +2939,12 @@ baseline indicativa è:
 protocol RoutallyStore: Sendable { ... }
 protocol ReminderScheduling: Sendable { ... }
 protocol LocationReminding: Sendable { ... }
-protocol EntitlementProviding: Sendable { ... }
 protocol Clock: Sendable { ... }
 ```
+
+Nella 1.0 non esiste un confine di entitlement. `EntitlementProviding` può essere introdotto
+soltanto nella 1.X, dopo il checkpoint A di `DG-PLUS-LAUNCH`, se `TG-STOREKIT` dimostra
+che serve un confine testabile.
 
 `Clock` e calendario devono essere controllabili nei test. Non si crea un protocollo per
 ogni modello, framework o possibile fornitore futuro; un nuovo confine richiede almeno due
@@ -3129,7 +3132,7 @@ Documentare e bloccare per milestone:
 - schema SwiftData;
 - formato Kit;
 - formato eventi;
-- StoreKit config soltanto dopo `DG-PLUS-LAUNCH`, fuori dalla baseline 1.0.
+- StoreKit config soltanto dopo il checkpoint A di `DG-PLUS-LAUNCH`; pubblicazione dopo il checkpoint B; fuori dalla baseline 1.0.
 
 Regole:
 
@@ -3444,7 +3447,7 @@ Unica identità definitiva:
 - dati TestFlight preservati nella versione App Store;
 - nessun prodotto o configurazione StoreKit nella 1.0; gli eventuali acquisti 1.X usano lo stesso record App Store dopo la chiusura dei relativi gate.
 
-Gli asset Apple definitivi della 1.0 — Bundle ID, App Groups, container CloudKit Production e record App Store — vengono creati soltanto dopo `DG-DEVELOPER-IDENTITY`. Gli eventuali prodotti StoreKit della 1.X richiedono anche `DG-PLUS-LAUNCH`. La Foundation può usare identificativi provvisori esplicitamente non trasferibili e non destinati alla produzione.
+Gli asset Apple definitivi della 1.0 — Bundle ID, App Groups, container CloudKit Production e record App Store — vengono creati soltanto dopo `DG-DEVELOPER-IDENTITY`. La creazione non pubblica degli eventuali prodotti StoreKit della 1.X richiede il checkpoint A di `DG-PLUS-LAUNCH`; la pubblicazione richiede il checkpoint B. La Foundation può usare identificativi provvisori esplicitamente non trasferibili e non destinati alla produzione.
 
 ## 30.2 Configurazioni
 
@@ -3931,7 +3934,7 @@ Alternative da valutare:
 - **publisher reale:** possibile con contratto e licenza IP, ma lascia controllo contrattuale ultimo, pagamenti e trasferimento all'Account Holder del publisher;
 - **account rental:** opzione ad alto rischio di controllo, credenziali e conformità; non raccomandata come baseline, ma la decisione finale resta nel gate.
 
-La preferenza attuale è account individuale o organizzazione propria; publisher eventualmente come partner di crescita dopo la validazione. Non creare il primo record definitivo, il Bundle ID finale o i container definitivi finché il gate non è chiuso o finché Apple non conferma la trasferibilità desiderata. Eventuali prodotti StoreKit appartengono alla 1.X e richiedono anche `DG-PLUS-LAUNCH`.
+La preferenza attuale è account individuale o organizzazione propria; publisher eventualmente come partner di crescita dopo la validazione. Non creare il primo record definitivo, il Bundle ID finale o i container definitivi finché il gate non è chiuso o finché Apple non conferma la trasferibilità desiderata. Eventuali prodotti StoreKit appartengono alla 1.X: la creazione non pubblica richiede il checkpoint A di `DG-PLUS-LAUNCH` e la pubblicazione richiede il checkpoint B.
 
 ---
 
@@ -4047,7 +4050,8 @@ Flussi obbligatori 1.0:
 17. librerie con molte routine e collegamenti, senza limiti commerciali.
 
 StoreKit, ripristino, rimborso, revoca e Family Sharing entrano nei flussi obbligatori
-soltanto nella release 1.X che chiude `DG-PLUS-LAUNCH`.
+della release candidata Plus dopo il checkpoint A e devono essere completati prima del
+checkpoint B di `DG-PLUS-LAUNCH`.
 
 ## 35.4 Pull request gate
 
@@ -4098,8 +4102,9 @@ Una funzione senza test adeguato viene rinviata.
 
 Release manuale dopo approvazione, completamente gratuita e senza acquisti in-app.
 
-Dalla 1.1: phased release di default. La beta commerciale di Plus viene pianificata
-separatamente dopo `DG-PLUS-LAUNCH`.
+Dalla 1.1: phased release di default. La beta commerciale e la Commerce QA di Plus
+vengono pianificate separatamente dopo il checkpoint A e prima del checkpoint B di
+`DG-PLUS-LAUNCH`.
 
 ---
 
@@ -4824,9 +4829,9 @@ Richiedono:
 - descrizione chiara che tutte le funzioni della 1.0 sono incluse;
 - verifica che i 12 Kit, cronologia, luoghi, widget e collegamenti non abbiano limiti commerciali.
 
-La checklist commerce completa viene aggiunta alla release 1.X che chiude
-`DG-PLUS-LAUNCH`; dovrà coprire prezzo una tantum, Family Sharing, restore,
-refund/revoke, termini, privacy e trasparenza del perimetro Plus.
+La checklist commerce completa viene aperta dopo il checkpoint A e deve essere
+completata prima del checkpoint B di `DG-PLUS-LAUNCH`; copre prezzo una tantum, Family
+Sharing, restore, refund/revoke, termini, privacy e trasparenza del perimetro Plus.
 
 ## 46.4 Legale/territori
 
