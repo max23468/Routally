@@ -104,8 +104,14 @@ const gateIds = [...technicalGates.matchAll(/^## 40\.\d+ (TG-[A-Z-]+)/gm)].map(
 const missingGates = gateIds.filter((gate) => !roadmap.includes(gate));
 if (missingGates.length > 0) fail(`Technical Gate assenti dalla mappa: ${missingGates.join(", ")}.`);
 
-if (!roadmap.includes("DG-CLOUD-PRICING") || !roadmap.includes("DG-FUTURE-ANALYTICS")) {
-  fail("La mappa non dichiara esplicitamente i Decision Gate futuri esclusi dal percorso 1.0.");
+const futureGates = [
+  "DG-PLUS-LAUNCH",
+  "DG-CLOUD-PRICING",
+  "DG-FUTURE-ANALYTICS",
+];
+const missingFutureGates = futureGates.filter((gate) => !roadmap.includes(gate));
+if (missingFutureGates.length > 0) {
+  fail(`La mappa non dichiara i Decision Gate futuri: ${missingFutureGates.join(", ")}.`);
 }
 
 if (!process.exitCode) {

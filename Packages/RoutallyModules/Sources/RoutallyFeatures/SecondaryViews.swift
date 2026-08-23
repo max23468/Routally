@@ -1,3 +1,4 @@
+import Foundation
 import RoutallyDesign
 import RoutallyDomain
 import SwiftUI
@@ -99,7 +100,6 @@ struct ProfileSheet: View {
       List {
         Section(.profiloLocale) {
           Label(.nessunAccountRemoto, systemImage: "person.crop.circle")
-          LabeledContent(.piano, value: store.snapshot.isPlus ? "Routally Plus" : "Routally Free")
         }
 
         Section(.datiEServizio) {
@@ -134,12 +134,17 @@ struct ProfileSheet: View {
       .preferredColorScheme(.dark)
   }
 
-  #Preview("Profilo · Free") {
-    ProfileSheet(store: RoutallyStore(snapshot: PreviewFixtures.freeLimit))
+  #Preview("Profilo · Locale") {
+    ProfileSheet(store: RoutallyStore(snapshot: PreviewFixtures.unrestrictedLibrary))
   }
 
-  #Preview("Profilo · Plus · Dark") {
-    ProfileSheet(store: RoutallyStore(snapshot: PreviewFixtures.plus))
-      .preferredColorScheme(.dark)
+  #Preview("Profilo · Offline · EN · Dark") {
+    ProfileSheet(
+      store: RoutallyStore(
+        snapshot: PreviewFixtures.offlinePending(locale: Locale(identifier: "en"))
+      )
+    )
+    .environment(\.locale, Locale(identifier: "en"))
+    .preferredColorScheme(.dark)
   }
 #endif

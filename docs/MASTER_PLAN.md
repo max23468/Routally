@@ -2,9 +2,9 @@
 
 - **Documento canonico:** `docs/MASTER_PLAN.md`
 - **Stato:** approvato per l'avvio della progettazione e dello sviluppo
-- **Data:** 14 agosto 2026
+- **Data:** 23 agosto 2026
 - **Owner di prodotto:** Matteo
-- **Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile e commercializzabile, mantenendo una roadmap esplicita per le versioni 1.X, 2.X e successive.
+- **Obiettivo primario:** pubblicare Routally 1.0 su App Store come prodotto completo, affidabile, completamente gratuito e privo di limiti commerciali, mantenendo una roadmap esplicita per un Plus additivo nella 1.X e per le versioni 2.X successive.
 
 ---
 
@@ -100,7 +100,7 @@ Codex e Claude Code non possono autonomamente:
 - modificare il posizionamento del prodotto;
 - cambiare il perimetro della 1.0 o spostare funzioni tra versioni;
 - aggiungere dipendenze esterne;
-- cambiare prezzi, limiti Free o diritti Lifetime;
+- modificare la garanzia del core gratuito, il Premium Value Gate, il prezzo di Plus o i diritti già acquistati;
 - sostituire framework Apple con servizi esterni;
 - aggiungere analytics, AI, backend o tracciamento;
 - reinterpretare una decisione per ridurre lo scope senza approvazione.
@@ -120,7 +120,7 @@ Una feature non è completata quando esiste soltanto una schermata. È completa 
 - correzione, annullamento e recupero;
 - test automatici e manuali;
 - privacy e sicurezza;
-- comportamento Free/Plus;
+- coerenza con il core gratuito e, dalla 1.X, con eventuali entitlement Plus;
 - documentazione e criteri di accettazione.
 
 ### 0.5 Benchmark obbligatorio
@@ -144,13 +144,11 @@ sostituite (51); poi soltanto le sezioni che il proprio intervento tocca, second
 matrice in `docs/ENGINEERING/agent-workflow.md`.
 
 La sezione 40 rientra fra quelle sempre lette perché un gate tecnico vincola il lavoro di
-altre sezioni: TG-RECALC precede le feature che dipendono dal ricalcolo, TG-DATA precede
-lo schema e TG-STOREKIT precede il commercio. Leggerla solo quando si lavora sulla roadmap significherebbe
-scoprire il vincolo dopo averlo violato.
+altre sezioni: TG-RECALC precede le feature che dipendono dal ricalcolo, TG-DATA precede lo schema e TG-STOREKIT precede soltanto l’eventuale commercio della 1.X, dopo il checkpoint di approvazione del bundle previsto da `DG-PLUS-LAUNCH`. Per la 1.0 il gate StoreKit è esplicitamente inattivo. Leggere la sezione 40 solo quando si lavora sulla roadmap significherebbe scoprire un vincolo dopo averlo violato.
 
 La matrice indica le sezioni che descrivono l'oggetto dell'intervento, non l'insieme
 completo di ciò che lo vincola. Le dimensioni del principio di completezza della sezione
-0.4 — comportamento Free/Plus, accessibilità, localizzazione, privacy, persistenza,
+0.4 — garanzia del core gratuito e, quando applicabile, comportamento Plus, accessibilità, localizzazione, privacy, persistenza,
 correzione, notifiche e test — restano obbligatorie anche quando la loro sezione non
 compare nella riga usata, e `agent-workflow.md` ne riporta la corrispondenza. Una feature
 non è completa perché la sua riga di matrice è stata letta.
@@ -180,7 +178,7 @@ La struttura distintiva è quindi:
 
 Routally 1.0 sarà un'app universale nativa per iPhone e iPad, sviluppata in Swift 6 e SwiftUI per iOS/iPadOS 26, con Liquid Glass, dark mode nativa, dati local-first e sincronizzazione privata iCloud. Non richiederà un account Routally, non userà analytics esterni, pubblicità, AI o dipendenze runtime di terze parti.
 
-La 1.0 dovrà essere un prodotto completo e vendibile, non un MVP dimostrativo. Comprenderà:
+La 1.0 dovrà essere un prodotto completo e pubblicabile, non un MVP dimostrativo. Comprenderà:
 
 - ricorrenze dall'ultima esecuzione;
 - ricorrenze calendariali;
@@ -195,7 +193,7 @@ La 1.0 dovrà essere un prodotto completo e vendibile, non un MVP dimostrativo. 
 - promemoria temporali e geografici con fallback;
 - widget, App Intents, Siri, Spotlight, Centro di Controllo e tasto Azione;
 - cronologia, correzione retroattiva e ricalcolo deterministico;
-- StoreKit 2 con Free, Plus annuale e Lifetime;
+- lancio 1.0 completamente gratuito, senza limiti commerciali, paywall o acquisti in-app;
 - accessibilità e localizzazione completa IT/EN;
 - TestFlight, App Store e sito `routally.com`.
 
@@ -492,7 +490,7 @@ Motivazioni:
 - adatto a light, dark, high contrast e Liquid Glass;
 - non collide con i colori semantici di completamento o attenzione.
 
-Accenti Plus curati:
+Accenti curati disponibili a tutti nella 1.0:
 
 - Routally Indigo;
 - Ocean;
@@ -650,7 +648,7 @@ Email previste:
 - luoghi salvati;
 - widget e App Intents;
 - iCloud seamless;
-- StoreKit 2;
+- uso completo e senza limiti commerciali di routine, collegamenti, Kit, cronologia, luoghi e superfici di sistema;
 - italiano e inglese;
 - iPhone e iPad;
 - light/dark mode;
@@ -870,7 +868,7 @@ Il Profilo contiene:
 ### Aspetto e accessibilità
 
 - Sistema, Chiaro, Scuro;
-- accento Plus;
+- accento Routally;
 - feedback aptico;
 - animazioni;
 - link alle impostazioni native rilevanti.
@@ -881,8 +879,6 @@ Il Profilo contiene:
 - esportazione CSV;
 - Eliminati di recente;
 - eliminazione completa dei dati;
-- piano Routally Plus;
-- ripristino acquisti;
 - supporto, privacy, termini e informazioni.
 
 Nome e avatar non sono richiesti nell'onboarding. Non vengono richiesti età, genere, professione o altri dati di profilazione. Il nome può essere usato soltanto in formule discrete e disattivabili, per esempio «Tutto sotto controllo, Matteo».
@@ -1188,8 +1184,7 @@ Ogni Kit mostra:
 - cosa verrà creato;
 - valori suggeriti;
 - routine, collegamenti, follow-up e reminder;
-- numero di routine e collegamenti consumati nel piano Free;
-- disponibilità Free o Plus.
+- requisiti tecnici o autorizzazioni eventualmente necessarie.
 
 Esempio:
 
@@ -1842,7 +1837,7 @@ Le seguenti proprietà non possono essere violate:
 11. retry e riconciliazioni sono idempotenti;
 12. un follow-up completato su un dispositivo non viene completato due volte altrove;
 13. il fallback temporale e il trigger geografico non generano due follow-up;
-14. il downgrade Plus non cancella dati;
+14. il core della 1.0 non dipende da entitlement commerciali né da limiti quantitativi;
 15. una routine archiviata non riceve aggiornamenti automatici;
 16. una routine in pausa non viene incrementata da link, salvo registrazione manuale esplicita della routine stessa secondo le regole approvate;
 17. ogni modifica che altera conseguenze conserva una traccia revisionale;
@@ -1916,7 +1911,7 @@ Elimina:
 - preferenze;
 - dati CloudKit privati.
 
-Non elimina acquisti StoreKit.
+Nella 1.0 non esistono acquisti o entitlement. Dalla 1.X l’eliminazione dei dati non modifica eventuali diritti Plus acquistati.
 
 Distinta da:
 
@@ -2211,7 +2206,7 @@ Ogni Kit possiede una scheda editoriale con:
 - follow-up;
 - momento consigliato;
 - reset;
-- Free/Plus;
+- disponibilità nella versione minima supportata;
 - microcopy IT/EN;
 - avvertenze;
 - versione;
@@ -2219,9 +2214,9 @@ Ogni Kit possiede una scheda editoriale con:
 
 I Kit sono inclusi e versionati nell'app 1.0, non scaricati da server.
 
-Tutti gli utenti possono esplorare e vedere l'anteprima completa di tutti i 12 Kit. Plus sblocca l'installazione immediata degli otto Kit premium, non le logiche di dominio: un utente Free può ricrearne manualmente una configurazione equivalente entro i limiti di 10 routine e 5 collegamenti.
+Tutti gli utenti possono esplorare, installare e configurare liberamente tutti i 12 Kit della 1.0. I Kit sono parte del core gratuito permanente: nessuno richiede Plus e nessuno consuma una quota commerciale di routine o collegamenti.
 
-## 20.2 Kit Free
+## 20.2 Kit introduttivi
 
 ### 1. Palestra
 
@@ -2269,7 +2264,7 @@ Perché è adatto: dimostra che Routally non è limitata a casa, sport o oggetti
 
 Regola editoriale: il default non deve generare un nuovo follow-up dopo ogni breve sessione se ciò produce rumore; ripassi e verifiche devono usare una cadenza moderata e configurabile.
 
-## 20.3 Kit Plus
+## 20.3 Altri Kit inclusi nella 1.0
 
 ### 5. Corsa
 
@@ -2556,7 +2551,6 @@ Il primo schema è formalmente versionato. I modelli persistenti indicativi comp
 - eventuali indici locali motivati da misure;
 - tombstone;
 - device preference;
-- entitlement cache non canonica.
 
 La struttura finale viene fissata dopo gli spike tecnici e documentata in ADR.
 
@@ -2729,7 +2723,7 @@ Deve coprire almeno:
 
 - perdita o corruzione dati, inclusi sync incoerente, duplicati e riapparizione di eliminati;
 - esposizione involontaria di note, luoghi o profilo tramite log e superfici di sistema;
-- manipolazione degli entitlement Free/Plus;
+- dalla 1.X, bypass o corruzione degli entitlement Plus dopo l’effettiva introduzione di StoreKit;
 - input esterni non fidati, inclusi link, App Intents e file importati;
 - repository e supply chain, inclusi secret e GitHub Actions.
 
@@ -2742,7 +2736,6 @@ Capability 1.0:
 
 - iCloud/CloudKit;
 - App Groups;
-- In-App Purchase;
 - Associated Domains;
 - Background Modes soltanto se implementati;
 - WidgetKit/App Intents.
@@ -2799,7 +2792,6 @@ Le dichiarazioni vengono pubblicate soltanto dopo audit reale per iPhone e iPad.
 - correzione;
 - ricerca;
 - modifica/pausa/archivio;
-- acquisto/ripristino;
 - esportazione dati;
 - eliminazione dati.
 
@@ -2903,7 +2895,6 @@ RoutallyApp
 │   ├── Locations
 │   ├── AppIntents
 │   ├── Widgets
-│   ├── StoreKit
 │   └── Diagnostics
 │
 └── RoutallyDesign
@@ -2948,9 +2939,12 @@ baseline indicativa è:
 protocol RoutallyStore: Sendable { ... }
 protocol ReminderScheduling: Sendable { ... }
 protocol LocationReminding: Sendable { ... }
-protocol EntitlementProviding: Sendable { ... }
 protocol Clock: Sendable { ... }
 ```
+
+Nella 1.0 non esiste un confine di entitlement. `EntitlementProviding` può essere introdotto
+soltanto nella 1.X, dopo il checkpoint A di `DG-PLUS-LAUNCH`, se `TG-STOREKIT` dimostra
+che serve un confine testabile.
 
 `Clock` e calendario devono essere controllabili nei test. Non si crea un protocollo per
 ogni modello, framework o possibile fornitore futuro; un nuovo confine richiede almeno due
@@ -3138,7 +3132,7 @@ Documentare e bloccare per milestone:
 - schema SwiftData;
 - formato Kit;
 - formato eventi;
-- StoreKit config.
+- StoreKit config soltanto dopo il checkpoint A di `DG-PLUS-LAUNCH`; pubblicazione dopo il checkpoint B; fuori dalla baseline 1.0.
 
 Regole:
 
@@ -3439,7 +3433,6 @@ Non esistono tre app pubbliche.
 - installabile localmente;
 - dati sintetici;
 - prima del gate identità, CloudKit Development su un container provvisorio e sacrificabile del team corrente; dopo il gate può usare l'ambiente Development del container definitivo se la configurazione Apple lo consente senza rischi di trasferimento;
-- StoreKit locale;
 - strumenti diagnostici;
 - icona DEV;
 - mai pubblicata.
@@ -3452,9 +3445,9 @@ Unica identità definitiva:
 - un record App Store Connect;
 - CloudKit Production dello stesso container;
 - dati TestFlight preservati nella versione App Store;
-- StoreKit Sandbox su TestFlight e produzione su App Store.
+- nessun prodotto o configurazione StoreKit nella 1.0; gli eventuali acquisti 1.X usano lo stesso record App Store dopo la chiusura dei relativi gate.
 
-Gli asset Apple definitivi — Bundle ID, App Groups, container CloudKit Production, prodotti StoreKit e record App Store — vengono creati soltanto dopo DG-DEVELOPER-IDENTITY. La Foundation può usare identificativi provvisori esplicitamente non trasferibili e non destinati alla produzione.
+Gli asset Apple definitivi della 1.0 — Bundle ID, App Groups, container CloudKit Production e record App Store — vengono creati soltanto dopo `DG-DEVELOPER-IDENTITY`. La creazione non pubblica degli eventuali prodotti StoreKit della 1.X richiede il checkpoint A di `DG-PLUS-LAUNCH`; la pubblicazione richiede il checkpoint B. La Foundation può usare identificativi provvisori esplicitamente non trasferibili e non destinati alla produzione.
 
 ## 30.2 Configurazioni
 
@@ -3509,8 +3502,7 @@ Scenari canonici:
 - ThresholdReached;
 - OfflineWithPendingChanges;
 - CloudConflict;
-- FreeLimitReached;
-- PlusUser;
+- UnrestrictedLibrary;
 - LargeHistory.
 
 Launch arguments Dev:
@@ -3534,230 +3526,181 @@ Mai presenti nell'app pubblica.
 
 # 31. Modello di business
 
-## 31.1 Routally Free
+## 31.1 Lancio 1.0: gratuito, completo e senza limiti commerciali
 
-- nessuna scadenza;
-- nessuna pubblicità;
-- nessuna vendita dati;
-- fino a **10 routine attive**;
-- fino a **5 collegamenti attivi**;
-- tutti i modelli fondamentali: tempo, obiettivi, utilizzi, durata e quantità;
-- Linked Routines e ciclo completo disponibili;
-- un luogo salvato, normalmente Casa;
-- installazione dei 4 Kit introduttivi;
-- anteprima di tutti i 12 Kit;
-- possibilità di ricreare manualmente logiche equivalenti entro i limiti Free;
-- Oggi;
-- ricerca globale;
-- notifiche e Smart Follow-ups;
-- una sola istanza di widget attiva alla volta, di qualunque tipo e dimensione, Lock Screen inclusa;
-- Analisi limitata al periodo di 4 settimane;
-- iCloud;
-- esportazione CSV;
-- light/dark, accessibilità e affidabilità complete.
+Routally 1.0 viene distribuita gratuitamente. Non contiene acquisti in-app, abbonamenti,
+trial, paywall, entitlement commerciali, pubblicità o vendita di dati.
 
-### 31.1.1 Perché 10 routine e 5 collegamenti
+Tutto lo scope della sezione 6 è disponibile senza quote commerciali, inclusi:
 
-I limiti Free devono essere coerenti con la promessa che li accompagna: se Free installa i
-4 Kit introduttivi, deve poterlo fare davvero.
+- routine, collegamenti e Linked Routines;
+- tutti i modelli temporali, obiettivi, utilizzi, durata e quantità;
+- Smart Follow-ups, luoghi e fallback, nei soli limiti tecnici imposti da iOS;
+- tutti i 12 Routine Kits della 1.0;
+- cronologia, correzione retroattiva, Analisi e ricerca;
+- widget, Lock Screen, App Intents, Siri, Spotlight, Centro di Controllo e tasto Azione;
+- iCloud, esportazione CSV, accessibilità, localizzazione e personalizzazione previste;
+- iPhone e iPad.
 
-Nella configurazione predefinita i Kit introduttivi consumano:
+La 1.0 non distingue utenti Free e Plus. Non esistono limiti artificiali sul numero di
+routine, collegamenti, Kit installati, luoghi salvati, widget configurati o periodo di
+cronologia consultabile. Restano validi soltanto limiti tecnici, di affidabilità o di
+piattaforma documentati e applicati allo stesso modo a tutti.
 
-| Kit Free | Routine | Collegamenti |
-|---|---|---|
-| Palestra | obiettivo Palestra, Asciugamano palestra | 1 |
-| Lenzuola | Lenzuola, Coprimaterasso | 1 |
-| Piante | Annaffiatura, Fertilizzante | 1 |
-| Studio | Studio, Ripasso | 1 |
-| **Totale** | **8** | **4** |
+## 31.2 Garanzia permanente del core gratuito
 
-Con i precedenti 5 e 2 un utente Free si bloccava al secondo Kit e la vetrina destinata a
-dimostrare il valore distintivo si chiudeva prima di dimostrarlo. I valori 10 e 5 lasciano
-margine per almeno una routine personale oltre ai Kit, che è il momento in cui l'utente
-smette di provare il prodotto e inizia a usarlo.
+Ogni funzione pubblicata nella 1.0 rimane gratuita per tutti gli utenti, presenti e
+futuri. Restano gratuiti anche:
 
-I collegamenti opzionali di un Kit — scarpe, shaker, borsa palestra — restano opzionali e
-non sono inclusi nel conteggio predefinito. La scheda Kit mostra sempre il costo effettivo
-in routine e collegamenti prima dell'installazione, secondo la sezione 12.3.
+- correzioni di bug e vulnerabilità;
+- manutenzione, compatibilità con nuovi sistemi e affidabilità;
+- accessibilità e localizzazione;
+- miglioramenti normali delle funzioni 1.0 che non costituiscono una nuova capacità
+  autonoma;
+- accesso ai dati creati con il core gratuito.
 
-Questi valori restano soggetti alla revisione a 90 giorni prevista nella sezione 43 per il
-rischio «Free troppo generoso»: una loro riduzione futura non può però tornare sotto la
-soglia che rende installabili i 4 Kit introduttivi.
+Non è consentito introdurre retroattivamente quote, nascondere cronologia, ridurre widget
+o Kit, rendere a pagamento iCloud, correzione, Linked Routines o altre parti già incluse
+nella 1.0. Una futura funzione Premium deve essere additiva e non può diventare necessaria
+per continuare a usare correttamente il core.
 
-### 31.1.2 Comportamento ai limiti
+Questa garanzia rende superfluo il grandfathering basato sulla data di installazione: il
+confine è funzionale e vale allo stesso modo per vecchi e nuovi utenti.
 
-- **Analisi:** i periodi oltre le 4 settimane restano visibili nel selettore e mostrano un paywall contestuale; nessun dato già registrato viene nascosto o eliminato.
-- **Widget:** il limite è sull'istanza configurata, non sul tipo. L'utente Free sceglie liberamente quale widget attivare e può cambiarlo quando vuole.
-- **Luoghi:** oltre il primo luogo salvato il paywall è contestuale alla creazione del secondo.
+## 31.3 Strategia di monetizzazione 1.X
 
-## 31.2 Routally Plus
+La serie 1.X serve prima a validare attivazione, comprensione, retention e utilità reale.
+Routally Plus viene introdotto soltanto quando esiste un insieme coerente di nuove
+capacità per cui il pagamento sia giustificato.
 
-- routine illimitate;
-- collegamenti illimitati;
-- luoghi illimitati;
-- 12 Kit completi;
-- widget e Lock Screen senza limiti previsti;
-- cronologia e Analisi complete;
-- insight avanzati;
-- Aree e filtri estesi;
-- personalizzazione cromatica;
-- funzioni Plus 1.X: Watch, Health, varianti, contesto avanzato e Kit.
+Plus non vende maggiore quantità d’uso del core. Non può basarsi su routine illimitate,
+più collegamenti, cronologia sbloccata o affidabilità migliore. Vende invece capacità
+nuove che riducono ulteriormente il logging o rendono le routine sostanzialmente più
+intelligenti.
 
-## 31.3 Prezzi 1.0–1.X
+Promessa candidata:
 
-Razionale:
+> **Routally Plus registra più cose automaticamente e rende le routine più intelligenti.**
 
-- Routally acquista valore nel corso di settimane e mesi, non come servizio occasionale;
-- il mensile renderebbe il confronto economico sproporzionato per una utility personale;
-- l'annuale sostiene lo sviluppo;
-- il Lifetime è coerente con un prodotto local-first e con l'avversione agli abbonamenti, ma ha un perimetro esplicito.
+## 31.4 Premium Value Gate
 
-Prezzi:
+**Decision Gate `DG-PLUS-LAUNCH`.** Il gate usa due checkpoint ordinati, così la decisione
+di prodotto precede lo spike tecnico e l’autorizzazione al lancio lo segue.
 
-- **Annual:** 14,99 € / anno;
-- prova gratuita: 14 giorni;
-- **Lifetime:** 39,99 € una tantum, stabilmente disponibile per tutto il ciclo 1.0–1.X;
-- nessun mensile;
-- Family Sharing per Annual e Lifetime; condivide l'entitlement, non routine o dati tra familiari;
-- prezzi invariati per tutto il ciclo 1.X;
-- rivalutazione soltanto dalla 2.0.
+### Checkpoint A — Approvazione del bundle
 
-## 31.4 Perimetro Lifetime
+Il Product Owner può approvare il bundle candidato quando:
 
-Comprende permanentemente:
+1. almeno due capacità principali nuove e autonome sono pronte per una beta mirata;
+2. il bundle ha una promessa unica e comprensibile, non una raccolta di rifiniture;
+3. il valore è ricorrente nell’uso reale, non occasionale o puramente estetico;
+4. beta e ricerca qualitativa mostrano bisogno, comprensione e disponibilità a pagare;
+5. nessuna funzione della 1.0 viene sottratta, degradata o resa dipendente da Plus;
+6. costo, prezzo una tantum e sostenibilità del perimetro locale sono documentati.
 
-- funzioni Plus Apple-locali;
-- iPhone/iPad;
-- iCloud;
-- aggiornamenti 1.X;
-- Watch, Health e integrazioni Apple previste nella 1.X;
-- manutenzione delle funzioni acquistate.
+L’approvazione del checkpoint A non chiude il gate e non autorizza il lancio. Autorizza
+soltanto `TG-STOREKIT`, la Commerce QA e, se necessario, la creazione non pubblica del
+prodotto in App Store Connect.
 
-Non comprende automaticamente:
+### Checkpoint B — Autorizzazione al lancio
 
-- account Routally;
-- backend;
-- web/Android sync;
-- spazi condivisi cloud;
-- servizi AI/cloud con costi ricorrenti.
+Il Product Owner chiude `DG-PLUS-LAUNCH` soltanto quando:
 
-Questi saranno piani distinti dalla 2.0, senza ridurre i diritti esistenti.
+1. `TG-STOREKIT` è chiuso sul prodotto definitivo;
+2. il bundle è release-complete, accessibile, localizzato IT/EN e verificato offline;
+3. privacy, supporto, termini, metadata commerciali e Commerce QA sono completi;
+4. prezzo, perimetro e diritti permanenti sono confermati un’ultima volta.
 
-## 31.5 Paywall
+Colori, singoli Kit, qualche grafico o una sola integrazione minore non sono sufficienti
+per superare il checkpoint A. Se manca una condizione di uno dei due checkpoint, la
+monetizzazione viene rinviata e il gate resta aperto.
 
-- nessun paywall obbligatorio all'avvio;
-- l'utente sperimenta prima il valore;
-- Plus presentato nel Profilo e in Esplora;
-- paywall contestuale quando si supera un limite o si seleziona una feature Plus;
-- chiusura chiara;
-- Free sempre utilizzabile;
-- nessun timer artificiale, prezzo barrato falso o dark pattern;
-- trial e piano non preselezionati in modo ambiguo;
-- prezzo, rinnovo, annullamento, restore, Family Sharing e cosa resta Free sempre visibili.
+## 31.5 Bundle candidato di Routally Plus
 
-Card non modale possibile dopo un ciclo di valore:
+Le capacità candidate, da validare senza automatica classificazione Premium, sono:
 
-> Ti piace come Routally collega le tue routine? Scopri Plus.
+- automazione Apple Health con import controllabile degli allenamenti e propagazione alle
+  routine collegate;
+- app Apple Watch, complicazioni, Smart Stack e logging dal polso;
+- Linked Routines avanzate con condizioni multiple, varianti, ramificazioni e catene
+  guidate su più livelli;
+- ritmo adattivo e insight azionabili, con suggerimenti confermati dall’utente.
 
-## 31.6 StoreKit 2
+Calendario avanzato, NFC, nuovi contesti, esportazioni evolute, personalizzazioni e Kit
+aggiuntivi possono completare il bundle, ma non ne costituiscono da soli il motivo di
+acquisto. La classificazione del bundle viene registrata al checkpoint A di `DG-PLUS-LAUNCH`; la pubblicazione resta subordinata al checkpoint B.
 
-Prodotti:
+## 31.6 Prezzo e forma di acquisto nella 1.X
 
-- `plus_annual` — auto-renewable subscription;
-- `plus_lifetime` — non-consumable;
-- entitlement interno unico: `plus`.
+Il modello commerciale confermato, da validare tecnicamente dopo il checkpoint A e autorizzare al checkpoint B, è:
 
-Comportamento:
+- **Routally Plus: 29,99 € una tantum**;
+- nessun piano mensile o annuale nella 1.X;
+- prodotto StoreKit non consumabile;
+- nessun trial necessario, perché il core completo resta gratuito;
+- Family Sharing soltanto se confermato da `TG-STOREKIT` e dai test App Store;
+- prezzo locale mostrato e gestito esclusivamente da App Store.
 
-- `Transaction.currentEntitlements`;
-- `Transaction.updates`;
-- verifica on-device;
-- ripristino acquisti;
-- gestione abbonamento;
-- niente booleano locale canonico;
-- cache solo per continuità UI;
-- rimborsi/revoche gestiti;
-- stato `inGracePeriod` trattato come Plus.
+Una variazione del prezzo o l’introduzione di un abbonamento nella 1.X richiede change
+control esplicito. Dopo il checkpoint A il prodotto può essere creato in stato non
+pubblico per `TG-STOREKIT` e Commerce QA; non viene reso acquistabile prima della chiusura
+del checkpoint B.
 
-## 31.7 Billing Grace Period
+## 31.7 Diritti dell’acquisto Plus
 
-- 16 giorni;
-- solo paid-to-paid;
-- test Sandbox prima della produzione.
+L’acquisto sblocca permanentemente le capacità Plus Apple-locali pubblicate nella 1.X e
+la loro manutenzione, incluse le integrazioni Watch e Health eventualmente comprese nel
+bundle definitivo. I diritti non scadono e non dipendono da un account Routally.
 
-## 31.8 Downgrade
+Non sono inclusi automaticamente servizi che generano costi ricorrenti, tra cui:
 
-Alla scadenza Plus:
+- account e backend Routally;
+- sincronizzazione web o Android;
+- spazi e routine condivisi tramite cloud Routally;
+- servizi AI o altre elaborazioni server-side ricorrenti.
 
-### 7 giorni di transizione
+Questi servizi appartengono al modello cloud della 2.0. La loro introduzione non riduce i
+diritti locali già acquistati.
 
-- tutto continua;
-- niente nuove creazioni oltre Free;
-- spiegazione chiara;
-- scelta delle routine da mantenere.
+## 31.8 Esperienza commerciale futura
 
-### Dopo 7 giorni
+La 1.0 non presenta alcun paywall o messaggio di upgrade. Dopo il lancio effettivo di
+Plus, la proposta commerciale può comparire soltanto:
 
-- massimo 10 routine e 5 collegamenti attivi;
-- le altre vengono messe in pausa;
-- nessun dato cancellato;
-- follow-up aperti completabili;
-- cronologia oltre le 4 settimane conservata ma non consultabile;
-- configurazioni widget salvate e una sola istanza widget Free resta attiva;
-- luoghi salvati conservati; oltre il primo restano configurati ma non attivano trigger, e i follow-up collegati usano il fallback temporale;
-- l'accento visivo torna a Routally Indigo, conservando la preferenza Plus;
-- riattivazione immediata con Plus.
+- nella pagina della nuova capacità;
+- quando l’utente prova volontariamente a configurarla;
+- nella pagina informativa Routally Plus.
 
-### 31.8.1 Le conseguenze interrotte devono essere visibili
+Non compare nell’onboarding, non interrompe una registrazione o il completamento di una
+routine e non usa notifiche ripetitive. Sono vietati timer artificiali, falsi prezzi
+barrati, preselezioni ambigue e dark pattern. Il confine tra core gratuito e capacità
+Plus, il prezzo una tantum, Family Sharing e il ripristino acquisti devono essere chiari.
 
-Una routine in pausa non riceve aggiornamenti automatici dai collegamenti in ingresso,
-secondo la sezione 17.1 e l'invariante 16 della sezione 16.6. Il downgrade mette in pausa
-le routine oltre il limite: senza un avviso esplicito, una registrazione smetterebbe
-silenziosamente di aggiornare i propri elementi collegati.
+## 31.9 StoreKit differito alla 1.X
 
-Questo violerebbe il principio 5 e il divieto di automazioni senza origine visibile della
-sezione 15.10. Il downgrade deve quindi rispettare le regole seguenti.
+La build pubblica 1.0 non include prodotti, configurazioni, superfici o capability
+In-App Purchase. `TG-STOREKIT` è differito alla 1.X e viene eseguito dopo il checkpoint A
+di `DG-PLUS-LAUNCH` e prima del checkpoint B.
 
-- La schermata di scelta delle routine da mantenere mostra, per ogni routine candidata alla pausa, quali collegamenti si interrompono e quali routine ne dipendono. La scelta non è mai cieca.
-- Le routine che fanno parte di una catena attiva vengono proposte per prime tra quelle da mantenere, perché metterle in pausa produce l'effetto meno prevedibile per l'utente.
-- Dopo la pausa, il dettaglio della routine sorgente indica nella sezione Conseguenze quali collegamenti sono sospesi e perché.
-- Il riepilogo dopo la registrazione della sezione 9.5 elenca la conseguenza sospesa invece di ometterla, così l'utente non deve dedurre l'assenza di un aggiornamento.
-- La comunicazione resta non giudicante e non usa la conseguenza interrotta come leva di riacquisto: è un'informazione di stato, non un promemoria commerciale.
-- La riattivazione di Plus ripristina i collegamenti senza richiedere una riconfigurazione manuale.
+Lo spike e la futura matrice commerciale devono verificare almeno:
 
-## 31.9 Matrice commerciale obbligatoria
-
-La specifica StoreKit deve coprire:
-
-- Free;
-- trial;
-- annuale attivo;
-- lifetime;
+- acquisto non consumabile e ripristino;
+- `Transaction.currentEntitlements` e `Transaction.updates`;
 - Family Sharing;
-- periodo di grazia;
-- billing retry;
-- scadenza;
-- rimborso;
-- revoca;
-- acquisto non sincronizzato;
-- offline;
-- downgrade;
-- collegamenti sospesi dal downgrade e loro visibilità;
-- luoghi oltre il limite Free e fallback temporale;
-- superamento limiti;
-- Kit oltre limite;
-- widget Plus;
-- Beta Plus;
-- Commerce QA.
+- rimborso e revoca;
+- stato offline prudente;
+- acquisto interrotto o non sincronizzato;
+- TestFlight e Commerce QA;
+- conservazione dei dati quando l’entitlement non è disponibile.
 
-## 31.10 TestFlight commerce
+La perdita o revoca di Plus può disabilitare soltanto capacità additive Premium. Non
+mette in pausa routine del core, non spezza collegamenti 1.0 e non nasconde dati.
 
-- Beta Plus automatico per tester normali;
-- gruppo Commerce QA senza sblocco automatico;
-- test Free, trial, Annual, Lifetime, Family Sharing, restore, expiry, downgrade;
-- acquisti TestFlight non trasferiti in produzione;
-- al lancio i dati restano, Beta Plus termina;
-- eventuali offer code Lifetime per tester selezionati.
+## 31.10 Separazione del cloud 2.0
+
+`DG-CLOUD-PRICING` definisce separatamente account, backend, condivisione, web, Android e
+servizi con costi ricorrenti. Un eventuale piano cloud può essere in abbonamento, ma non
+sostituisce il core gratuito di Routally né annulla l’acquisto permanente di Plus locale.
 
 ---
 
@@ -3776,15 +3719,15 @@ Pagine:
 - Home;
 - Come funziona;
 - Routine Kits;
-- Prezzi;
 - Supporto;
 - Privacy;
 - Termini;
-- Routally Plus;
 - Accessibilità;
 - Changelog;
 - App Store;
 - GitHub.
+
+Le pagine Prezzi e Routally Plus vengono aggiunte soltanto quando `DG-PLUS-LAUNCH` è chiuso e l’acquisto è realmente disponibile.
 
 ## 32.2 Supporto
 
@@ -3828,7 +3771,7 @@ Prompt nativo soltanto dopo valore reale:
 - almeno 5 eventi;
 - almeno un ciclo collegato completato;
 - nessun errore recente;
-- nessun paywall appena mostrato;
+- nessuna richiesta commerciale nella sessione;
 - nessun feedback negativo nella sessione.
 
 La richiesta nativa non viene chiamata come risposta diretta a un pulsante, perché iOS decide se mostrarla. Il link permanente «Valuta Routally» nel Profilo apre invece la pagina App Store.
@@ -3838,8 +3781,8 @@ La richiesta nativa non viene chiamata come risposta diretta a un pulsante, perc
 - EULA standard Apple;
 - Privacy Policy IT/EN;
 - Termini IT/EN;
-- Termini Plus;
 - Accessibilità;
+- termini Plus IT/EN soltanto prima dell’eventuale lancio 1.X;
 - nessun checkbox legale bloccante nell'onboarding;
 - revisione legale prima della 0.9.
 
@@ -3849,7 +3792,7 @@ I Termini chiariscono:
 - soglie confermate dall'utente;
 - notifiche soggette a iOS, Focus, permessi e dispositivo;
 - geofencing non istantaneo garantito;
-- perimetro Lifetime;
+- garanzia del core gratuito e, quando disponibile, perimetro dell’acquisto Plus;
 - controllo utente dei dati.
 
 ---
@@ -3970,14 +3913,13 @@ Dopo stabilità:
 - note dettagliate;
 - script di verifica;
 - Kit consigliati;
-- StoreKit Sandbox;
 - posizione/fallback;
 - iCloud senza account;
 - widget/intents;
-- Free/Plus/Lifetime;
+- dichiarazione esplicita che la 1.0 è completamente gratuita e non contiene acquisti in-app;
 - screencast interno EN;
 - quattro archetipi, non soltanto Palestra;
-- nessun account demo richiesto: il revisore può usare la modalità Free locale, installare un Kit e testare gli acquisti nell'ambiente Apple;
+- nessun account demo richiesto: il revisore può installare un Kit e usare l’intero prodotto locale;
 - istruzioni precise per raggiungere ogni funzione soggetta a permesso.
 
 ## 33.10 Identità dello sviluppatore
@@ -3992,7 +3934,7 @@ Alternative da valutare:
 - **publisher reale:** possibile con contratto e licenza IP, ma lascia controllo contrattuale ultimo, pagamenti e trasferimento all'Account Holder del publisher;
 - **account rental:** opzione ad alto rischio di controllo, credenziali e conformità; non raccomandata come baseline, ma la decisione finale resta nel gate.
 
-La preferenza attuale è account individuale o organizzazione propria; publisher eventualmente come partner di crescita dopo la validazione. Non creare il primo record definitivo, il Bundle ID finale, i container definitivi o i prodotti StoreKit finché il gate non è chiuso o finché Apple non conferma la trasferibilità desiderata.
+La preferenza attuale è account individuale o organizzazione propria; publisher eventualmente come partner di crescita dopo la validazione. Non creare il primo record definitivo, il Bundle ID finale o i container definitivi finché il gate non è chiuso o finché Apple non conferma la trasferibilità desiderata. Eventuali prodotti StoreKit appartengono alla 1.X: la creazione non pubblica richiede il checkpoint A di `DG-PLUS-LAUNCH` e la pubblicazione richiede il checkpoint B.
 
 ---
 
@@ -4015,7 +3957,6 @@ Senza analytics nascosti, tramite TestFlight e ricerca diretta, si verificano:
 - nessuno dei quattro archetipi con problema strutturale;
 - creazione di routine reali proprie dopo i casi guidati;
 - uso continuato sufficiente a osservare almeno un ciclo reale;
-- comprensione del valore Plus e reazioni al prezzo;
 - zero perdita/duplicazione irreversibile;
 - nessun flusso principale sistematicamente frainteso.
 
@@ -4036,8 +3977,7 @@ Tester:
 
 ## 34.2 Primi 90 giorni
 
-Nei primi 90 giorni si raccolgono baseline reali per retention, conversione pagina,
-stabilità, acquisti, rimborsi e volume di supporto. I confronti con peer e gli obiettivi
+Nei primi 90 giorni si raccolgono baseline reali per attivazione, retention, conversione della pagina App Store, stabilità, adozione delle funzioni e volume di supporto. I confronti con peer e gli obiettivi
 numerici vengono fissati soltanto dopo avere dati omogenei e una numerosità dichiarata.
 Resta immediatamente bloccante qualunque problema ricorrente del motore fondamentale o di
 integrità dei dati.
@@ -4058,7 +3998,8 @@ Successo significa ridurre il carico mentale e chiudere cicli utili.
 
 ## 35.1 Principio
 
-Non usare la code coverage percentuale come unico obiettivo. Privilegiare comportamenti critici, invarianti ed edge case.
+Non usare la code coverage percentuale come unico obiettivo. Privilegiare comportamenti
+critici, invarianti ed edge case.
 
 ## 35.2 Swift Testing — dominio
 
@@ -4080,35 +4021,37 @@ Copertura obbligatoria:
 - ricorrenze mensili;
 - deduplica;
 - conflitti;
-- downgrade;
 - esportazione CSV;
 - migrazioni;
-- invarianti.
+- invarianti, incluso il fatto che il core 1.0 non dipende da entitlement commerciali.
 
 Ogni bug produce un regression test.
 
 ## 35.3 XCTest/XCUITest
 
-Flussi obbligatori:
+Flussi obbligatori 1.0:
 
 1. onboarding;
 2. creazione rapida;
 3. configurazione completa;
-4. Kit;
+4. installazione e configurazione dei 12 Kit;
 5. quattro archetipi;
 6. link e follow-up;
 7. geofencing/fallback;
 8. correzione;
 9. search;
-10. StoreKit;
-11. downgrade;
-12. iCloud;
-13. widget/intents;
-14. CSV;
-15. delete/recover;
-16. accessibility;
-17. localization;
-18. iPad.
+10. iCloud;
+11. widget/intents;
+12. CSV;
+13. delete/recover;
+14. accessibility;
+15. localization;
+16. iPad;
+17. librerie con molte routine e collegamenti, senza limiti commerciali.
+
+StoreKit, ripristino, rimborso, revoca e Family Sharing entrano nei flussi obbligatori
+della release candidata Plus dopo il checkpoint A e devono essere completati prima del
+checkpoint B di `DG-PLUS-LAUNCH`.
 
 ## 35.4 Pull request gate
 
@@ -4130,7 +4073,7 @@ Flussi obbligatori:
 - device reali;
 - accessibility audit;
 - privacy audit;
-- StoreKit audit;
+- verifica che non esistano paywall, prodotti o capability In-App Purchase;
 - iCloud recovery;
 - offline;
 - upgrade dalla build precedente;
@@ -4157,9 +4100,11 @@ Una funzione senza test adeguato viene rinviata.
 
 ### 1.0
 
-Release manuale dopo approvazione.
+Release manuale dopo approvazione, completamente gratuita e senza acquisti in-app.
 
-Dalla 1.1: phased release di default.
+Dalla 1.1: phased release di default. La beta commerciale e la Commerce QA di Plus
+vengono pianificate separatamente dopo il checkpoint A e prima del checkpoint B di
+`DG-PLUS-LAUNCH`.
 
 ---
 
@@ -4214,7 +4159,8 @@ e riproducibile, non perché manca un numero arbitrario definito prima delle mis
 
 ## 37.1 Versioni pre-1.0
 
-Le versioni `0.x` sono fasi interne verso una 1.0 completa, non un MVP commerciale.
+Le versioni `0.x` sono fasi interne verso una 1.0 completa e gratuita, non un MVP
+commerciale.
 
 ### 0.1 — Foundation
 
@@ -4223,7 +4169,7 @@ Ordine obbligatorio:
 1. repository e governance documentale;
 2. direzione UI Apple-native e flussi iniziali nelle specifiche;
 3. progetto Xcode, target e SwiftUI UI Foundation;
-4. technical spike.
+4. technical spike applicabili alla 1.0.
 
 Include:
 
@@ -4233,7 +4179,9 @@ Include:
 - Routally Dev;
 - CI;
 - architettura base;
-- spike dati e StoreKit; prototipi mirati per location, navigation/search e iPad/accessibilità.
+- spike dati; prototipi mirati per location, navigation/search e iPad/accessibilità.
+
+`TG-STOREKIT` non appartiene alla Foundation 1.0 ed è differito alla 1.X.
 
 ### 0.2 — Core Routine Engine
 
@@ -4260,7 +4208,8 @@ Flusso completo:
 - reset;
 - cronologia/correzione.
 
-Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e testato sui quattro archetipi.
+Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e testato sui
+quattro archetipi.
 
 ### 0.4 — Today & Routines
 
@@ -4273,24 +4222,24 @@ Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e tes
 
 ### 0.5 — Explore & System
 
-- 12 Kit;
+- tutti i 12 Kit installabili;
 - Esplora;
 - notifiche;
 - luoghi;
 - widget;
 - App Intents;
 - Universal Links;
-- Profilo/iCloud.
+- Profilo/iCloud;
+- nessun limite commerciale.
 
-### 0.6 — Insights, Search & Commerce
+### 0.6 — Insights, Search & Release Foundations
 
 - Analisi;
 - search;
-- StoreKit;
-- paywall;
-- downgrade;
+- garanzia del core gratuito verificata;
 - support/legal;
-- App Store foundations.
+- App Store foundations;
+- nessuna superficie commerciale o capability In-App Purchase.
 
 ### 0.7 — Feature complete / freeze
 
@@ -4310,7 +4259,6 @@ Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e tes
 
 - beta privata/ampliata;
 - success criteria;
-- StoreKit Sandbox;
 - schema CloudKit production;
 - App Review evidence;
 - final assets;
@@ -4320,6 +4268,7 @@ Il caso di sviluppo può usare Palestra, ma il motore deve essere generico e tes
 
 - release manuale;
 - worldwide;
+- completamente gratuita;
 - controlled launch;
 - support ready.
 
@@ -4329,7 +4278,7 @@ Gli identificativi distinguono livelli diversi e non formano numeri decimali:
 
 - `0.x` e `1.0` identificano la fase/versione interna complessiva del prodotto;
 - `Mnn` identifica una milestone, cioè un risultato integrato con una Definition of Done;
-- `Enn` identifica un'epica, cioè un'area di lavoro implementabile attraverso attività e PR;
+- `Enn` identifica un’epica, cioè un’area di lavoro implementabile attraverso attività e PR;
 - `TG-*` identifica una validazione tecnica vincolante;
 - `DG-*` identifica una decisione del Product Owner.
 
@@ -4343,7 +4292,7 @@ come versione Routally 1.2. Le milestone usano identificativi interi e stabili:
 - `M05` — Explore & Kits;
 - `M06` — System Integrations;
 - `M07` — Insights & Search;
-- `M08` — Commerce & Release Foundations;
+- `M08` — Free Core & Release Foundations;
 - `M09` — Accessibility & Localization;
 - `M10` — Alpha;
 - `M11` — Beta;
@@ -4351,34 +4300,37 @@ come versione Routally 1.2. Le milestone usano identificativi interi e stabili:
 
 ### Mappa canonica fase → milestone → epiche → gate
 
-Ogni epica appartiene a una sola milestone primaria e gli ID delle epiche seguono l'ordine
-delle milestone, non una gerarchia decimale. I gate non sono figli organizzativi della
-milestone: sono condizioni che ne precedono o vincolano il completamento.
+Ogni epica appartiene a una sola milestone primaria e gli ID delle epiche seguono
+l’ordine delle milestone, non una gerarchia decimale. I gate non sono figli organizzativi
+della milestone: sono condizioni che ne precedono o vincolano il completamento.
 
 | Fase/versione | Milestone | Epiche primarie | Gate e prerequisiti principali |
 |---|---|---|---|
-| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA` e `TG-STOREKIT`; prototipi mirati per le integrazioni UI/sistema |
+| `0.1` | `M01` Foundation | `E01`–`E03` | spike `TG-DATA`; prototipi mirati per le integrazioni UI/sistema |
 | `0.2` | `M02` Core Routine Engine | `E04`–`E05` | esito `TG-DATA`; `TG-RECALC` prima delle feature dipendenti |
 | `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili, senza anticipare le integrazioni di sistema complete |
 | `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
-| `0.5` | `M05` Explore & Kits | `E11` | motore, creazione e comportamento Free/Plus disponibili |
+| `0.5` | `M05` Explore & Kits | `E11` | motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
 | `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 verificati; iCloud Development operativo |
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
-| `0.6` | `M08` Commerce & Release Foundations | `E17`–`E18` | esito `TG-STOREKIT`; matrice commerciale, supporto, legale e App Store foundations completi |
+| `0.6` | `M08` Free Core & Release Foundations | `E17`–`E18` | garanzia gratuita, assenza di commercio 1.0, supporto, legale e App Store foundations completi |
 | `0.7` | `M09` Accessibility & Localization | `E19` | `M01`–`M08` feature complete; avvio del feature freeze |
 | `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; gate performance della sezione 36; audit privacy e sicurezza |
 | `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
 | `1.0` | `M12` App Store 1.0 | `E22` | release gate delle sezioni 35, 46 e 52; submission approvata e rilascio manuale autorizzato |
 
 La fase `0.7` non rende accessibilità e localizzazione attività finali: `E19` conduce
-l'audit complessivo, mentre ogni epica precedente deve già rispettare le dimensioni
+l’audit complessivo, mentre ogni epica precedente deve già rispettare le dimensioni
 trasversali della sezione 0.4 durante la propria implementazione.
 
-La mappa copre il percorso verso la 1.0. `DG-CLOUD-PRICING` e `DG-FUTURE-ANALYTICS`
-restano fuori da queste milestone perché appartengono rispettivamente alla 2.0 e a una
-valutazione futura, come definito nelle sezioni 39 e 50.
+La mappa copre il percorso verso la 1.0. `DG-PLUS-LAUNCH` e `TG-STOREKIT` appartengono
+alla monetizzazione additiva della 1.X; `DG-CLOUD-PRICING` e `DG-FUTURE-ANALYTICS`
+appartengono rispettivamente alla 2.0 e a una valutazione futura. Nessuno dei quattro gate
+blocca la release gratuita 1.0.
 
-Le milestone vengono mantenute nel backlog personale e nella documentazione del repository. GitHub non viene usato per raccogliere issue o richieste pubbliche; branch e PR restano strumenti tecnici personali.
+Le milestone vengono mantenute nel backlog personale e nella documentazione del
+repository. GitHub non viene usato per raccogliere issue o richieste pubbliche; branch e
+PR restano strumenti tecnici personali.
 
 ## 37.3 Feature freeze
 
@@ -4395,7 +4347,9 @@ Ogni nuova idea va in 1.1+.
 
 ## 37.4 Data di lancio e stime
 
-Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in settimane deve essere trattata come affidabile prima di aver completato la SwiftUI UI Foundation e i technical spike della 0.1.
+Nessuna data pubblica prima della 0.9 e dei release gate. Nessuna stima in settimane deve
+essere trattata come affidabile prima di aver completato la SwiftUI UI Foundation e i
+technical spike applicabili alla 1.0.
 
 **Decision Gate DG-LAUNCH:** data e possibile preordine dopo RC stabile.
 
@@ -4413,67 +4367,91 @@ La mitigazione è operativa:
 4. applicare il feature freeze dalla 0.7;
 5. se la qualità non è sufficiente, spostare la data di lancio.
 
-Nessuna funzione passa automaticamente alla 1.1. Un eventuale cambio di scope richiede una
-nuova decisione esplicita del Product Owner e il normale change control.
+Nessuna funzione passa automaticamente alla 1.1. Un eventuale cambio di scope richiede
+una nuova decisione esplicita del Product Owner e il normale change control.
 
 ---
 
 # 38. Roadmap 1.X
 
-## 38.1 Routally 1.1 — Più contesto
+## 38.1 Principio di evoluzione
 
-- varianti: palestra, corsa, casa;
+La serie 1.X continua a migliorare gratuitamente tutto il core della 1.0. Correzioni,
+affidabilità, accessibilità, compatibilità, riduzione dell’attrito e normali evoluzioni
+delle funzioni esistenti non diventano Premium.
+
+Routally Plus non è legato a una versione prestabilita: viene pubblicato soltanto quando
+`DG-PLUS-LAUNCH` è chiuso. Fino a quel momento ogni release 1.X resta completamente
+gratuita.
+
+## 38.2 Evoluzione gratuita del core
+
+Candidati gratuiti della 1.X:
+
+- varianti guidate e preset più efficaci;
 - esclusione rapida di un link per singolo evento;
-- luogo + orario;
-- ritardo dopo arrivo;
+- luogo + orario e ritardo dopo arrivo;
 - reminder prima della prossima routine;
-- integrazione Calendario iniziale;
-- opzione per mantenere l'orario di casa in casi specifici durante i viaggi;
-- condizioni guidate semplici;
-- ulteriori miglioramenti iPad.
+- integrazione Calendario di base;
+- gestione migliore dei viaggi;
+- ulteriori miglioramenti iPad;
+- nuovi Kit basati sul motore 1.0;
+- miglioramenti a ricerca, Analisi, widget e correzione;
+- import o condivisione privata di configurazioni Kit, senza dati personali.
 
-## 38.2 Routally 1.2 — Integrazioni Apple
+L’elenco non autorizza automaticamente nuovo scope: ogni voce segue milestone, evidenza
+e change control ordinari.
 
-- app Apple Watch;
-- complicazioni;
-- logging dal polso;
-- Apple Health;
-- NFC;
-- Comandi Rapidi avanzati;
-- Centro di Controllo/tasto Azione più configurabili;
-- approfondimenti iPad.
+## 38.3 Capacità candidate per Routally Plus
 
-## 38.3 Routally 1.3 — Kit e adattamento
+Il bundle da sottoporre al Premium Value Gate può comprendere:
 
-- condivisione privata Kit;
-- import tramite link/file di configurazione Kit, non backup dati;
-- nuovi Kit;
-- aggiornamenti facoltativi Kit;
-- suggerimenti sul ritmo reale;
-- vacanze;
-- stagionalità;
-- soglie più realistiche;
-- sempre conferma utente.
+- app Apple Watch, complicazioni, Smart Stack e logging dal polso;
+- Apple Health con automazioni trasparenti e confermabili;
+- Linked Routines avanzate con condizioni multiple, varianti e catene guidate;
+- ritmo adattivo, previsioni e insight azionabili;
+- NFC, Calendario avanzato e contesti evoluti come funzioni complementari;
+- automazioni a più livelli senza trasformare Routally in un editor tecnico.
 
-## 38.4 Routally 1.4+
+La presenza in questa roadmap non determina da sola la classificazione Free o Plus. Il
+confine finale deve rispettare la garanzia della sezione 31.2.
+
+## 38.4 Gate di lancio Plus
+
+La sequenza obbligatoria è:
+
+1. costruire e testare le capacità candidate dietro feature flag Dev;
+2. raccogliere evidenza qualitativa sul valore del bundle;
+3. approvare il checkpoint A di `DG-PLUS-LAUNCH`, lasciando il gate aperto;
+4. creare soltanto le configurazioni e gli asset non pubblici necessari e chiudere
+   `TG-STOREKIT` sul prodotto definitivo;
+5. completare bundle, accessibilità, IT/EN, privacy, supporto, termini, metadata e
+   Commerce QA;
+6. chiudere il checkpoint B di `DG-PLUS-LAUNCH`;
+7. soltanto allora rendere disponibili il prodotto e le superfici di acquisto.
+
+## 38.5 Prezzo 1.X
+
+Il modello confermato, applicabile solo dopo il gate, è:
+
+- Routally Plus a **29,99 € una tantum**;
+- nessun abbonamento mensile o annuale nella 1.X;
+- nessun trial;
+- Family Sharing se verificato tecnicamente;
+- diritti locali permanenti e separati dal futuro cloud 2.0.
+
+## 38.6 Evoluzione successiva
+
+Restano candidati di lungo termine nella 1.X:
 
 - allegati utili;
 - ulteriori unità;
 - Analisi approfondita;
-- automazioni a più livelli guidate;
-- eventuali analytics privacy-first soltanto con nuova decisione;
-- preparazione account 2.0;
-- lingue ulteriori.
-
-## 38.5 Prezzi 1.X
-
-Restano:
-
-- Annual 14,99 €;
-- Lifetime 39,99 €;
-- nessun mensile.
-
-Nessun aumento prima della 2.0.
+- stagionalità e vacanze;
+- soglie adattive sempre confermate dall’utente;
+- lingue ulteriori;
+- preparazione dei confini di migrazione per l’account 2.0, senza backend anticipato;
+- eventuali analytics privacy-first soltanto con nuova decisione.
 
 ---
 
@@ -4487,7 +4465,7 @@ Nessun aumento prima della 2.0.
 - sync account tra dispositivi Apple;
 - dispositivi e sicurezza;
 - modalità locale preservata, se tecnicamente sostenibile;
-- nuovo modello cloud separato dal Lifetime 1.X;
+- nuovo modello cloud separato dall’acquisto permanente di Plus locale;
 - pricing da ridefinire.
 
 ## 39.2 Routally 2.1 — Condivisione
@@ -4555,7 +4533,7 @@ Regole:
 
 - costo backend;
 - piano cloud;
-- trattamento Lifetime;
+- tutela dei diritti Plus locali già acquistati;
 - Family/Shared pricing;
 - web/Android;
 - eventuali aumenti per nuovi utenti.
@@ -4587,8 +4565,8 @@ Esito:
 
 ## 40.2 TG-RECALC — ricalcolo retroattivo deterministico
 
-Il ricalcolo su correzione retroattiva è parte del valore distintivo e viene validato nella
-0.2 prima che le feature dipendano dal suo comportamento.
+Il ricalcolo su correzione retroattiva è parte del valore distintivo e viene validato
+nella 0.2 prima che le feature dipendano dal suo comportamento.
 
 Sul dataset di riferimento della sezione 36 verificare:
 
@@ -4596,17 +4574,32 @@ Sul dataset di riferimento della sezione 36 verificare:
 - ordini di consegna CloudKit diversi convergono allo stesso stato;
 - la modifica propaga soltanto alle dipendenze coinvolte;
 - follow-up rimossi o rigenerati rispettano la matrice della sezione 41.1;
-- l'operazione non blocca la UI e non persiste stati parziali se cancellata.
+- l’operazione non blocca la UI e non persiste stati parziali se cancellata.
 
 Lo spike sceglie fra ricalcolo sincrono e asincrono in base alle misure. Non autorizza a
 rimuovere la correzione retroattiva né a costruire proiezioni persistenti o un repair
 engine senza un collo di bottiglia dimostrato.
 
-## 40.3 TG-STOREKIT
+## 40.3 TG-STOREKIT — differito alla 1.X
 
-Verificare Annual, trial, Lifetime, Family Sharing, grace period, refund/revoke, downgrade,
-offline e TestFlight. Lo spike chiude soltanto le incertezze dell’integrazione StoreKit;
-la matrice commerciale e i test di release restano nelle sezioni 31 e 35.
+Questo gate non appartiene alla 1.0 e non ne blocca il rilascio. Si apre dopo il
+checkpoint A di `DG-PLUS-LAUNCH`, mentre il Decision Gate resta aperto, e deve chiudersi
+prima del checkpoint B.
+
+Verificare sul prodotto non consumabile definitivo:
+
+- acquisto, transazione pendente e ripristino;
+- `Transaction.currentEntitlements` e `Transaction.updates`;
+- Family Sharing;
+- rimborso e revoca;
+- comportamento offline e cache prudente;
+- reinstallazione e acquisto non sincronizzato;
+- TestFlight e Commerce QA;
+- conservazione di routine e dati quando l’entitlement non è disponibile;
+- assenza di qualunque effetto sul core gratuito.
+
+Lo spike chiude soltanto le incertezze dell’integrazione StoreKit. Non può modificare il
+bundle, il prezzo o la garanzia gratuita senza change control.
 
 ---
 
@@ -4662,17 +4655,18 @@ La specifica operativa deve definire per ogni caso fonte di verità, UI, fallbac
 | Reinstallazione | Recupero CloudKit se disponibile |
 | Migrazione interrotta | Transazione/rollback; checklist operativa |
 
-## 41.5 StoreKit
+## 41.5 StoreKit futuro — 1.X
+
+Questa matrice non si applica alla 1.0. Quando Plus viene lanciato deve coprire:
 
 | Caso | Comportamento |
 |---|---|
-| Trial scaduto | Downgrade protetto |
-| Billing retry | Stato StoreKit; grace se applicabile |
-| Refund/revoke | Entitlement rimosso, dati intatti |
-| Family sharing finisce | Downgrade protetto |
-| Lifetime non verificato offline | Cache temporanea prudente, refresh successivo |
-| Acquisto interrotto | Nessun doppio addebito; stato chiaro |
-| Restore fallisce | Retry e supporto |
+| Acquisto interrotto o pendente | Nessun doppio addebito; stato chiaro e ripetibile |
+| Ripristino fallisce | Retry e supporto senza bloccare il core gratuito |
+| Rimborso o revoca | Solo capacità Plus disabilitate; routine e dati intatti |
+| Family Sharing termina | Solo entitlement condiviso rimosso; core e dati intatti |
+| Entitlement non verificabile offline | Cache prudente e refresh successivo, senza perdita dati |
+| Acquisto non sincronizzato | Aggiornamento transazioni e azione di ripristino visibile |
 
 ---
 
@@ -4690,8 +4684,7 @@ osservati in sviluppo e beta. Ogni incidente segue questo flusso:
 7. per bug critici, sospendere promozione o phased release e preparare un hotfix;
 8. per vulnerabilità, usare il canale privato di `SECURITY.md` e valutare disclosure dopo il fix.
 
-CloudKit, migrazioni, notifiche/geofencing, StoreKit, App Review e asset operativi
-riutilizzano questo flusso con le rispettive verifiche della sezione 41. Runbook separati
+CloudKit, migrazioni, notifiche/geofencing, App Review e asset operativi riutilizzano questo flusso. StoreKit lo riutilizzerà soltanto dalla release 1.X che lancerà Plus con le rispettive verifiche della sezione 41. Runbook separati
 si scrivono soltanto quando un incidente reale o una procedura Apple non banale richiede
 passaggi ripetibili aggiuntivi.
 
@@ -4714,15 +4707,16 @@ Scala: probabilità P e impatto I: Basso/Medio/Alto.
 | App percepita troppo tecnica | M | A | confusione link/regole | linguaggio naturale, trasparenza | Simulator/usability testing |
 | Performance cronologia | M | A | launch/scroll lenti | profiling, indici mirati e paginazione | sezione 36 |
 | Doppie notifiche multi-device | M | M | feedback duplicazioni | primary device | integration tests |
-| Free troppo generoso | M | M | bassa conversione | limiti quantitativi, mai sotto la soglia dei 4 Kit introduttivi | 31.1.1, 90-day review |
-| Free troppo limitato | M | A | nessun valore provato | core engine gratuito | beta pricing |
-| Lifetime insostenibile 2.0 | M | A | costi cloud | separazione cloud | DG-CLOUD-PRICING |
+| La 1.0 gratuita non genera ricavi immediati | A | M | costi superiori alla capacità di sostenerli | costi ricorrenti minimi, local-first e validazione prima dell’acquisizione a pagamento | 45, review 90 giorni |
+| Plus 1.X non offre valore sufficiente | M | A | tester lo percepiscono come rifiniture o paywall artificiale | Premium Value Gate e rinvio del lancio | DG-PLUS-LAUNCH |
+| Prezzo una tantum non sostenibile | M | M | supporto o manutenzione superiori alle ipotesi | cost model prima del gate, nessun servizio cloud incluso | DG-PLUS-LAUNCH, DG-CLOUD-PRICING |
+| Superfici commerciali entrano per errore nella 1.0 | B | A | paywall, capability o metadata IAP nella RC | release gate esplicito e scan configurazioni | 31.9, 35, 46 |
+| Costi cloud 2.0 incompatibili con il prezzo locale | M | A | backend variabile non coperto | piano cloud separato e tutela dei diritti locali | DG-CLOUD-PRICING |
 | Identità legale ritardata | M | A | impossibile creare store record | gate 0.8 | DG-DEVELOPER-IDENTITY |
-| App Review pricing/location | M | M | rejection | notes, terms, evidence | checklist operativa |
 | Repository pubblico espone asset | B | M | clone/indexing | copyright, asset review, secrets | security baseline |
 | Assenza analytics limita diagnosi | M | M | poco insight uso | beta qualitativa, App Store data | decisione futura esplicita |
-| Acquisizione insufficiente | M | A | poco traffico e poche prove | ASO, custom pages, creator, lancio in due fasi | 90-day review |
-| Retention debole per attrito di logging | M | A | abbandono dopo setup | quick logging, widget, Intents, Kit utili | beta/90-day review |
+| Acquisizione insufficiente | M | A | poco traffico e poche prove | ASO, custom pages, creator, lancio in due fasi | review 90 giorni |
+| Retention debole per attrito di logging | M | A | abbandono dopo setup | quick logging, widget, Intents, Kit utili | beta/review 90 giorni |
 | iOS 26 minimo riduce pubblico iniziale | M | M | base compatibile più piccola | qualità Apple-native, lancio non prematuro, review 2.0 | TG/market review |
 | iCloud eliminazioni propagate | M | A | perdita percepita | revisions + 30-day trash | recovery tests |
 | Competitor aggiunge linked routines | M | M | riduzione differenziazione | closed loops, Kits, context, calm | roadmap/positioning |
@@ -4749,7 +4743,7 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 | Bundle ID | team Apple owner | ruoli | account Apple | delicato |
 | CloudKit container | team Apple owner | entitlement | account Apple | delicato |
 | App Groups | team Apple owner | entitlement | account Apple | delicato |
-| StoreKit products | App Store Connect owner | ruoli | Account Holder | con app transfer |
+| StoreKit products futuri | App Store Connect owner | ruoli | Account Holder | creazione non pubblica dopo il checkpoint A di `DG-PLUS-LAUNCH`; pubblicazione dopo il checkpoint B; con app transfer |
 | Xcode Cloud | team Apple | ruoli | Account Holder/Admin | legato al team |
 | Sito GitHub Pages | GitHub owner | repo actions | GitHub recovery | trasferibile |
 | Codice/brand pre-società | Matteo | copyright | documentazione | cessione/licenza a Temisfera |
@@ -4771,7 +4765,7 @@ Ogni asset strategico deve essere intestato a Matteo o alla futura entità Temis
 
 ## 45.1 Principio
 
-Sostenibile, ma non gratuito a qualsiasi costo.
+Sostenibile, ma non gratuito a qualsiasi costo. La gratuità commerciale della 1.0 non autorizza infrastruttura o acquisizione non sostenibili: il modello local-first e l’assenza di backend mantengono basso il costo variabile durante la validazione.
 
 ## 45.2 Costi ammessi
 
@@ -4826,22 +4820,23 @@ Richiedono:
 - audit documentato;
 - nessun claim non verificato.
 
-## 46.3 Commerce
+## 46.3 Modello gratuito 1.0
 
-- IAP metadata IT/EN;
-- trial;
-- renewal text;
-- Family Sharing;
-- grace period;
-- restore/manage subscription;
-- terms/privacy links;
-- price transparency;
-- Lifetime scope.
+- prezzo App Store gratuito;
+- nessun prodotto In-App Purchase o abbonamento associato alla 1.0;
+- nessuna capability, configurazione StoreKit, restore o manage subscription nella build;
+- nessun paywall o metadata che suggerisca funzioni a pagamento;
+- descrizione chiara che tutte le funzioni della 1.0 sono incluse;
+- verifica che i 12 Kit, cronologia, luoghi, widget e collegamenti non abbiano limiti commerciali.
+
+La checklist commerce completa viene aperta dopo il checkpoint A e deve essere
+completata prima del checkpoint B di `DG-PLUS-LAUNCH`; copre prezzo una tantum, Family
+Sharing, restore, refund/revoke, termini, privacy e trasparenza del perimetro Plus.
 
 ## 46.4 Legale/territori
 
 - age rating;
-- export compliance encryption; se si usa soltanto la crittografia fornita dal sistema operativo, dichiarare correttamente l'esenzione e verificare se non serve documentazione aggiuntiva;
+- export compliance encryption; se si usa soltanto la crittografia fornita dal sistema operativo, dichiarare correttamente l’esenzione e verificare se non serve documentazione aggiuntiva;
 - EU DSA trader status;
 - indirizzo/email/telefono commerciali se richiesti;
 - tax/banking agreements;
@@ -4859,7 +4854,7 @@ Richiedono:
 - App Groups;
 - Universal Link AASA;
 - widget/intents metadata;
-- StoreKit config production;
+- assenza di StoreKit config e capability In-App Purchase nella 1.0;
 - no Dev tools;
 - no private APIs;
 - no placeholder content.
@@ -4870,12 +4865,10 @@ Devono spiegare:
 
 - niente account;
 - iCloud privato;
-- come provare Free;
-- come provare Linked Routines;
+- app completamente gratuita e senza acquisti in-app;
+- come provare Linked Routines e installare qualunque Kit;
 - come provare location senza attendere troppo;
 - fallback;
-- acquisti;
-- Lifetime;
 - perché le notifiche sono locali;
 - accessibilità;
 - contatti supporto.
@@ -4900,7 +4893,8 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - Dev/Public config;
 - documentazione base;
 - SwiftUI UI Foundation e preview matrix;
-- spike report e relativi esiti dei Technical Gate;
+- spike report ed esiti dei Technical Gate applicabili alla 1.0;
+- `TG-STOREKIT` registrato come differito alla 1.X;
 - no secrets;
 - ADR baseline.
 
@@ -4941,10 +4935,10 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 ## 48.5 M05 — Explore & Kits
 
 - 12 schede editoriali;
-- 4 Free/8 Plus;
-- add/configure;
-- independent copies;
+- tutti i 12 Kit installabili e configurabili gratuitamente;
+- copie indipendenti;
 - search metadata;
+- nessuna quota di routine o collegamenti;
 - all Kit acceptance tests.
 
 ## 48.6 M06 — System Integrations
@@ -4971,17 +4965,15 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - filters/synonyms;
 - performance.
 
-## 48.8 M08 — Commerce & Release Foundations
+## 48.8 M08 — Free Core & Release Foundations
 
-- Free limits;
-- Annual/Lifetime;
-- trial/grace/family;
-- downgrade;
-- paywall;
-- legal copy;
-- sandbox suite;
+- garanzia del core gratuito documentata e testata;
+- nessun limite commerciale, paywall o flag Plus nella 1.0;
+- nessun prodotto o capability In-App Purchase;
+- tutti i 12 Kit e tutte le superfici 1.0 disponibili;
 - support site e pagine legali/accessibilità baseline IT/EN;
-- metadata e checklist App Store baseline.
+- metadata e checklist App Store baseline;
+- `DG-PLUS-LAUNCH` e `TG-STOREKIT` esplicitamente fuori dalla 1.0.
 
 ## 48.9 M09 — Accessibility & Localization
 
@@ -5008,7 +5000,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - App Store assets;
 - legal complete;
 - CloudKit production;
-- review evidence;
+- review evidence per app gratuita;
 - support ready;
 - `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi.
 
@@ -5016,6 +5008,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 
 - all release gates;
 - submission e App Review completate;
+- prezzo gratuito e assenza di IAP verificati;
 - manual release;
 - monitoring and support;
 - controlled launch;
@@ -5041,17 +5034,17 @@ la terza volta i requisiti delle sezioni di prodotto.
 | `E08` Creation | flusso unico progressivo, preset, validazione e ingresso dai Kit |
 | `E09` Today | Calm View, azioni e riepilogo delle conseguenze |
 | `E10` Routines | lista, dettaglio, cronologia, modifica e ciclo di eliminazione |
-| `E11` Explore & Kits | catalogo dei 12 Kit, installazione e comportamento Free/Plus |
+| `E11` Explore & Kits | catalogo dei 12 Kit, installazione libera e copie configurabili |
 | `E12` Notifications & Location | notifiche, trigger geografici, fallback e dispositivo principale |
 | `E13` System Surfaces | widget, Lock Screen, App Intents, link e background |
 | `E14` Profile, Data & iCloud | profilo locale, CloudKit, conflitti, export e cancellazione dati |
 | `E15` Analysis | metriche, insight spiegabili, grafici e stati senza dati sufficienti |
 | `E16` Search | indice locale, sinonimi, filtri, risultati e azioni |
-| `E17` Commerce | StoreKit, entitlement, limiti, paywall e downgrade protetto |
-| `E18` Support, Legal & App Store Foundations | supporto, documenti IT/EN, metadata e checklist submission |
+| `E17` Free Core & Product Readiness | garanzia gratuita, assenza di limiti/IAP e preparazione del futuro Premium Value Gate |
+| `E18` Support, Legal & App Store Foundations | supporto, documenti IT/EN, metadata e checklist submission gratuita |
 | `E19` Accessibility & Localization | audit completo, IT/EN e matrice di accessibilità |
 | `E20` Alpha | TestFlight interno, gate identità, audit e stabilizzazione |
-| `E21` Beta | beta, StoreKit Sandbox, CloudKit Production, asset ed evidence package |
+| `E21` Beta | beta, CloudKit Production, asset ed evidence package della 1.0 gratuita |
 | `E22` App Store Release | submission, App Review, rilascio controllato e contingenza 1.0.1 |
 
 Il backlog non deve duplicare il Master Plan: ogni attività indica epica, criterio di
@@ -5090,7 +5083,8 @@ Fase 0.8:
 - dati DSA trader e indirizzo pubblico;
 - Apple organization/D‑U‑N‑S, sito ed email di dominio;
 - cessione o licenza IP;
-- impatto su Bundle ID, CloudKit, App Groups, StoreKit, Xcode Cloud, pagamenti e trasferimento;
+- impatto su Bundle ID, CloudKit, App Groups, Xcode Cloud, pagamenti e trasferimento;
+- impatto futuro sui prodotti StoreKit, che non vengono creati nella 1.0;
 - riservare il Bundle ID finale soltanto dopo la chiusura coerente di questo gate;
 - developer name scelto prima del primo record App Store.
 
@@ -5098,9 +5092,33 @@ Fase 0.8:
 
 - data e preordine dopo RC 0.9.
 
+## DG-PLUS-LAUNCH
+
+Gate 1.X, non bloccante per la 1.0 e articolato in due checkpoint:
+
+### A — Approvazione del bundle
+
+- almeno due nuove capacità principali;
+- promessa coerente e valore ricorrente;
+- evidenza qualitativa di bisogno, comprensione e disponibilità a pagare;
+- nessuna sottrazione o degradazione del core 1.0;
+- prezzo una tantum di 29,99 € e sostenibilità del perimetro locale confermati.
+
+Il checkpoint A apre `TG-STOREKIT`, ma non autorizza il lancio.
+
+### B — Autorizzazione al lancio
+
+- `TG-STOREKIT` chiuso sul prodotto definitivo;
+- bundle, accessibilità, IT/EN, privacy, supporto e termini completi;
+- metadata e Commerce QA completi;
+- prezzo, perimetro e diritti permanenti riconfermati.
+
+Se una condizione manca, Plus non viene lanciato e il gate resta aperto.
+
 ## DG-CLOUD-PRICING
 
-- modello 2.0, backend e prezzi.
+- modello 2.0, backend e prezzi;
+- tutela permanente del core gratuito e dei diritti Plus locali già acquistati.
 
 ## DG-FUTURE-ANALYTICS
 
@@ -5113,52 +5131,59 @@ Fase 0.8:
 
 Per evitare che documenti o chat precedenti vengano seguiti per errore:
 
-- **Superseded:** tre percorsi separati «rapida/guidata/Kit».  
+- **Superseded:** Routally 1.0 freemium con 10 routine, 5 collegamenti, 4 Kit installabili, Analisi limitata, un widget e un luogo.
+  **Finale:** Routally 1.0 completamente gratuita e senza limiti commerciali; tutti i 12 Kit e tutto il core sono disponibili a tutti.
+
+- **Superseded:** Plus 1.0 con Annual 14,99 €, trial di 14 giorni e Lifetime 39,99 €, paywall, grace period e downgrade.
+  **Finale:** nessun acquisto o StoreKit nella 1.0; Plus additivo nella 1.X soltanto dopo `DG-PLUS-LAUNCH`, a 29,99 € una tantum e senza abbonamento.
+
+- **Superseded:** il Lifetime 1.X comprendeva in anticipo Watch, Health e altre integrazioni.
+  **Finale:** le capacità Premium vengono classificate solo dal Premium Value Gate; i diritti locali acquistati restano permanenti e il cloud 2.0 è separato.
+
+- **Superseded:** tre percorsi separati «rapida/guidata/Kit».
   **Finale:** un flusso rapido di default, progressivo; Kit in Esplora.
 
-- **Superseded:** `+` in Oggi e Routine, pulsante centrale inferiore, FAB o `+` dentro la tab bar.  
+- **Superseded:** `+` in Oggi e Routine, pulsante centrale inferiore, FAB o `+` dentro la tab bar.
   **Finale:** `+` soltanto nella navigation bar della tab Routine.
 
-- **Superseded:** barra di configurazione permanente con molte categorie o sezione «Avanzate».  
+- **Superseded:** barra di configurazione permanente con molte categorie o sezione «Avanzate».
   **Finale:** flusso progressivo con preset e quattro schede modificabili.
 
-- **Superseded:** ricerca in alto.  
+- **Superseded:** ricerca in alto.
   **Finale:** ricerca globale separata nella tab bar.
 
-- **Superseded:** tab `Kit`.  
+- **Superseded:** tab `Kit`.
   **Finale:** tab `Esplora`.
 
-- **Superseded:** traduzione Insights = Ritmo/Andamento.  
+- **Superseded:** traduzione Insights = Ritmo/Andamento.
   **Finale:** Analisi.
 
-- **Superseded:** backup `.routally` manuale.  
+- **Superseded:** backup `.routally` manuale.
   **Finale:** iCloud seamless e solo export CSV.
 
-- **Superseded:** `routally.app` come dominio principale.  
+- **Superseded:** `routally.app` come dominio principale.
   **Finale:** `routally.com`; `.app` soltanto difensivo facoltativo.
 
-- **Superseded:** repository inizialmente privato o GitHub come community.  
+- **Superseded:** repository inizialmente privato o GitHub come community.
   **Finale:** repository pubblico dal primo commit, personale, Issues/Discussions non usate.
 
-- **Superseded:** Codex implementatore e Claude revisore.  
+- **Superseded:** Codex implementatore e Claude revisore.
   **Finale:** agenti alternativi, mai contemporanei.
 
-- **Superseded:** prezzo Lifetime rivalutabile in 1.X.  
-  **Finale:** prezzi stabili fino alla 2.0.
-
-- **Superseded:** tre app Dev/TestFlight/App Store.  
+- **Superseded:** tre app Dev/TestFlight/App Store.
   **Finale:** una variante Dev e un unico prodotto Routally per TestFlight/App Store.
 
-- **Superseded:** icona «azione centrale e conseguenze collegate» e le quattro alternative della 4.8.  
-  **Finale:** un ciclo con la `R` intravista e arco esterno di progresso; `DG-ICON` resta aperto per la scelta della variante.
+- **Superseded:** icona «azione centrale e conseguenze collegate» e le quattro alternative della 4.8.
+  **Finale:** monogramma `R` costruito attorno a un ciclo; `DG-ICON` resta aperto per la validazione finale Apple e di originalità.
 
-- **Superseded:** riunione cliente/follow-up come caso rappresentativo.  
+- **Superseded:** riunione cliente/follow-up come caso rappresentativo.
   **Finale:** escluso perché il vantaggio è troppo debole.
 
-- **Superseded:** utilizzi della valigia.  
+- **Superseded:** utilizzi della valigia.
   **Finale:** Viaggi usa follow-up utili, non conta la valigia.
 
 ---
+
 
 # 52. Quality bar finale
 
@@ -5170,17 +5195,18 @@ Routally 1.0 è pronta soltanto quando:
 4. nessun errore può cancellare o duplicare silenziosamente dati;
 5. iCloud e offline sono affidabili;
 6. le notifiche hanno fallback;
-7. l'app è accessibile;
+7. l’app è accessibile;
 8. IT/EN sono completi;
-9. Free dimostra davvero il prodotto;
-10. Plus è trasparente;
-11. l'interfaccia sembra Apple-native;
-12. la registrazione è più semplice del carico mentale che elimina;
-13. la Calm View evita ansia e debito;
-14. i Kit sono utili e non ossessivi;
-15. TestFlight, supporto, sito e App Store sono pronti;
-16. non esistono feature Dev o incomplete nella build;
-17. il Product Owner approva esperienza, materiali e release.
+9. l’intero core 1.0 è gratuito e privo di limiti commerciali;
+10. tutti i 12 Kit, cronologia, collegamenti, luoghi e superfici di sistema sono disponibili senza paywall;
+11. la build non contiene prodotti, capability o UI In-App Purchase;
+12. l’interfaccia sembra Apple-native;
+13. la registrazione è più semplice del carico mentale che elimina;
+14. la Calm View evita ansia e debito;
+15. i Kit sono utili e non ossessivi;
+16. TestFlight, supporto, sito e App Store sono pronti;
+17. non esistono feature Dev o incomplete nella build;
+18. il Product Owner approva esperienza, materiali e release.
 
 ---
 
@@ -5201,10 +5227,10 @@ Le implementazioni devono essere verificate contro la documentazione Apple corre
 - VersionedSchema: https://developer.apple.com/documentation/swiftdata/versionedschema
 - SchemaMigrationPlan: https://developer.apple.com/documentation/swiftdata/schemamigrationplan
 
-## StoreKit e App Store Connect
+## StoreKit e App Store Connect — differiti alla 1.X
 
 - Transaction.currentEntitlements: https://developer.apple.com/documentation/storekit/transaction/currententitlements
-- Billing Grace Period: https://developer.apple.com/help/app-store-connect/manage-subscriptions/enable-billing-grace-period-for-auto-renewable-subscriptions/
+- Non-consumable in-app purchases: https://developer.apple.com/help/app-store-connect/manage-in-app-purchases/overview-for-configuring-in-app-purchases
 - Family Sharing for IAP: https://developer.apple.com/help/app-store-connect/configure-in-app-purchase-settings/turn-on-family-sharing-for-in-app-purchases
 - TestFlight feedback: https://developer.apple.com/help/app-store-connect/test-a-beta-version/view-tester-feedback
 - Accessibility Nutrition Labels: https://developer.apple.com/help/app-store-connect/manage-app-accessibility/overview-of-accessibility-nutrition-labels

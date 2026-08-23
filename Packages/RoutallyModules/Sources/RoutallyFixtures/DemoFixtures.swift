@@ -9,8 +9,7 @@ public enum DemoScenario: String, CaseIterable, Sendable {
   case thresholdReached
   case offlineWithPendingChanges
   case cloudConflict
-  case freeLimitReached
-  case plusUser
+  case unrestrictedLibrary
   case largeHistory
 }
 
@@ -34,8 +33,7 @@ public enum DemoFixtures {
             progress: 2,
             target: 4
           )
-        ],
-        isPlus: true
+        ]
       )
     case .thresholdReached:
       connectedGymSnapshot(towelProgress: 3)
@@ -50,19 +48,14 @@ public enum DemoFixtures {
         routines: connectedGymRoutines(towelProgress: 3),
         hasCloudConflict: true
       )
-    case .freeLimitReached:
+    case .unrestrictedLibrary:
       RoutallySnapshot(
-        routines: numberedRoutines(count: 10)
-      )
-    case .plusUser:
-      RoutallySnapshot(
-        routines: connectedGymRoutines(towelProgress: 3),
-        isPlus: true
+        routines: numberedRoutines(count: 30)
       )
     case .largeHistory:
       RoutallySnapshot(
         routines: numberedRoutines(count: 30),
-        isPlus: true
+        followUps: completedFollowUps(count: 120)
       )
     }
   }
@@ -120,6 +113,17 @@ public enum DemoFixtures {
         context: text(.fixtureSintetica),
         progress: index % 3,
         target: 3
+      )
+    }
+  }
+
+  private static func completedFollowUps(count: Int) -> [FollowUpSummary] {
+    (1...count).map { index in
+      FollowUpSummary(
+        id: "completed-follow-up-\(index)",
+        title: "\(text(.fixtureSintetica)) \(index)",
+        origin: text(.fixtureSintetica),
+        state: .completed
       )
     }
   }

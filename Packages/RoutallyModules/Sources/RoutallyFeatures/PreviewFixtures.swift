@@ -86,12 +86,8 @@
       )
     }
 
-    static var freeLimit: RoutallySnapshot {
-      RoutallySnapshot(routines: numberedRoutines(count: 10))
-    }
-
-    static var plus: RoutallySnapshot {
-      RoutallySnapshot(routines: connectedGymRoutines(towelProgress: 3), isPlus: true)
+    static var unrestrictedLibrary: RoutallySnapshot {
+      RoutallySnapshot(routines: numberedRoutines(count: 30))
     }
 
     static func consequenceStore() -> RoutallyStore {

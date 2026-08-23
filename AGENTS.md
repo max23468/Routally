@@ -5,8 +5,8 @@
    `docs/ENGINEERING/agent-workflow.md`. In dubbio consulta l'Indice, non l'intero documento.
    Un technical gate aperto della sezione 40 precede l'implementazione che vincola. La
    matrice copre l'oggetto dell'intervento, non le dimensioni trasversali della sezione 0.4
-   — Free/Plus, accessibilità, localizzazione, privacy, persistenza, correzione, notifiche
-   e test — che restano obbligatorie e sono mappate in `agent-workflow.md`.
+   — core gratuito e, quando applicabile, Plus, accessibilità, localizzazione, privacy,
+   persistenza, correzione, notifiche e test — che restano obbligatorie e sono mappate in `agent-workflow.md`.
 2. Non reinterpretare scope, prodotto, pricing, UX, architettura o roadmap.
 3. Non aggiungere dipendenze, servizi esterni, analytics, AI o backend senza approvazione.
 4. Usa framework Apple nativi e la toolchain approvata.

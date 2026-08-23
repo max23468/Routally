@@ -20,10 +20,21 @@ struct FoundationTests {
           .thresholdReached,
           .offlineWithPendingChanges,
           .cloudConflict,
-          .freeLimitReached,
-          .plusUser,
+          .unrestrictedLibrary,
           .largeHistory,
         ]))
+  }
+
+  @Test("Le fixture senza limiti e con storico ampio restano distinte")
+  func unrestrictedLibraryAndLargeHistoryRemainDistinct() {
+    let unrestrictedLibrary = DemoFixtures.snapshot(for: .unrestrictedLibrary)
+    let largeHistory = DemoFixtures.snapshot(for: .largeHistory)
+
+    #expect(unrestrictedLibrary.routines.count == 30)
+    #expect(unrestrictedLibrary.followUps.isEmpty)
+    #expect(largeHistory.routines.count == 30)
+    #expect(largeHistory.followUps.count == 120)
+    #expect(largeHistory.followUps.allSatisfy { $0.state == .completed })
   }
 
   @Test("Il quarto allenamento crea una sola conseguenza collegata")

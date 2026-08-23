@@ -12,9 +12,10 @@ della 1.0 (6), i technical spike e i validation gate (40), i Decision Gate apert
 decisioni sostituite (51).
 
 La sezione 40 è sempre letta perché un gate tecnico vincola il lavoro di altre sezioni:
-TG-RECALC precede le feature che dipendono dal ricalcolo, TG-DATA precede lo schema e
-TG-STOREKIT precede il commercio. Prima di implementare, verifica che il gate applicabile al tuo intervento sia
-chiuso; se è aperto, l'esito dello spike precede l'implementazione.
+TG-RECALC precede le feature che dipendono dal ricalcolo e TG-DATA precede lo schema.
+TG-STOREKIT è differito alla 1.X e si apre dopo il checkpoint A di DG-PLUS-LAUNCH; non vincola la
+1.0 gratuita. Prima di implementare, verifica che il gate applicabile sia chiuso; se è
+aperto, l’esito dello spike precede l’implementazione.
 
 Poi leggi soltanto le sezioni che il tuo intervento tocca:
 
@@ -33,7 +34,7 @@ Poi leggi soltanto le sezioni che il tuo intervento tocca:
 | Accessibilità e localizzazione | 23, 24 |
 | Piattaforme, architettura, SwiftUI, toolchain, ambienti | 7, 25, 26, 30, 53 |
 | Governance agenti, Git, pull request, documentazione | 27, 28, 29, 54 |
-| Free, Plus, prezzi, StoreKit, paywall, downgrade | 31 |
+| Core gratuito, Premium Value Gate, Plus 1.X, prezzi e StoreKit futuro | 31 |
 | Sito, supporto, legale, App Store, compliance | 32, 33, 46, 52 |
 | Metriche, strategia di test, performance | 34, 35, 36 |
 | Milestone, roadmap, technical spike e gate | 37, 38, 39, 40 |
@@ -71,7 +72,7 @@ dimensioni applicabili:
 
 | Dimensione della sezione 0.4 | Sezioni |
 | --- | --- |
-| Comportamento Free/Plus, limiti e downgrade | 31 |
+| Garanzia del core gratuito e, dalla 1.X, comportamento Plus | 31 |
 | Accessibilità | 23 |
 | Localizzazione italiana e inglese | 24 |
 | Privacy, sicurezza e permessi | 22 |
@@ -80,9 +81,11 @@ dimensioni applicabili:
 | Notifiche e integrazioni di sistema | 18, 19 |
 | Test e criteri di accettazione | 35, 48 |
 
-Esempio: un intervento sui widget legge la riga della matrice (19) e, poiché il widget ha
-un limite nel piano Free, anche la sezione 31. Un intervento sul motore legge 15–17 e, se
-tocca stato derivato o ricalcolo, il gate applicabile della sezione 40.
+Esempio: un intervento sui widget della 1.0 legge la riga della matrice (19) e la
+sezione 31 per verificare che non introduca limiti commerciali. Un intervento su una
+capacità candidata Plus legge anche DG-PLUS-LAUNCH e TG-STOREKIT. Un intervento sul
+motore legge 15–17 e, se tocca stato derivato o ricalcolo, il gate applicabile della
+sezione 40.
 
 Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
 
