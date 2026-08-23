@@ -57,4 +57,5 @@ precedenti.
 ## Riferimenti
 
 - `AGENTS.md` e `docs/ENGINEERING/agent-workflow.md`.
+- Piano storico `docs/ARCHIVE/MASTER_PLAN-before-simplification.md`, sezioni 27–28.
 - `.github/workflows/codex-review-gate.yml` e `scripts/codex-review-gate.mjs`.
