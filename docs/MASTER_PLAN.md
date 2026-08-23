@@ -7,10 +7,8 @@
   il valore delle routine collegate senza anticipare l'infrastruttura delle versioni future.
 
 Questo documento contiene soltanto le decisioni che governano il prodotto attivo. La
-roadmap successiva vive in [`docs/PRODUCT/ROADMAP.md`](PRODUCT/ROADMAP.md); il piano
-precedente è conservata in
-[`docs/ARCHIVE/MASTER_PLAN-before-simplification.md`](ARCHIVE/MASTER_PLAN-before-simplification.md)
-come evidenza storica, non come fonte da implementare.
+roadmap successiva vive in [`docs/PRODUCT/ROADMAP.md`](PRODUCT/ROADMAP.md); la cronologia
+Git conserva le revisioni precedenti senza creare altre fonti da consultare.
 
 ## Indice
 

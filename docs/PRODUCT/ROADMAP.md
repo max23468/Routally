@@ -2,9 +2,6 @@
 
 - **Stato:** Confirmed come destinazione; priorità interne non equivalgono a impegni di data
 - **Fonte dello scope 1.0:** [`docs/MASTER_PLAN.md`](../MASTER_PLAN.md)
-- **Piano storico:**
-  [`docs/ARCHIVE/MASTER_PLAN-before-simplification.md`](../ARCHIVE/MASTER_PLAN-before-simplification.md)
-
 Questo documento conserva le funzioni rimosse dal perimetro della 1.0. Una voce
 rinviata non autorizza implementazione, capability o astrazioni preparatorie: torna attiva
 soltanto con una decisione del Product Owner e una milestone dedicata.

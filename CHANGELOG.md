@@ -7,8 +7,8 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 - Semplificato il Master Plan: scope 1.0 concentrato sul ciclo
   collegato locale, sei milestone, dodici epiche e tre Technical Gate senza duplicazioni.
 - Spostati nella roadmap 1.1+ CloudKit, geofencing, iPad ottimizzato, Analisi, ricerca,
-  integrazioni estese, otto Kit e commercio ricorrente; archiviata integralmente la
-  piano precedente.
+  integrazioni estese, otto Kit e commercio ricorrente; le revisioni precedenti restano
+  nella cronologia Git senza creare un secondo Master Plan.
 - Semplificati dominio e dati in journal deterministico, SwiftData locale e backup
   lossless; rimossi dal piano proiezioni materializzate, Consistency Engine, adapter
   futuri e client analytics nullo.
