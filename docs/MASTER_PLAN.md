@@ -566,19 +566,22 @@ di segnale.
 
 ### Validazione e chiusura
 
-La selezione visuale preliminare è conclusa, ma `DG-ICON` resta aperto. Prima della ratifica
-finale sono obbligatori:
+La selezione visuale preliminare è conclusa, ma `DG-ICON` resta aperto. Le attività sono
+collocate nella roadmap in base alla maturità richiesta dal prodotto:
 
-- import dei livelli autonomi in Icon Composer su macOS Tahoe 26.4 o successivo;
-- verifica di Default, Dark, Mono, Clear e Tinted, incluso Liquid Glass;
-- file `.icon` versionato e collegato ai target pubblico e Dev;
-- prova su iPhone e iPad reali, con attenzione a 29 e 40 pt;
-- user test cieco fra A1 Lavender 50, A1 Amber 50 e T1;
-- verifica figurativa formale o accettazione esplicita del rischio residuo;
-- ratifica finale del Product Owner.
+- `E03` / `M01` Foundation prepara la candidata tecnica: livelli autonomi importati in
+  Icon Composer su macOS Tahoe 26.4 o successivo, verifica di Default, Dark, Mono, Clear,
+  Tinted e Liquid Glass, file `.icon` versionati e collegati ai target pubblico e Dev;
+- `E20` / `M10` Alpha, dopo il feature freeze, verifica la candidata nelle superfici reali
+  dell'app su iPhone e iPad fisici, con attenzione a 29 e 40 pt, ed esegue lo user test
+  cieco fra A1 Lavender 50, A1 Amber 50 e T1;
+- `E21` / `M11` Beta completa la verifica figurativa formale oppure registra
+  l'accettazione esplicita del rischio residuo, raccoglie le evidenze finali e sottopone la
+  candidata alla ratifica del Product Owner.
 
 **Decision Gate DG-ICON:** resta aperto e blocca il file definitivo e i materiali App Store
-finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate.
+finché tutte le evidenze del `DESIGN/icon/decision-record.md` non sono complete e approvate
+in `E21`; non anticipa prove su dispositivi reali o user test durante la Foundation.
 
 ## 4.9 Routine Kits visuali
 
@@ -4175,6 +4178,8 @@ Include:
 
 - repository e documentazione;
 - brand foundations in Asset Catalog e SwiftUI;
+- candidata tecnica dell'icona in Icon Composer, collegata ai target e verificata su
+  Simulator senza chiudere `DG-ICON`;
 - progetto Xcode;
 - Routally Dev;
 - CI;
@@ -4250,6 +4255,8 @@ quattro archetipi.
 ### 0.8 — Alpha
 
 - test interni;
+- verifica dell'icona su iPhone e iPad reali nella build feature-complete;
+- user test cieco della candidata icona e dei due controlli previsti;
 - revisione UI, accessibilità e implementazione;
 - identity gate;
 - legal/privacy/security audit;
@@ -4261,6 +4268,7 @@ quattro archetipi.
 - success criteria;
 - schema CloudKit production;
 - App Review evidence;
+- decisione sul rischio figurativo e ratifica finale dell'icona;
 - final assets;
 - launch date gate.
 
@@ -4315,8 +4323,8 @@ della milestone: sono condizioni che ne precedono o vincolano il completamento.
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
 | `0.6` | `M08` Free Core & Release Foundations | `E17`–`E18` | garanzia gratuita, assenza di commercio 1.0, supporto, legale e App Store foundations completi |
 | `0.7` | `M09` Accessibility & Localization | `E19` | `M01`–`M08` feature complete; avvio del feature freeze |
-| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; gate performance della sezione 36; audit privacy e sicurezza |
-| `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
+| `0.8` | `M10` Alpha | `E20` | `DG-DEVELOPER-IDENTITY` chiuso; gate performance della sezione 36; audit privacy e sicurezza; evidenze real-device e user test di `DG-ICON` raccolte |
+| `0.9` | `M11` Beta | `E21` | RC stabile, schema CloudKit production; decisione figurativa e ratifica di `DG-ICON`; `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi |
 | `1.0` | `M12` App Store 1.0 | `E22` | release gate delle sezioni 35, 46 e 52; submission approvata e rilascio manuale autorizzato |
 
 La fase `0.7` non rende accessibilità e localizzazione attività finali: `E19` conduce
@@ -4893,6 +4901,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - Dev/Public config;
 - documentazione base;
 - SwiftUI UI Foundation e preview matrix;
+- candidata tecnica dell'icona pubblico/Dev versionata, collegata e verificata su Simulator;
 - spike report ed esiti dei Technical Gate applicabili alla 1.0;
 - `TG-STOREKIT` registrato come differito alla 1.X;
 - no secrets;
@@ -4988,6 +4997,8 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 
 - no Critical data bugs;
 - internal flows;
+- icona verificata nelle superfici della build feature-complete su iPhone e iPad reali;
+- user test cieco dell'icona completato e risultati registrati;
 - `DG-DEVELOPER-IDENTITY` chiuso;
 - security/privacy audits;
 - performance baseline;
@@ -5002,6 +5013,8 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - CloudKit production;
 - review evidence per app gratuita;
 - support ready;
+- rischio figurativo dell'icona verificato formalmente o accettato esplicitamente;
+- ratifica finale dell'icona registrata nel decision record;
 - `DG-TRADEMARK`, `DG-ICON` e `DG-LAUNCH` chiusi.
 
 ## 48.12 M12 — App Store 1.0
@@ -5026,7 +5039,7 @@ la terza volta i requisiti delle sezioni di prodotto.
 |---|---|
 | `E01` Repository & Governance | repository, regole operative e controlli di base |
 | `E02` Apple-native UI Direction | contratti di navigazione, creazione, accessibilità e icona |
-| `E03` Xcode & SwiftUI Foundation | progetto, target, configurazioni, componenti e preview eseguibili |
+| `E03` Xcode & SwiftUI Foundation | progetto, target, configurazioni, componenti, preview eseguibili e candidata tecnica dell'icona pubblico/Dev |
 | `E04` Domain Engine | registro eventi, reducer, regole, cicli, link, follow-up e invarianti |
 | `E05` Local Persistence Foundation | schema SwiftData locale, migrazioni, offline e store testabile |
 | `E06` Vertical Slice Integration | flusso collegato completo con correzione, conseguenze e fallback |
@@ -5043,8 +5056,8 @@ la terza volta i requisiti delle sezioni di prodotto.
 | `E17` Free Core & Product Readiness | garanzia gratuita, assenza di limiti/IAP e preparazione del futuro Premium Value Gate |
 | `E18` Support, Legal & App Store Foundations | supporto, documenti IT/EN, metadata e checklist submission gratuita |
 | `E19` Accessibility & Localization | audit completo, IT/EN e matrice di accessibilità |
-| `E20` Alpha | TestFlight interno, gate identità, audit e stabilizzazione |
-| `E21` Beta | beta, CloudKit Production, asset ed evidence package della 1.0 gratuita |
+| `E20` Alpha | TestFlight interno, gate identità, audit, stabilizzazione, prove real-device e user test dell'icona |
+| `E21` Beta | beta, CloudKit Production, asset ed evidence package della 1.0 gratuita, decisione figurativa e ratifica dell'icona |
 | `E22` App Store Release | submission, App Review, rilascio controllato e contingenza 1.0.1 |
 
 Il backlog non deve duplicare il Master Plan: ogni attività indica epica, criterio di
@@ -5072,7 +5085,12 @@ dell’epica né della 1.0 senza change control.
 
 ## DG-ICON
 
-- scelta dopo esplorazione SVG, Icon Composer e user test.
+- `E03` / `M01`: candidata tecnica in Icon Composer, file `.icon`, collegamento dei target
+  e verifica Simulator; il gate resta aperto;
+- `E20` / `M10`: prove su iPhone e iPad reali e user test cieco sulla build
+  feature-complete;
+- `E21` / `M11`: verifica figurativa formale o accettazione esplicita del rischio,
+  ratifica del Product Owner e chiusura del gate prima degli asset App Store definitivi.
 
 ## DG-DEVELOPER-IDENTITY
 

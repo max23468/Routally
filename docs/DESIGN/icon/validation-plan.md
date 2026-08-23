@@ -20,21 +20,27 @@ chiusura del gate. Restano manuali 7, 9, 10, 11, 17, 18 e 19.
 
 ## Attività residue
 
-1. importare A1 Lavender 50 e T1 in Icon Composer e creare il controllo Amber duplicando
-   l'accento;
-2. verificare Default, Dark, Mono, Clear, Tinted e Liquid Glass;
-3. creare e versionare il file `.icon`;
-4. collegarlo ai target pubblico e Dev ed eseguire le build macOS;
-5. provare iPhone e iPad reali, soprattutto a 29 e 40 pt;
-6. completare lo user test cieco;
-7. svolgere la verifica figurativa formale oppure accettare esplicitamente il rischio;
-8. ratificare e chiudere `DG-ICON`.
+Le attività residue non appartengono alla Foundation e non vanno anticipate:
+
+1. `E20` / `M10` Alpha — provare la build feature-complete su iPhone e iPad reali,
+   soprattutto a 29 e 40 pt;
+2. `E20` / `M10` Alpha — completare lo user test cieco;
+3. `E21` / `M11` Beta — svolgere la verifica figurativa formale oppure accettare
+   esplicitamente il rischio;
+4. `E21` / `M11` Beta — ratificare la candidata e chiudere `DG-ICON`.
+
+Completati in questa fase: import A1 Lavender 50 e derivata Dev, configurazione Liquid Glass,
+specializzazioni Dark e Mono, controllo a 29/40 pt, creazione dei pacchetti `.icon`,
+collegamento esclusivo ai rispettivi target, build Simulator pubblico/Dev e verifica di
+Clear/Tinted in modalità chiara e scura sulla Home Screen di iOS Simulator 26.5.
+Queste attività chiudono la quota `E03` / `M01`; non costituiscono ratifica anticipata.
 
 ## Controlli del repository
 
 ```sh
 node scripts/build-icon-assets.mjs
 node scripts/check-icon-assets.mjs
+node scripts/check-icon-composer-assets.mjs
 node scripts/build-icon-review-assets.mjs
 node scripts/check-icon-review-assets.mjs
 node scripts/validate-icon-assets.mjs
