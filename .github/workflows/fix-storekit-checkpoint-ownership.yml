@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - docs/free-core-plus-1x
+  pull_request:
+    types: [edited]
 
 permissions:
   contents: write
@@ -18,6 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: docs/free-core-plus-1x
           fetch-depth: 0
 
       - name: Correggi e verifica la matrice di ownership
