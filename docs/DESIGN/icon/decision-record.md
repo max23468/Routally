@@ -9,7 +9,7 @@
 
 La conferma del Product Owner del 21 agosto 2026 è stata applicata anche al generatore
 canonico. La selezione visuale preliminare è chiusa; `DG-ICON` resta aperto soltanto per le
-evidenze Apple, umane e figurative.
+evidenze Apple, umane e figurative pianificate in Alpha e Beta.
 
 ## Decisioni applicate
 
@@ -50,5 +50,6 @@ evidenze Apple, umane e figurative.
 - **Data:**
 - **Approvazione finale Product Owner:**
 
-`DG-ICON` si chiude soltanto dopo la prova su iPhone/iPad reali, lo user test, la decisione
-sul rischio figurativo e la ratifica finale.
+`E20` / `M10` Alpha raccoglie prova su iPhone/iPad reali e user test sulla build
+feature-complete. `E21` / `M11` Beta registra la decisione sul rischio figurativo, la
+ratifica finale e la chiusura di `DG-ICON`.

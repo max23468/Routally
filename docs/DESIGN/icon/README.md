@@ -45,7 +45,8 @@ rendering di sistema.
 
 Default, Dark e Mono sono stati controllati in Icon Composer anche a 29 e 40 pt. Clear e
 Tinted sono stati verificati sulla Home Screen di iOS Simulator 26.5 in modalità chiara e
-scura, per entrambe le build. Resta da verificare il risultato su iPhone e iPad reali.
+scura, per entrambe le build. Le prove su iPhone/iPad reali e lo user test sono assegnati
+a `E20` / `M10` Alpha; decisione figurativa e ratifica appartengono a `E21` / `M11` Beta.
 
 T1 resta il benchmark della silhouette e non è una sostituzione automatica alle piccole dimensioni: è un eventuale fallback globale
 scelto esplicitamente.

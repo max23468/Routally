@@ -36,9 +36,13 @@ leggibili il monogramma, il ciclo e la fascia diagonale Dev.
 - [x] collegare `AppIcon.icon` al target pubblico;
 - [x] collegare `AppIconDev.icon` a `Routally Dev`;
 - [x] eseguire build Simulator dei due target;
-- [ ] verificare archiviazione e bundle di distribuzione nel ciclo di pubblicazione.
+- [ ] `E21` / `M11` — verificare archiviazione e bundle di distribuzione nel ciclo di
+  chiusura degli asset definitivi.
 
 ## Dispositivi
+
+Questa sezione appartiene a `E20` / `M10` Alpha e si esegue sulla build feature-complete,
+non durante la Foundation.
 
 Provare almeno un iPhone e un iPad compatibili con iOS/iPadOS 26 in Home Screen, App
 Library, Spotlight, Impostazioni e notifiche, con wallpaper chiari, scuri e fotografici.

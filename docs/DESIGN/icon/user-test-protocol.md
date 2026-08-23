@@ -1,5 +1,9 @@
 # Protocollo di user test cieco dell'icona
 
+**Pianificazione:** `E20` / `M10` Alpha, sulla build feature-complete e dopo l'avvio del
+feature freeze. Il protocollo è preparato in anticipo, ma non va eseguito durante la
+Foundation.
+
 ## Obiettivo
 
 Verificare la baseline A1 Lavender 50 senza riaprire le alternative archiviate e misurare:

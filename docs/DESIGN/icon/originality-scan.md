@@ -52,6 +52,9 @@ chiudersi soltanto sulla base di questa ricognizione.
 
 ## Verifica formale ancora necessaria
 
+**Pianificazione:** `E21` / `M11` Beta, prima della ratifica finale di `DG-ICON` e degli
+asset App Store definitivi.
+
 Prima dell'uso commerciale definitivo:
 
 1. ricerca figurativa nelle banche dati EUIPO, WIPO e USPTO;
