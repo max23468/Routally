@@ -129,6 +129,60 @@ struct TGDataTests {
     #expect(forwardResult.count == 1)
     #expect(forwardResult.first?.id == original.id)
     #expect(forwardResult.first?.payload == "evento importato")
+    #expect(
+      try TGDataEventStore(
+        configuration: TGDataEventStore.localConfiguration(url: forwardStore.url)
+      ).probeSnapshot(eventID: original.id).eventVariants == 2
+    )
+  }
+
+  @Test("Duplicati ricevuti in merge separati convergono al record canonico")
+  func duplicatesAcrossSeparateMergesConverge() throws {
+    let original = makeEvent(index: 4)
+    let updated = TGDataEvent(
+      id: original.id,
+      routineID: original.routineID,
+      occurredAt: original.occurredAt,
+      logicalClock: original.logicalClock + 1,
+      payload: "evento aggiornato",
+      origin: "widget",
+      originalTimeZoneIdentifier: original.originalTimeZoneIdentifier
+    )
+    let forwardStore = try TGDataEventStore()
+    let reverseStore = try TGDataEventStore()
+
+    try forwardStore.merge(TGDataSyncBatch(events: [original]))
+    try forwardStore.merge(TGDataSyncBatch(events: [updated]))
+    try reverseStore.merge(TGDataSyncBatch(events: [updated]))
+    try reverseStore.merge(TGDataSyncBatch(events: [original]))
+
+    let forwardResult = try forwardStore.resolvedEvents()
+    let reverseResult = try reverseStore.resolvedEvents()
+    #expect(forwardResult == reverseResult)
+    #expect(forwardResult.count == 1)
+    #expect(forwardResult.first?.payload == "evento aggiornato")
+    #expect(try forwardStore.probeSnapshot(eventID: original.id).eventVariants == 2)
+  }
+
+  @Test("Una revisione obsoleta non sostituisce un evento più recente")
+  func staleRevisionDoesNotOverrideNewerEvent() throws {
+    let event = makeEvent(index: 10)
+    let staleRevision = TGDataRevision(
+      id: uuid("00000000-0000-4000-8100-000000000010"),
+      eventID: event.id,
+      authoredAt: event.occurredAt.addingTimeInterval(10),
+      logicalClock: event.logicalClock - 1,
+      payload: "revisione obsoleta"
+    )
+    let store = try TGDataEventStore()
+
+    try store.merge(
+      TGDataSyncBatch(events: [event], revisions: [staleRevision])
+    )
+
+    let resolved = try #require(store.resolvedEvents().first)
+    #expect(resolved.logicalClock == event.logicalClock)
+    #expect(resolved.payload == event.payload)
   }
 
   @Test("La migrazione lightweight conserva gli eventi V1")

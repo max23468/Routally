@@ -11,6 +11,9 @@ import SwiftUI
 struct RoutallyApp: App {
   @State private var store: RoutallyStore
   @State private var router = AppRouter()
+  #if ROUTALLY_DEVELOPMENT
+    @State private var tgDataCloudProbe: TGDataCloudProbeModel?
+  #endif
   private let featureFlags: FeatureFlags
 
   init() {
@@ -19,6 +22,9 @@ struct RoutallyApp: App {
         arguments: ProcessInfo.processInfo.arguments
       )
       featureFlags = .development
+      _tgDataCloudProbe = State(
+        initialValue: TGDataCloudProbeConfiguration.current.map(TGDataCloudProbeModel.init)
+      )
     #else
       let initialSnapshot = RoutallySnapshot.empty
       featureFlags = .publicRelease
@@ -29,7 +35,15 @@ struct RoutallyApp: App {
 
   var body: some Scene {
     WindowGroup {
-      RoutallyRootView(store: store, featureFlags: featureFlags, router: router)
+      #if ROUTALLY_DEVELOPMENT
+        if let tgDataCloudProbe {
+          TGDataCloudProbeView(model: tgDataCloudProbe)
+        } else {
+          RoutallyRootView(store: store, featureFlags: featureFlags, router: router)
+        }
+      #else
+        RoutallyRootView(store: store, featureFlags: featureFlags, router: router)
+      #endif
     }
     .commands {
       RoutallyCommands(router: router)

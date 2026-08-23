@@ -20,5 +20,7 @@ il runner `macos-26` e selezionano Xcode 26.6 esplicitamente.
 
 Il package locale `RoutallyModules` non dichiara dipendenze runtime esterne. La fixture e
 la matrice visuale sono bloccate in [preview-matrix.md](preview-matrix.md). Schema
-SwiftData, formato eventi e formato Kit non sono ancora introdotti da E03 e verranno
-versionati nelle epiche vincolate dai relativi Technical Gate.
+SwiftData e formato eventi dello spike sono versionati nel target isolato
+`RoutallyDataSpike`; non appartengono ancora allo store di prodotto, che resta in `E05`.
+`RoutallyTGDataProbeWidget` è un'estensione tecnica incorporata soltanto in `Routally Dev`
+per validare l'App Group provvisorio di `TG-DATA`; il widget di prodotto resta in `E13`.

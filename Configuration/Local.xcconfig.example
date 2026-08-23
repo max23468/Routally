@@ -1,0 +1,4 @@
+// Copia questo file come Local.xcconfig e inserisci il Team ID Apple Developer.
+// Local.xcconfig è escluso da Git perché la scelta del team resta locale finché
+// DG-DEVELOPER-IDENTITY non definisce l'owner degli asset Apple definitivi.
+ROUTALLY_DEVELOPMENT_TEAM = YOUR_TEAM_ID

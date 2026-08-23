@@ -15,10 +15,14 @@
 		B10000000000000000000006 /* AppIconDev.icon in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000008 /* AppIconDev.icon */; };
 		B10000000000000000000007 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000009 /* AppIcon.icon */; };
 		B10000000000000000000008 /* TGDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000010 /* TGDataTests.swift */; };
+		B10000000000000000000009 /* TGDataCloudProbeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000011 /* TGDataCloudProbeView.swift */; };
+		B1000000000000000000000A /* RoutallyTGDataProbeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000013 /* RoutallyTGDataProbeWidget.swift */; };
+		B1000000000000000000000B /* RoutallyTGDataProbeWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F10000000000000000000104 /* RoutallyTGDataProbeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B20000000000000000000011 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000011 /* RoutallyDomain */; };
 		B20000000000000000000012 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000012 /* RoutallyDesign */; };
 		B20000000000000000000013 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000013 /* RoutallyFeatures */; };
 		B20000000000000000000014 /* RoutallyFixtures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000014 /* RoutallyFixtures */; };
+		B20000000000000000000015 /* RoutallyDataSpike in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000015 /* RoutallyDataSpike */; };
 		B20000000000000000000021 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000021 /* RoutallyDomain */; };
 		B20000000000000000000022 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000022 /* RoutallyDesign */; };
 		B20000000000000000000023 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000023 /* RoutallyFeatures */; };
@@ -39,10 +43,40 @@
 		F10000000000000000000008 /* AppIconDev.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconDev.icon; sourceTree = "<group>"; };
 		F10000000000000000000009 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		F10000000000000000000010 /* TGDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGDataTests.swift; sourceTree = "<group>"; };
+		F10000000000000000000011 /* TGDataCloudProbeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGDataCloudProbeView.swift; sourceTree = "<group>"; };
+		F10000000000000000000012 /* RoutallyDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RoutallyDev.entitlements; sourceTree = "<group>"; };
+		F10000000000000000000013 /* RoutallyTGDataProbeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutallyTGDataProbeWidget.swift; sourceTree = "<group>"; };
+		F10000000000000000000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F10000000000000000000015 /* RoutallyTGDataProbeWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RoutallyTGDataProbeWidget.entitlements; sourceTree = "<group>"; };
 		F10000000000000000000101 /* Routally Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Routally Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000102 /* Routally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000103 /* RoutallyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutallyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
+		F10000000000000000000104 /* RoutallyTGDataProbeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RoutallyTGDataProbeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+	/* End PBXFileReference section */
+
+	/* Begin PBXContainerItemProxy section */
+		E10000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10000000000000000000004;
+			remoteInfo = RoutallyTGDataProbeWidget;
+		};
+	/* End PBXContainerItemProxy section */
+
+	/* Begin PBXCopyFilesBuildPhase section */
+		P40000000000000000000011 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B1000000000000000000000B /* RoutallyTGDataProbeWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+	/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		P20000000000000000000011 /* Frameworks */ = {
@@ -53,6 +87,7 @@
 				B20000000000000000000012 /* RoutallyDesign in Frameworks */,
 				B20000000000000000000013 /* RoutallyFeatures in Frameworks */,
 				B20000000000000000000014 /* RoutallyFixtures in Frameworks */,
+				B20000000000000000000015 /* RoutallyDataSpike in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +112,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		P20000000000000000000041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -86,6 +128,7 @@
 				G10000000000000000000002 /* RoutallyApp */,
 				G10000000000000000000003 /* RoutallyTests */,
 				G10000000000000000000004 /* Configuration */,
+				G10000000000000000000007 /* RoutallyTGDataProbeWidget */,
 				G10000000000000000000005 /* Frameworks */,
 				G10000000000000000000006 /* Products */,
 			);
@@ -95,6 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				F10000000000000000000001 /* RoutallyApp.swift */,
+				F10000000000000000000011 /* TGDataCloudProbeView.swift */,
+				F10000000000000000000012 /* RoutallyDev.entitlements */,
 				F10000000000000000000002 /* Assets.xcassets */,
 				F10000000000000000000009 /* AppIcon.icon */,
 				F10000000000000000000008 /* AppIconDev.icon */,
@@ -135,8 +180,19 @@
 				F10000000000000000000101 /* Routally Dev.app */,
 				F10000000000000000000102 /* Routally.app */,
 				F10000000000000000000103 /* RoutallyTests.xctest */,
+				F10000000000000000000104 /* RoutallyTGDataProbeWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		G10000000000000000000007 /* RoutallyTGDataProbeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000013 /* RoutallyTGDataProbeWidget.swift */,
+				F10000000000000000000014 /* Info.plist */,
+				F10000000000000000000015 /* RoutallyTGDataProbeWidget.entitlements */,
+			);
+			path = RoutallyTGDataProbeWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,10 +205,12 @@
 				P10000000000000000000011 /* Sources */,
 				P20000000000000000000011 /* Frameworks */,
 				P30000000000000000000011 /* Resources */,
+				P40000000000000000000011 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E20000000000000000000001 /* PBXTargetDependency */,
 			);
 			name = "Routally Dev";
 			packageProductDependencies = (
@@ -160,6 +218,7 @@
 				D20000000000000000000012 /* RoutallyDesign */,
 				D20000000000000000000013 /* RoutallyFeatures */,
 				D20000000000000000000014 /* RoutallyFixtures */,
+				D20000000000000000000015 /* RoutallyDataSpike */,
 			);
 			productName = "Routally Dev";
 			productReference = F10000000000000000000101 /* Routally Dev.app */;
@@ -210,7 +269,26 @@
 			productReference = F10000000000000000000103 /* RoutallyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-/* End PBXNativeTarget section */
+		A10000000000000000000004 /* RoutallyTGDataProbeWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C10000000000000000000041 /* Build configuration list for PBXNativeTarget "RoutallyTGDataProbeWidget" */;
+			buildPhases = (
+				P10000000000000000000041 /* Sources */,
+				P20000000000000000000041 /* Frameworks */,
+				P30000000000000000000041 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RoutallyTGDataProbeWidget;
+			packageProductDependencies = (
+			);
+			productName = RoutallyTGDataProbeWidget;
+			productReference = F10000000000000000000104 /* RoutallyTGDataProbeWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+	/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		A00000000000000000000001 /* Project object */ = {
@@ -220,9 +298,21 @@
 				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
-					A10000000000000000000001 = { CreatedOnToolsVersion = 26.6; };
+					A10000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = { enabled = 1; };
+							com.apple.iCloud = { enabled = 1; };
+						};
+					};
 					A10000000000000000000002 = { CreatedOnToolsVersion = 26.6; };
 					A10000000000000000000003 = { CreatedOnToolsVersion = 26.6; };
+					A10000000000000000000004 = {
+						CreatedOnToolsVersion = 26.6;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = { enabled = 1; };
+						};
+					};
 				};
 			};
 			buildConfigurationList = C10000000000000000000001 /* Build configuration list for PBXProject "Routally" */;
@@ -245,6 +335,7 @@
 				A10000000000000000000001 /* Routally Dev */,
 				A10000000000000000000002 /* Routally */,
 				A10000000000000000000003 /* Routally Tests */,
+				A10000000000000000000004 /* RoutallyTGDataProbeWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -275,6 +366,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		P30000000000000000000041 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -283,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000001 /* RoutallyApp.swift in Sources */,
+				B10000000000000000000009 /* TGDataCloudProbeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +402,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		P10000000000000000000041 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1000000000000000000000A /* RoutallyTGDataProbeWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -315,6 +422,9 @@
 			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				CODE_SIGN_ENTITLEMENTS = RoutallyApp/RoutallyDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
 				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
 				PRODUCT_NAME = "Routally Dev";
@@ -327,6 +437,9 @@
 			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				CODE_SIGN_ENTITLEMENTS = RoutallyApp/RoutallyDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
 				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
 				PRODUCT_NAME = "Routally Dev";
@@ -339,6 +452,9 @@
 			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
+				CODE_SIGN_ENTITLEMENTS = RoutallyApp/RoutallyDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
 				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional;
 				PRODUCT_NAME = "Routally Dev";
@@ -417,7 +533,59 @@
 			};
 			name = Release;
 		};
-/* End XCBuildConfiguration section */
+
+		C20000000000000000000041 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = RoutallyTGDataProbeWidget/RoutallyTGDataProbeWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RoutallyTGDataProbeWidget/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional.tgdatawidget;
+				PRODUCT_NAME = RoutallyTGDataProbeWidget;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Development;
+		};
+		C20000000000000000000042 /* ReleaseCandidate */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = RoutallyTGDataProbeWidget/RoutallyTGDataProbeWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RoutallyTGDataProbeWidget/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional.tgdatawidget;
+				PRODUCT_NAME = RoutallyTGDataProbeWidget;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = ReleaseCandidate;
+		};
+		C20000000000000000000043 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F10000000000000000000005 /* Development.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = RoutallyTGDataProbeWidget/RoutallyTGDataProbeWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(ROUTALLY_DEVELOPMENT_TEAM)";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RoutallyTGDataProbeWidget/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.temisfera.routally.dev.provisional.tgdatawidget;
+				PRODUCT_NAME = RoutallyTGDataProbeWidget;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+			};
+			name = Release;
+		};
+	/* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		C10000000000000000000001 /* Build configuration list for PBXProject "Routally" */ = {
@@ -460,7 +628,25 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-/* End XCConfigurationList section */
+		C10000000000000000000041 /* Build configuration list for PBXNativeTarget "RoutallyTGDataProbeWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20000000000000000000041 /* Development */,
+				C20000000000000000000042 /* ReleaseCandidate */,
+				C20000000000000000000043 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+	/* End XCConfigurationList section */
+
+	/* Begin PBXTargetDependency section */
+		E20000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10000000000000000000004 /* RoutallyTGDataProbeWidget */;
+			targetProxy = E10000000000000000000001 /* PBXContainerItemProxy */;
+		};
+	/* End PBXTargetDependency section */
 
 /* Begin XCLocalSwiftPackageReference section */
 		X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */ = {
@@ -474,6 +660,7 @@
 		D20000000000000000000012 /* RoutallyDesign */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDesign; };
 		D20000000000000000000013 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };
 		D20000000000000000000014 /* RoutallyFixtures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFixtures; };
+		D20000000000000000000015 /* RoutallyDataSpike */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDataSpike; };
 		D20000000000000000000021 /* RoutallyDomain */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDomain; };
 		D20000000000000000000022 /* RoutallyDesign */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDesign; };
 		D20000000000000000000023 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };

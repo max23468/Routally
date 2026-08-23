@@ -5,3 +5,4 @@ xcuserdata/
 *.xcuserstate
 *.mobileprovision
 *.p12
+/Configuration/Local.xcconfig

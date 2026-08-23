@@ -59,10 +59,35 @@ definitivi; `E21` promuoverà e verificherà lo schema Production prima della be
 
 ## Verifiche eseguite
 
-- `Routally Tests` su iPhone 17 Pro, iOS 26.5: 33 test superati, 0 falliti;
+- `Routally Tests` su iPhone 17 Pro, iOS 26.5: 35 test superati, 0 falliti;
 - build Simulator dei target `Routally` e `Routally Dev` completate senza errori;
 - il test del dataset canonico è incluso nella suite completa;
 - `ModelConfiguration.validate()` sulle configurazioni provvisoria e definitiva.
+
+## Preparazione della prova CloudKit reale
+
+Il 23 agosto 2026 è stato aggiunto a `Routally Dev` un probe ripetibile che usa lo stesso
+schema dello spike, il container provvisorio
+`iCloud.com.temisfera.routally.tgdata.provisional` e l'App Group provvisorio
+`group.com.temisfera.routally.tgdata.provisional`. Il probe:
+
+- espone scritture separate di evento base, duplicato, revisione e tombstone;
+- mostra varianti materializzate e stato risolto per una sessione sintetica;
+- accetta launch arguments per eseguire lo stesso scenario su client distinti;
+- incorpora un widget tecnico Dev che legge l'input e scrive un acknowledgement nello
+  stesso App Group;
+- lascia il target pubblico senza capability o dipendenze dallo spike.
+
+La build e l'avvio sul Simulator hanno verificato il funzionamento locale del probe e la
+creazione del container App Group. CloudKit ha correttamente mantenuto lo store locale ma
+ha riportato `CKAccountStatusNoAccount`, perché il simulatore non contiene un account
+iCloud. Inoltre Xcode dispone al momento soltanto di un `Personal Team`: secondo la
+[matrice Apple delle capability iOS](https://developer.apple.com/help/account/reference/supported-capabilities-ios/),
+la prova di CloudKit e App Groups con provisioning reale richiede un team iscritto
+all'Apple Developer Program.
+
+Il gate non viene chiuso con questa evidenza. Il runbook ripetibile e i prerequisiti
+restanti sono in `docs/ENGINEERING/tg-data-cloudkit-runbook.md`.
 
 ## Conseguenze per le epiche successive
 
