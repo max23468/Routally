@@ -7,15 +7,15 @@ specifica completa.
 | ID | Decisione | Stato | Versione | Motivazione | Impatto | Data |
 |---|---|---|---|---|---|---|
 | ADR-0001 | iOS e iPadOS 26 come minimo | Confirmed | 1.0 | Un solo linguaggio Apple-native basato su Liquid Glass | Nessuna UI legacy | 2026-08-05 |
-| ADR-0002 | Eventi e revisioni come fonte canonica | Confirmed | 1.0 | Ricalcolo deterministico, correzione e sincronizzazione affidabile | Le proiezioni restano ricostruibili | 2026-08-05 |
-| ADR-0003 | SwiftData e CloudKit come adapter predefinito | Confirmed | 1.0 | Persistenza local-first e sincronizzazione privata Apple-native | `TG-DATA` può richiedere un adapter Core Data/CloudKit | 2026-08-05 |
+| ADR-0002 | Eventi e revisioni come fonte canonica | Confirmed | 1.0 | Ricalcolo deterministico, correzione e sincronizzazione affidabile | Lo stato deriva da un reducer; cache solo dopo misure | 2026-08-05 |
+| ADR-0003 | SwiftData e CloudKit come persistenza | Confirmed | 1.0 | Persistenza local-first e sincronizzazione privata Apple-native | `TG-DATA` può richiedere il fallback Core Data/CloudKit | 2026-08-05 |
 | ADR-0004 | Design UI SwiftUI-first | Confirmed | 1.0 | Evitare divergenza tra specifiche statiche e interfaccia reale | Preview eseguibili e Simulator diventano la verifica visuale primaria | 2026-08-06 |
 | ADR-0005 | La review delle pull request è un gate di CI | Confirmed | 1.0 | Risolve il conflitto fra esclusività degli agenti e gate required su ogni PR | Il gate vale per ogni PR e non richiede handoff fra agenti | 2026-08-14 |
 | MP-FREE-LIMITS | Limiti Free a 10 routine e 5 collegamenti | Confirmed | 1.0 | Con 5 e 2 un utente Free non poteva installare i 4 Kit introduttivi promessi | Rivedibile a 90 giorni, mai sotto la soglia dei 4 Kit | 2026-08-14 |
-| MP-WATERLINE | Linea di galleggiamento pre-approvata della 1.0 | Confirmed | 1.0 | Trasforma il rischio di scope da processo a scelta già presa | Ordine di sacrificio attivabile dal solo Product Owner | 2026-08-14 |
+| MP-SCOPE-1.0 | Scope funzionale completo nella 1.0 | Confirmed | 1.0 | Il Product Owner accetta l'ampiezza e non autorizza rinvii automatici | Se la qualità non basta slitta la data; ogni taglio richiede change control | 2026-08-23 |
 | MP-ICON-DIRECTION | Direzione dell'icona: monogramma `R` costruito attorno a un ciclo | Confirmed | 1.0 | Le direzioni alternative sono state costruite e archiviate | Vincola la costruzione; `DG-ICON` resta aperto per variante, resa Apple e originalità | 2026-08-21 |
 | MP-ICON-BASELINE | Baseline icona A1 Lavender con testa 50 | Confirmed | 1.0 | Miglior equilibrio visivo dopo confronto SVG | Non chiude `DG-ICON`: restano prove Apple, dispositivi, user test e rischio figurativo | 2026-08-21 |
-| TG-RECALC | Spike sul ricalcolo retroattivo deterministico | Decision Gate | 0.2 | Il ricalcolo è il cuore differenziante e il candidato più probabile a non scalare | Determina la strategia di ricalcolo prima di proiezioni e interfaccia | — |
+| TG-RECALC | Spike sul ricalcolo retroattivo deterministico | Decision Gate | 0.2 | Il ricalcolo è il cuore differenziante e il candidato più probabile a non scalare | Determina la strategia di ricalcolo prima delle feature dipendenti | — |
 | DG-DOMAIN | Registrazione dominio, DNS ed email | Decision Gate | 0.5 | Servono ownership e recovery definitive | Blocca Universal Links, supporto e identificativi pubblici definitivi | — |
 | DG-TRADEMARK | Verifica formale di Routally e Temisfera | Decision Gate | 1.0 | La verifica preliminare non equivale a clearance | Influenza tutela e uso commerciale del brand | — |
 | DG-ICON | Scelta dell'icona definitiva | Decision Gate | 1.0 | Richiede SVG validati, Icon Composer, dispositivi, user test e verifica figurativa | Blocca file `.icon` e asset App Store finali | — |
