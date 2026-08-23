@@ -88,7 +88,7 @@ nell'Asset Catalog:
 | Light + Increase Contrast | `#3429BD` |
 | Dark + Increase Contrast | `#CAC7FF` |
 
-Gli accenti Plus sono token di scelta, non token di stato. Le coppie Light/Dark sono:
+Gli accenti opzionali sono token di scelta disponibili a tutti nella 1.0, non token di stato. Le coppie Light/Dark sono:
 
 | Token | Light | Dark |
 |---|---|---|
@@ -165,7 +165,7 @@ API SwiftUI.
 | `CycleVisualization` | progresso e stato del ciclo | attivo, soglia, follow-up, completato | valore testuale completo; non solo anello/colore |
 | `LinkedRoutineRow` | sorgente e conseguenza | incremento, durata, quantità | frase naturale sulla relazione |
 | `ConsequenceSummary` | esito e correzione della registrazione | semplice, collegato, errore parziale; esclusione per singolo effetto | titolo annunciato e azioni nominate con il target |
-| `KitPreview` | beneficio e contenuto installato | Free, Plus, limite raggiunto | piano e costo in testo, non solo badge |
+| `KitPreview` | beneficio e contenuto installato | standard, configurabile, requisito tecnico assente | contenuto e requisiti in testo, non solo badge |
 | `AllClearState` | conferma che non serve agire | nuovo utente, giornata libera | messaggio breve, nessuna animazione obbligatoria |
 | `AttentionIndicator` | livello di attenzione | in arrivo, da fare, attenzione | simbolo + etichetta + colore |
 
@@ -231,7 +231,7 @@ immediatamente disponibile con scroll inverso o selezione della tab.
 - conseguenze multiple appena applicate;
 - errore recuperabile senza perdita dell'evento;
 - offline con modifiche pendenti;
-- Free e Plus dove il comportamento differisce.
+- libreria piccola e libreria ampia, senza differenze commerciali.
 
 ## Criteri di accettazione E02
 

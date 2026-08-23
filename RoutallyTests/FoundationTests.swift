@@ -20,8 +20,7 @@ struct FoundationTests {
           .thresholdReached,
           .offlineWithPendingChanges,
           .cloudConflict,
-          .freeLimitReached,
-          .plusUser,
+          .unrestrictedLibrary,
           .largeHistory,
         ]))
   }

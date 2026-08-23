@@ -10,6 +10,12 @@ sola volta e aggiorna obiettivi, cicli e passi successivi collegati.
 Il progetto è in fase pre-1.0. La fonte canonica per prodotto, UX, architettura,
 distribuzione e roadmap è [docs/MASTER_PLAN.md](docs/MASTER_PLAN.md).
 
+## Modello 1.0
+
+Routally 1.0 sarà completamente gratuita e senza limiti commerciali. Tutto il core
+pubblicato nella 1.0 resterà gratuito; un eventuale Routally Plus arriverà nella 1.X
+soltanto con nuove capacità sostanziali e additive.
+
 ## Piattaforme
 
 La 1.0 è prevista come app universale nativa per iPhone e iPad, sviluppata con Swift 6

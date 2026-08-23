@@ -32,7 +32,7 @@ del riepilogo di creazione usano un `Date.FormatStyle` configurato con la stessa
 | Creazione con errore recuperabile | iPhone portrait | Light, IT | Default | `CreationSheet` preview |
 | Conseguenze con esclusioni indipendenti | iPhone portrait | Light/Dark, IT | Default/AX5 | preview, Simulator e test store |
 | Ricerca con risultati / vuota | iPhone portrait | Light/Dark, IT | Default/AX5 | `SearchView` preview |
-| Profilo Free / Plus | iPhone portrait | Light/Dark, IT | Default | `ProfileSheet` preview |
+| Profilo locale / offline | iPhone portrait | Light/Dark, IT/EN | Default | `ProfileSheet` preview |
 | Ciclo attivo / soglia / follow-up / completo | iPhone portrait | Light/Dark | Default/AX5 | preview di `CycleVisualization` |
 
 `AX5` corrisponde a `DynamicTypeSize.accessibility5`. Le preferenze di accessibilità
@@ -48,8 +48,7 @@ grafici concorrenti per versioni precedenti a iOS 26.
 ## Fixture canoniche
 
 `EmptyProfile`, `NewUser`, `TypicalUser`, `HighlyOrganizedUser`, `ThresholdReached`,
-`OfflineWithPendingChanges`, `CloudConflict`, `FreeLimitReached`, `PlusUser` e
-`LargeHistory` sono rappresentate da `DemoScenario` nel solo modulo
+`OfflineWithPendingChanges`, `CloudConflict`, `UnrestrictedLibrary` e `LargeHistory` sono rappresentate da `DemoScenario` nel solo modulo
 `RoutallyFixtures` e verificate dalla suite Swift Testing. Il launch argument canonico
 è:
 

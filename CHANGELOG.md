@@ -4,6 +4,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Adottato il nuovo modello commerciale: Routally 1.0 completamente gratuita e senza
+  limiti, core 1.0 gratuito permanente, tutti i 12 Kit inclusi e StoreKit differito;
+  Plus 1.X richiede un Premium Value Gate e sarà un acquisto una tantum da 29,99 €.
 - Semplificato il Master Plan senza ridurre lo scope 1.0: reducer al posto di proiezioni e
   Consistency Engine, un solo confine di store, misure derivate da baseline reali,
   tracciabilità non duplicata e un'unica checklist operativa.
@@ -24,11 +27,10 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
   differita tramite `LocalizedStringResource`, ownership unica del router, creazione
   suddivisa in step testabili con salvataggio ed errore recuperabile, coerenza del ciclo
   dopo le esclusioni e identità esplicita delle notifiche sintetiche.
-- Master Plan: limiti Free portati a 10 routine e 5 collegamenti perché i 4 Kit
-  introduttivi fossero davvero installabili, conseguenze del downgrade rese visibili,
-  lettura selettiva del piano per sezioni, gestione esplicita dello scope 1.0,
-  spike TG-RECALC sul ricalcolo retroattivo, soglie di beta dichiarate qualitative e
-  regola deterministica per «Questa settimana».
+- Master Plan: nella precedente baseline i limiti Free erano stati portati a 10 routine
+  e 5 collegamenti; la parte commerciale di quella decisione è ora sostituita dal core
+  1.0 completamente gratuito. Restano validi lettura selettiva, gestione dello scope,
+  TG-RECALC, soglie beta qualitative e regola deterministica per «Questa settimana».
 - Aggiunto ADR-0005: la review delle pull request è un gate di CI e non un ruolo di agente.
 - Consolidata la preparazione di `DG-ICON`: livelli SVG autonomi per tutte le varianti,
   rifiniture A1 testa/Lavender/Amber, tavole dimensionali riproducibili, validazione
