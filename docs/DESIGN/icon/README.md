@@ -13,6 +13,8 @@ umane, non per una nuova esplorazione visuale.
 | `t1-cycle-consequence-*` | fallback globale |
 | `a2-*`, `a3-*`, `t2-*`, `v1-*`–`v3-*` | alternative archiviate |
 | `composer-layers/` | livelli autonomi per tutte le varianti |
+| `../../../RoutallyApp/AppIcon.icon` | pacchetto Icon Composer pubblico |
+| `../../../RoutallyApp/AppIconDev.icon` | pacchetto Icon Composer Dev |
 | `experiments/a1-air-medium-amber-*` | controllo Amber 50 |
 | `experiments/a1-air-medium-head54-*` | confronto storico archiviato |
 | `experiments/*monochrome*` | simulazione piatta, non resa Apple |
@@ -34,11 +36,16 @@ mostrano un problema concreto.
 
 ## Icon Composer
 
-Icon Composer richiede macOS Tahoe 26.4 o successivo. Importare i livelli A1 da
-`composer-layers/`, duplicare il documento e applicare al solo accento i token Amber per il
-controllo cromatico, quindi importare T1 come fallback. Verificare Default, Dark, Mono,
-Clear e Tinted, salvare il file `.icon`, collegarlo ai target pubblico e Dev e provare il
-risultato su iPhone e iPad reali.
+I livelli A1 sono importati in due pacchetti distinti, entrambi iOS-only: `AppIcon.icon` per
+il target pubblico e `AppIconDev.icon` per il target Dev. I gruppi usano Liquid Glass in
+modalità Individual con riflesso speculare, translucenza e ombra al 50%; la sfocatura resta
+disattivata per preservare il segno alle dimensioni minime. La variante Dark è annotata con
+una palette realmente scura e mantiene l'indaco nei dettagli, mentre Mono resta affidato al
+rendering di sistema.
+
+Default, Dark e Mono sono stati controllati in Icon Composer anche a 29 e 40 pt. Clear e
+Tinted sono stati verificati sulla Home Screen di iOS Simulator 26.5 in modalità chiara e
+scura, per entrambe le build. Resta da verificare il risultato su iPhone e iPad reali.
 
 T1 resta il benchmark della silhouette e non è una sostituzione automatica alle piccole dimensioni: è un eventuale fallback globale
 scelto esplicitamente.
@@ -56,6 +63,7 @@ scelto esplicitamente.
 ```sh
 node scripts/build-icon-assets.mjs
 node scripts/check-icon-assets.mjs
+node scripts/check-icon-composer-assets.mjs
 node scripts/build-icon-review-assets.mjs
 node scripts/check-icon-review-assets.mjs
 node scripts/validate-icon-assets.mjs

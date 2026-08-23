@@ -4,6 +4,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Integrati i pacchetti Icon Composer Liquid Glass per i target pubblico e Dev, con una
+  variante Dark realmente scura e verifiche dedicate di struttura, collegamento Xcode,
+  Clear e Tinted sulla Home Screen del simulatore.
 - Adottato il nuovo modello commerciale: Routally 1.0 completamente gratuita e senza
   limiti, core 1.0 gratuito permanente, tutti i 12 Kit inclusi e StoreKit differito;
   Plus 1.X richiede un Premium Value Gate in due checkpoint e sarà un acquisto una tantum

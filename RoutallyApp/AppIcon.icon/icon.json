@@ -1,0 +1,68 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "extended-srgb:0.59608,0.58431,1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "a1-air-medium-indigo-accent.svg",
+          "name" : "03 Accent",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              2
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "extended-srgb:0.95686,0.96078,1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "a1-air-medium-indigo-symbol.svg",
+          "name" : "02 Symbol"
+        },
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "extended-srgb:0.07059,0.07451,0.16471,1.00000"
+              }
+            }
+          ],
+          "image-name" : "a1-air-medium-indigo-background.svg",
+          "name" : "01 Background"
+        }
+      ],
+      "name" : "Routally A1",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "iOS"
+    ]
+  }
+}
