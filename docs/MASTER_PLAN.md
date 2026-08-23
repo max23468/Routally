@@ -4552,6 +4552,13 @@ Regole:
 
 ## 40.1 TG-DATA — SwiftData/CloudKit
 
+**Stato:** aperto, con esito candidato **Adapt**. Le evidenze locali su UUID e deduplica
+applicativi, migrazioni, offline, recovery su disco e dataset sono in
+`docs/ENGINEERING/tg-data-spike.md`. Prima di `E05` restano obbligatorie sincronizzazione,
+recovery fra client e inizializzazione dello schema su un container CloudKit provvisorio.
+La promozione dello schema definitivo Production appartiene a `E21` dopo i prerequisiti
+Apple.
+
 Verificare:
 
 - event store;

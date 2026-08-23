@@ -4,6 +4,11 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Avanzato `TG-DATA` verso un esito Adapt: spike SwiftData isolato, schema e migrazione
+  versionati, deduplica e riconciliazione UUID, revisioni/tombstone, recovery locale,
+  condivisione app-widget, configurazione App Group/CloudKit e dataset canonico da 10.000
+  eventi coperti da test; il gate resta aperto fino alle prove su un container CloudKit
+  provvisorio.
 - Integrati i pacchetti Icon Composer Liquid Glass per i target pubblico e Dev, con una
   variante Dark realmente scura e verifiche dedicate di struttura, collegamento Xcode,
   Clear e Tinted sulla Home Screen del simulatore; prove real-device e user test sono
