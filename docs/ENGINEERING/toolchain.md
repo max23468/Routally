@@ -22,5 +22,5 @@ Il package locale `RoutallyModules` non dichiara dipendenze runtime esterne. La 
 la matrice visuale sono bloccate in [preview-matrix.md](preview-matrix.md). Schema
 SwiftData e formato eventi dello spike sono versionati nel target isolato
 `RoutallyDataSpike`; non appartengono ancora allo store di prodotto, che resta in `E05`.
-`RoutallyTGDataProbeWidget` è un'estensione tecnica incorporata soltanto in `Routally Dev`
-per validare l'App Group provvisorio di `TG-DATA`; il widget di prodotto resta in `E13`.
+La validazione CloudKit Development su asset Apple definitivi è pianificata in `M10`;
+fino a `M09` non sono richiesti entitlement remoti o un account Developer a pagamento.

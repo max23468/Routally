@@ -129,11 +129,6 @@ struct TGDataTests {
     #expect(forwardResult.count == 1)
     #expect(forwardResult.first?.id == original.id)
     #expect(forwardResult.first?.payload == "evento importato")
-    #expect(
-      try TGDataEventStore(
-        configuration: TGDataEventStore.localConfiguration(url: forwardStore.url)
-      ).probeSnapshot(eventID: original.id).eventVariants == 2
-    )
   }
 
   @Test("Duplicati ricevuti in merge separati convergono al record canonico")
@@ -161,7 +156,6 @@ struct TGDataTests {
     #expect(forwardResult == reverseResult)
     #expect(forwardResult.count == 1)
     #expect(forwardResult.first?.payload == "evento aggiornato")
-    #expect(try forwardStore.probeSnapshot(eventID: original.id).eventVariants == 2)
   }
 
   @Test("Una revisione obsoleta non sostituisce un evento più recente")

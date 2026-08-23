@@ -81,25 +81,6 @@ public struct TGDataResolvedEvent: Equatable, Sendable {
   public let payload: String
 }
 
-public struct TGDataProbeSnapshot: Equatable, Sendable {
-  public let eventVariants: Int
-  public let revisions: Int
-  public let tombstones: Int
-  public let resolvedEvent: TGDataResolvedEvent?
-
-  public init(
-    eventVariants: Int,
-    revisions: Int,
-    tombstones: Int,
-    resolvedEvent: TGDataResolvedEvent?
-  ) {
-    self.eventVariants = eventVariants
-    self.revisions = revisions
-    self.tombstones = tombstones
-    self.resolvedEvent = resolvedEvent
-  }
-}
-
 public struct TGDataSyncBatch: Sendable {
   public let events: [TGDataEvent]
   public let revisions: [TGDataRevision]
@@ -240,33 +221,9 @@ public final class TGDataEventStore {
   }
 
   public func resolvedEvents() throws -> [TGDataResolvedEvent] {
-    try resolvedEvents(in: context)
-  }
-
-  public func probeSnapshot(eventID: UUID) throws -> TGDataProbeSnapshot {
-    let probeContext = ModelContext(container)
-    let events = try probeContext.fetch(FetchDescriptor<TGDataSchemaV2.EventRecord>())
-    let revisions = try probeContext.fetch(
-      FetchDescriptor<TGDataSchemaV2.EventRevisionRecord>()
-    )
-    let tombstones = try probeContext.fetch(FetchDescriptor<TGDataSchemaV2.TombstoneRecord>())
-
-    return TGDataProbeSnapshot(
-      eventVariants: events.count { $0.id == eventID },
-      revisions: revisions.count { $0.eventID == eventID },
-      tombstones: tombstones.count {
-        $0.recordKind == "event" && $0.recordID == eventID
-      },
-      resolvedEvent: try resolvedEvents(in: probeContext).first { $0.id == eventID }
-    )
-  }
-
-  private func resolvedEvents(in sourceContext: ModelContext) throws -> [TGDataResolvedEvent] {
-    let events = try sourceContext.fetch(FetchDescriptor<TGDataSchemaV2.EventRecord>())
-    let revisions = try sourceContext.fetch(
-      FetchDescriptor<TGDataSchemaV2.EventRevisionRecord>()
-    )
-    let tombstones = try sourceContext.fetch(FetchDescriptor<TGDataSchemaV2.TombstoneRecord>())
+    let events = try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRecord>())
+    let revisions = try context.fetch(FetchDescriptor<TGDataSchemaV2.EventRevisionRecord>())
+    let tombstones = try context.fetch(FetchDescriptor<TGDataSchemaV2.TombstoneRecord>())
 
     let revisionsByEvent = Dictionary(grouping: revisions, by: \.eventID)
     let tombstonesByEvent = Dictionary(

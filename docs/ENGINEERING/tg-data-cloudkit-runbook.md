@@ -1,95 +1,80 @@
-# TG-DATA — runbook CloudKit Development
+# M10 — runbook di validazione CloudKit Development
 
-Questo runbook completa la validazione reale richiesta da `TG-DATA` senza creare asset
-definitivi né promuovere lo schema in Production. Tutti i record sono sintetici e il
-container è provvisorio e sacrificabile.
+Questo runbook raccoglie la prova reale rinviata a `M10`. Non serve a chiudere
+`TG-DATA`, già chiuso **Adapt** sulle evidenze locali: certifica l'integrazione iCloud
+della build Alpha sugli asset Apple definitivi, dopo `DG-DEVELOPER-IDENTITY`.
 
-## Prerequisiti
+## Prerequisiti di M10
 
-1. team iscritto all'Apple Developer Program, configurato in Xcode;
-2. due simulatori o dispositivi con lo stesso account iCloud di prova;
-3. copia locale non versionata di `Configuration/Local.xcconfig.example` chiamata
-   `Configuration/Local.xcconfig`, con il Team ID effettivo;
-4. App ID provvisorio `com.temisfera.routally.dev.provisional`;
-5. App ID dell'estensione
-   `com.temisfera.routally.dev.provisional.tgdatawidget`;
-6. App Group `group.com.temisfera.routally.tgdata.provisional` associato a entrambi;
-7. container `iCloud.com.temisfera.routally.tgdata.provisional` associato all'app Dev.
+1. identità dello sviluppatore decisa e `DG-DEVELOPER-IDENTITY` chiuso;
+2. iscrizione all'Apple Developer Program attiva;
+3. Bundle ID, App Group e container iCloud definitivi intestati all'owner approvato;
+4. build Alpha firmata con gli entitlement effettivi;
+5. almeno due client di prova con account iCloud controllati e dati sintetici;
+6. implementazione `E14` completata e test locali su Simulator verdi.
 
-Non salvare Apple ID, password, token CloudKit, profili o certificati nel repository.
+Nessuno di questi prerequisiti deve essere anticipato in `M01`–`M09`. Non salvare Apple
+ID, password, token CloudKit, profili o certificati nel repository.
 
-## Build firmata
+## Preparazione
 
-Verificare il Team ID senza stamparne credenziali, quindi compilare `Routally Dev` con
-firma automatica e `-allowProvisioningUpdates`. Il target pubblico non partecipa alla
-prova. Controllare gli entitlement effettivi dell'app e del widget nel prodotto compilato.
-
-Il probe si attiva con:
-
-```text
--tgDataCloudProbe
--tgDataClient client-A
--tgDataSession <UUID condiviso>
-```
-
-L'argomento facoltativo `-tgDataAutoAction` accetta `base`, `duplicate`, `revision`,
-`tombstone` o `widget` e rende ripetibili le azioni senza interazione manuale.
+- iniettare Bundle ID, App Group, container iCloud e Team ID tramite la configurazione di
+  build prevista dal progetto;
+- compilare la build Alpha firmata e controllare gli entitlement del prodotto compilato;
+- verificare che il target pubblico e le eventuali estensioni usino lo stesso contratto
+  dati e soltanto le capability necessarie;
+- assegnare a ogni scenario un UUID sintetico condiviso fra i client.
 
 ## Sequenza multi-client
 
-Usare lo stesso UUID di sessione su entrambi i client.
-
-1. Avviare client A con azione `base`; attendere `Varianti evento = 1` sul client B.
-2. Mettere client B offline, avviarlo con azione `duplicate` e confermare la scrittura
+1. Sul client A creare un evento base e attenderne la comparsa sul client B.
+2. Portare il client B offline, scrivere una variante duplicata e confermare la scrittura
    locale immediata.
-3. Sul client A online eseguire `revision`.
-4. Riportare client B online e attendere su entrambi almeno due varianti, una revisione,
-   clock risolto `30` e payload della revisione.
-5. Sul client A eseguire `tombstone`; attendere su entrambi un tombstone e stato risolto
-   assente.
-6. Ripetere su un nuovo UUID invertendo l'ordine di client e consegna; l'esito deve essere
-   identico.
+3. Sul client A online creare una revisione più recente.
+4. Riportare B online e verificare convergenza di varianti, revisione, clock e payload.
+5. Sul client A creare un tombstone e verificarne la convergenza su entrambi i client.
+6. Ripetere con un nuovo UUID invertendo ordine dei client e ordine di consegna.
 
 Ogni attesa ha un limite operativo di cinque minuti. Un timeout è un fallimento da
 diagnosticare, non un risultato positivo implicito.
 
-## App Group e widget
+## App Group e superfici di sistema
 
-1. Avviare l'app con azione `widget`.
-2. Aggiungere `TG-DATA Probe` alla Home del client.
-3. Attendere che l'app mostri `Confermato dal widget`.
-4. Rimuovere e reinstallare soltanto l'app Dev; ripetere il passaggio per verificare che
-   l'accesso sia determinato dagli entitlement e non da un percorso locale accidentale.
+1. Scrivere dall'app lo snapshot minimo condiviso.
+2. Verificarne la lettura dalla superficie `E13` prevista, senza accesso allo store
+   completo se non necessario.
+3. Riavviare app ed estensione e verificare coerenza e permessi.
+4. Controllare che la build senza iCloud disponibile continui integralmente in locale e
+   mostri uno stato comprensibile.
 
 ## Riavvio, reinstallazione e recovery
 
 1. Chiudere e riaprire entrambi i client: lo stato deve restare convergente.
-2. Disinstallare l'app dal client B senza eliminare dati dal container CloudKit.
-3. Reinstallare la stessa build firmata e riavviare il probe con il medesimo UUID.
-4. Attendere il recupero di varianti, revisione e tombstone; lo stato finale deve restare
-   nascosto.
-5. Verificare che il client A non perda dati e che nessuna azione quotidiana attenda la
+2. Disinstallare l'app dal client B senza eliminare i dati dal container CloudKit.
+3. Reinstallare la stessa build Alpha e attendere il recupero di eventi, revisioni e
+   tombstone.
+4. Verificare che il client A non perda dati e che nessuna azione quotidiana attenda la
    rete.
+5. Eseguire i fallback per account iCloud assente, quota insufficiente e servizio
+   temporaneamente indisponibile.
 
-## Schema Development e percorso di promozione
+## Schema Development
 
 Dopo la prima sincronizzazione, verificare nel CloudKit Console che lo schema Development
-contenga i record type generati da SwiftData. Con `cktool`, usando un management token
-solo da Keychain o variabile effimera:
+contenga i record type attesi. Con strumenti Apple e credenziali ottenute solo da
+Keychain o variabili effimere:
 
-1. esportare lo schema Development del container provvisorio;
-2. validare il file esportato contro l'ambiente Production dello stesso container;
-3. archiviare nel rapporto soltanto digest, data, esito e versione della toolchain;
-4. non importare né promuovere lo schema: la promozione definitiva appartiene a `E21`.
+1. esportare lo schema Development del container definitivo;
+2. archiviare nel rapporto soltanto digest, data, esito e versione della toolchain;
+3. controllare che la futura promozione sia compatibile con il piano di migrazione;
+4. non promuovere lo schema: promozione e verifica Production appartengono a `E21` / `M11`.
 
-## Criterio di chiusura
-
-`TG-DATA` può passare da Open a **Adapt** soltanto se:
+## Criterio di accettazione M10
 
 - i due ordini di consegna convergono;
 - duplicati, revisioni e tombstone arrivano realmente tramite CloudKit;
 - offline, riavvio e reinstallazione recuperano senza perdita o riapparizione;
-- app e widget confermano l'App Group reale;
-- lo schema Development è inizializzato e il percorso di validazione verso Production è
-  verificato;
+- app e superficie di sistema confermano l'App Group firmato;
+- fallback iCloud e recovery sono comprensibili e non bloccano l'uso locale;
+- lo schema Development è inizializzato e documentato;
 - log, screenshot e digest non contengono credenziali o dati personali.

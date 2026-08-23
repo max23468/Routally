@@ -28,4 +28,4 @@ jobs:
       - name: Verifica formattazione
         run: >-
           swift format lint --recursive --strict
-          RoutallyApp RoutallyTests RoutallyTGDataProbeWidget Packages/RoutallyModules
+          RoutallyApp RoutallyTests Packages/RoutallyModules

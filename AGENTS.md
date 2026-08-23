@@ -21,7 +21,7 @@
 ## Verifiche locali
 
 ```sh
-swift format lint --recursive --strict RoutallyApp RoutallyTests RoutallyTGDataProbeWidget Packages/RoutallyModules
+swift format lint --recursive --strict RoutallyApp RoutallyTests Packages/RoutallyModules
 xcodebuild build -project Routally.xcodeproj -scheme "Routally Dev" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 xcodebuild test -project Routally.xcodeproj -scheme "Routally Tests" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 ```
