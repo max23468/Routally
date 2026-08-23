@@ -11,6 +11,7 @@ let package = Package(
     .library(name: "RoutallyDesign", targets: ["RoutallyDesign"]),
     .library(name: "RoutallyFeatures", targets: ["RoutallyFeatures"]),
     .library(name: "RoutallyFixtures", targets: ["RoutallyFixtures"]),
+    .library(name: "RoutallyDataSpike", targets: ["RoutallyDataSpike"]),
   ],
   targets: [
     .target(name: "RoutallyDomain"),
@@ -28,6 +29,7 @@ let package = Package(
       dependencies: ["RoutallyDomain"],
       resources: [.process("Resources")]
     ),
+    .target(name: "RoutallyDataSpike"),
   ],
   swiftLanguageModes: [.v6]
 )

@@ -4188,6 +4188,8 @@ Include:
 
 `TG-STOREKIT` non appartiene alla Foundation 1.0 ed è differito alla 1.X.
 
+**Stato della fase:** completata il 2026-08-23 con la chiusura `Adapt` di `TG-DATA`.
+
 ### 0.2 — Core Routine Engine
 
 - eventi;
@@ -4552,6 +4554,13 @@ Regole:
 
 ## 40.1 TG-DATA — SwiftData/CloudKit
 
+**Stato:** chiuso il 2026-08-23 con esito **Adapt**. SwiftData/CloudKit resta confermato
+con UUID e deduplica applicativi, schema CloudKit-compatible e configurazione iniettata
+per App Group e container. Le evidenze locali sono in
+`docs/ENGINEERING/tg-data-spike.md`; la sincronizzazione CloudKit reale appartiene a
+`E14`, mentre promozione e verifica dello schema Production appartengono a `E21` dopo i
+rispettivi prerequisiti Apple.
+
 Verificare:
 
 - event store;
@@ -4568,7 +4577,7 @@ Verificare:
 Esito:
 
 - Go;
-- Adapt;
+- **Adapt — selezionato**;
 - Fallback Core Data/CloudKit.
 
 ## 40.2 TG-RECALC — ricalcolo retroattivo deterministico
