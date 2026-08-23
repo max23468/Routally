@@ -1,16 +1,18 @@
-# TG-DATA — rapporto di chiusura
+# TG-DATA — rapporto di validazione locale
 
-- **Stato:** Closed
-- **Esito:** Adapt
+- **Stato:** Open
+- **Esito candidato:** Adapt
 - **Data:** 2026-08-23
 - **Milestone:** `M01` Foundation
 - **Evidence target:** `RoutallyDataSpike` e `TGDataTests`
 
 ## Decisione
 
-SwiftData con sincronizzazione CloudKit resta la tecnologia confermata. Lo spike non ha
-evidenziato limiti che giustifichino il fallback Core Data. L'approccio viene adattato in
-tre punti vincolanti per `E05` ed `E14`:
+La validazione locale non ha evidenziato limiti che giustifichino il fallback Core Data e
+supporta un esito candidato Adapt per SwiftData/CloudKit. Il gate resta aperto finché le
+prove su un container CloudKit provvisorio non coprono sincronizzazione, duplicati
+materializzati dal framework, recovery fra dispositivi e schema. L'approccio candidato
+prevede tre adattamenti vincolanti:
 
 1. UUID di dominio e deduplica applicativa, senza `@Attribute(.unique)`, perché lo schema
    deve restare compatibile con CloudKit;
@@ -27,42 +29,45 @@ dipendono da SwiftData: l'integrazione di produzione appartiene a `E05`.
 
 | Criterio `TG-DATA` | Evidenza | Esito |
 |---|---|---|
-| Event store | ingestione idempotente per UUID, inclusi duplicati nello stesso batch | Superato |
+| Event store | ingestione idempotente e riconciliazione per UUID, inclusi duplicati nello stesso batch o già materializzati nello store | Superato localmente |
 | Dataset di riferimento | 50 routine attive, 200 archiviate, 10.000 eventi, 100 link e 500 follow-up, più revisioni e tombstone | Superato |
-| App Group / widget | due client riaprono lo stesso store e condividono uno snapshot widget compatto; gli identificativi App Group sono configurabili | Superato localmente |
+| App Group / widget | due client riaprono lo stesso store locale e condividono uno snapshot widget compatto; gli identificativi App Group sono configurabili | Parziale: manca l'entitlement reale |
 | Offline | scrittura e lettura usano una configurazione locale con CloudKit disattivato e non richiedono rete | Superato |
-| Multi-device | batch equivalenti consegnati in ordini opposti convergono allo stesso stato risolto | Superato deterministicamente |
+| Multi-device | batch equivalenti consegnati in ordini opposti convergono allo stesso stato risolto | Parziale: simulazione deterministica |
 | Revisioni / tombstone | prevalenza deterministica per clock, data e UUID; il tombstone più recente nasconde l'evento | Superato |
 | Migrazioni | store V1 su disco riaperto tramite `SchemaMigrationPlan` V1→V2 senza perdita dell'evento | Superato |
-| Container provvisorio → definitivo | cambia soltanto la configurazione degli identificativi; versione dello schema e store contract restano identici | Superato |
-| CloudKit Production schema | configurazioni private CloudKit e relativi schemi superano `ModelConfiguration.validate()` | Superato come fattibilità locale |
+| Container provvisorio → definitivo | cambia soltanto la configurazione degli identificativi; versione dello schema e store contract restano identici | Parziale: configurazione locale |
+| CloudKit Production schema | configurazioni private CloudKit e relativi schemi superano `ModelConfiguration.validate()` | Non verificato sul servizio |
 | Recovery | chiusura e riapertura dello store su disco conserva il registro canonico | Superato |
 
 ## Confine della validazione
 
 Lo spike non crea container, App Group o schemi negli account Apple e non effettua una
-sincronizzazione CloudKit reale. Queste sono operazioni remote legate agli asset Apple:
+sincronizzazione CloudKit reale. Di conseguenza `TG-DATA` e `M01` restano aperti. Per
+chiudere il gate prima di avviare `E05` servono, su asset provvisori e sacrificabili:
 
-- `E14` / `M06` valida iCloud Development, conflitti e recovery fra dispositivi;
-- dopo `DG-DEVELOPER-IDENTITY` vengono sostituiti gli identificativi provvisori con quelli
-  definitivi;
-- `E21` / `M11` promuove e verifica lo schema CloudKit Production prima della beta esterna.
+- App Group ed entitlements effettivi per app e client widget di prova;
+- sincronizzazione CloudKit Development fra almeno due simulatori o dispositivi;
+- import di duplicati, consegne fuori ordine, revisioni e tombstone materializzati da
+  SwiftData/CloudKit;
+- disconnessione, riavvio, reinstallazione controllata e recovery;
+- inizializzazione dello schema CloudKit e verifica del percorso di promozione.
 
-Queste verifiche operative non riaprono la scelta di persistenza, ma restano gate delle
-milestone che le possiedono. Un errore riproducibile di SwiftData/CloudKit in quelle fasi
-richiede un nuovo ADR prima di valutare il fallback.
+Dopo la chiusura del gate, `E14` completerà l'esperienza iCloud di prodotto; dopo
+`DG-DEVELOPER-IDENTITY`, gli identificativi provvisori saranno sostituiti con quelli
+definitivi; `E21` promuoverà e verificherà lo schema Production prima della beta esterna.
 
 ## Verifiche eseguite
 
-- `Routally Tests` su iPhone 17 Pro, iOS 26.5: 32 test superati, 0 falliti;
+- `Routally Tests` su iPhone 17 Pro, iOS 26.5: 33 test superati, 0 falliti;
 - build Simulator dei target `Routally` e `Routally Dev` completate senza errori;
 - il test del dataset canonico è incluso nella suite completa;
 - `ModelConfiguration.validate()` sulle configurazioni provvisoria e definitiva.
 
 ## Conseguenze per le epiche successive
 
-- `E04` definisce eventi, revisioni, reducer e invarianti senza importare SwiftData;
-- `E05` trasforma il modello esplorativo in schema locale V1 e store di produzione;
+- `E04` può definire eventi, revisioni, reducer e invarianti senza importare SwiftData;
+- `E05` resta bloccata finché `TG-DATA` non è chiuso con evidenze CloudKit reali;
 - `E13` espone al widget soltanto il reader dello snapshot necessario;
 - `E14` aggiunge la sincronizzazione CloudKit reale e gli stati iCloud visibili;
 - cache e indici persistenti restano vietati finché una misura non ne dimostra la necessità.

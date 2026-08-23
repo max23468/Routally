@@ -225,7 +225,11 @@ public final class TGDataEventStore {
       by: \.recordID
     )
 
-    return events.compactMap { event in
+    let canonicalEvents = Dictionary(grouping: events, by: \.id).compactMap { _, duplicates in
+      duplicates.max(by: eventPrecedes)
+    }
+
+    return canonicalEvents.compactMap { event in
       let latestRevision = revisionsByEvent[event.id]?.max(by: revisionPrecedes)
       let effectiveClock = max(event.logicalClock, latestRevision?.logicalClock ?? .min)
       let latestTombstone = tombstonesByEvent[event.id]?.max(by: tombstonePrecedes)
@@ -327,6 +331,27 @@ public final class TGDataEventStore {
       < (rhs.logicalClock, rhs.authoredAt, rhs.id.uuidString)
   }
 
+  private func eventPrecedes(
+    _ lhs: TGDataSchemaV2.EventRecord,
+    _ rhs: TGDataSchemaV2.EventRecord
+  ) -> Bool {
+    (
+      lhs.logicalClock,
+      lhs.occurredAt,
+      lhs.routineID.uuidString,
+      lhs.payload,
+      lhs.origin,
+      lhs.originalTimeZoneIdentifier
+    ) < (
+      rhs.logicalClock,
+      rhs.occurredAt,
+      rhs.routineID.uuidString,
+      rhs.payload,
+      rhs.origin,
+      rhs.originalTimeZoneIdentifier
+    )
+  }
+
   private func tombstonePrecedes(
     _ lhs: TGDataSchemaV2.TombstoneRecord,
     _ rhs: TGDataSchemaV2.TombstoneRecord
@@ -357,6 +382,31 @@ public enum TGDataMigrationProbe {
         payload: event.payload
       )
     )
+    try context.save()
+  }
+
+  public static func seedImportedV2Store(at url: URL, events: [TGDataEvent]) throws {
+    let schema = Schema(versionedSchema: TGDataSchemaV2.self)
+    let configuration = TGDataEventStore.localConfiguration(url: url)
+    let container = try ModelContainer(
+      for: schema,
+      migrationPlan: TGDataMigrationPlan.self,
+      configurations: [configuration]
+    )
+    let context = ModelContext(container)
+    for event in events {
+      context.insert(
+        TGDataSchemaV2.EventRecord(
+          id: event.id,
+          routineID: event.routineID,
+          occurredAt: event.occurredAt,
+          logicalClock: event.logicalClock,
+          payload: event.payload,
+          origin: event.origin,
+          originalTimeZoneIdentifier: event.originalTimeZoneIdentifier
+        )
+      )
+    }
     try context.save()
   }
 }

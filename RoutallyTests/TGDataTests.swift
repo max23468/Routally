@@ -94,6 +94,43 @@ struct TGDataTests {
     #expect(try widgetStore.latestWidgetSnapshot() == "oggi:3")
   }
 
+  @Test("Duplicati già persistiti vengono risolti una sola volta")
+  func persistedDuplicatesResolveOnce() throws {
+    let forwardStore = try TemporaryStore()
+    let reverseStore = try TemporaryStore()
+    let original = makeEvent(index: 3)
+    let importedRevision = TGDataEvent(
+      id: original.id,
+      routineID: original.routineID,
+      occurredAt: original.occurredAt,
+      logicalClock: original.logicalClock + 1,
+      payload: "evento importato",
+      origin: "widget",
+      originalTimeZoneIdentifier: original.originalTimeZoneIdentifier
+    )
+
+    try TGDataMigrationProbe.seedImportedV2Store(
+      at: forwardStore.url,
+      events: [original, importedRevision]
+    )
+    try TGDataMigrationProbe.seedImportedV2Store(
+      at: reverseStore.url,
+      events: [importedRevision, original]
+    )
+
+    let forwardResult = try TGDataEventStore(
+      configuration: TGDataEventStore.localConfiguration(url: forwardStore.url)
+    ).resolvedEvents()
+    let reverseResult = try TGDataEventStore(
+      configuration: TGDataEventStore.localConfiguration(url: reverseStore.url)
+    ).resolvedEvents()
+
+    #expect(forwardResult == reverseResult)
+    #expect(forwardResult.count == 1)
+    #expect(forwardResult.first?.id == original.id)
+    #expect(forwardResult.first?.payload == "evento importato")
+  }
+
   @Test("La migrazione lightweight conserva gli eventi V1")
   func lightweightMigrationPreservesV1Events() throws {
     let temporaryStore = try TemporaryStore()
