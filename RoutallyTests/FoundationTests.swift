@@ -37,6 +37,21 @@ struct FoundationTests {
     #expect(largeHistory.followUps.allSatisfy { $0.state == .completed })
   }
 
+  @Test("Le fixture richiedono esplicitamente la modalità demo")
+  func fixturesRequireExplicitDemoLaunchMode() {
+    let demo = DemoFixtures.snapshot(
+      arguments: ["-launchMode", "demo", "-demoScenario", "largeHistory"]
+    )
+    let nonDemo = DemoFixtures.snapshot(
+      arguments: ["-launchMode", "production", "-demoScenario", "largeHistory"]
+    )
+
+    #expect(demo.routines.count == 30)
+    #expect(demo.followUps.count == 120)
+    #expect(nonDemo.routines.map(\.id) == ["gym", "gym-towel"])
+    #expect(nonDemo.followUps.isEmpty)
+  }
+
   @Test("Il quarto allenamento crea una sola conseguenza collegata")
   func fourthWorkoutCreatesOneFollowUp() {
     let store = RoutallyStore(snapshot: DemoFixtures.snapshot(for: .thresholdReached))
