@@ -4,6 +4,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Completato l'audit di E03: gli accenti Asset Catalog espongono ora tutte le varianti
+  Light/Dark e Increase Contrast con controllo CI dedicato, mentre le fixture di lancio
+  vengono caricate soltanto con la modalità `demo` esplicita.
 - Avanzato `TG-DATA` verso un esito Adapt: spike SwiftData isolato, schema e migrazione
   versionati, deduplica e riconciliazione UUID, revisioni/tombstone, recovery locale,
   condivisione app-widget, configurazione App Group/CloudKit e dataset canonico da 10.000

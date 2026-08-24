@@ -62,11 +62,13 @@ public enum DemoFixtures {
 
   public static func snapshot(arguments: [String]) -> RoutallySnapshot {
     guard
-      arguments.contains("-launchMode"),
+      let launchModeIndex = arguments.firstIndex(of: "-launchMode"),
+      arguments.indices.contains(launchModeIndex + 1),
+      arguments[launchModeIndex + 1] == "demo",
       let scenarioIndex = arguments.firstIndex(of: "-demoScenario"),
       arguments.indices.contains(scenarioIndex + 1)
     else {
-      return snapshot()
+      return RoutallySnapshot()
     }
 
     let value = arguments[scenarioIndex + 1]
