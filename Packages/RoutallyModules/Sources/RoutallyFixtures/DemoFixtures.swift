@@ -68,7 +68,7 @@ public enum DemoFixtures {
       let scenarioIndex = arguments.firstIndex(of: "-demoScenario"),
       arguments.indices.contains(scenarioIndex + 1)
     else {
-      return snapshot()
+      return RoutallySnapshot()
     }
 
     let value = arguments[scenarioIndex + 1]

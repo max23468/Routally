@@ -48,7 +48,7 @@ struct FoundationTests {
 
     #expect(demo.routines.count == 30)
     #expect(demo.followUps.count == 120)
-    #expect(nonDemo.routines.map(\.id) == ["gym", "gym-towel"])
+    #expect(nonDemo.routines.isEmpty)
     #expect(nonDemo.followUps.isEmpty)
   }
 
