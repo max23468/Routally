@@ -11,12 +11,16 @@ test("mantiene leggera la documentazione ordinaria", () => {
   assert.equal(result.needsRoadmap, false);
 });
 
-test("tratta Master Plan, Decision Register e ADR come documentazione canonica", () => {
-  const result = classifyChangedFiles([
-    "docs/MASTER_PLAN.md",
-    "docs/DECISION_REGISTER.md",
-    "docs/ADR/0003.md",
-  ]);
+test("tratta Master Plan e ADR come documentazione canonica", () => {
+  const result = classifyChangedFiles(["docs/MASTER_PLAN.md", "docs/ADR/0003.md"]);
+  assert.equal(result.kind, "canonical-documentation");
+  assert.equal(result.needsRoadmap, true);
+  assert.equal(result.needsNodeTests, true);
+  assert.equal(result.needsBuild, false);
+});
+
+test("tratta il Decision Register isolato come documentazione canonica", () => {
+  const result = classifyChangedFiles(["docs/DECISION_REGISTER.md"]);
   assert.equal(result.kind, "canonical-documentation");
   assert.equal(result.needsRoadmap, true);
   assert.equal(result.needsNodeTests, true);
