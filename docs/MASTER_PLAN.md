@@ -5003,6 +5003,22 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
 
+### Checkpoint visuale obbligatorio di E06
+
+Prima di considerare completa la vertical slice, `E06` deve:
+
+1. eseguire un audit con screenshot delle schermate esistenti;
+2. revisionare gerarchia, spaziature, tipografia, colori e componenti;
+3. realizzare un prototipo SwiftUI curato del flusso principale;
+4. verificare il prototipo su iPhone e iPad Simulator;
+5. ottenere l'approvazione visiva del Product Owner;
+6. formalizzare il linguaggio visivo approvato come base vincolante per l'estensione alle
+   altre schermate in `E07`–`E11`.
+
+Il checkpoint non amplia `E06` all'implementazione completa delle schermate delle epiche
+successive: rende la vertical slice il riferimento visuale approvato prima della loro
+estensione.
+
 ## 48.4 M04 — Today & Routine
 
 - Calm View;
@@ -5117,7 +5133,7 @@ la terza volta i requisiti delle sezioni di prodotto.
 | `E03` Xcode & SwiftUI Foundation | progetto, target, configurazioni, componenti, preview eseguibili e candidata tecnica dell'icona pubblico/Dev |
 | `E04` Domain Engine | registro eventi, reducer, regole, cicli, link, follow-up e invarianti |
 | `E05` Local Persistence Foundation | schema SwiftData locale, migrazioni, offline e store testabile |
-| `E06` Vertical Slice Integration | flusso collegato completo con correzione, conseguenze e fallback |
+| `E06` Vertical Slice Integration | flusso collegato completo con correzione, conseguenze e fallback, preceduto dal checkpoint visuale approvato |
 | `E07` App Shell | tab, navigazione, routing, sheet e deep link |
 | `E08` Creation | flusso unico progressivo, preset, validazione e ingresso dai Kit |
 | `E09` Today | Calm View, azioni e riepilogo delle conseguenze |
