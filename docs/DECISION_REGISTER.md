@@ -25,6 +25,7 @@ specifica completa.
 | DG-DOMAIN | Registrazione dominio, DNS ed email | Decision Gate | 0.5 | Servono ownership e recovery definitive | Blocca Universal Links, supporto e identificativi pubblici definitivi | — |
 | DG-TRADEMARK | Verifica formale di Routally e Temisfera | Decision Gate | 1.0 | La verifica preliminare non equivale a clearance | Influenza tutela e uso commerciale del brand | — |
 | DG-ICON | Scelta dell’icona definitiva | Decision Gate | 1.0 | Richiede SVG validati, Icon Composer, dispositivi, user test e verifica figurativa | Blocca file `.icon` e asset App Store finali | — |
+| DG-VISUAL | Approvazione del linguaggio visuale della vertical slice | Decision Gate | 0.3 | E06 deve produrre un riferimento SwiftUI verificato e approvato prima della sua estensione | Blocca il completamento di M03 e l’estensione delle schermate in E07–E11, quindi M04–M05 | — |
 | DG-DEVELOPER-IDENTITY | Identità legale dello sviluppatore | Decision Gate | 0.8 | Account Holder e trasferibilità devono essere definiti | Blocca gli asset Apple definitivi | — |
 | DG-LAUNCH | Data di lancio ed eventuale preordine | Decision Gate | 0.9 | Richiede una Release Candidate stabile | Blocca comunicazione e rilascio pubblico | — |
 | DG-PLUS-LAUNCH | Bundle e lancio di Routally Plus | Decision Gate | 1.X | Due checkpoint separano approvazione del bundle e autorizzazione al lancio | Il checkpoint A apre `TG-STOREKIT`; il checkpoint B autorizza la pubblicazione | — |
