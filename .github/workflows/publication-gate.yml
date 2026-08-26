@@ -1,0 +1,179 @@
+name: Publication gate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  security-events: write
+  statuses: write
+
+concurrency:
+  group: publication-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  classify:
+    name: Classifica modifica
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      kind: ${{ steps.policy.outputs.kind }}
+      needs_build: ${{ steps.policy.outputs.needs_build }}
+      needs_codeql: ${{ steps.policy.outputs.needs_codeql }}
+      needs_node_tests: ${{ steps.policy.outputs.needs_node_tests }}
+      needs_roadmap: ${{ steps.policy.outputs.needs_roadmap }}
+      needs_swift_format: ${{ steps.policy.outputs.needs_swift_format }}
+      needs_ui_assets: ${{ steps.policy.outputs.needs_ui_assets }}
+      needs_visual_evidence: ${{ steps.policy.outputs.needs_visual_evidence }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classifica i file modificati
+        id: policy
+        run: >-
+          node scripts/verify-change.mjs
+          --base "origin/${{ github.base_ref }}"
+          --github-output "$GITHUB_OUTPUT"
+          --plan-only
+      - name: Verifica integrità del diff
+        run: git diff --check "origin/${{ github.base_ref }}...HEAD"
+
+  validation:
+    name: Validazioni mirate
+    needs: classify
+    if: >-
+      needs.classify.outputs.needs_roadmap == 'true' ||
+      needs.classify.outputs.needs_node_tests == 'true' ||
+      needs.classify.outputs.needs_ui_assets == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Verifica matrice e roadmap
+        if: needs.classify.outputs.needs_roadmap == 'true'
+        run: >-
+          node scripts/check-reading-matrix.mjs &&
+          node scripts/check-roadmap-hierarchy.mjs
+      - name: Verifica script di governance
+        if: needs.classify.outputs.needs_node_tests == 'true'
+        run: >-
+          node --test
+          scripts/change-policy.test.mjs
+          scripts/codex-review-gate.test.mjs
+          scripts/publication-gate.test.mjs
+          scripts/verify-merge-tree.test.mjs
+      - name: Verifica asset UI Foundation
+        if: needs.classify.outputs.needs_ui_assets == 'true'
+        run: node scripts/check-ui-assets.mjs
+
+  swift-format:
+    name: Swift format
+    needs: classify
+    if: needs.classify.outputs.needs_swift_format == 'true'
+    runs-on: macos-26
+    timeout-minutes: 10
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Verifica formattazione
+        run: >-
+          swift format lint --recursive --strict
+          RoutallyApp RoutallyTests Packages/RoutallyModules
+
+  build-test:
+    name: Build e test
+    needs: classify
+    if: needs.classify.outputs.needs_build == 'true'
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Build Routally Dev
+        run: >-
+          xcodebuild build
+          -project Routally.xcodeproj
+          -scheme "Routally Dev"
+          -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+      - name: Test Routally
+        run: >-
+          xcodebuild test
+          -project Routally.xcodeproj
+          -scheme "Routally Tests"
+          -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+
+  codeql:
+    name: CodeQL Swift
+    needs: classify
+    if: >-
+      needs.classify.outputs.needs_codeql == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
+        with:
+          languages: swift
+          build-mode: manual
+      - name: Build Swift
+        run: >-
+          xcodebuild build
+          -project Routally.xcodeproj
+          -scheme "Routally Dev"
+          -destination "generic/platform=iOS Simulator"
+          ARCHS=arm64
+          ONLY_ACTIVE_ARCH=YES
+          CODE_SIGNING_REQUIRED=NO
+          CODE_SIGNING_ALLOWED=NO
+          COMPILATION_CACHE_ENABLE_CACHING=NO
+          SWIFT_ENABLE_COMPILE_CACHE=NO
+          SWIFT_USE_INTEGRATED_DRIVER=NO
+      - name: Analyze
+        uses: github/codeql-action/analyze@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
+        with:
+          category: /language:swift/pr-validation
+
+  publication-gate:
+    name: Consolida pubblicazione
+    if: always()
+    needs: [classify, validation, swift-format, build-test, codeql]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BUILD_REQUIRED: ${{ needs.classify.outputs.needs_build }}
+      BUILD_RESULT: ${{ needs.build-test.result }}
+      CLASSIFY_RESULT: ${{ needs.classify.result }}
+      CODEQL_REQUIRED: ${{ needs.classify.outputs.needs_codeql }}
+      CODEQL_RESULT: ${{ needs.codeql.result }}
+      FORMAT_REQUIRED: ${{ needs.classify.outputs.needs_swift_format }}
+      FORMAT_RESULT: ${{ needs.swift-format.result }}
+      VALIDATION_REQUIRED: ${{ needs.classify.outputs.needs_roadmap == 'true' || needs.classify.outputs.needs_node_tests == 'true' || needs.classify.outputs.needs_ui_assets == 'true' }}
+      VALIDATION_RESULT: ${{ needs.validation.result }}
+      VISUAL_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_visual_evidence }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Consolida i gate applicabili
+        run: node scripts/publication-gate.mjs

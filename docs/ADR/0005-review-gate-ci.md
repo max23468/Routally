@@ -54,9 +54,11 @@ precedenti.
   la natura del gate.
 - La sezione 28.3.1 rimanda alla 27.3.
 - `AGENTS.md`, `CLAUDE.md` e `docs/ENGINEERING/agent-workflow.md` riportano la stessa regola.
-- Nessuna modifica al workflow, allo script del gate o alla branch protection.
+- La natura del gate resta invariata; polling, branch protection e integrazione con il
+  processo di pubblicazione sono stati successivamente aggiornati da ADR 0006.
 
 ## Riferimenti
 
 - Master Plan, sezioni 27.2, 27.3 e 28.3.1.
+- ADR 0006 — Pubblicazione proporzionata con gate aggregato.
 - `.github/workflows/codex-review-gate.yml` e `scripts/codex-review-gate.mjs`.

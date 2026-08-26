@@ -21,10 +21,13 @@
 ## Verifiche locali
 
 ```sh
-swift format lint --recursive --strict RoutallyApp RoutallyTests Packages/RoutallyModules
-xcodebuild build -project Routally.xcodeproj -scheme "Routally Dev" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
-xcodebuild test -project Routally.xcodeproj -scheme "Routally Tests" -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+node scripts/verify-change.mjs --base origin/main
 ```
+
+Il comando classifica il diff e applica i controlli proporzionati: documentazione ordinaria,
+documentazione canonica, governance, Swift, UI o release/sicurezza. Per Swift esegue format,
+build e test completi; per UI segnala anche l'evidenza visuale manuale richiesta. Rieseguilo
+sull'HEAD finale dopo ogni correzione che modifica il contenuto validato.
 
 ## Significato di `Pubblica`
 
@@ -41,7 +44,14 @@ merge, deploy e release, è quella definita dalla policy della repository.
 I finding P2/P3 della review restano advisory e non autorizzano modifiche:
 l'agente li implementa soltanto su richiesta esplicita del proprietario. Quando
 la review è conclusa e l'evidenza si riferisce all'HEAD esatto, li riepiloga e
-prosegue con la pubblicazione; i finding P0/P1 restano bloccanti.
+prosegue con la pubblicazione senza richiedere la risoluzione delle conversazioni;
+i finding P0/P1 restano bloccanti.
+
+La PR richiede `codex-review` e `publication-gate`. Abilita lo squash auto-merge appena
+i gate sono in corso; GitHub integra automaticamente l'HEAD soltanto quando entrambi sono
+verdi. CodeQL applicabile gira nella PR in parallelo agli altri controlli. Dopo il merge,
+verifica l'equivalenza del tree pubblicato con `scripts/verify-merge-tree.mjs`; la scansione
+CodeQL settimanale di `main` è asincrona e non prolunga il ciclo già validato.
 
 La pulizia finale rimuove soltanto branch e worktree temporanei creati nel ciclo
 corrente e già assorbiti; controlla stash e altri residui senza alterare elementi
@@ -53,5 +63,6 @@ live, submission Shopify App Store, billing o nuove attivazioni produttive,
 TestFlight o App Store, invii Aruba, email o scansioni reali, né aggiornamenti
 Notion: queste azioni richiedono una richiesta esplicita separata. Una richiesta
 riferita soltanto a una di queste azioni non avvia la pubblicazione della
-repository. Non dichiarare `pubblicato` finché il ciclo applicabile e la
-rilettura finale di PR, check, deploy, release e stato Git non sono completi.
+repository. Non dichiarare `pubblicato` finché i gate applicabili della PR, il merge,
+l'equivalenza del tree e la rilettura finale di deploy, release e stato Git non sono
+completi. I monitor asincroni pianificati non sono gate retroattivi della pubblicazione.

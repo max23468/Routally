@@ -4,6 +4,9 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Reso proporzionato il ciclo di pubblicazione: classificazione condivisa locale/CI,
+  gate PR aggregato, CodeQL pre-merge, review Codex più reattiva, P2/P3 non bloccanti,
+  squash auto-merge ed equivalenza del tree al posto delle verifiche duplicate.
 - Implementata E04 come motore di dominio puro: tipi forti, calendario locale, registro
   eventi con revisioni e tombstone, reducer deterministico, collegamenti diretti, cicli,
   follow-up, correzioni retroattive, invarianti e test dei quattro archetipi canonici.

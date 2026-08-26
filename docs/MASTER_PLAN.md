@@ -3316,6 +3316,40 @@ su `main`.
 Il gate è un controllo di integrazione continua della repository e non assegna il lavoro a
 un secondo agente: si applica la sezione 27.3.
 
+Un nuovo commit invalida immediatamente lo status precedente e termina il relativo job;
+l'attesa riparte soltanto con la nuova richiesta di review. Il polling usa intervalli brevi
+e un timeout massimo di un'ora. I finding P2/P3 restano registrati ma non richiedono la
+risoluzione della conversazione per il merge, mentre P0/P1 continuano a bloccare.
+
+### 28.3.2 Gate di pubblicazione proporzionato
+
+Ogni PR produce lo status richiesto `publication-gate` sull'HEAD esatto. Il workflow parte sempre e
+classifica il diff come documentazione ordinaria, documentazione canonica, governance,
+Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parallelo:
+
+- integrità del diff per ogni modifica;
+- matrice, roadmap e test degli script per documentazione canonica e governance;
+- `swift-format`, build e test per codice o configurazioni applicative;
+- CodeQL nella PR per Swift e configurazioni di progetto;
+- controlli degli asset ed evidenza visuale dichiarata per UI.
+
+Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Il
+comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
+classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
+restano esplicite e non vengono sostituite da un successo automatico.
+
+### 28.3.3 Auto-merge e rilettura finale
+
+Quando `codex-review` e `publication-gate` sono in corso si abilita lo squash auto-merge.
+GitHub integra la PR soltanto dopo il successo dei gate richiesti. Dopo il merge, il tree
+ottenuto applicando l'HEAD validato della PR al parent del commit pubblicato deve coincidere
+con il tree del commit squash; `scripts/verify-merge-tree.mjs` rende eseguibile il controllo.
+
+Se i tree coincidono, i gate pre-merge costituiscono evidenza del contenuto pubblicato e
+non vengono ripetuti su `main`. CodeQL resta anche pianificato settimanalmente come monitor
+asincrono, senza prolungare una pubblicazione già validata. La rilettura finale continua a
+verificare PR, SHA, `main`, `origin/main`, branch, worktree e stash.
+
 ## 28.4 Primo commit
 
 ```text

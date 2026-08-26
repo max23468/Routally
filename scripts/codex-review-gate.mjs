@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url";
 
 const CODEX_BOT = "chatgpt-codex-connector[bot]";
 const TRUSTED_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
-export const CODEX_REVIEW_POLLING = { attempts: 100, intervalMs: 180_000 };
+export const CODEX_REVIEW_POLLING = { attempts: 120, intervalMs: 30_000 };
 
 const timestamp = (value) => new Date(value ?? 0).getTime();
 const signalTimestamp = (signal) => timestamp(signal.submitted_at ?? signal.created_at);
@@ -176,6 +176,7 @@ async function main() {
       : headCommit.commit.committer.date;
 
   await setStatus(repository, headSha, "pending", "In attesa della review Codex");
+  if (process.env.CODEX_REVIEW_MODE === "invalidate") return;
   if (pullRequest.draft) return;
 
   for (let attempt = 0; attempt < CODEX_REVIEW_POLLING.attempts; attempt += 1) {
