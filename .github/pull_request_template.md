@@ -10,6 +10,7 @@
 
 - [ ] `node scripts/verify-change.mjs --base origin/main` completato sull'HEAD finale
 - [ ] Build e test applicabili completati
+- HEAD Apple verificato: `non applicabile`
 - [ ] Nessun nuovo warning
 - [ ] Accessibilità e localizzazione considerate
 - [ ] Screenshot o video allegati per modifiche UI

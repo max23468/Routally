@@ -3330,8 +3330,10 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 
 - integrità del diff per ogni modifica;
 - matrice, roadmap e test degli script per documentazione canonica e governance;
-- `swift-format`, build e test per codice o configurazioni applicative;
-- CodeQL nella PR per Swift e configurazioni di progetto;
+- `swift-format` in GitHub Actions per codice o configurazioni applicative;
+- evidenza di build e test Simulator eseguiti sul Mac controllato, legata all'HEAD esatto;
+- CodeQL nella PR per Swift e configurazioni di progetto, con analisi read-only e upload
+  SARIF trusted separato;
 - controlli degli asset ed evidenza visuale dichiarata per UI.
 
 Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per

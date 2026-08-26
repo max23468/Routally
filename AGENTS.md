@@ -27,7 +27,8 @@ node scripts/verify-change.mjs --base origin/main
 Il comando classifica il diff e applica i controlli proporzionati: documentazione ordinaria,
 documentazione canonica, governance, Swift, UI o release/sicurezza. Per Swift esegue format,
 build e test completi; per UI segnala anche l'evidenza visuale manuale richiesta. Rieseguilo
-sull'HEAD finale dopo ogni correzione che modifica il contenuto validato.
+sull'HEAD finale dopo ogni correzione che modifica il contenuto validato. Se richiede il gate
+Apple, marca il checkbox build/test e registra nel corpo l'HEAD completo verificato.
 
 ## Significato di `Pubblica`
 

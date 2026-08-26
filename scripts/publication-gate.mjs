@@ -6,12 +6,18 @@ export function visualEvidenceApproved(body) {
   return /^- \[[xX]\] Screenshot o video allegati per modifiche UI\s*$/m.test(body || "");
 }
 
+export function appleEvidenceApproved(body, headSha) {
+  if (!/^[0-9a-f]{40}$/.test(headSha || "")) return false;
+  const checklist = /^- \[[xX]\] Build e test applicabili completati\s*$/m.test(body || "");
+  const marker = `- HEAD Apple verificato: \`${headSha}\``;
+  return checklist && (body || "").split("\n").some((line) => line.trim() === marker);
+}
+
 export function evaluatePublicationGate(input) {
   const checks = [
     ["classificazione", true, input.classifyResult],
     ["validazioni", required(input.validationRequired), input.validationResult],
     ["Swift format", required(input.formatRequired), input.formatResult],
-    ["build e test", required(input.buildRequired), input.buildResult],
     ["CodeQL", required(input.codeqlRequired), input.codeqlResult],
   ];
   const failures = checks.filter(([, isRequired, result]) => isRequired && result !== "success");
@@ -23,6 +29,12 @@ export function evaluatePublicationGate(input) {
     && !visualEvidenceApproved(input.pullRequestBody)
   ) {
     throw new Error("Evidenza visuale UI non registrata nella checklist della PR");
+  }
+  if (
+    required(input.appleEvidenceRequired)
+    && !appleEvidenceApproved(input.pullRequestBody, input.pullRequestHead)
+  ) {
+    throw new Error("Build e test Apple non registrati per l'HEAD corrente");
   }
   return {
     needsVisualEvidence: required(input.visualEvidenceRequired),
@@ -66,8 +78,7 @@ const isDirectExecution =
 if (isDirectExecution) {
   try {
     const result = evaluatePublicationGate({
-      buildRequired: process.env.BUILD_REQUIRED,
-      buildResult: process.env.BUILD_RESULT,
+      appleEvidenceRequired: process.env.APPLE_EVIDENCE_REQUIRED,
       classifyResult: process.env.CLASSIFY_RESULT,
       codeqlRequired: process.env.CODEQL_REQUIRED,
       codeqlResult: process.env.CODEQL_RESULT,
@@ -77,6 +88,7 @@ if (isDirectExecution) {
       validationResult: process.env.VALIDATION_RESULT,
       visualEvidenceRequired: process.env.VISUAL_EVIDENCE_REQUIRED,
       pullRequestBody: process.env.PULL_REQUEST_BODY,
+      pullRequestHead: process.env.PULL_REQUEST_HEAD,
     });
     if (result.needsVisualEvidence) {
       console.log("Evidenza visuale richiesta nel ciclo di pubblicazione.");

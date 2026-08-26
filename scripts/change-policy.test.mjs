@@ -86,3 +86,10 @@ test("l'inventario tratta un rename come rimozione e aggiunta", async () => {
   assert.match(source, /"diff", "--no-renames", "--name-only"/);
   assert.match(source, /"--no-renames",\s*\n\s*"--cached"/);
 });
+
+test("il gate Apple locale costruisce entrambi gli scheme applicativi", async () => {
+  const source = await readFile(new URL("./verify-change.mjs", import.meta.url), "utf8");
+  assert.match(source, /"-scheme",\s*\n\s*"Routally Dev"/);
+  assert.match(source, /"-scheme",\s*\n\s*"Routally"/);
+  assert.match(source, /"-scheme",\s*\n\s*"Routally Tests"/);
+});

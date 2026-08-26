@@ -22,7 +22,8 @@ La pubblicazione usa un modello proporzionato e deterministico:
 
 1. un classificatore condiviso sceglie i controlli locali e CI in base ai file modificati;
 2. ogni PR produce un unico `publication-gate` aggregato sull'HEAD e sempre conclusivo;
-3. format, build/test, verifiche documentali e CodeQL applicabili girano in parallelo;
+3. verifiche documentali, format e CodeQL applicabili girano in parallelo; build/test
+   Simulator restano sul Mac controllato e sono registrati sull'HEAD esatto della PR;
 4. CodeQL Swift valida la PR, mentre `main` mantiene soltanto la scansione settimanale;
 5. la review Codex invalida subito i vecchi SHA, esegue polling ogni 30 secondi e scade
    dopo un'ora;
@@ -42,8 +43,9 @@ deploy, TestFlight e App Store conservano le rispettive autorizzazioni e prove m
 - Un monitor settimanale fallito genera lavoro correttivo ma non cambia retroattivamente
   l'evidenza di una PR già validata e pubblicata.
 - Il workflow trusted di `main` invalida subito l'esito precedente, classifica il diff ed
-  esegue i job sul merge proposto con permessi di sola lettura; soltanto il job finale
-  pubblica `publication-gate` sull'HEAD, inclusi i PR Dependabot.
+  esegue i job sul merge proposto con permessi di sola lettura; CodeQL produce un SARIF come
+  dato e un job trusted separato lo carica. Soltanto i job trusted pubblicano stato,
+  incluso `publication-gate` sull'HEAD dei PR Dependabot.
 - Il repository richiede `codex-review` e `publication-gate`, consente auto-merge e non
   richiede la risoluzione generica delle conversazioni.
 

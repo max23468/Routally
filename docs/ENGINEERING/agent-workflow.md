@@ -111,20 +111,21 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   dell'agente Codex sul task altrui: vale per ogni PR e non trasferisce il lavoro a un
   secondo agente. Chi ha aperto la PR risponde ai finding e la porta a termine.
 - Ogni PR richiede anche `publication-gate`, sempre presente e aggregato. Classificazione,
-  verifiche documentali, format, build/test e CodeQL vengono eseguiti in parallelo e i job
+  verifiche documentali, format e CodeQL vengono eseguiti in parallelo; build/test Simulator
+  restano sul Mac controllato e sono registrati nel corpo con l'HEAD completo. I controlli
   costosi sono condizionali al contenuto del diff. Modifiche UI richiedono inoltre evidenza
   visuale proporzionata, che resta una prova umana e non viene simulata dalla CI: allegala e
   marca il relativo checkbox nel corpo prima di aprire la PR, altrimenti il gate fallisce.
   Ogni esecuzione invalida subito l'esito precedente; lo status viene pubblicato dal job
-  finale trusted e i job sul merge proposto hanno permessi di sola
-  lettura, così anche i PR Dependabot restano supportati senza affidarsi al workflow della PR.
+  finale trusted e i job sul merge proposto hanno permessi di sola lettura, così anche i PR
+  Dependabot restano supportati senza affidarsi al workflow della PR.
 - P0/P1 dell'HEAD corrente bloccano; P2/P3 vengono registrati come advisory e non richiedono
   la risoluzione della conversazione per il merge.
 - Abilita lo squash auto-merge quando i gate sono in corso. Dopo il merge usa
   `node scripts/verify-merge-tree.mjs --pr-head <sha> --merge <sha>` e rileggi PR, `main`,
-  `origin/main`, branch, worktree e stash. Se il tree coincide, build/test/CodeQL della PR
-  restano evidenza del contenuto pubblicato e non vengono duplicati dopo il merge. CodeQL
-  pianificato su `main` resta un monitor asincrono.
+  `origin/main`, branch, worktree e stash. Se il tree coincide, build/test locali e CodeQL
+  registrati nella PR restano evidenza del contenuto pubblicato e non vengono duplicati dopo
+  il merge. CodeQL pianificato su `main` resta un monitor asincrono.
 - Mantieni il cambiamento minimo coerente con lo scope approvato.
 - Non aggiungere dipendenze o operare su servizi remoti senza autorizzazione.
 - Esegui i controlli proporzionati al rischio e aggiungi una regressione per ogni bug.

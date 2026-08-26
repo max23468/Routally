@@ -91,6 +91,15 @@ function executeChecks(classification, base) {
       "platform=iOS Simulator,name=iPhone 17 Pro",
     ]);
     run("xcodebuild", [
+      "build",
+      "-project",
+      "Routally.xcodeproj",
+      "-scheme",
+      "Routally",
+      "-destination",
+      "platform=iOS Simulator,name=iPhone 17 Pro",
+    ]);
+    run("xcodebuild", [
       "test",
       "-project",
       "Routally.xcodeproj",
