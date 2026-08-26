@@ -19,7 +19,7 @@ export function evaluatePublicationGate(input) {
   };
 }
 
-export function publicationStatus({ description, state }) {
+export function publicationStatus({ description, state }, environment = process.env) {
   if (!["error", "failure", "pending", "success"].includes(state)) {
     throw new Error("Stato publication-gate non valido");
   }
@@ -27,8 +27,8 @@ export function publicationStatus({ description, state }) {
     context: "publication-gate",
     description,
     state,
-    target_url: process.env.GITHUB_SERVER_URL && process.env.GITHUB_RUN_ID
-      ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+    target_url: environment.GITHUB_SERVER_URL && environment.GITHUB_RUN_ID
+      ? `${environment.GITHUB_SERVER_URL}/${environment.GITHUB_REPOSITORY}/actions/runs/${environment.GITHUB_RUN_ID}`
       : undefined,
   };
 }

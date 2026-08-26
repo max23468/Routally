@@ -81,13 +81,24 @@ test("blocca un job richiesto saltato o fallito", () => {
 
 test("pubblica uno status required sull'HEAD con un contesto stabile", () => {
   assert.deepEqual(
-    publicationStatus({ description: "Verde", state: "success" }),
+    publicationStatus({ description: "Verde", state: "success" }, {}),
     {
       context: "publication-gate",
       description: "Verde",
       state: "success",
       target_url: undefined,
     },
+  );
+  assert.equal(
+    publicationStatus(
+      { description: "Verde", state: "success" },
+      {
+        GITHUB_REPOSITORY: "max23468/Routally",
+        GITHUB_RUN_ID: "123",
+        GITHUB_SERVER_URL: "https://github.com",
+      },
+    ).target_url,
+    "https://github.com/max23468/Routally/actions/runs/123",
   );
   assert.throws(
     () => publicationStatus({ description: "X", state: "skipped" }),
