@@ -192,5 +192,7 @@ test("il workflow usa codice trusted e non richiede commenti al primo giro", asy
   assert.match(workflow, /github\.event\.action == 'reopened'/);
   assert.match(workflow, /jobs:\s*\n  invalidate:/);
   assert.match(workflow, /\n  gate:/);
+  assert.match(workflow, /gate:\s*\n    name: Aggiorna gate Codex\s*\n    needs: invalidate/);
+  assert.match(workflow, /if: >-\s*\n      always\(\) &&/);
   assert.match(workflow, /timeout-minutes: 65/);
 });

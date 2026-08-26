@@ -216,7 +216,7 @@ async function main() {
     await new Promise((resolve) => setTimeout(resolve, CODEX_REVIEW_POLLING.intervalMs));
   }
 
-  await setStatus(repository, headSha, "error", "Review Codex non conclusa entro cinque ore");
+  await setStatus(repository, headSha, "error", "Review Codex non conclusa entro un'ora");
 }
 
 const isDirectExecution =
