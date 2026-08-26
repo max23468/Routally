@@ -29,6 +29,37 @@ export function evaluatePublicationGate(input) {
   };
 }
 
+export function publicationStatus({ description, state }, environment = process.env) {
+  if (!["error", "failure", "pending", "success"].includes(state)) {
+    throw new Error("Stato publication-gate non valido");
+  }
+  return {
+    context: "publication-gate",
+    description,
+    state,
+    target_url: environment.GITHUB_SERVER_URL && environment.GITHUB_RUN_ID
+      ? `${environment.GITHUB_SERVER_URL}/${environment.GITHUB_REPOSITORY}/actions/runs/${environment.GITHUB_RUN_ID}`
+      : undefined,
+  };
+}
+
+async function setStatus(payload) {
+  const response = await fetch(
+    `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/statuses/${process.env.PULL_REQUEST_HEAD}`,
+    {
+      method: "POST",
+      headers: {
+        accept: "application/vnd.github+json",
+        authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        "content-type": "application/json",
+        "x-github-api-version": "2022-11-28",
+      },
+      body: JSON.stringify(payload),
+    },
+  );
+  if (!response.ok) throw new Error(`Aggiornamento publication-gate fallito: ${response.status}`);
+}
+
 const isDirectExecution =
   process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 
@@ -50,8 +81,24 @@ if (isDirectExecution) {
     if (result.needsVisualEvidence) {
       console.log("Evidenza visuale richiesta nel ciclo di pubblicazione.");
     }
+    await setStatus(
+      publicationStatus({
+        description: "Tutti i controlli applicabili sono verdi",
+        state: "success",
+      }),
+    );
     console.log("Tutti i gate applicabili sono verdi.");
   } catch (error) {
+    try {
+      await setStatus(
+        publicationStatus({
+          description: "Uno o più controlli applicabili non sono verdi",
+          state: "failure",
+        }),
+      );
+    } catch (statusError) {
+      console.error(statusError.message);
+    }
     console.error(error.message);
     process.exitCode = 1;
   }

@@ -1,13 +1,12 @@
 name: Publication gate
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review, edited]
 
 permissions:
   contents: read
-  security-events: write
 
 concurrency:
   group: publication-${{ github.event.pull_request.number }}
@@ -30,17 +29,21 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ github.event.repository.default_branch }}
           fetch-depth: 0
           persist-credentials: false
+      - name: Recupera l'HEAD della PR senza eseguirlo
+        run: git fetch --no-tags origin "pull/${{ github.event.pull_request.number }}/head"
       - name: Classifica i file modificati
         id: policy
         run: >-
           node scripts/verify-change.mjs
           --base "origin/${{ github.base_ref }}"
+          --head FETCH_HEAD
           --github-output "$GITHUB_OUTPUT"
           --plan-only
       - name: Verifica integrità del diff
-        run: git diff --check "origin/${{ github.base_ref }}...HEAD"
+        run: git diff --check "origin/${{ github.base_ref }}...FETCH_HEAD"
 
   validation:
     name: Validazioni mirate
@@ -54,6 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
           persist-credentials: false
       - name: Verifica matrice e roadmap
         if: needs.classify.outputs.needs_roadmap == 'true'
@@ -67,7 +71,6 @@ jobs:
           scripts/change-policy.test.mjs
           scripts/codex-review-gate.test.mjs
           scripts/publication-gate.test.mjs
-          scripts/publication-status.test.mjs
           scripts/verify-merge-tree.test.mjs
       - name: Verifica asset UI Foundation
         if: needs.classify.outputs.needs_ui_assets == 'true'
@@ -84,6 +87,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
           persist-credentials: false
       - name: Verifica formattazione
         run: >-
@@ -101,6 +105,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
           persist-credentials: false
       - name: Build Routally Dev
         run: >-
@@ -123,11 +128,15 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: macos-26
     timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
           persist-credentials: false
       - name: Initialize CodeQL
         uses: github/codeql-action/init@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
@@ -158,6 +167,9 @@ jobs:
     needs: [classify, validation, swift-format, build-test, codeql]
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      statuses: write
     env:
       BUILD_REQUIRED: ${{ needs.classify.outputs.needs_build }}
       BUILD_RESULT: ${{ needs.build-test.result }}
@@ -170,9 +182,12 @@ jobs:
       VALIDATION_RESULT: ${{ needs.validation.result }}
       VISUAL_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_visual_evidence }}
       PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
       - name: Consolida i gate applicabili
         run: node scripts/publication-gate.mjs

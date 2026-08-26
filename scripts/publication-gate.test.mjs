@@ -3,24 +3,24 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   evaluatePublicationGate,
+  publicationStatus,
   visualEvidenceApproved,
 } from "./publication-gate.mjs";
 
 const workflowURL = new URL("../.github/workflows/publication-gate.yml", import.meta.url);
-const statusWorkflowURL = new URL(
-  "../.github/workflows/publication-status.yml",
-  import.meta.url,
-);
 const codeqlURL = new URL("../.github/workflows/codeql.yml", import.meta.url);
 
 test("il gate aggregato parte per ogni PR senza filtri di percorso", async () => {
   const workflow = await readFile(workflowURL, "utf8");
-  assert.match(workflow, /on:\s*\n  pull_request:/);
+  assert.match(workflow, /on:\s*\n  pull_request_target:/);
   assert.doesNotMatch(workflow, /\n\s+paths(?:-ignore)?:/);
   assert.match(workflow, /publication-gate:\s*\n    name: Consolida pubblicazione/);
   assert.match(workflow, /publication-gate:[\s\S]*?if: always\(\)/);
-  assert.doesNotMatch(workflow, /statuses: write/);
-  assert.doesNotMatch(workflow, /PULL_REQUEST_HEAD:/);
+  assert.match(workflow, /publication-gate:[\s\S]*?statuses: write/);
+  assert.match(workflow, /PULL_REQUEST_HEAD:/);
+  assert.match(workflow, /--head FETCH_HEAD/);
+  assert.match(workflow, /ref: refs\/pull\/\$\{\{ github\.event\.pull_request\.number \}\}\/merge/);
+  assert.match(workflow, /ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
 });
 
 test("consolida soltanto i job richiesti dalla classificazione", async () => {
@@ -121,12 +121,36 @@ test("blocca una PR UI finché la prova visuale non è registrata", () => {
   );
 });
 
-test("pubblica lo status da un workflow trusted", async () => {
-  const workflow = await readFile(statusWorkflowURL, "utf8");
-  assert.match(workflow, /workflow_run:/);
-  assert.match(workflow, /workflows: \["Publication gate"\]/);
-  assert.match(workflow, /statuses: write/);
-  assert.match(workflow, /PUBLICATION_HEAD:/);
-  assert.match(workflow, /ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
-  assert.doesNotMatch(workflow, /pull_request_target:/);
+test("pubblica uno status required sull'HEAD con un contesto stabile", () => {
+  assert.deepEqual(
+    publicationStatus({ description: "Verde", state: "success" }, {}),
+    {
+      context: "publication-gate",
+      description: "Verde",
+      state: "success",
+      target_url: undefined,
+    },
+  );
+  assert.equal(
+    publicationStatus(
+      { description: "Verde", state: "success" },
+      {
+        GITHUB_REPOSITORY: "max23468/Routally",
+        GITHUB_RUN_ID: "123",
+        GITHUB_SERVER_URL: "https://github.com",
+      },
+    ).target_url,
+    "https://github.com/max23468/Routally/actions/runs/123",
+  );
+  assert.throws(
+    () => publicationStatus({ description: "X", state: "skipped" }),
+    /non valido/,
+  );
+});
+
+test("non esiste un publisher separato che si fida del workflow della PR", async () => {
+  await assert.rejects(
+    readFile(new URL("../.github/workflows/publication-status.yml", import.meta.url), "utf8"),
+    (error) => error.code === "ENOENT",
+  );
 });

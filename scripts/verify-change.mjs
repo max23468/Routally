@@ -20,9 +20,16 @@ function outputLines(command, args) {
   return output ? output.split("\n").filter(Boolean) : [];
 }
 
-export function changedFiles(base) {
+export function changedFiles(base, head = "HEAD") {
+  const committed = outputLines("git", [
+    "diff",
+    "--name-only",
+    "--diff-filter=ACMRD",
+    `${base}...${head}`,
+  ]);
+  if (head !== "HEAD") return committed;
   return [
-    ...outputLines("git", ["diff", "--name-only", "--diff-filter=ACMRD", `${base}...HEAD`]),
+    ...committed,
     ...outputLines("git", ["diff", "--name-only", "--diff-filter=ACMRD"]),
     ...outputLines("git", ["diff", "--cached", "--name-only", "--diff-filter=ACMRD"]),
     ...outputLines("git", ["ls-files", "--others", "--exclude-standard"]),
@@ -40,7 +47,6 @@ function runNodeTests() {
     "scripts/change-policy.test.mjs",
     "scripts/codex-review-gate.test.mjs",
     "scripts/publication-gate.test.mjs",
-    "scripts/publication-status.test.mjs",
     "scripts/verify-merge-tree.test.mjs",
   ]);
 }
@@ -90,7 +96,8 @@ function executeChecks(classification, base) {
 }
 
 const base = argumentValue("--base", "origin/main");
-const classification = classifyChangedFiles(changedFiles(base));
+const head = argumentValue("--head", "HEAD");
+const classification = classifyChangedFiles(changedFiles(base, head));
 const githubOutputPath = argumentValue("--github-output");
 
 if (githubOutputPath) {

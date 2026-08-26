@@ -3336,9 +3336,9 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 
 Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per
 una PR UI il checkbox «Screenshot o video allegati per modifiche UI» deve essere marcato nel
-corpo della PR dopo una prova reale; in sua assenza il gate fallisce. Un `workflow_run`
-trusted, che usa soltanto codice già presente su `main`, pubblica lo status
-anche per i PR Dependabot senza esporre permessi di scrittura al codice del PR. Il
+corpo della PR dopo una prova reale; in sua assenza il gate fallisce. Il workflow trusted
+presente su `main` classifica il diff, esegue i job sul merge proposto con permessi di sola
+lettura e pubblica lo status da un job finale separato, anche per i PR Dependabot. Il
 comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
 classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
 restano esplicite e non vengono sostituite da un successo automatico.
