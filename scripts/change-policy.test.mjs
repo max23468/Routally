@@ -39,6 +39,17 @@ test("aggiunge evidenza visuale per una superficie UI", () => {
   assert.equal(result.needsVisualEvidence, true);
 });
 
+test("costruisce anche le risorse processate dei package", () => {
+  const result = classifyChangedFiles([
+    "Packages/RoutallyModules/Sources/RoutallyFixtures/Resources/Localizable.xcstrings",
+  ]);
+  assert.equal(result.kind, "ui");
+  assert.equal(result.needsBuild, true);
+  assert.equal(result.needsCodeQL, false);
+  assert.equal(result.needsUIAssets, true);
+  assert.equal(result.needsVisualEvidence, true);
+});
+
 test("classifica configurazioni e sicurezza al livello massimo", () => {
   const result = classifyChangedFiles(["Configuration/Release.xcconfig"]);
   assert.equal(result.kind, "release-security");

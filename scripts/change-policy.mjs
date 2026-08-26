@@ -9,6 +9,7 @@ const projectConfiguration = [
 ];
 const uiSurface = [
   /^RoutallyApp\//,
+  /^Packages\/RoutallyModules\/Sources\/[^/]+\/Resources\//,
   /^Packages\/RoutallyModules\/Sources\/RoutallyDesign\//,
   /^Packages\/RoutallyModules\/Sources\/RoutallyFeatures\//,
   /\.xcassets\//,
@@ -32,6 +33,7 @@ const releaseOrSecurity = [
 const applicationPipeline = [
   /^\.github\/workflows\/codeql\.yml$/,
   /^\.github\/workflows\/publication-gate\.yml$/,
+  /^\.github\/workflows\/publication-status\.yml$/,
   /^\.github\/workflows\/swift-format\.yml$/,
 ];
 

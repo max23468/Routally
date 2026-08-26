@@ -1,9 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { evaluatePublicationGate, publicationStatus } from "./publication-gate.mjs";
+import { evaluatePublicationGate } from "./publication-gate.mjs";
 
 const workflowURL = new URL("../.github/workflows/publication-gate.yml", import.meta.url);
+const statusWorkflowURL = new URL(
+  "../.github/workflows/publication-status.yml",
+  import.meta.url,
+);
 const codeqlURL = new URL("../.github/workflows/codeql.yml", import.meta.url);
 
 test("il gate aggregato parte per ogni PR senza filtri di percorso", async () => {
@@ -12,8 +16,8 @@ test("il gate aggregato parte per ogni PR senza filtri di percorso", async () =>
   assert.doesNotMatch(workflow, /\n\s+paths(?:-ignore)?:/);
   assert.match(workflow, /publication-gate:\s*\n    name: Consolida pubblicazione/);
   assert.match(workflow, /publication-gate:[\s\S]*?if: always\(\)/);
-  assert.match(workflow, /statuses: write/);
-  assert.match(workflow, /PULL_REQUEST_HEAD:/);
+  assert.doesNotMatch(workflow, /statuses: write/);
+  assert.doesNotMatch(workflow, /PULL_REQUEST_HEAD:/);
 });
 
 test("consolida soltanto i job richiesti dalla classificazione", async () => {
@@ -79,29 +83,12 @@ test("blocca un job richiesto saltato o fallito", () => {
   );
 });
 
-test("pubblica uno status required sull'HEAD con un contesto stabile", () => {
-  assert.deepEqual(
-    publicationStatus({ description: "Verde", state: "success" }, {}),
-    {
-      context: "publication-gate",
-      description: "Verde",
-      state: "success",
-      target_url: undefined,
-    },
-  );
-  assert.equal(
-    publicationStatus(
-      { description: "Verde", state: "success" },
-      {
-        GITHUB_REPOSITORY: "max23468/Routally",
-        GITHUB_RUN_ID: "123",
-        GITHUB_SERVER_URL: "https://github.com",
-      },
-    ).target_url,
-    "https://github.com/max23468/Routally/actions/runs/123",
-  );
-  assert.throws(
-    () => publicationStatus({ description: "X", state: "skipped" }),
-    /non valido/,
-  );
+test("pubblica lo status da un workflow trusted", async () => {
+  const workflow = await readFile(statusWorkflowURL, "utf8");
+  assert.match(workflow, /workflow_run:/);
+  assert.match(workflow, /workflows: \["Publication gate"\]/);
+  assert.match(workflow, /statuses: write/);
+  assert.match(workflow, /PUBLICATION_HEAD:/);
+  assert.match(workflow, /ref: \$\{\{ github\.event\.repository\.default_branch \}\}/);
+  assert.doesNotMatch(workflow, /pull_request_target:/);
 });

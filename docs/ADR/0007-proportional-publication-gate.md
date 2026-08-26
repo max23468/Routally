@@ -1,4 +1,4 @@
-# ADR 0006 — Pubblicazione proporzionata con gate aggregato
+# ADR-0007 — Pubblicazione proporzionata con gate aggregato
 
 - **Stato:** Confirmed
 - **Data:** 2026-08-27
@@ -40,6 +40,8 @@ e App Store conservano le rispettive autorizzazioni e prove manuali.
 - Il tempo di una PR Swift è il massimo dei gate paralleli, non la loro somma.
 - Un monitor settimanale fallito genera lavoro correttivo ma non cambia retroattivamente
   l'evidenza di una PR già validata e pubblicata.
+- Il workflow del PR calcola l'esito senza permessi di scrittura; un `workflow_run`
+  trusted pubblica `publication-gate` sull'HEAD, inclusi i PR Dependabot.
 - Il repository richiede `codex-review` e `publication-gate`, consente auto-merge e non
   richiede la risoluzione generica delle conversazioni.
 
@@ -48,5 +50,5 @@ e App Store conservano le rispettive autorizzazioni e prove manuali.
 - Master Plan, sezioni 28.3.1–28.3.3.
 - `scripts/change-policy.mjs`, `scripts/verify-change.mjs` e
   `scripts/verify-merge-tree.mjs`.
-- `.github/workflows/publication-gate.yml` e
+- `.github/workflows/publication-gate.yml`, `.github/workflows/publication-status.yml` e
   `.github/workflows/codex-review-gate.yml`.

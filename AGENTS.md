@@ -49,7 +49,8 @@ i finding P0/P1 restano bloccanti.
 
 La PR richiede `codex-review` e `publication-gate`. Abilita lo squash auto-merge appena
 i gate sono in corso; GitHub integra automaticamente l'HEAD soltanto quando entrambi sono
-verdi. CodeQL applicabile gira nella PR in parallelo agli altri controlli. Dopo il merge,
+verdi. CodeQL applicabile gira nella PR in parallelo agli altri controlli; lo status aggregato
+viene pubblicato da un `workflow_run` trusted anche per Dependabot. Dopo il merge,
 verifica l'equivalenza del tree pubblicato con `scripts/verify-merge-tree.mjs`; la scansione
 CodeQL settimanale di `main` è asincrona e non prolunga il ciclo già validato.
 
