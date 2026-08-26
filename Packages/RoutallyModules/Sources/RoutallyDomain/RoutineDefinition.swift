@@ -55,6 +55,16 @@ public enum FrequencyRule: Codable, Equatable, Hashable, Sendable {
   case withinPeriod(PeriodicGoalRule)
 }
 
+public enum AttentionRule: Codable, Equatable, Hashable, Sendable {
+  case beforeDue(CalendarIntervalRule)
+  case whenDue
+  case onlyWhenRequiresAttention(after: CalendarIntervalRule)
+  case custom(
+    showBefore: CalendarIntervalRule?,
+    requiresAttentionAfter: CalendarIntervalRule?
+  )
+}
+
 public enum RoutineLifecycle: Codable, Equatable, Hashable, Sendable {
   case active
   case paused(since: Date)
@@ -100,6 +110,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
   public var name: String
   public var measurement: MeasurementRule
   public var frequency: FrequencyRule
+  public var attention: AttentionRule
   public var lifecycle: RoutineLifecycle
   public let createdAt: Date
 
@@ -108,6 +119,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
     name: String,
     measurement: MeasurementRule,
     frequency: FrequencyRule,
+    attention: AttentionRule = .whenDue,
     lifecycle: RoutineLifecycle = .active,
     createdAt: Date
   ) {
@@ -115,6 +127,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
     self.name = name
     self.measurement = measurement
     self.frequency = frequency
+    self.attention = attention
     self.lifecycle = lifecycle
     self.createdAt = createdAt
   }
@@ -257,12 +270,16 @@ public enum DomainValidationError: Error, Equatable, Sendable {
   case duplicateLinkID(RoutineLinkID)
   case duplicateCycleID(UsageCycleID)
   case missingRoutine(RoutineID)
+  case invalidRoutineName(RoutineID)
   case invalidMeasurement(RoutineID)
   case invalidFrequency(RoutineID)
+  case invalidAttention(RoutineID)
   case invalidLinkIncrement(RoutineLinkID)
+  case invalidLinkWindow(RoutineLinkID)
   case circularLink(RoutineID)
   case multiLevelLink(RoutineID)
   case invalidThreshold(UsageCycleID)
+  case invalidFollowUp(UsageCycleID)
 }
 
 extension DomainCatalog {
@@ -280,11 +297,17 @@ extension DomainCatalog {
 
     let knownRoutines = Set(routineIDs)
     for routine in routines {
+      guard !routine.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        throw DomainValidationError.invalidRoutineName(routine.id)
+      }
       guard routine.isMeasurementValid else {
         throw DomainValidationError.invalidMeasurement(routine.id)
       }
       guard routine.isFrequencyValid else {
         throw DomainValidationError.invalidFrequency(routine.id)
+      }
+      guard routine.attention.isValid else {
+        throw DomainValidationError.invalidAttention(routine.id)
       }
     }
 
@@ -297,6 +320,9 @@ extension DomainCatalog {
       }
       guard link.contribution.isValid else {
         throw DomainValidationError.invalidLinkIncrement(link.id)
+      }
+      guard link.inactiveFrom.map({ link.activeFrom < $0 }) != false else {
+        throw DomainValidationError.invalidLinkWindow(link.id)
       }
       guard link.sourceRoutineID != link.targetRoutineID else {
         throw DomainValidationError.circularLink(link.sourceRoutineID)
@@ -315,12 +341,17 @@ extension DomainCatalog {
       guard cycle.isThresholdValid else {
         throw DomainValidationError.invalidThreshold(cycle.id)
       }
+      guard cycle.isFollowUpValid else {
+        throw DomainValidationError.invalidFollowUp(cycle.id)
+      }
     }
   }
 
   public func affectedRoutineIDs(startingAt changedRoutineIDs: Set<RoutineID>) -> Set<RoutineID> {
-    var affected = changedRoutineIDs
-    for link in links where changedRoutineIDs.contains(link.sourceRoutineID) {
+    let knownRoutineIDs = Set(routines.map(\.id))
+    let knownChangedRoutineIDs = changedRoutineIDs.intersection(knownRoutineIDs)
+    var affected = knownChangedRoutineIDs
+    for link in links where knownChangedRoutineIDs.contains(link.sourceRoutineID) {
       affected.insert(link.targetRoutineID)
     }
     return affected
@@ -343,7 +374,9 @@ extension RoutineDefinition {
     case .duration(let defaultSeconds, let quickValues):
       return defaultSeconds > 0 && quickValues.allSatisfy { $0 > 0 }
     case .quantity(let unit, let defaultValue, let quickValues):
-      return !unit.identifier.isEmpty && defaultValue.isFinite && defaultValue > 0
+      return !unit.identifier.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        && !unit.symbol.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        && defaultValue.isFinite && defaultValue > 0
         && quickValues.allSatisfy { $0.isFinite && $0 > 0 }
     }
   }
@@ -351,7 +384,7 @@ extension RoutineDefinition {
   fileprivate var isFrequencyValid: Bool {
     switch frequency {
     case .afterLast(let interval):
-      return interval.value > 0
+      return interval.isValid
     case .scheduled(let schedule):
       switch schedule {
       case .weekdays(let weekdays, let everyWeeks, let time, _):
@@ -359,7 +392,7 @@ extension RoutineDefinition {
       case .dayOfMonth(let day, let time):
         return (1...31).contains(day) && time.isValid
       case .interval(let interval, let time, _):
-        return interval.value > 0 && time.isValid
+        return interval.isValid && time.isValid
       }
     case .withinPeriod(let goal):
       return goal.target.isFinite && goal.target > 0
@@ -373,9 +406,37 @@ extension UsageCycleDefinition {
     case .progress(let value):
       return value.isFinite && value > 0
     case .elapsed(let interval):
-      return interval.value > 0
+      return interval.isValid
     case .firstReached(let progress, let elapsed):
-      return progress.isFinite && progress > 0 && elapsed.value > 0
+      return progress.isFinite && progress > 0 && elapsed.isValid
+    }
+  }
+
+  fileprivate var isFollowUpValid: Bool {
+    guard !followUp.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      return false
+    }
+    switch followUp.usefulMoment {
+    case .immediate:
+      return true
+    case .temporal(let time):
+      return time.isValid
+    case .geographic(let locationID, let fallbackAfter):
+      return !locationID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        && fallbackAfter.isFinite && fallbackAfter >= 0
+    }
+  }
+}
+
+extension AttentionRule {
+  fileprivate var isValid: Bool {
+    switch self {
+    case .whenDue:
+      return true
+    case .beforeDue(let interval), .onlyWhenRequiresAttention(let interval):
+      return interval.isValid
+    case .custom(let showBefore, let requiresAttentionAfter):
+      return showBefore?.isValid != false && requiresAttentionAfter?.isValid != false
     }
   }
 }

@@ -5,7 +5,6 @@ public enum RoutineEventOrigin: String, Codable, Equatable, Hashable, Sendable {
   case widget
   case intent
   case notification
-  case synchronization
 }
 
 public enum RoutineEventKind: Codable, Equatable, Hashable, Sendable {
@@ -38,6 +37,7 @@ public struct RoutineEvent: Codable, Equatable, Hashable, Sendable {
   public var originalLocalDay: LocalDay
   public var origin: RoutineEventOrigin
   public var exclusions: EventEffectExclusions
+  public var note: String?
   public var logicalClock: Int64
   public var recordedAt: Date
 
@@ -49,6 +49,7 @@ public struct RoutineEvent: Codable, Equatable, Hashable, Sendable {
     originalLocalDay: LocalDay,
     origin: RoutineEventOrigin = .app,
     exclusions: EventEffectExclusions = .none,
+    note: String? = nil,
     logicalClock: Int64,
     recordedAt: Date
   ) {
@@ -59,9 +60,15 @@ public struct RoutineEvent: Codable, Equatable, Hashable, Sendable {
     self.originalLocalDay = originalLocalDay
     self.origin = origin
     self.exclusions = exclusions
+    self.note = note
     self.logicalClock = logicalClock
     self.recordedAt = recordedAt
   }
+}
+
+public enum EventNotePatch: Codable, Equatable, Hashable, Sendable {
+  case set(String)
+  case clear
 }
 
 public struct RoutineEventPatch: Codable, Equatable, Hashable, Sendable {
@@ -69,17 +76,20 @@ public struct RoutineEventPatch: Codable, Equatable, Hashable, Sendable {
   public var occurredAt: Date?
   public var originalLocalDay: LocalDay?
   public var exclusions: EventEffectExclusions?
+  public var note: EventNotePatch?
 
   public init(
     kind: RoutineEventKind? = nil,
     occurredAt: Date? = nil,
     originalLocalDay: LocalDay? = nil,
-    exclusions: EventEffectExclusions? = nil
+    exclusions: EventEffectExclusions? = nil,
+    note: EventNotePatch? = nil
   ) {
     self.kind = kind
     self.occurredAt = occurredAt
     self.originalLocalDay = originalLocalDay
     self.exclusions = exclusions
+    self.note = note
   }
 }
 
@@ -139,19 +149,33 @@ public struct DomainLedger: Codable, Equatable, Sendable {
     self.tombstones = tombstones
   }
 
-  public func resolvedEvents() -> [RoutineEvent] {
-    let canonicalEvents = Dictionary(grouping: events, by: \.id).compactMapValues { candidates in
+  public func resolvedEvents(asOf: Date? = nil) -> [RoutineEvent] {
+    let visibleEvents = events.filter { event in
+      asOf.map { event.recordedAt <= $0 } ?? true
+    }
+    let visibleRevisions = revisions.filter { revision in
+      asOf.map { revision.authoredAt <= $0 } ?? true
+    }
+    let visibleTombstones = tombstones.filter { tombstone in
+      asOf.map { tombstone.deletedAt <= $0 } ?? true
+    }
+    let canonicalEvents = Dictionary(grouping: visibleEvents, by: \.id).compactMapValues {
+      candidates in
       candidates.max(by: { $0.precedesForConflictResolution($1) })
     }
-    let canonicalRevisions = Dictionary(grouping: revisions, by: \.id).compactMapValues {
+    let canonicalRevisions = Dictionary(grouping: visibleRevisions, by: \.id).compactMapValues {
       candidates in
       candidates.max(by: { $0.precedesForConflictResolution($1) })
     }
     let revisionsByEvent = Dictionary(grouping: canonicalRevisions.values, by: \.eventID)
-    let canonicalTombstones = Dictionary(grouping: tombstones, by: \.eventID).compactMapValues {
+    let tombstonesByID = Dictionary(grouping: visibleTombstones, by: \.id).compactMapValues {
       candidates in
       candidates.max(by: { $0.precedesForConflictResolution($1) })
     }
+    let canonicalTombstones = Dictionary(grouping: tombstonesByID.values, by: \.eventID)
+      .compactMapValues { candidates in
+        candidates.max(by: { $0.precedesForConflictResolution($1) })
+      }
 
     return canonicalEvents.values.compactMap { event in
       let applicableRevisions = revisionsByEvent[event.id, default: []]
@@ -189,8 +213,23 @@ extension RoutineEvent {
     var updated = self
     updated.kind = patch.kind ?? kind
     updated.occurredAt = patch.occurredAt ?? occurredAt
-    updated.originalLocalDay = patch.originalLocalDay ?? originalLocalDay
+    if let originalLocalDay = patch.originalLocalDay {
+      updated.originalLocalDay = originalLocalDay
+    } else if patch.occurredAt != nil {
+      updated.originalLocalDay = LocalDay(
+        date: updated.occurredAt,
+        timeZoneIdentifier: originalLocalDay.timeZoneIdentifier
+      )
+    }
     updated.exclusions = patch.exclusions ?? exclusions
+    switch patch.note {
+    case .set(let note):
+      updated.note = note
+    case .clear:
+      updated.note = nil
+    case nil:
+      break
+    }
     updated.logicalClock = logicalClock
     return updated
   }
@@ -222,6 +261,7 @@ extension RoutineEvent {
       kind.deterministicConflictKey,
       excludedLinks,
       excludedCycles,
+      note.map { "set|\($0.utf8.count)|\($0)" } ?? "none",
     ].joined(separator: "|")
   }
 }
@@ -262,7 +302,10 @@ extension EventTombstone {
     if deletedAt != other.deletedAt {
       return deletedAt < other.deletedAt
     }
-    return id < other.id
+    if id != other.id {
+      return id < other.id
+    }
+    return eventID < other.eventID
   }
 }
 
@@ -270,7 +313,8 @@ extension RoutineEventKind {
   fileprivate var deterministicConflictKey: String {
     switch self {
     case .recorded(let value):
-      return "recorded|\(value.amount)|\(value.unitIdentifier ?? "")"
+      let unit = value.unitIdentifier.map { "set|\($0.utf8.count)|\($0)" } ?? "none"
+      return "recorded|\(value.amount)|\(unit)"
     case .followUpCompleted(let followUpID):
       return "completed|\(followUpID.cycleID.rawValue.uuidString)|\(followUpID.sequence)"
     case .followUpPostponed(let followUpID, let until):
@@ -288,18 +332,34 @@ extension RoutineEventKind {
 
 extension RoutineEventPatch {
   fileprivate var deterministicConflictKey: String {
-    let excludedLinks = exclusions?.linkIDs.sorted().map { $0.rawValue.uuidString }.joined() ?? ""
+    let excludedLinks =
+      exclusions.map {
+        "set|" + $0.linkIDs.sorted().map { $0.rawValue.uuidString }.joined()
+      } ?? "none"
     let excludedCycles =
-      exclusions?.followUpCycleIDs.sorted()
-      .map { $0.rawValue.uuidString }.joined() ?? ""
+      exclusions.map {
+        "set|" + $0.followUpCycleIDs.sorted().map { $0.rawValue.uuidString }.joined()
+      } ?? "none"
     return [
-      kind?.deterministicConflictKey ?? "",
-      occurredAt.map { String($0.timeIntervalSinceReferenceDate) } ?? "",
+      kind.map { "set|\($0.deterministicConflictKey)" } ?? "none",
+      occurredAt.map { "set|\($0.timeIntervalSinceReferenceDate)" } ?? "none",
       originalLocalDay.map {
-        "\($0.year)-\($0.month)-\($0.day)-\($0.timeZoneIdentifier)"
-      } ?? "",
+        "set|\($0.year)-\($0.month)-\($0.day)-\($0.timeZoneIdentifier)"
+      } ?? "none",
       excludedLinks,
       excludedCycles,
+      note.map { "set|\($0.deterministicConflictKey)" } ?? "none",
     ].joined(separator: "|")
+  }
+}
+
+extension EventNotePatch {
+  fileprivate var deterministicConflictKey: String {
+    switch self {
+    case .set(let note):
+      return "set|\(note)"
+    case .clear:
+      return "clear"
+    }
   }
 }

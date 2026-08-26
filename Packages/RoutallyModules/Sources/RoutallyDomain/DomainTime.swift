@@ -24,6 +24,25 @@ public struct LocalDay: Codable, Equatable, Hashable, Sendable {
       timeZoneIdentifier: timeZoneIdentifier
     )
   }
+
+  var isValid: Bool {
+    guard let timeZone = TimeZone(identifier: timeZoneIdentifier) else { return false }
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = timeZone
+    guard
+      let date = calendar.date(
+        from: DateComponents(year: year, month: month, day: day)
+      )
+    else {
+      return false
+    }
+    let components = calendar.dateComponents([.year, .month, .day], from: date)
+    return components.year == year && components.month == month && components.day == day
+  }
+
+  func matches(_ date: Date) -> Bool {
+    self == LocalDay(date: date, timeZoneIdentifier: timeZoneIdentifier)
+  }
 }
 
 public struct DomainCalendar: Equatable, Sendable {
@@ -48,6 +67,12 @@ public struct DomainCalendar: Equatable, Sendable {
     calendar.minimumDaysInFirstWeek = minimumDaysInFirstWeek
     return calendar
   }
+
+  var isValid: Bool {
+    TimeZone(identifier: timeZoneIdentifier) != nil
+      && (1...7).contains(firstWeekday)
+      && (1...7).contains(minimumDaysInFirstWeek)
+  }
 }
 
 public enum CalendarIntervalUnit: String, Codable, Equatable, Hashable, Sendable {
@@ -69,18 +94,39 @@ public struct CalendarIntervalRule: Codable, Equatable, Hashable, Sendable {
   }
 
   public func date(after start: Date, calendar domainCalendar: DomainCalendar) -> Date? {
-    guard value > 0 else { return nil }
+    guard isValid else { return nil }
+    return date(byAdding: value, to: start, calendar: domainCalendar)
+  }
+
+  public func date(before end: Date, calendar domainCalendar: DomainCalendar) -> Date? {
+    guard isValid else { return nil }
+    return date(byAdding: -value, to: end, calendar: domainCalendar)
+  }
+
+  var isValid: Bool {
+    guard value > 0 else { return false }
+    guard let preferredDayOfMonth else { return true }
+    return (1...31).contains(preferredDayOfMonth)
+  }
+
+  private func date(
+    byAdding signedValue: Int,
+    to start: Date,
+    calendar domainCalendar: DomainCalendar
+  ) -> Date? {
     let calendar = domainCalendar.foundationCalendar
 
     switch unit {
     case .day:
-      return calendar.date(byAdding: .day, value: value, to: start)
+      return calendar.date(byAdding: .day, value: signedValue, to: start)
     case .week:
-      return calendar.date(byAdding: .weekOfYear, value: value, to: start)
+      return calendar.date(byAdding: .weekOfYear, value: signedValue, to: start)
     case .month:
-      return monthOrYearDate(after: start, months: value, calendar: calendar)
+      return monthOrYearDate(after: start, months: signedValue, calendar: calendar)
     case .year:
-      return monthOrYearDate(after: start, months: value * 12, calendar: calendar)
+      let (months, overflow) = signedValue.multipliedReportingOverflow(by: 12)
+      guard !overflow else { return nil }
+      return monthOrYearDate(after: start, months: months, calendar: calendar)
     }
   }
 
@@ -147,31 +193,58 @@ public enum ScheduledRule: Codable, Equatable, Hashable, Sendable {
     switch self {
     case .weekdays(let weekdays, let everyWeeks, let time, let anchor):
       guard !weekdays.isEmpty, everyWeeks > 0 else { return nil }
-      let start = calendar.startOfDay(for: date)
-      for dayOffset in 0...(everyWeeks * 14 + 7) {
-        guard let day = calendar.date(byAdding: .day, value: dayOffset, to: start) else {
-          continue
+      guard
+        let anchorWeek = calendar.dateInterval(of: .weekOfYear, for: anchor)?.start,
+        let currentWeek = calendar.dateInterval(of: .weekOfYear, for: max(date, anchor))?.start
+      else {
+        return nil
+      }
+      let elapsedWeeks = max(
+        0,
+        calendar.dateComponents([.weekOfYear], from: anchorWeek, to: currentWeek).weekOfYear
+          ?? 0
+      )
+      let remainder = elapsedWeeks % everyWeeks
+      let initialOffset = remainder == 0 ? 0 : everyWeeks - remainder
+      guard
+        var candidateWeek = calendar.date(
+          byAdding: .weekOfYear,
+          value: initialOffset,
+          to: currentWeek
+        )
+      else {
+        return nil
+      }
+
+      for _ in 0..<2 {
+        for dayOffset in 0..<7 {
+          guard let day = calendar.date(byAdding: .day, value: dayOffset, to: candidateWeek) else {
+            continue
+          }
+          let weekday = Weekday(rawValue: calendar.component(.weekday, from: day))
+          guard weekday.map(weekdays.contains) == true else { continue }
+          guard
+            let candidate = calendar.date(
+              bySettingHour: time.hour,
+              minute: time.minute,
+              second: 0,
+              of: day
+            ), candidate >= anchor, candidate > date
+          else {
+            continue
+          }
+          return candidate
         }
-        let weekday = Weekday(rawValue: calendar.component(.weekday, from: day))
-        guard weekday.map(weekdays.contains) == true else { continue }
-        let weeks =
-          calendar.dateComponents(
-            [.weekOfYear],
-            from: calendar.startOfDay(for: anchor),
-            to: day
-          ).weekOfYear ?? 0
-        guard weeks >= 0, weeks % everyWeeks == 0 else { continue }
         guard
-          let candidate = calendar.date(
-            bySettingHour: time.hour,
-            minute: time.minute,
-            second: 0,
-            of: day
-          ), candidate > date
+          let nextWeek = calendar.date(
+            byAdding: .weekOfYear,
+            value: everyWeeks,
+            to: candidateWeek
+          )
         else {
-          continue
+          return nil
         }
-        return candidate
+        candidateWeek = nextWeek
       }
       return nil
 
@@ -238,6 +311,37 @@ public enum ScheduledRule: Codable, Equatable, Hashable, Sendable {
       }
       return candidate
     }
+  }
+
+  public func occurrences(
+    from start: Date,
+    through end: Date,
+    calendar domainCalendar: DomainCalendar
+  ) -> [Date] {
+    guard start <= end else { return [] }
+    let calendar = domainCalendar.foundationCalendar
+    let effectiveStart: Date
+    switch self {
+    case .weekdays(_, _, _, let anchor), .interval(_, _, let anchor):
+      effectiveStart = max(start, anchor)
+    case .dayOfMonth:
+      effectiveStart = start
+    }
+    guard
+      var cursor = calendar.date(byAdding: .day, value: -1, to: effectiveStart)
+    else {
+      return []
+    }
+
+    var result: [Date] = []
+    while let occurrence = nextDate(after: cursor, calendar: domainCalendar), occurrence <= end {
+      guard occurrence > cursor else { break }
+      if occurrence >= start {
+        result.append(occurrence)
+      }
+      cursor = occurrence
+    }
+    return result
   }
 }
 

@@ -14,6 +14,8 @@ public struct RoutineProjection: Codable, Equatable, Sendable {
   public var lastRecordedAt: Date?
   public var nextNeedAt: Date?
   public var nextScheduledAt: Date?
+  public var activeScheduledOccurrenceAt: Date?
+  public var unrecordedScheduledOccurrenceCount: Int
   public var skippedOccurrenceCount: Int
   public var attention: DomainAttentionState
 
@@ -24,6 +26,8 @@ public struct RoutineProjection: Codable, Equatable, Sendable {
     lastRecordedAt = nil
     nextNeedAt = nil
     nextScheduledAt = nil
+    activeScheduledOccurrenceAt = nil
+    unrecordedScheduledOccurrenceCount = 0
     skippedOccurrenceCount = 0
     attention = .notNeeded
   }
@@ -111,6 +115,7 @@ public struct DomainFollowUp: Codable, Equatable, Hashable, Sendable {
 public enum DomainConsequenceKind: Codable, Equatable, Hashable, Sendable {
   case routineProgress(routineID: RoutineID, amount: Double)
   case linkedProgress(linkID: RoutineLinkID, routineID: RoutineID, amount: Double)
+  case cycleThresholdReached(UsageCycleID)
   case followUpCreated(FollowUpID)
   case cycleReset(UsageCycleID)
 }

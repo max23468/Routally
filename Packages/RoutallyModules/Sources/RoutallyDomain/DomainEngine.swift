@@ -1,8 +1,10 @@
 import Foundation
 
 public enum DomainReductionError: Error, Equatable, Sendable {
+  case invalidCalendar
   case unknownRoutine(RoutineID)
   case invalidEventValue(RoutineEventID)
+  case invalidEventLocalContext(RoutineEventID)
   case unknownFollowUp(FollowUpID)
 }
 
@@ -14,6 +16,9 @@ public enum DomainEngine {
     calendar: DomainCalendar,
     cancellationCheck: @Sendable () throws -> Void = {}
   ) throws -> DomainState {
+    guard calendar.isValid else {
+      throw DomainReductionError.invalidCalendar
+    }
     try catalog.validate()
 
     var worker = ReductionWorker(
@@ -21,7 +26,9 @@ public enum DomainEngine {
       asOf: asOf,
       calendar: calendar
     )
-    let events = ledger.resolvedEvents()
+    try cancellationCheck()
+    let events = ledger.resolvedEvents(asOf: asOf).filter { $0.occurredAt <= asOf }
+    try cancellationCheck()
     for (index, event) in events.enumerated() {
       if index.isMultiple(of: 256) {
         try cancellationCheck()
@@ -78,6 +85,8 @@ private struct ReductionWorker {
   private var linksBySource: [RoutineID: [RoutineLink]]
   private var cyclesByRoutine: [RoutineID: [UsageCycleDefinition]]
   private var cyclesByID: [UsageCycleID: UsageCycleDefinition]
+  private var recordedDatesByRoutine: [RoutineID: [Date]] = [:]
+  private var skippedOccurrencesByRoutine: [RoutineID: Set<Date>] = [:]
 
   init(catalog: DomainCatalog, asOf: Date, calendar: DomainCalendar) {
     self.catalog = catalog
@@ -111,6 +120,14 @@ private struct ReductionWorker {
   }
 
   mutating func apply(_ event: RoutineEvent) throws {
+    guard
+      event.occurredAt.timeIntervalSinceReferenceDate.isFinite,
+      event.recordedAt.timeIntervalSinceReferenceDate.isFinite,
+      event.originalLocalDay.isValid,
+      event.originalLocalDay.matches(event.occurredAt)
+    else {
+      throw DomainReductionError.invalidEventLocalContext(event.id)
+    }
     guard let definition = routinesByID[event.routineID] else {
       throw DomainReductionError.unknownRoutine(event.routineID)
     }
@@ -160,9 +177,21 @@ private struct ReductionWorker {
       state.followUps[followUpID] = followUp
       updateCyclePhase(for: followUpID, phase: .followUpWaiting)
 
-    case .scheduledOccurrenceSkipped:
+    case .scheduledOccurrenceSkipped(let occurrence):
       guard definition.lifecycle.acceptsManualEvent(at: event.occurredAt) else { return }
-      state.routines[event.routineID]?.skippedOccurrenceCount += 1
+      guard
+        occurrence.timeIntervalSinceReferenceDate.isFinite,
+        case .scheduled(let schedule) = definition.frequency,
+        schedule.occurrences(from: occurrence, through: occurrence, calendar: calendar)
+          == [occurrence]
+      else {
+        throw DomainReductionError.invalidEventValue(event.id)
+      }
+      let inserted = skippedOccurrencesByRoutine[event.routineID, default: []].insert(occurrence)
+        .inserted
+      if inserted {
+        state.routines[event.routineID]?.skippedOccurrenceCount += 1
+      }
     }
   }
 
@@ -219,6 +248,9 @@ private struct ReductionWorker {
       let goalContribution = goal.aggregation == .occurrences ? 1 : amount
       projection.periodTotals[key, default: 0] += goalContribution
     }
+    if case .scheduled = definition.frequency {
+      recordedDatesByRoutine[definition.id, default: []].append(event.occurredAt)
+    }
     state.routines[definition.id] = projection
     state.consequencesByEvent[event.id, default: []].append(
       DomainConsequence(sourceEventID: event.id, kind: consequence)
@@ -234,12 +266,19 @@ private struct ReductionWorker {
       if cycleProjection.currentFollowUpID == nil,
         thresholdReached(cycle.threshold, projection: cycleProjection, at: event.occurredAt)
       {
+        state.consequencesByEvent[event.id, default: []].append(
+          DomainConsequence(sourceEventID: event.id, kind: .cycleThresholdReached(cycle.id))
+        )
         if event.exclusions.followUpCycleIDs.contains(cycle.id) {
           cycleProjection.phase = .thresholdReached
           cycleProjection.followUpSuppressedUntilNextProgress = true
           state.cycles[cycle.id] = cycleProjection
         } else {
-          createFollowUp(for: cycle, triggeredAt: event.occurredAt, sourceEventID: event.id)
+          createFollowUp(
+            for: cycle,
+            triggeredAt: thresholdDate(for: cycle, at: event.occurredAt),
+            sourceEventID: event.id
+          )
         }
       }
     }
@@ -345,6 +384,8 @@ private struct ReductionWorker {
     guard definition.lifecycle.acceptsAutomaticUpdate(at: asOf) else {
       projection.nextNeedAt = nil
       projection.nextScheduledAt = nil
+      projection.activeScheduledOccurrenceAt = nil
+      projection.unrecordedScheduledOccurrenceCount = 0
       projection.attention = .notNeeded
       state.routines[definition.id] = projection
       return
@@ -353,10 +394,9 @@ private struct ReductionWorker {
     case .afterLast(let rule):
       let anchor = projection.lastRecordedAt ?? definition.createdAt
       projection.nextNeedAt = rule.date(after: anchor, calendar: calendar)
-      projection.attention = attention(for: projection.nextNeedAt)
+      projection.attention = attention(for: projection.nextNeedAt, rule: definition.attention)
     case .scheduled(let schedule):
-      projection.nextScheduledAt = schedule.nextDate(after: asOf, calendar: calendar)
-      projection.attention = .notNeeded
+      finalizeScheduledRoutine(definition, schedule: schedule, projection: &projection)
     case .withinPeriod(let goal):
       let today = LocalDay(date: asOf, timeZoneIdentifier: calendar.timeZoneIdentifier)
       let key = LocalPeriodKey.containing(today, unit: goal.period, calendar: calendar)
@@ -364,6 +404,33 @@ private struct ReductionWorker {
         projection.periodTotals[key, default: 0] >= goal.target ? .notNeeded : .due
     }
     state.routines[definition.id] = projection
+  }
+
+  private func finalizeScheduledRoutine(
+    _ definition: RoutineDefinition,
+    schedule: ScheduledRule,
+    projection: inout RoutineProjection
+  ) {
+    var unhandled = schedule.occurrences(
+      from: definition.createdAt,
+      through: asOf,
+      calendar: calendar
+    )
+    let skipped = skippedOccurrencesByRoutine[definition.id, default: []]
+    unhandled.removeAll(where: skipped.contains)
+
+    for recordedAt in recordedDatesByRoutine[definition.id, default: []].sorted() {
+      guard let index = unhandled.lastIndex(where: { $0 <= recordedAt }) else { continue }
+      unhandled.remove(at: index)
+    }
+
+    projection.activeScheduledOccurrenceAt = unhandled.last
+    projection.unrecordedScheduledOccurrenceCount = unhandled.count
+    projection.nextScheduledAt = schedule.nextDate(after: asOf, calendar: calendar)
+    projection.attention = attention(
+      for: projection.activeScheduledOccurrenceAt,
+      rule: definition.attention
+    )
   }
 
   private func normalizedAmount(
@@ -419,10 +486,14 @@ private struct ReductionWorker {
     case .elapsed(let interval):
       return interval.date(after: projection.startedAt, calendar: calendar) ?? fallback
     case .firstReached(let target, let interval):
+      let elapsedDate = interval.date(after: projection.startedAt, calendar: calendar)
+      if projection.progress >= target, let elapsedDate {
+        return min(fallback, elapsedDate)
+      }
       if projection.progress >= target {
         return fallback
       }
-      return interval.date(after: projection.startedAt, calendar: calendar) ?? fallback
+      return elapsedDate ?? fallback
     }
   }
 
@@ -463,19 +534,33 @@ private struct ReductionWorker {
     }
   }
 
-  private func attention(for dueDate: Date?) -> DomainAttentionState {
+  private func attention(
+    for dueDate: Date?,
+    rule: AttentionRule
+  ) -> DomainAttentionState {
     guard let dueDate else { return .notNeeded }
-    let remaining = dueDate.timeIntervalSince(asOf)
-    if remaining > 86_400 {
-      return .notNeeded
+    switch rule {
+    case .whenDue:
+      return asOf < dueDate ? .notNeeded : .due
+    case .beforeDue(let interval):
+      guard asOf < dueDate else { return .due }
+      let visibleFrom = interval.date(before: dueDate, calendar: calendar) ?? dueDate
+      return asOf >= visibleFrom ? .upcoming : .notNeeded
+    case .onlyWhenRequiresAttention(let interval):
+      let attentionAt = interval.date(after: dueDate, calendar: calendar) ?? dueDate
+      return asOf >= attentionAt ? .requiresAttention : .notNeeded
+    case .custom(let showBefore, let requiresAttentionAfter):
+      if let requiresAttentionAfter,
+        let attentionAt = requiresAttentionAfter.date(after: dueDate, calendar: calendar),
+        asOf >= attentionAt
+      {
+        return .requiresAttention
+      }
+      guard asOf < dueDate else { return .due }
+      guard let showBefore else { return .notNeeded }
+      let visibleFrom = showBefore.date(before: dueDate, calendar: calendar) ?? dueDate
+      return asOf >= visibleFrom ? .upcoming : .notNeeded
     }
-    if remaining > 0 {
-      return .upcoming
-    }
-    if remaining >= -86_400 {
-      return .due
-    }
-    return .requiresAttention
   }
 
   private mutating func updateCyclePhase(for followUpID: FollowUpID, phase: CyclePhase) {

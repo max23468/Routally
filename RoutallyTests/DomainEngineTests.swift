@@ -105,16 +105,29 @@ struct DomainEngineTests {
       time: LocalTime(hour: 19, minute: 0),
       anchor: date(2026, 1, 5, calendar: calendar)
     )
+    let everyTwoWeeks = ScheduledRule.weekdays(
+      [.tuesday, .thursday],
+      everyWeeks: 2,
+      time: LocalTime(hour: 19, minute: 0),
+      anchor: date(2026, 1, 7, calendar: calendar)
+    )
     let monthly = ScheduledRule.dayOfMonth(31, time: LocalTime(hour: 9, minute: 0))
     let nextWeekly = try #require(weekly.nextDate(after: start, calendar: calendar))
     let nextMonthly = try #require(
       monthly.nextDate(after: date(2026, 2, 1, calendar: calendar), calendar: calendar)
+    )
+    let nextBiweekly = try #require(
+      everyTwoWeeks.nextDate(
+        after: date(2026, 1, 8, hour: 20, calendar: calendar),
+        calendar: calendar
+      )
     )
     let foundation = calendar.foundationCalendar
 
     #expect(foundation.component(.weekday, from: nextWeekly) == Weekday.tuesday.rawValue)
     #expect(foundation.component(.hour, from: nextWeekly) == 19)
     #expect(foundation.component(.day, from: nextMonthly) == 28)
+    #expect(nextBiweekly == date(2026, 1, 20, hour: 19, calendar: calendar))
   }
 
   @Test("Gli intervalli schedulati restano ancorati e non derivano dalla data di lettura")
@@ -407,6 +420,51 @@ struct DomainEngineTests {
     #expect(deleted.routines[shoes.id]?.total == 0)
   }
 
+  @Test("Una revisione successiva al tombstone ripristina l'evento")
+  func laterRevisionRestoresTombstonedEvent() throws {
+    let definition = routine(
+      1,
+      measurement: .duration(defaultSeconds: 600, quickValues: [])
+    )
+    let original = event(1, routineID: definition.id, amount: 600)
+    let tombstone = EventTombstone(
+      id: tombstoneID(1),
+      eventID: original.id,
+      logicalClock: 10,
+      deletedAt: date(2026, 1, 4)
+    )
+    let restoration = EventRevision(
+      id: revisionID(1),
+      eventID: original.id,
+      patch: RoutineEventPatch(kind: .recorded(.init(amount: 1_200))),
+      logicalClock: 11,
+      authoredAt: date(2026, 1, 5)
+    )
+    let catalog = DomainCatalog(routines: [definition])
+    let ledger = DomainLedger(
+      events: [original],
+      revisions: [restoration],
+      tombstones: [tombstone]
+    )
+
+    let deleted = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: ledger,
+      asOf: date(2026, 1, 4),
+      calendar: utc
+    )
+    let restored = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: ledger,
+      asOf: date(2026, 1, 6),
+      calendar: utc
+    )
+
+    #expect(deleted.routines[definition.id]?.total == 0)
+    #expect(restored.routines[definition.id]?.total == 1_200)
+    #expect(restored.processedEventIDs == [original.id])
+  }
+
   @Test("Completare il follow-up è idempotente e avvia il ciclo successivo")
   func completingFollowUpStartsNextCycle() throws {
     let source = routine(1)
@@ -627,6 +685,38 @@ struct DomainEngineTests {
 
     #expect(forward == reverse)
     #expect(forward.routines[definition.id]?.total == 900)
+
+    var withoutNote = first
+    withoutNote.note = nil
+    var withEmptyNote = first
+    withEmptyNote.note = ""
+    let forwardLedger = DomainLedger(events: [withoutNote, withEmptyNote])
+    let reverseLedger = DomainLedger(events: [withEmptyNote, withoutNote])
+    #expect(forwardLedger.resolvedEvents() == reverseLedger.resolvedEvents())
+
+    let noExclusionPatch = EventRevision(
+      id: revisionID(1),
+      eventID: first.id,
+      patch: RoutineEventPatch(),
+      logicalClock: 2,
+      authoredAt: date(2026, 1, 5)
+    )
+    let clearExclusionsPatch = EventRevision(
+      id: revisionID(1),
+      eventID: first.id,
+      patch: RoutineEventPatch(exclusions: EventEffectExclusions.none),
+      logicalClock: 2,
+      authoredAt: date(2026, 1, 5)
+    )
+    let forwardRevisionLedger = DomainLedger(
+      events: [first],
+      revisions: [noExclusionPatch, clearExclusionsPatch]
+    )
+    let reverseRevisionLedger = DomainLedger(
+      events: [first],
+      revisions: [clearExclusionsPatch, noExclusionPatch]
+    )
+    #expect(forwardRevisionLedger.resolvedEvents() == reverseRevisionLedger.resolvedEvents())
   }
 
   @Test("Correzioni parziali successive si compongono senza perdere i campi precedenti")
@@ -748,7 +838,7 @@ struct DomainEngineTests {
       1,
       frequency: .withinPeriod(.init(target: 2, period: .week))
     )
-    let instant = date(2026, 1, 5)
+    let instant = date(2026, 1, 5, hour: 2)
     var event = event(1, routineID: definition.id, occurredAt: instant)
     event.originalLocalDay = LocalDay(
       year: 2026,
@@ -766,6 +856,312 @@ struct DomainEngineTests {
     #expect(state.routines[definition.id]?.periodTotals.keys.first == .week(year: 2026, week: 1))
   }
 
+  @Test("Lo stato as-of ignora eventi, revisioni e tombstone futuri")
+  func futureLedgerOperationsRemainInvisible() throws {
+    let definition = routine(
+      1,
+      measurement: .duration(defaultSeconds: 600, quickValues: [])
+    )
+    let original = event(1, routineID: definition.id, amount: 600)
+    let future = event(
+      2,
+      routineID: definition.id,
+      amount: 300,
+      occurredAt: date(2026, 1, 20)
+    )
+    let revision = EventRevision(
+      id: revisionID(1),
+      eventID: original.id,
+      patch: RoutineEventPatch(kind: .recorded(.init(amount: 1_200))),
+      logicalClock: 10,
+      authoredAt: date(2026, 1, 15)
+    )
+    let tombstone = EventTombstone(
+      id: tombstoneID(1),
+      eventID: original.id,
+      logicalClock: 11,
+      deletedAt: date(2026, 1, 25)
+    )
+    let ledger = DomainLedger(
+      events: [future, original],
+      revisions: [revision],
+      tombstones: [tombstone]
+    )
+    let catalog = DomainCatalog(routines: [definition])
+
+    let beforeRevision = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: ledger,
+      asOf: date(2026, 1, 10),
+      calendar: utc
+    )
+    let beforeDeletion = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: ledger,
+      asOf: date(2026, 1, 20),
+      calendar: utc
+    )
+    let afterDeletion = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: ledger,
+      asOf: date(2026, 1, 30),
+      calendar: utc
+    )
+
+    #expect(beforeRevision.routines[definition.id]?.total == 600)
+    #expect(beforeRevision.processedEventIDs == [original.id])
+    #expect(beforeDeletion.routines[definition.id]?.total == 1_500)
+    #expect(afterDeletion.routines[definition.id]?.total == 300)
+  }
+
+  @Test("Le occorrenze fisse arretrate mantengono una sola occorrenza attiva")
+  func scheduledOccurrencesRemainExplicit() throws {
+    let schedule = ScheduledRule.weekdays(
+      [.monday],
+      everyWeeks: 1,
+      time: LocalTime(hour: 9, minute: 0),
+      anchor: date(2026, 1, 5, hour: 9)
+    )
+    let definition = routine(1, frequency: .scheduled(schedule))
+    let registration = event(
+      1,
+      routineID: definition.id,
+      occurredAt: date(2026, 1, 13)
+    )
+    let skippedOccurrence = date(2026, 1, 19, hour: 9)
+    let skip = RoutineEvent(
+      id: eventID(2),
+      routineID: definition.id,
+      kind: .scheduledOccurrenceSkipped(skippedOccurrence),
+      occurredAt: date(2026, 1, 19),
+      originalLocalDay: LocalDay(
+        date: date(2026, 1, 19),
+        timeZoneIdentifier: "UTC"
+      ),
+      logicalClock: 2,
+      recordedAt: date(2026, 1, 19)
+    )
+    let catalog = DomainCatalog(routines: [definition])
+    let missed = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(events: [registration]),
+      asOf: date(2026, 1, 20),
+      calendar: utc
+    )
+    let skipped = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(events: [skip, registration]),
+      asOf: date(2026, 1, 20),
+      calendar: utc
+    )
+
+    #expect(missed.routines[definition.id]?.unrecordedScheduledOccurrenceCount == 2)
+    #expect(
+      missed.routines[definition.id]?.activeScheduledOccurrenceAt
+        == date(2026, 1, 19, hour: 9)
+    )
+    #expect(missed.routines[definition.id]?.attention == .due)
+    #expect(skipped.routines[definition.id]?.unrecordedScheduledOccurrenceCount == 1)
+    #expect(skipped.routines[definition.id]?.skippedOccurrenceCount == 1)
+    #expect(
+      skipped.routines[definition.id]?.activeScheduledOccurrenceAt
+        == date(2026, 1, 5, hour: 9)
+    )
+    #expect(skipped.routines[definition.id]?.nextScheduledAt == date(2026, 1, 26, hour: 9))
+  }
+
+  @Test("La visibilità dell'attenzione segue la regola configurata")
+  func attentionRulesRemainExplicit() throws {
+    let frequency = FrequencyRule.afterLast(.init(value: 10, unit: .day))
+    let early = routine(
+      1,
+      frequency: frequency,
+      attention: .beforeDue(.init(value: 2, unit: .day))
+    )
+    let onTime = routine(2, frequency: frequency, attention: .whenDue)
+    let late = routine(
+      3,
+      frequency: frequency,
+      attention: .onlyWhenRequiresAttention(after: .init(value: 2, unit: .day))
+    )
+    let catalog = DomainCatalog(routines: [early, onTime, late])
+    let beforeDue = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(),
+      asOf: date(2026, 1, 10),
+      calendar: utc
+    )
+    let afterEscalation = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(),
+      asOf: date(2026, 1, 14),
+      calendar: utc
+    )
+
+    #expect(beforeDue.routines[early.id]?.attention == .upcoming)
+    #expect(beforeDue.routines[onTime.id]?.attention == .notNeeded)
+    #expect(beforeDue.routines[late.id]?.attention == .notNeeded)
+    #expect(afterEscalation.routines[early.id]?.attention == .due)
+    #expect(afterEscalation.routines[onTime.id]?.attention == .due)
+    #expect(afterEscalation.routines[late.id]?.attention == .requiresAttention)
+  }
+
+  @Test("La prima soglia conserva l'istante della condizione realmente arrivata prima")
+  func firstReachedThresholdKeepsEarliestDate() throws {
+    let definition = routine(1)
+    let cycle = UsageCycleDefinition(
+      id: cycleID(1),
+      routineID: definition.id,
+      threshold: .firstReached(
+        progress: 1,
+        elapsed: CalendarIntervalRule(value: 30, unit: .day)
+      ),
+      followUp: FollowUpPolicy(title: "Sostituisci", usefulMoment: .immediate),
+      anchorDate: date(2026, 1, 1)
+    )
+    let triggeringEvent = event(
+      1,
+      routineID: definition.id,
+      occurredAt: date(2026, 2, 5)
+    )
+    let state = try DomainEngine.reduce(
+      catalog: DomainCatalog(routines: [definition], cycles: [cycle]),
+      ledger: DomainLedger(events: [triggeringEvent]),
+      asOf: date(2026, 2, 6),
+      calendar: utc
+    )
+
+    #expect(state.followUps.values.first?.createdAt == date(2026, 1, 31))
+    #expect(
+      state.consequencesByEvent[triggeringEvent.id]?.map(\.kind).contains(
+        .cycleThresholdReached(cycle.id)
+      ) == true
+    )
+  }
+
+  @Test("Note e rimozione della nota restano revisioni canoniche")
+  func noteRevisionsRemainCanonical() {
+    var original = event(1, routineID: routineID(1))
+    original.note = "Prima nota"
+    let setNote = EventRevision(
+      id: revisionID(1),
+      eventID: original.id,
+      patch: RoutineEventPatch(note: .set("Nota corretta")),
+      logicalClock: 2,
+      authoredAt: date(2026, 1, 3)
+    )
+    let clearNote = EventRevision(
+      id: revisionID(2),
+      eventID: original.id,
+      patch: RoutineEventPatch(note: .clear),
+      logicalClock: 3,
+      authoredAt: date(2026, 1, 4)
+    )
+    let ledger = DomainLedger(events: [original], revisions: [clearNote, setNote])
+
+    #expect(ledger.resolvedEvents(asOf: date(2026, 1, 3)).first?.note == "Nota corretta")
+    #expect(ledger.resolvedEvents(asOf: date(2026, 1, 5)).first?.note == nil)
+  }
+
+  @Test("Un tombstone duplicato e corrotto converge su un solo evento")
+  func conflictingTombstoneIdentityConverges() throws {
+    let definition = routine(1)
+    let first = event(1, routineID: definition.id)
+    let second = event(2, routineID: definition.id)
+    let sharedID = tombstoneID(1)
+    let firstCandidate = EventTombstone(
+      id: sharedID,
+      eventID: first.id,
+      logicalClock: 10,
+      deletedAt: date(2026, 1, 5)
+    )
+    let secondCandidate = EventTombstone(
+      id: sharedID,
+      eventID: second.id,
+      logicalClock: 10,
+      deletedAt: date(2026, 1, 5)
+    )
+    let catalog = DomainCatalog(routines: [definition])
+    let forward = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(
+        events: [first, second], tombstones: [firstCandidate, secondCandidate]),
+      asOf: date(2026, 1, 10),
+      calendar: utc
+    )
+    let reverse = try DomainEngine.reduce(
+      catalog: catalog,
+      ledger: DomainLedger(
+        events: [first, second], tombstones: [secondCandidate, firstCandidate]),
+      asOf: date(2026, 1, 10),
+      calendar: utc
+    )
+
+    #expect(forward == reverse)
+    #expect(forward.routines[definition.id]?.total == 1)
+  }
+
+  @Test("Configurazioni e contesti locali impossibili sono rifiutati")
+  func impossibleConfigurationsAreRejected() {
+    let source = routine(1)
+    let target = routine(2)
+    let invalidLink = RoutineLink(
+      id: linkID(1),
+      sourceRoutineID: source.id,
+      targetRoutineID: target.id,
+      increment: 1,
+      activeFrom: date(2026, 1, 10),
+      inactiveFrom: date(2026, 1, 5)
+    )
+    let invalidCycle = UsageCycleDefinition(
+      id: cycleID(1),
+      routineID: source.id,
+      threshold: .progress(1),
+      followUp: FollowUpPolicy(
+        title: "Sostituisci",
+        usefulMoment: .geographic(locationID: "", fallbackAfter: -1)
+      ),
+      anchorDate: date(2026, 1, 1)
+    )
+    var invalidContext = event(1, routineID: source.id)
+    invalidContext.originalLocalDay = LocalDay(
+      year: 2026,
+      month: 2,
+      day: 30,
+      timeZoneIdentifier: "UTC"
+    )
+
+    #expect(throws: DomainValidationError.invalidLinkWindow(invalidLink.id)) {
+      try DomainCatalog(routines: [source, target], links: [invalidLink]).validate()
+    }
+    #expect(throws: DomainValidationError.invalidFollowUp(invalidCycle.id)) {
+      try DomainCatalog(routines: [source], cycles: [invalidCycle]).validate()
+    }
+    #expect(throws: DomainReductionError.invalidCalendar) {
+      try DomainEngine.reduce(
+        catalog: DomainCatalog(routines: [source]),
+        ledger: DomainLedger(),
+        asOf: date(2026, 1, 10),
+        calendar: DomainCalendar(timeZoneIdentifier: "Invalid/Zone")
+      )
+    }
+    #expect(throws: DomainReductionError.invalidEventLocalContext(invalidContext.id)) {
+      try DomainEngine.reduce(
+        catalog: DomainCatalog(routines: [source]),
+        ledger: DomainLedger(events: [invalidContext]),
+        asOf: date(2026, 1, 10),
+        calendar: utc
+      )
+    }
+
+    let catalog = DomainCatalog(
+      routines: [source, target],
+      links: [link(2, source: source.id, target: target.id)]
+    )
+    #expect(catalog.affectedRoutineIDs(startingAt: [routineID(999)]).isEmpty)
+    #expect(catalog.affectedRoutineIDs(startingAt: [source.id]) == [source.id, target.id])
+  }
+
   private func reduce(_ catalog: DomainCatalog, events: [RoutineEvent]) throws -> DomainState {
     try DomainEngine.reduce(
       catalog: catalog,
@@ -779,6 +1175,7 @@ struct DomainEngineTests {
     _ index: Int,
     measurement: MeasurementRule = .count,
     frequency: FrequencyRule = .afterLast(.init(value: 1, unit: .day)),
+    attention: AttentionRule = .whenDue,
     lifecycle: RoutineLifecycle = .active
   ) -> RoutineDefinition {
     RoutineDefinition(
@@ -786,6 +1183,7 @@ struct DomainEngineTests {
       name: "Routine \(index)",
       measurement: measurement,
       frequency: frequency,
+      attention: attention,
       lifecycle: lifecycle,
       createdAt: date(2026, 1, 1)
     )
