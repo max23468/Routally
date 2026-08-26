@@ -114,8 +114,9 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   verifiche documentali, format, build/test e CodeQL vengono eseguiti in parallelo e i job
   costosi sono condizionali al contenuto del diff. Modifiche UI richiedono inoltre evidenza
   visuale proporzionata, che resta una prova umana e non viene simulata dalla CI: allegala e
-  marca il relativo checkbox nel corpo prima di aprire la PR, altrimenti il gate fallisce. Lo status
-  viene pubblicato dal job finale trusted: i job sul merge proposto hanno permessi di sola
+  marca il relativo checkbox nel corpo prima di aprire la PR, altrimenti il gate fallisce.
+  Ogni esecuzione invalida subito l'esito precedente; lo status viene pubblicato dal job
+  finale trusted e i job sul merge proposto hanno permessi di sola
   lettura, così anche i PR Dependabot restano supportati senza affidarsi al workflow della PR.
 - P0/P1 dell'HEAD corrente bloccano; P2/P3 vengono registrati come advisory e non richiedono
   la risoluzione della conversazione per il merge.

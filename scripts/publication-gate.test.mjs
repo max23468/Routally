@@ -16,6 +16,10 @@ test("il gate aggregato parte per ogni PR senza filtri di percorso", async () =>
   assert.doesNotMatch(workflow, /\n\s+paths(?:-ignore)?:/);
   assert.match(workflow, /publication-gate:\s*\n    name: Consolida pubblicazione/);
   assert.match(workflow, /publication-gate:[\s\S]*?if: always\(\)/);
+  assert.match(workflow, /jobs:\s*\n  invalidate:/);
+  assert.match(workflow, /state=pending/);
+  assert.match(workflow, /classify:\s*\n    name: Classifica modifica\s*\n    needs: invalidate/);
+  assert.match(workflow, /needs: \[invalidate, classify,/);
   assert.match(workflow, /publication-gate:[\s\S]*?statuses: write/);
   assert.match(workflow, /PULL_REQUEST_HEAD:/);
   assert.match(workflow, /--head FETCH_HEAD/);

@@ -41,9 +41,9 @@ deploy, TestFlight e App Store conservano le rispettive autorizzazioni e prove m
 - Il tempo di una PR Swift è il massimo dei gate paralleli, non la loro somma.
 - Un monitor settimanale fallito genera lavoro correttivo ma non cambia retroattivamente
   l'evidenza di una PR già validata e pubblicata.
-- Il workflow trusted di `main` classifica il diff ed esegue i job sul merge proposto con
-  permessi di sola lettura; soltanto il job finale pubblica `publication-gate` sull'HEAD,
-  inclusi i PR Dependabot.
+- Il workflow trusted di `main` invalida subito l'esito precedente, classifica il diff ed
+  esegue i job sul merge proposto con permessi di sola lettura; soltanto il job finale
+  pubblica `publication-gate` sull'HEAD, inclusi i PR Dependabot.
 - Il repository richiede `codex-review` e `publication-gate`, consente auto-merge e non
   richiede la risoluzione generica delle conversazioni.
 

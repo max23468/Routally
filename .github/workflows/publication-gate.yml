@@ -13,8 +13,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  invalidate:
+    name: Invalida esito precedente
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      statuses: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Imposta publication-gate su pending
+        run: >-
+          gh api --method POST
+          "repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}"
+          -f state=pending
+          -f context=publication-gate
+          -f description='Controlli proporzionati in corso'
+          -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+
   classify:
     name: Classifica modifica
+    needs: invalidate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -164,7 +183,7 @@ jobs:
   publication-gate:
     name: Consolida pubblicazione
     if: always()
-    needs: [classify, validation, swift-format, build-test, codeql]
+    needs: [invalidate, classify, validation, swift-format, build-test, codeql]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
