@@ -4600,6 +4600,9 @@ Esito:
 
 ## 40.2 TG-RECALC — ricalcolo retroattivo deterministico
 
+**Stato:** chiuso — **Async boundary**. Evidenze e misure sono raccolte in
+`docs/ENGINEERING/tg-recalc-spike.md`.
+
 Il ricalcolo su correzione retroattiva è parte del valore distintivo e viene validato
 nella 0.2 prima che le feature dipendano dal suo comportamento.
 
