@@ -19,6 +19,7 @@ const canonicalDocumentation = [
   /^AGENTS\.md$/,
   /^CLAUDE\.md$/,
   /^docs\/MASTER_PLAN\.md$/,
+  /^docs\/DECISION_REGISTER\.md$/,
   /^docs\/ADR\//,
   /^docs\/ENGINEERING\/agent-workflow\.md$/,
   /^docs\/PRODUCT\/ROADMAP\.md$/,
