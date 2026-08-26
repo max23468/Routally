@@ -30,8 +30,9 @@ La pubblicazione usa un modello proporzionato e deterministico:
 7. lo squash auto-merge integra la PR quando i gate richiesti sono verdi;
 8. dopo il merge si verifica l'equivalenza del tree anziché ripetere gli stessi gate.
 
-Le modifiche UI continuano a richiedere evidenza visuale reale. Release, deploy, TestFlight
-e App Store conservano le rispettive autorizzazioni e prove manuali.
+Le modifiche UI continuano a richiedere evidenza visuale reale, registrata marcando il
+checkbox dedicato nel corpo della PR; il gate la verifica e resta rosso se manca. Release,
+deploy, TestFlight e App Store conservano le rispettive autorizzazioni e prove manuali.
 
 ## Conseguenze
 

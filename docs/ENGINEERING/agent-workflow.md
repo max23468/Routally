@@ -113,7 +113,8 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
 - Ogni PR richiede anche `publication-gate`, sempre presente e aggregato. Classificazione,
   verifiche documentali, format, build/test e CodeQL vengono eseguiti in parallelo e i job
   costosi sono condizionali al contenuto del diff. Modifiche UI richiedono inoltre evidenza
-  visuale proporzionata, che resta una prova umana e non viene simulata dalla CI. Lo status
+  visuale proporzionata, che resta una prova umana e non viene simulata dalla CI: allegala e
+  marca il relativo checkbox nel corpo prima di aprire la PR, altrimenti il gate fallisce. Lo status
   viene pubblicato da un `workflow_run` trusted, così i PR Dependabot restano supportati senza
   concedere permessi di scrittura al codice del PR.
 - P0/P1 dell'HEAD corrente bloccano; P2/P3 vengono registrati come advisory e non richiedono

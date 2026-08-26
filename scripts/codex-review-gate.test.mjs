@@ -141,8 +141,9 @@ test("seleziona solo un'invocazione esatta, fidata e successiva all'HEAD", () =>
   assert.equal(latestCodexInvocation(comments, requestedAt).id, 3);
 });
 
-test("il primo giro è automatico solo su apertura o ready", () => {
+test("il primo giro è automatico su apertura, riapertura o ready", () => {
   assert.equal(isAutomaticFirstReview("pull_request_target", "opened"), true);
+  assert.equal(isAutomaticFirstReview("pull_request_target", "reopened"), true);
   assert.equal(isAutomaticFirstReview("pull_request_target", "ready_for_review"), true);
   assert.equal(isAutomaticFirstReview("pull_request_target", "synchronize"), false);
   assert.equal(isAutomaticFirstReview("workflow_dispatch", undefined), false);
@@ -188,6 +189,7 @@ test("il workflow usa codice trusted e non richiede commenti al primo giro", asy
   assert.doesNotMatch(workflow, /github\.ref_name/);
   assert.match(workflow, /CODEX_REVIEW_MODE: invalidate/);
   assert.match(workflow, /github\.event\.action == 'synchronize'/);
+  assert.match(workflow, /github\.event\.action == 'reopened'/);
   assert.match(workflow, /jobs:\s*\n  invalidate:/);
   assert.match(workflow, /\n  gate:/);
   assert.match(workflow, /timeout-minutes: 65/);

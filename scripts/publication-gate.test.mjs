@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { evaluatePublicationGate } from "./publication-gate.mjs";
+import {
+  evaluatePublicationGate,
+  visualEvidenceApproved,
+} from "./publication-gate.mjs";
 
 const workflowURL = new URL("../.github/workflows/publication-gate.yml", import.meta.url);
 const statusWorkflowURL = new URL(
@@ -26,6 +29,8 @@ test("consolida soltanto i job richiesti dalla classificazione", async () => {
   assert.match(workflow, /needs_build == 'true'/);
   assert.match(workflow, /needs_swift_format == 'true'/);
   assert.match(workflow, /needs_visual_evidence/);
+  assert.match(workflow, /PULL_REQUEST_BODY:/);
+  assert.match(workflow, /ready_for_review, edited/);
   assert.match(workflow, /node scripts\/publication-gate\.mjs/);
 });
 
@@ -80,6 +85,39 @@ test("blocca un job richiesto saltato o fallito", () => {
         validationResult: "skipped",
       }),
     /Swift format: failure; CodeQL: skipped/,
+  );
+});
+
+test("blocca una PR UI finché la prova visuale non è registrata", () => {
+  const input = {
+    buildRequired: true,
+    buildResult: "success",
+    classifyResult: "success",
+    codeqlRequired: false,
+    codeqlResult: "skipped",
+    formatRequired: false,
+    formatResult: "skipped",
+    validationRequired: false,
+    validationResult: "skipped",
+    visualEvidenceRequired: true,
+  };
+  assert.throws(
+    () => evaluatePublicationGate({
+      ...input,
+      pullRequestBody: "- [ ] Screenshot o video allegati per modifiche UI",
+    }),
+    /Evidenza visuale UI non registrata/,
+  );
+  assert.deepEqual(
+    evaluatePublicationGate({
+      ...input,
+      pullRequestBody: "- [x] Screenshot o video allegati per modifiche UI",
+    }),
+    { needsVisualEvidence: true },
+  );
+  assert.equal(
+    visualEvidenceApproved("- [X] Screenshot o video allegati per modifiche UI"),
+    true,
   );
 });
 

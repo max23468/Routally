@@ -3,7 +3,7 @@ name: Publication gate
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
 
 permissions:
   contents: read
@@ -169,6 +169,7 @@ jobs:
       VALIDATION_REQUIRED: ${{ needs.classify.outputs.needs_roadmap == 'true' || needs.classify.outputs.needs_node_tests == 'true' || needs.classify.outputs.needs_ui_assets == 'true' }}
       VALIDATION_RESULT: ${{ needs.validation.result }}
       VISUAL_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_visual_evidence }}
+      PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:

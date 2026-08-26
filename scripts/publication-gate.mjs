@@ -2,6 +2,10 @@ import { pathToFileURL } from "node:url";
 
 const required = (value) => value === true || value === "true";
 
+export function visualEvidenceApproved(body) {
+  return /^- \[[xX]\] Screenshot o video allegati per modifiche UI\s*$/m.test(body || "");
+}
+
 export function evaluatePublicationGate(input) {
   const checks = [
     ["classificazione", true, input.classifyResult],
@@ -13,6 +17,12 @@ export function evaluatePublicationGate(input) {
   const failures = checks.filter(([, isRequired, result]) => isRequired && result !== "success");
   if (failures.length) {
     throw new Error(failures.map(([name, , result]) => `${name}: ${result}`).join("; "));
+  }
+  if (
+    required(input.visualEvidenceRequired)
+    && !visualEvidenceApproved(input.pullRequestBody)
+  ) {
+    throw new Error("Evidenza visuale UI non registrata nella checklist della PR");
   }
   return {
     needsVisualEvidence: required(input.visualEvidenceRequired),
@@ -35,6 +45,7 @@ if (isDirectExecution) {
       validationRequired: process.env.VALIDATION_REQUIRED,
       validationResult: process.env.VALIDATION_RESULT,
       visualEvidenceRequired: process.env.VISUAL_EVIDENCE_REQUIRED,
+      pullRequestBody: process.env.PULL_REQUEST_BODY,
     });
     if (result.needsVisualEvidence) {
       console.log("Evidenza visuale richiesta nel ciclo di pubblicazione.");

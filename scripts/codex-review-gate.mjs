@@ -16,7 +16,8 @@ export const findingPriority = (body = "") =>
   body.match(/^(?:\*\*|<sub>)*(?:!?\[)?(P[0-3])(?: Badge)?(?:\]\([^)]*\)|\]\s*|\*\*)/m)?.[1];
 
 export const isAutomaticFirstReview = (eventName, action) =>
-  eventName === "pull_request_target" && ["opened", "ready_for_review"].includes(action);
+  eventName === "pull_request_target"
+  && ["opened", "reopened", "ready_for_review"].includes(action);
 
 export const latestCodexInvocation = (comments, headAvailableAt) =>
   comments

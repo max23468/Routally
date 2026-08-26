@@ -3334,8 +3334,10 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 - CodeQL nella PR per Swift e configurazioni di progetto;
 - controlli degli asset ed evidenza visuale dichiarata per UI.
 
-Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Un
-`workflow_run` trusted, che usa soltanto codice già presente su `main`, pubblica lo status
+Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per
+una PR UI il checkbox «Screenshot o video allegati per modifiche UI» deve essere marcato nel
+corpo della PR dopo una prova reale; in sua assenza il gate fallisce. Un `workflow_run`
+trusted, che usa soltanto codice già presente su `main`, pubblica lo status
 anche per i PR Dependabot senza esporre permessi di scrittura al codice del PR. Il
 comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
 classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
