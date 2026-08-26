@@ -18,10 +18,19 @@ struct TGDataTests {
       #expect(try store.resolvedEvents().map(\.id) == [event.id])
     }
 
-    let recoveredStore = try TGDataEventStore(
+    var recoveredStore: TGDataEventStore?
+    defer {
+      recoveredStore = nil
+      try? temporaryStore.remove()
+    }
+    recoveredStore = try TGDataEventStore(
       configuration: TGDataEventStore.localConfiguration(url: temporaryStore.url)
     )
-    #expect(try recoveredStore.resolvedEvents().map(\.id) == [event.id])
+    let recoveredIDs = try resolvedEvents(from: recoveredStore).map(\.id)
+    #expect(recoveredIDs == [event.id])
+    recoveredStore = nil
+    try temporaryStore.remove()
+    #expect(!FileManager.default.fileExists(atPath: temporaryStore.directory.path()))
   }
 
   @Test("Revisioni, tombstone e retry convergono indipendentemente dall'ordine")
@@ -88,10 +97,18 @@ struct TGDataTests {
       )
     }
 
-    let widgetStore = try TGDataEventStore(
+    var widgetStore: TGDataEventStore?
+    defer {
+      widgetStore = nil
+      try? temporaryStore.remove()
+    }
+    widgetStore = try TGDataEventStore(
       configuration: TGDataEventStore.localConfiguration(url: temporaryStore.url)
     )
-    #expect(try widgetStore.latestWidgetSnapshot() == "oggi:3")
+    #expect(try widgetStore?.latestWidgetSnapshot() == "oggi:3")
+    widgetStore = nil
+    try temporaryStore.remove()
+    #expect(!FileManager.default.fileExists(atPath: temporaryStore.directory.path()))
   }
 
   @Test("Duplicati già persistiti vengono risolti una sola volta")
@@ -118,17 +135,33 @@ struct TGDataTests {
       events: [importedRevision, original]
     )
 
-    let forwardResult = try TGDataEventStore(
+    var forwardEventStore: TGDataEventStore?
+    var reverseEventStore: TGDataEventStore?
+    defer {
+      forwardEventStore = nil
+      reverseEventStore = nil
+      try? forwardStore.remove()
+      try? reverseStore.remove()
+    }
+    forwardEventStore = try TGDataEventStore(
       configuration: TGDataEventStore.localConfiguration(url: forwardStore.url)
-    ).resolvedEvents()
-    let reverseResult = try TGDataEventStore(
+    )
+    reverseEventStore = try TGDataEventStore(
       configuration: TGDataEventStore.localConfiguration(url: reverseStore.url)
-    ).resolvedEvents()
+    )
+    let forwardResult = try resolvedEvents(from: forwardEventStore)
+    let reverseResult = try resolvedEvents(from: reverseEventStore)
 
     #expect(forwardResult == reverseResult)
     #expect(forwardResult.count == 1)
     #expect(forwardResult.first?.id == original.id)
     #expect(forwardResult.first?.payload == "evento importato")
+    forwardEventStore = nil
+    reverseEventStore = nil
+    try forwardStore.remove()
+    try reverseStore.remove()
+    #expect(!FileManager.default.fileExists(atPath: forwardStore.directory.path()))
+    #expect(!FileManager.default.fileExists(atPath: reverseStore.directory.path()))
   }
 
   @Test("Duplicati ricevuti in merge separati convergono al record canonico")
@@ -185,13 +218,21 @@ struct TGDataTests {
     let event = makeEvent(index: 7)
 
     try TGDataMigrationProbe.seedV1Store(at: temporaryStore.url, event: event)
-    let migratedStore = try TGDataEventStore(
+    var migratedStore: TGDataEventStore?
+    defer {
+      migratedStore = nil
+      try? temporaryStore.remove()
+    }
+    migratedStore = try TGDataEventStore(
       configuration: TGDataEventStore.localConfiguration(url: temporaryStore.url)
     )
 
-    let migrated = try #require(migratedStore.resolvedEvents().first)
+    let migrated = try #require(resolvedEvents(from: migratedStore).first)
     #expect(migrated.id == event.id)
     #expect(migrated.payload == event.payload)
+    migratedStore = nil
+    try temporaryStore.remove()
+    #expect(!FileManager.default.fileExists(atPath: temporaryStore.directory.path()))
   }
 
   @Test("Il passaggio al container definitivo non cambia schema o store contract")
@@ -255,6 +296,11 @@ struct TGDataTests {
     )
   }
 
+  private func resolvedEvents(from store: TGDataEventStore?) throws -> [TGDataResolvedEvent] {
+    let store = try #require(store)
+    return try store.resolvedEvents()
+  }
+
   private func uuid(_ value: String) -> UUID {
     UUID(uuidString: value)!
   }
@@ -274,7 +320,12 @@ private final class TemporaryStore {
     url = directory.appending(path: "TGData.store")
   }
 
+  func remove() throws {
+    guard FileManager.default.fileExists(atPath: directory.path()) else { return }
+    try FileManager.default.removeItem(at: directory)
+  }
+
   deinit {
-    try? FileManager.default.removeItem(at: directory)
+    try? remove()
   }
 }
