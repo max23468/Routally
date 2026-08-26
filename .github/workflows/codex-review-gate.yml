@@ -45,7 +45,7 @@ jobs:
     name: Aggiorna gate Codex
     needs: invalidate
     if: >-
-      always() &&
+      !cancelled() &&
       (github.event_name == 'workflow_dispatch' ||
        (github.event_name == 'pull_request_target' &&
         (github.event.action == 'opened' ||
