@@ -4,14 +4,19 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Implementata E04 come motore di dominio puro: tipi forti, calendario locale, registro
+  eventi con revisioni e tombstone, reducer deterministico, collegamenti diretti, cicli,
+  follow-up, correzioni retroattive, invarianti e test dei quattro archetipi canonici.
+- Chiuso `TG-RECALC` con esito **Async boundary** sul dataset da 10.000 eventi: reducer
+  sincrono puro, ricalcolo cancellabile fuori dal `MainActor`, convergenza tra ordini di
+  consegna e risultato atomico senza proiezioni persistenti.
 - Completato l'audit di E03: gli accenti Asset Catalog espongono ora tutte le varianti
   Light/Dark e Increase Contrast con controllo CI dedicato, mentre le fixture di lancio
   vengono caricate soltanto con la modalità `demo` esplicita.
-- Avanzato `TG-DATA` verso un esito Adapt: spike SwiftData isolato, schema e migrazione
+- Chiuso `TG-DATA` con esito Adapt: spike SwiftData isolato, schema e migrazione
   versionati, deduplica e riconciliazione UUID, revisioni/tombstone, recovery locale,
   condivisione app-widget, configurazione App Group/CloudKit e dataset canonico da 10.000
-  eventi coperti da test; il gate resta aperto fino alle prove su un container CloudKit
-  provvisorio.
+  eventi coperti da test; la prova reale CloudKit Development resta pianificata in M10.
 - Integrati i pacchetti Icon Composer Liquid Glass per i target pubblico e Dev, con una
   variante Dark realmente scura e verifiche dedicate di struttura, collegamento Xcode,
   Clear e Tinted sulla Home Screen del simulatore; prove real-device e user test sono
