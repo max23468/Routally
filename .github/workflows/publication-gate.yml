@@ -1,0 +1,226 @@
+name: Publication gate
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publication-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  invalidate:
+    name: Invalida esito precedente
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      statuses: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Imposta publication-gate su pending
+        run: >-
+          gh api --method POST
+          "repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}"
+          -f state=pending
+          -f context=publication-gate
+          -f description='Controlli proporzionati in corso'
+          -f target_url='${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+
+  classify:
+    name: Classifica modifica
+    needs: invalidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      kind: ${{ steps.policy.outputs.kind }}
+      needs_build: ${{ steps.policy.outputs.needs_build }}
+      needs_codeql: ${{ steps.policy.outputs.needs_codeql }}
+      needs_node_tests: ${{ steps.policy.outputs.needs_node_tests }}
+      needs_roadmap: ${{ steps.policy.outputs.needs_roadmap }}
+      needs_swift_format: ${{ steps.policy.outputs.needs_swift_format }}
+      needs_ui_assets: ${{ steps.policy.outputs.needs_ui_assets }}
+      needs_visual_evidence: ${{ steps.policy.outputs.needs_visual_evidence }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Recupera l'HEAD della PR senza eseguirlo
+        run: git fetch --no-tags origin "pull/${{ github.event.pull_request.number }}/head"
+      - name: Classifica i file modificati
+        id: policy
+        run: >-
+          node scripts/verify-change.mjs
+          --base "origin/${{ github.base_ref }}"
+          --head FETCH_HEAD
+          --github-output "$GITHUB_OUTPUT"
+          --plan-only
+      - name: Verifica integrità del diff
+        run: git diff --check "origin/${{ github.base_ref }}...FETCH_HEAD"
+
+  validation:
+    name: Validazioni mirate
+    needs: classify
+    if: >-
+      needs.classify.outputs.needs_roadmap == 'true' ||
+      needs.classify.outputs.needs_node_tests == 'true' ||
+      needs.classify.outputs.needs_ui_assets == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
+      - name: Verifica matrice e roadmap
+        if: needs.classify.outputs.needs_roadmap == 'true'
+        run: >-
+          node scripts/check-reading-matrix.mjs &&
+          node scripts/check-roadmap-hierarchy.mjs
+      - name: Verifica script di governance
+        if: needs.classify.outputs.needs_node_tests == 'true'
+        run: >-
+          node --test
+          scripts/change-policy.test.mjs
+          scripts/codex-review-gate.test.mjs
+          scripts/publication-gate.test.mjs
+          scripts/verify-merge-tree.test.mjs
+      - name: Verifica asset UI Foundation
+        if: needs.classify.outputs.needs_ui_assets == 'true'
+        run: node scripts/check-ui-assets.mjs
+
+  swift-format:
+    name: Swift format
+    needs: classify
+    if: needs.classify.outputs.needs_swift_format == 'true'
+    runs-on: macos-26
+    timeout-minutes: 10
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
+      - name: Verifica formattazione
+        run: >-
+          swift format lint --recursive --strict
+          RoutallyApp RoutallyTests Packages/RoutallyModules
+
+  codeql:
+    name: CodeQL Swift
+    needs: classify
+    if: >-
+      needs.classify.outputs.needs_codeql == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: macos-26
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      merge_sha: ${{ steps.codeql_ref.outputs.merge_sha }}
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
+      - name: Registra il merge analizzato
+        id: codeql_ref
+        run: echo "merge_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
+        with:
+          languages: swift
+          build-mode: manual
+      - name: Build Swift
+        run: >-
+          xcodebuild build
+          -project Routally.xcodeproj
+          -scheme "Routally Dev"
+          -destination "generic/platform=iOS Simulator"
+          ARCHS=arm64
+          ONLY_ACTIVE_ARCH=YES
+          CODE_SIGNING_REQUIRED=NO
+          CODE_SIGNING_ALLOWED=NO
+          COMPILATION_CACHE_ENABLE_CACHING=NO
+          SWIFT_ENABLE_COMPILE_CACHE=NO
+          SWIFT_USE_INTEGRATED_DRIVER=NO
+      - name: Analyze
+        id: analyze
+        uses: github/codeql-action/analyze@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
+        with:
+          category: /language:swift/pr-validation
+          output: codeql-results
+          upload: never
+      - name: Conserva il SARIF senza pubblicarlo
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: codeql-sarif-${{ github.run_id }}
+          path: ${{ steps.analyze.outputs.sarif-output }}
+          if-no-files-found: error
+          retention-days: 1
+
+  codeql-upload:
+    name: Pubblica risultati CodeQL
+    needs: [classify, codeql]
+    if: >-
+      needs.classify.outputs.needs_codeql == 'true' &&
+      needs.codeql.result == 'success' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Recupera il SARIF come dato
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: codeql-sarif-${{ github.run_id }}
+          path: codeql-results
+      - name: Pubblica il SARIF senza eseguire codice della PR
+        uses: github/codeql-action/upload-sarif@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
+        with:
+          sarif_file: codeql-results
+          category: /language:swift/pr-validation
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          sha: ${{ needs.codeql.outputs.merge_sha }}
+
+  publication-gate:
+    name: Consolida pubblicazione
+    if: always()
+    needs: [invalidate, classify, validation, swift-format, codeql, codeql-upload]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      statuses: write
+    env:
+      APPLE_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_build }}
+      CLASSIFY_RESULT: ${{ needs.classify.result }}
+      CODEQL_REQUIRED: ${{ needs.classify.outputs.needs_codeql }}
+      CODEQL_RESULT: ${{ needs.codeql-upload.result }}
+      FORMAT_REQUIRED: ${{ needs.classify.outputs.needs_swift_format }}
+      FORMAT_RESULT: ${{ needs.swift-format.result }}
+      VALIDATION_REQUIRED: ${{ needs.classify.outputs.needs_roadmap == 'true' || needs.classify.outputs.needs_node_tests == 'true' || needs.classify.outputs.needs_ui_assets == 'true' }}
+      VALIDATION_RESULT: ${{ needs.validation.result }}
+      VISUAL_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_visual_evidence }}
+      PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Consolida i gate applicabili
+        run: node scripts/publication-gate.mjs

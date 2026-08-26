@@ -141,8 +141,9 @@ test("seleziona solo un'invocazione esatta, fidata e successiva all'HEAD", () =>
   assert.equal(latestCodexInvocation(comments, requestedAt).id, 3);
 });
 
-test("il primo giro è automatico solo su apertura o ready", () => {
+test("il primo giro è automatico su apertura, riapertura o ready", () => {
   assert.equal(isAutomaticFirstReview("pull_request_target", "opened"), true);
+  assert.equal(isAutomaticFirstReview("pull_request_target", "reopened"), true);
   assert.equal(isAutomaticFirstReview("pull_request_target", "ready_for_review"), true);
   assert.equal(isAutomaticFirstReview("pull_request_target", "synchronize"), false);
   assert.equal(isAutomaticFirstReview("workflow_dispatch", undefined), false);
@@ -163,10 +164,11 @@ test("gli errori operativi bloccano in assenza di una review conclusa più recen
   );
 });
 
-test("valida il numero PR e mantiene il polling entro cinque ore", () => {
+test("valida il numero PR e limita il polling a un'ora", () => {
   assert.equal(pullRequestNumber({ issue: { number: 42 } }), "42");
   assert.throws(() => pullRequestNumber({}, "x"), /Numero PR non valido/);
-  assert.equal(CODEX_REVIEW_POLLING.attempts * CODEX_REVIEW_POLLING.intervalMs, 18_000_000);
+  assert.equal(CODEX_REVIEW_POLLING.attempts * CODEX_REVIEW_POLLING.intervalMs, 3_600_000);
+  assert.ok(CODEX_REVIEW_POLLING.intervalMs <= 60_000);
 });
 
 test("il workflow usa codice trusted e non richiede commenti al primo giro", async () => {
@@ -185,5 +187,10 @@ test("il workflow usa codice trusted e non richiede commenti al primo giro", asy
   assert.match(workflow, /node scripts\/check-roadmap-hierarchy\.mjs/);
   assert.match(workflow, /ref:\s*\$\{\{ github\.event\.repository\.default_branch \}\}/);
   assert.doesNotMatch(workflow, /github\.ref_name/);
-  assert.match(workflow, /jobs:\s*\n  gate:[\s\S]*?    concurrency:/);
+  assert.match(workflow, /CODEX_REVIEW_MODE: invalidate/);
+  assert.match(workflow, /github\.event\.action == 'synchronize'/);
+  assert.match(workflow, /github\.event\.action == 'reopened'/);
+  assert.match(workflow, /jobs:\s*\n  invalidate:/);
+  assert.match(workflow, /\n  gate:/);
+  assert.match(workflow, /timeout-minutes: 65/);
 });
