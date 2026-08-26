@@ -4,6 +4,8 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Registrato `DG-VISUAL`: il checkpoint visuale di E06 deve essere approvato e
+  formalizzato prima di estendere il linguaggio dell'interfaccia alle epiche E07-E11.
 - Reso proporzionato il ciclo di pubblicazione: classificazione condivisa locale/CI,
   gate PR aggregato, CodeQL pre-merge, review Codex più reattiva, P2/P3 non bloccanti,
   riaperture serializzate, squash auto-merge ed equivalenza del tree al posto delle

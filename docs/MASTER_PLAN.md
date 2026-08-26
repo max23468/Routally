@@ -4376,9 +4376,9 @@ della milestone: sono condizioni che ne precedono o vincolano il completamento.
 |---|---|---|---|
 | `0.1` | `M01` Foundation | `E01`–`E03` | `TG-DATA` chiuso **Adapt** su evidenze locali; prototipi mirati per le integrazioni UI/sistema |
 | `0.2` | `M02` Core Routine Engine | `E04`–`E05` | adattamenti di `TG-DATA` applicati; `TG-RECALC` prima delle feature dipendenti |
-| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili, senza anticipare le integrazioni di sistema complete |
-| `0.4` | `M04` Today & Routine | `E07`–`E10` | vertical slice reale verificata su device e offline |
-| `0.5` | `M05` Explore & Kits | `E11` | motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
+| `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili; `DG-VISUAL` chiuso sul linguaggio visuale della vertical slice, senza anticipare le integrazioni di sistema complete |
+| `0.4` | `M04` Today & Routine | `E07`–`E10` | `DG-VISUAL` chiuso; vertical slice reale verificata su device e offline |
+| `0.5` | `M05` Explore & Kits | `E11` | `DG-VISUAL` chiuso; motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
 | `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 implementati e verificati localmente; predisposizione iCloud testata su Simulator |
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
 | `0.6` | `M08` Free Core & Release Foundations | `E17`–`E18` | garanzia gratuita, assenza di commercio 1.0, supporto, legale e App Store foundations completi |
@@ -5017,7 +5017,8 @@ Prima di considerare completa la vertical slice, `E06` deve:
 
 Il checkpoint non amplia `E06` all'implementazione completa delle schermate delle epiche
 successive: rende la vertical slice il riferimento visuale approvato prima della loro
-estensione.
+estensione. Le sei evidenze e l'approvazione del Product Owner chiudono `DG-VISUAL`;
+finché il gate resta aperto non inizia l'estensione delle schermate in `E07`–`E11`.
 
 ## 48.4 M04 — Today & Routine
 
@@ -5182,6 +5183,16 @@ dell’epica né della 1.0 senza change control.
   feature-complete;
 - `E21` / `M11`: verifica figurativa formale o accettazione esplicita del rischio,
   ratifica del Product Owner e chiusura del gate prima degli asset App Store definitivi.
+
+## DG-VISUAL
+
+- appartiene a `E06` / `M03` e resta aperto fino al checkpoint visuale della sezione 48.3;
+- richiede le sei evidenze previste dal checkpoint, inclusa la verifica del prototipo su
+  iPhone e iPad Simulator;
+- viene chiuso soltanto dall'approvazione visiva del Product Owner e dalla formalizzazione
+  del linguaggio visuale risultante;
+- blocca l'estensione delle schermate in `E07`–`E11`, quindi è un prerequisito esplicito
+  di `M04` e `M05` nella mappa della sezione 37.2.
 
 ## DG-DEVELOPER-IDENTITY
 
