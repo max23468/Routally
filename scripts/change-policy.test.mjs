@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { classifyChangedFiles, githubOutputs } from "./change-policy.mjs";
 
@@ -77,4 +78,11 @@ test("espone output GitHub booleani e stabili", () => {
     needs_ui_assets: "false",
     needs_visual_evidence: "false",
   });
+});
+
+test("l'inventario tratta un rename come rimozione e aggiunta", async () => {
+  const source = await readFile(new URL("./verify-change.mjs", import.meta.url), "utf8");
+  assert.match(source, /"diff",\s*\n\s*"--no-renames",\s*\n\s*"--name-only"/);
+  assert.match(source, /"diff", "--no-renames", "--name-only"/);
+  assert.match(source, /"--no-renames",\s*\n\s*"--cached"/);
 });

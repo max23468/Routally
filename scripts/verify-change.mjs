@@ -23,6 +23,7 @@ function outputLines(command, args) {
 export function changedFiles(base, head = "HEAD") {
   const committed = outputLines("git", [
     "diff",
+    "--no-renames",
     "--name-only",
     "--diff-filter=ACMRD",
     `${base}...${head}`,
@@ -30,8 +31,14 @@ export function changedFiles(base, head = "HEAD") {
   if (head !== "HEAD") return committed;
   return [
     ...committed,
-    ...outputLines("git", ["diff", "--name-only", "--diff-filter=ACMRD"]),
-    ...outputLines("git", ["diff", "--cached", "--name-only", "--diff-filter=ACMRD"]),
+    ...outputLines("git", ["diff", "--no-renames", "--name-only", "--diff-filter=ACMRD"]),
+    ...outputLines("git", [
+      "diff",
+      "--no-renames",
+      "--cached",
+      "--name-only",
+      "--diff-filter=ACMRD",
+    ]),
     ...outputLines("git", ["ls-files", "--others", "--exclude-standard"]),
   ];
 }
