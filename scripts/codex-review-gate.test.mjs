@@ -181,6 +181,8 @@ test("il workflow usa codice trusted e non richiede commenti al primo giro", asy
   assert.match(workflow, /github\.event\.comment\.body == '@codex review'/);
   assert.match(workflow, /github\.event\.comment\.author_association == 'OWNER'/);
   assert.doesNotMatch(workflow, /contains\(github\.event\.comment\.body/);
+  assert.match(workflow, /github\.event\.comment\.id/);
+  assert.match(workflow, /github\.run_id/);
   assert.match(workflow, /statuses: write/);
   assert.doesNotMatch(workflow, /issues: write/);
   assert.match(workflow, /node --test scripts\/codex-review-gate\.test\.mjs/);
@@ -192,5 +194,8 @@ test("il workflow usa codice trusted e non richiede commenti al primo giro", asy
   assert.match(workflow, /github\.event\.action == 'reopened'/);
   assert.match(workflow, /jobs:\s*\n  invalidate:/);
   assert.match(workflow, /\n  gate:/);
+  assert.match(workflow, /gate:\s*\n    name: Aggiorna gate Codex\s*\n    needs: invalidate/);
+  assert.match(workflow, /if: >-\s*\n      !cancelled\(\) &&/);
+  assert.doesNotMatch(workflow, /always\(\)/);
   assert.match(workflow, /timeout-minutes: 65/);
 });
