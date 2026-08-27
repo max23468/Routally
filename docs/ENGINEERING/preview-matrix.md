@@ -1,4 +1,4 @@
-# Preview matrix — E03
+# Preview matrix — E03 ed E06
 
 - **Stato:** Implemented
 - **Epic:** E03 — Xcode & SwiftUI Foundation
@@ -77,12 +77,21 @@ salvataggio, l'errore riceve il focus accessibile e `Riprova` conserva il draft.
 fallback partecipa al dirty state, l'area viene conservata come chiave stabile nella
 configurazione sintetica e resa visibile nel dettaglio della routine creata.
 
-La suite automatica protegge fixture, idempotenza arrivo/fallback, selezione corretta dei
-follow-up per l'arrivo a casa, separazione tra visibilità del follow-up e consegna della
-notifica simulata con identità esplicita, ricreazione dopo esclusioni, undo atomico,
-stati di submission, applicazione del draft, propagazione della locale e path di
-navigazione. Le build e i test che richiedono Simulator restano nella pipeline
-Apple/Xcode Cloud, come previsto dalla ripartizione CI del Master Plan; GitHub Actions non
-duplica tale pipeline. Registro eventi e reducer, persistenza, geofencing e notifiche
-reali restano nelle epiche e nei Technical Gate previsti dal Master Plan; E03 usa
-simulazioni locali Dev.
+Con E06, il launch argument `connectedGymCycle` non usa più mutazioni sintetiche: carica
+un catalogo e tre eventi deterministici nel vero store E05 in-memory, li riduce con E04 e
+attraversa `RoutallyFeatureModel`. Le altre fixture di questa matrice restano snapshot
+immutabili destinati esclusivamente a preview e audit visuale.
+
+La suite automatica protegge persistenza e riapertura, idempotenza arrivo/fallback,
+selezione corretta dei follow-up per l'arrivo a casa, separazione tra visibilità e
+consegna, esclusione revisionale, undo tramite tombstone, completamento e reset, doppio
+tocco, offline, applicazione del draft, propagazione della locale e path di navigazione.
+Protegge inoltre il retry dopo il fallimento iniziale dello store e il ricalcolo temporale
+quando arriva il fallback, cambia la settimana o l'orologio viene spostato indietro. La
+root view ricarica all'attivazione della scena e ogni minuto mentre è attiva, serializzando
+il refresh con le scritture dell'utente. I campi di creazione conservano etichette
+accessibili esplicite anche dopo l'inserimento di un valore.
+Le build e i test che richiedono Simulator restano nella pipeline Apple/Xcode Cloud, come
+previsto dalla ripartizione CI del Master Plan; GitHub Actions non duplica tale pipeline.
+Geofencing e notifiche reali restano in E12, mentre E06 usa i relativi confini in-memory
+testabili.

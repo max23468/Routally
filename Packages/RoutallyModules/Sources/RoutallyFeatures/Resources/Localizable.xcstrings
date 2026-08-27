@@ -37,6 +37,24 @@
       },
       "extractionState": "manual"
     },
+    "Caricamento": {
+      "comment": "Accessible label for the initial local-data loading indicator.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caricamento"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
     "Aggiunge 1 utilizzo ad Asciugamano palestra": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
       "localizations": {

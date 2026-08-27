@@ -5,7 +5,7 @@ import SwiftUI
 struct RoutinesView: View {
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
   let router: AppRouter
 
   var body: some View {
@@ -106,7 +106,6 @@ struct RoutinesView: View {
       } label: {
         Label(.nuovaRoutine, systemImage: "plus")
       }
-      .keyboardShortcut("n", modifiers: .command)
       .accessibilityIdentifier("new-routine-button")
     }
 
@@ -118,7 +117,6 @@ struct RoutinesView: View {
       } label: {
         Label(.profilo, systemImage: "person.crop.circle")
       }
-      .keyboardShortcut(",", modifiers: .command)
     }
   }
 
@@ -129,7 +127,7 @@ struct RoutinesView: View {
 
 private struct RoutineDetailView: View {
   let routine: RoutineSummary?
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
 
   var body: some View {
     if let routine {
@@ -146,7 +144,7 @@ private struct RoutineDetailView: View {
           .listRowBackground(Color.clear)
         }
 
-        if store.hasLinkedTowel(forRoutineID: routine.id) {
+        if store.hasLinkedRoutine(forRoutineID: routine.id) {
           Section(.conseguenze) {
             LabeledContent(.obiettivoSettimanale, value: "\(routine.progress)/\(routine.target)")
             Label(.aggiunge1UtilizzoAdAsciugamanoPalestra, systemImage: "link")
@@ -174,7 +172,7 @@ private struct RoutineDetailView: View {
   }
 
   private func areaResource(for routineID: String) -> LocalizedStringResource? {
-    guard let rawArea = store.creationDraft(forRoutineID: routineID)?.area else { return nil }
+    guard let rawArea = store.areaIdentifier(forRoutineID: routineID) else { return nil }
     switch rawArea {
     case RoutineArea.wellbeing.rawValue:
       return LocalizedStringResource.benessere

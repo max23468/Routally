@@ -2,7 +2,7 @@ import Foundation
 import RoutallyDomain
 import Testing
 
-@Suite("M02 E04 Domain Engine")
+@Suite("Domain Engine")
 struct DomainEngineTests {
   private let utc = DomainCalendar(timeZoneIdentifier: "UTC")
 
@@ -1119,7 +1119,10 @@ struct DomainEngineTests {
       threshold: .progress(1),
       followUp: FollowUpPolicy(
         title: "Sostituisci",
-        usefulMoment: .geographic(locationID: "", fallbackAfter: -1)
+        usefulMoment: .geographic(
+          locationID: "",
+          fallbackTime: LocalTime(hour: 25, minute: 0)
+        )
       ),
       anchorDate: date(2026, 1, 1)
     )
@@ -1237,7 +1240,7 @@ struct DomainEngineTests {
   }
 }
 
-@Suite("M02 TG-RECALC")
+@Suite("TG-RECALC")
 struct TGRecalcTests {
   @Test("Il dataset canonico converge e ricalcola fuori dal MainActor")
   func referenceDatasetConverges() async throws {

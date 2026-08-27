@@ -5,7 +5,7 @@ struct ConsequenceSummarySheet: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(\.locale) private var locale
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
   let router: AppRouter
 
   var body: some View {
@@ -35,11 +35,14 @@ struct ConsequenceSummarySheet: View {
 
                 if let exclusionTarget = effect.exclusionTarget, !effect.isExcluded {
                   Button(.consequenceExcludeAction(exclusionTarget)) {
-                    store.excludeEffect(id: effect.id)
+                    Task {
+                      await store.excludeEffect(id: effect.id, locale: locale)
+                    }
                   }
+                  .disabled(store.isPerformingOperation)
                 }
               }
-              .accessibilityElement(children: .combine)
+              .accessibilityElement(children: .contain)
             }
           }
 
@@ -50,9 +53,13 @@ struct ConsequenceSummarySheet: View {
               dismiss()
             }
             Button(.annullaRegistrazione, role: .destructive) {
-              store.undoLastRecording()
-              dismiss()
+              Task {
+                if await store.undoLastRecording(locale: locale) {
+                  dismiss()
+                }
+              }
             }
+            .disabled(store.isPerformingOperation)
           }
         } else {
           ContentUnavailableView(.nessunaConseguenza, systemImage: "checkmark.circle")
@@ -68,6 +75,7 @@ struct ConsequenceSummarySheet: View {
             store.clearConsequenceSummary()
             dismiss()
           }
+          .disabled(store.isPerformingOperation)
         }
       }
     }
@@ -79,14 +87,14 @@ struct ConsequenceSummarySheet: View {
 #if DEBUG
   #Preview("Conseguenze multiple · Light") {
     ConsequenceSummarySheet(
-      store: PreviewFixtures.consequenceStore(),
+      store: PreviewFixtures.consequenceModel(),
       router: AppRouter()
     )
   }
 
   #Preview("Conseguenze multiple · Dark · AX5") {
     ConsequenceSummarySheet(
-      store: PreviewFixtures.consequenceStore(),
+      store: PreviewFixtures.consequenceModel(),
       router: AppRouter()
     )
     .preferredColorScheme(.dark)

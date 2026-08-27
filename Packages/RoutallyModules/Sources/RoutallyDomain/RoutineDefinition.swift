@@ -53,6 +53,7 @@ public enum FrequencyRule: Codable, Equatable, Hashable, Sendable {
   case afterLast(CalendarIntervalRule)
   case scheduled(ScheduledRule)
   case withinPeriod(PeriodicGoalRule)
+  case cycleDriven
 }
 
 public enum AttentionRule: Codable, Equatable, Hashable, Sendable {
@@ -105,6 +106,19 @@ public enum RoutineLifecycle: Codable, Equatable, Hashable, Sendable {
   }
 }
 
+public struct RoutineAppearance: Codable, Equatable, Hashable, Sendable {
+  public var symbolName: String
+  public var areaIdentifier: String
+
+  public init(
+    symbolName: String = "repeat",
+    areaIdentifier: String = "personal"
+  ) {
+    self.symbolName = symbolName
+    self.areaIdentifier = areaIdentifier
+  }
+}
+
 public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
   public let id: RoutineID
   public var name: String
@@ -112,6 +126,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
   public var frequency: FrequencyRule
   public var attention: AttentionRule
   public var lifecycle: RoutineLifecycle
+  public var appearance: RoutineAppearance
   public let createdAt: Date
 
   public init(
@@ -121,6 +136,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
     frequency: FrequencyRule,
     attention: AttentionRule = .whenDue,
     lifecycle: RoutineLifecycle = .active,
+    appearance: RoutineAppearance = RoutineAppearance(),
     createdAt: Date
   ) {
     self.id = id
@@ -129,6 +145,7 @@ public struct RoutineDefinition: Codable, Equatable, Hashable, Sendable {
     self.frequency = frequency
     self.attention = attention
     self.lifecycle = lifecycle
+    self.appearance = appearance
     self.createdAt = createdAt
   }
 }
@@ -212,7 +229,7 @@ public enum ThresholdRule: Codable, Equatable, Hashable, Sendable {
 public enum UsefulMomentPolicy: Codable, Equatable, Hashable, Sendable {
   case immediate
   case temporal(notBefore: LocalTime)
-  case geographic(locationID: String, fallbackAfter: TimeInterval)
+  case geographic(locationID: String, fallbackTime: LocalTime)
 }
 
 public struct FollowUpPolicy: Codable, Equatable, Hashable, Sendable {
@@ -396,6 +413,8 @@ extension RoutineDefinition {
       }
     case .withinPeriod(let goal):
       return goal.target.isFinite && goal.target > 0
+    case .cycleDriven:
+      return true
     }
   }
 }
@@ -421,9 +440,9 @@ extension UsageCycleDefinition {
       return true
     case .temporal(let time):
       return time.isValid
-    case .geographic(let locationID, let fallbackAfter):
+    case .geographic(let locationID, let fallbackTime):
       return !locationID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        && fallbackAfter.isFinite && fallbackAfter >= 0
+        && fallbackTime.isValid
     }
   }
 }

@@ -12,10 +12,10 @@ struct CreationSheet: View {
   @State private var retryIncludesOptionalConfiguration = true
   @State private var showingDiscardConfirmation = false
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
   let router: AppRouter
 
-  init(store: RoutallyStore, router: AppRouter) {
+  init(store: RoutallyFeatureModel, router: AppRouter) {
     self.init(
       store: store,
       router: router,
@@ -26,7 +26,7 @@ struct CreationSheet: View {
   }
 
   init(
-    store: RoutallyStore,
+    store: RoutallyFeatureModel,
     router: AppRouter,
     initialStep: CreationStep,
     initialName: String,
@@ -261,7 +261,7 @@ struct CreationSheet: View {
 
     Task { @MainActor in
       await Task.yield()
-      guard let routineID = store.createRoutine(from: draft, locale: submissionLocale) else {
+      guard let routineID = await store.createRoutine(from: draft, locale: submissionLocale) else {
         submissionState.fail()
         isSaveErrorFocused = true
         return
@@ -282,14 +282,14 @@ struct CreationSheet: View {
 #if DEBUG
   #Preview("Nuova routine · Light") {
     CreationSheet(
-      store: RoutallyStore(snapshot: .empty),
+      store: RoutallyFeatureModel(previewSnapshot: .empty),
       router: AppRouter()
     )
   }
 
   #Preview("Riepilogo · Dark · English · AX5") {
     CreationSheet(
-      store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay),
+      store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.scheduledDay),
       router: AppRouter(),
       initialStep: .summary,
       initialName: "Gym"
@@ -301,7 +301,7 @@ struct CreationSheet: View {
 
   #Preview("Errore recuperabile") {
     CreationSheet(
-      store: RoutallyStore(snapshot: .empty),
+      store: RoutallyFeatureModel(previewSnapshot: .empty),
       router: AppRouter(),
       initialStep: .summary,
       initialName: "Palestra",
