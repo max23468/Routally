@@ -1289,7 +1289,7 @@ struct TGRecalcTests {
   }
 }
 
-private struct ReferenceDomainFixture: Sendable {
+struct ReferenceDomainFixture: Sendable {
   let catalog: DomainCatalog
   let ledger: DomainLedger
   let changedRoutineID: RoutineID

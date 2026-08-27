@@ -14,7 +14,7 @@
 		B10000000000000000000005 /* FoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000003 /* FoundationTests.swift */; };
 		B10000000000000000000006 /* AppIconDev.icon in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000008 /* AppIconDev.icon */; };
 		B10000000000000000000007 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000009 /* AppIcon.icon */; };
-		B10000000000000000000008 /* TGDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000010 /* TGDataTests.swift */; };
+		B10000000000000000000008 /* E05PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000010 /* E05PersistenceTests.swift */; };
 		B10000000000000000000009 /* DomainEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000011 /* DomainEngineTests.swift */; };
 		B20000000000000000000011 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000011 /* RoutallyDomain */; };
 		B20000000000000000000012 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000012 /* RoutallyDesign */; };
@@ -26,7 +26,7 @@
 		B20000000000000000000031 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000031 /* RoutallyDomain */; };
 		B20000000000000000000032 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000032 /* RoutallyFeatures */; };
 		B20000000000000000000033 /* RoutallyFixtures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000033 /* RoutallyFixtures */; };
-		B20000000000000000000034 /* RoutallyDataSpike in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000034 /* RoutallyDataSpike */; };
+		B20000000000000000000034 /* RoutallyData in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000034 /* RoutallyData */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		F10000000000000000000007 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		F10000000000000000000008 /* AppIconDev.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconDev.icon; sourceTree = "<group>"; };
 		F10000000000000000000009 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
-		F10000000000000000000010 /* TGDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGDataTests.swift; sourceTree = "<group>"; };
+		F10000000000000000000010 /* E05PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E05PersistenceTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000011 /* DomainEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEngineTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000101 /* Routally Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Routally Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000102 /* Routally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routally.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,7 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B20000000000000000000031 /* RoutallyDomain in Frameworks */,
-				B20000000000000000000034 /* RoutallyDataSpike in Frameworks */,
+				B20000000000000000000034 /* RoutallyData in Frameworks */,
 				B20000000000000000000032 /* RoutallyFeatures in Frameworks */,
 				B20000000000000000000033 /* RoutallyFixtures in Frameworks */,
 			);
@@ -108,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				F10000000000000000000003 /* FoundationTests.swift */,
-				F10000000000000000000010 /* TGDataTests.swift */,
+				F10000000000000000000010 /* E05PersistenceTests.swift */,
 				F10000000000000000000011 /* DomainEngineTests.swift */,
 			);
 			path = RoutallyTests;
@@ -205,7 +205,7 @@
 			name = "Routally Tests";
 			packageProductDependencies = (
 				D20000000000000000000031 /* RoutallyDomain */,
-				D20000000000000000000034 /* RoutallyDataSpike */,
+				D20000000000000000000034 /* RoutallyData */,
 				D20000000000000000000032 /* RoutallyFeatures */,
 				D20000000000000000000033 /* RoutallyFixtures */,
 			);
@@ -302,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000005 /* FoundationTests.swift in Sources */,
-				B10000000000000000000008 /* TGDataTests.swift in Sources */,
+				B10000000000000000000008 /* E05PersistenceTests.swift in Sources */,
 				B10000000000000000000009 /* DomainEngineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,7 +484,7 @@
 		D20000000000000000000031 /* RoutallyDomain */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDomain; };
 		D20000000000000000000032 /* RoutallyFeatures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFeatures; };
 		D20000000000000000000033 /* RoutallyFixtures */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyFixtures; };
-		D20000000000000000000034 /* RoutallyDataSpike */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyDataSpike; };
+		D20000000000000000000034 /* RoutallyData */ = {isa = XCSwiftPackageProductDependency; package = X10000000000000000000001 /* XCLocalSwiftPackageReference "RoutallyModules" */; productName = RoutallyData; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A00000000000000000000001 /* Project object */;

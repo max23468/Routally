@@ -21,8 +21,9 @@ complementari ammessi dal Master Plan; `codeql.yml` e `swift-format.yml` usano i
 `macos-26` e selezionano Xcode 26.6 esplicitamente.
 
 Il package locale `RoutallyModules` non dichiara dipendenze runtime esterne. La fixture e
-la matrice visuale sono bloccate in [preview-matrix.md](preview-matrix.md). Schema
-SwiftData e formato eventi dello spike sono versionati nel target isolato
-`RoutallyDataSpike`; non appartengono ancora allo store di prodotto, che resta in `E05`.
-La validazione CloudKit Development su asset Apple definitivi è pianificata in `M10`;
-fino a `M09` non sono richiesti entitlement remoti o un account Developer a pagamento.
+la matrice visuale sono bloccate in [preview-matrix.md](preview-matrix.md). Lo schema
+SwiftData V1 e il formato degli eventi sono versionati nel modulo di prodotto
+`RoutallyData`; lo spike isolato è stato assorbito da E05 e le sue regressioni vengono
+eseguite sullo store reale. La validazione CloudKit Development su asset Apple definitivi
+è pianificata in `M10`; fino a `M09` non sono richiesti entitlement remoti o un account
+Developer a pagamento.
