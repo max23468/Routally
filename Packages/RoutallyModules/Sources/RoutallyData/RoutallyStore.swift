@@ -124,6 +124,7 @@ public struct RoutallyStoreSnapshot: Equatable, Sendable {
 
 public enum RoutallyStoreError: Error, Equatable, Sendable {
   case corruptedRecord(kind: String, id: UUID)
+  case unsupportedPayloadVersion(kind: String, id: UUID, version: Int)
 }
 
 public protocol RoutallyStore: Sendable {
@@ -136,19 +137,21 @@ public protocol RoutallyStore: Sendable {
   ) async throws -> RoutallyStoreSnapshot
 }
 
-public actor SwiftDataRoutallyStore: RoutallyStore {
-  private let container: ModelContainer
-  private let context: ModelContext
+public actor SwiftDataRoutallyStore: RoutallyStore, ModelActor {
+  public nonisolated let modelContainer: ModelContainer
+  public nonisolated let modelExecutor: any ModelExecutor
 
-  public init(configuration: RoutallyStoreConfiguration = .inMemory()) throws {
+  public init(configuration: RoutallyStoreConfiguration) throws {
     let modelConfiguration = configuration.modelConfiguration()
-    container = try ModelContainer(
+    let container = try ModelContainer(
       for: Schema(versionedSchema: RoutallySchemaV1.self),
       migrationPlan: RoutallyMigrationPlan.self,
       configurations: [modelConfiguration]
     )
-    context = ModelContext(container)
+    let context = ModelContext(container)
     context.autosaveEnabled = false
+    modelContainer = container
+    modelExecutor = DefaultSerialModelExecutor(modelContext: context)
   }
 
   public func load(
@@ -194,18 +197,28 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
       try insert(revisions: newRevisions)
       try insert(tombstones: newTombstones)
       try Task.checkCancellation()
-      try context.save()
+      try modelContext.save()
     } catch {
-      context.rollback()
+      modelContext.rollback()
       throw error
     }
+
+    let affectedRoots = affectedRoots(
+      for: change,
+      stored: stored,
+      committedCatalog: catalog,
+      committedLedger: ledger,
+      newEvents: newEvents,
+      newRevisions: newRevisions,
+      newTombstones: newTombstones
+    )
 
     return RoutallyStoreSnapshot(
       catalog: catalog,
       ledger: ledger,
       state: state,
       affectedRoutineIDs: catalog.affectedRoutineIDs(
-        startingAt: change.changedRoutineIDs
+        startingAt: affectedRoots
       )
     )
   }
@@ -225,27 +238,29 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func loadContent() throws -> StoredContent {
-    let routines = try context.fetch(FetchDescriptor<RoutallySchemaV1.RoutineRecord>())
+    let routines = try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.RoutineRecord>())
       .map(decode)
       .uniqued()
       .sorted { $0.id < $1.id }
-    let links = try context.fetch(FetchDescriptor<RoutallySchemaV1.LinkRecord>())
+    let links = try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.LinkRecord>())
       .map(decode)
       .uniqued()
       .sorted { $0.id < $1.id }
-    let cycles = try context.fetch(FetchDescriptor<RoutallySchemaV1.CycleRecord>())
+    let cycles = try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.CycleRecord>())
       .map(decode)
       .uniqued()
       .sorted { $0.id < $1.id }
-    let events = try context.fetch(FetchDescriptor<RoutallySchemaV1.EventRecord>())
+    let events = try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.EventRecord>())
       .map(decode)
       .uniqued()
       .sorted(by: eventOrder)
-    let revisions = try context.fetch(FetchDescriptor<RoutallySchemaV1.EventRevisionRecord>())
-      .map(decode)
-      .uniqued()
-      .sorted(by: revisionOrder)
-    let tombstones = try context.fetch(FetchDescriptor<RoutallySchemaV1.TombstoneRecord>())
+    let revisions = try modelContext.fetch(
+      FetchDescriptor<RoutallySchemaV1.EventRevisionRecord>()
+    )
+    .map(decode)
+    .uniqued()
+    .sorted(by: revisionOrder)
+    let tombstones = try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.TombstoneRecord>())
       .map(decode)
       .uniqued()
       .sorted(by: tombstoneOrder)
@@ -262,19 +277,19 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
 
   private func replaceCatalog(with catalog: DomainCatalog) throws {
     try catalog.validate()
-    for record in try context.fetch(FetchDescriptor<RoutallySchemaV1.RoutineRecord>()) {
-      context.delete(record)
+    for record in try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.RoutineRecord>()) {
+      modelContext.delete(record)
     }
-    for record in try context.fetch(FetchDescriptor<RoutallySchemaV1.LinkRecord>()) {
-      context.delete(record)
+    for record in try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.LinkRecord>()) {
+      modelContext.delete(record)
     }
-    for record in try context.fetch(FetchDescriptor<RoutallySchemaV1.CycleRecord>()) {
-      context.delete(record)
+    for record in try modelContext.fetch(FetchDescriptor<RoutallySchemaV1.CycleRecord>()) {
+      modelContext.delete(record)
     }
 
     for (index, routine) in catalog.routines.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.RoutineRecord(
           id: routine.id.rawValue,
           createdAt: routine.createdAt,
@@ -284,7 +299,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
     }
     for (index, link) in catalog.links.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.LinkRecord(
           id: link.id.rawValue,
           sourceRoutineID: link.sourceRoutineID.rawValue,
@@ -296,7 +311,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
     }
     for (index, cycle) in catalog.cycles.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.CycleRecord(
           id: cycle.id.rawValue,
           routineID: cycle.routineID.rawValue,
@@ -310,7 +325,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   private func insert(events: [RoutineEvent]) throws {
     for (index, event) in events.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.EventRecord(
           id: event.id.rawValue,
           routineID: event.routineID.rawValue,
@@ -326,7 +341,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   private func insert(revisions: [EventRevision]) throws {
     for (index, revision) in revisions.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.EventRevisionRecord(
           id: revision.id.rawValue,
           eventID: revision.eventID.rawValue,
@@ -341,7 +356,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   private func insert(tombstones: [EventTombstone]) throws {
     for (index, tombstone) in tombstones.enumerated() {
       if index.isMultiple(of: 256) { try Task.checkCancellation() }
-      context.insert(
+      modelContext.insert(
         RoutallySchemaV1.TombstoneRecord(
           id: tombstone.id.rawValue,
           eventID: tombstone.eventID.rawValue,
@@ -354,6 +369,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.RoutineRecord) throws -> RoutineDefinition {
+    try validatePayloadVersion(record.payloadVersion, kind: "routine", id: record.id)
     let value: RoutineDefinition = try decode(
       record.payload,
       kind: "routine",
@@ -366,6 +382,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.LinkRecord) throws -> RoutineLink {
+    try validatePayloadVersion(record.payloadVersion, kind: "link", id: record.id)
     let value: RoutineLink = try decode(record.payload, kind: "link", id: record.id)
     guard
       value.id.rawValue == record.id,
@@ -379,6 +396,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.CycleRecord) throws -> UsageCycleDefinition {
+    try validatePayloadVersion(record.payloadVersion, kind: "cycle", id: record.id)
     let value: UsageCycleDefinition = try decode(record.payload, kind: "cycle", id: record.id)
     guard
       value.id.rawValue == record.id,
@@ -391,6 +409,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.EventRecord) throws -> RoutineEvent {
+    try validatePayloadVersion(record.payloadVersion, kind: "event", id: record.id)
     let value: RoutineEvent = try decode(record.payload, kind: "event", id: record.id)
     guard
       value.id.rawValue == record.id,
@@ -405,6 +424,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.EventRevisionRecord) throws -> EventRevision {
+    try validatePayloadVersion(record.payloadVersion, kind: "revision", id: record.id)
     let value: EventRevision = try decode(record.payload, kind: "revision", id: record.id)
     guard
       value.id.rawValue == record.id,
@@ -418,6 +438,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
   }
 
   private func decode(_ record: RoutallySchemaV1.TombstoneRecord) throws -> EventTombstone {
+    try validatePayloadVersion(record.payloadVersion, kind: "tombstone", id: record.id)
     let value: EventTombstone = try decode(record.payload, kind: "tombstone", id: record.id)
     guard
       value.id.rawValue == record.id,
@@ -446,6 +467,70 @@ public actor SwiftDataRoutallyStore: RoutallyStore {
     } catch {
       throw RoutallyStoreError.corruptedRecord(kind: kind, id: id)
     }
+  }
+
+  private func validatePayloadVersion(_ version: Int, kind: String, id: UUID) throws {
+    guard version == RoutallySchemaV1.payloadVersion else {
+      throw RoutallyStoreError.unsupportedPayloadVersion(
+        kind: kind,
+        id: id,
+        version: version
+      )
+    }
+  }
+
+  private func affectedRoots(
+    for change: RoutallyStoreChange,
+    stored: StoredContent,
+    committedCatalog: DomainCatalog,
+    committedLedger: DomainLedger,
+    newEvents: [RoutineEvent],
+    newRevisions: [EventRevision],
+    newTombstones: [EventTombstone]
+  ) -> Set<RoutineID> {
+    var result = change.changedRoutineIDs
+    result.formUnion(newEvents.map(\.routineID))
+
+    let changedEventIDs = Set(newRevisions.map(\.eventID) + newTombstones.map(\.eventID))
+    result.formUnion(
+      committedLedger.events.lazy
+        .filter { changedEventIDs.contains($0.id) }
+        .map(\.routineID)
+    )
+
+    guard change.catalog != nil else { return result }
+
+    let storedRoutines = Dictionary(grouping: stored.catalog.routines, by: \.id)
+      .mapValues(Set.init)
+    let committedRoutines = Dictionary(grouping: committedCatalog.routines, by: \.id)
+      .mapValues(Set.init)
+    for id in Set(storedRoutines.keys).union(committedRoutines.keys)
+    where storedRoutines[id] != committedRoutines[id] {
+      result.insert(id)
+    }
+
+    let storedLinks = Dictionary(grouping: stored.catalog.links, by: \.id).mapValues(Set.init)
+    let committedLinks = Dictionary(grouping: committedCatalog.links, by: \.id)
+      .mapValues(Set.init)
+    for id in Set(storedLinks.keys).union(committedLinks.keys)
+    where storedLinks[id] != committedLinks[id] {
+      for link in storedLinks[id, default: []].union(committedLinks[id, default: []]) {
+        result.insert(link.sourceRoutineID)
+        result.insert(link.targetRoutineID)
+      }
+    }
+
+    let storedCycles = Dictionary(grouping: stored.catalog.cycles, by: \.id).mapValues(Set.init)
+    let committedCycles = Dictionary(grouping: committedCatalog.cycles, by: \.id)
+      .mapValues(Set.init)
+    for id in Set(storedCycles.keys).union(committedCycles.keys)
+    where storedCycles[id] != committedCycles[id] {
+      for cycle in storedCycles[id, default: []].union(committedCycles[id, default: []]) {
+        result.insert(cycle.routineID)
+      }
+    }
+
+    return result
   }
 
   private func uniqueAdditions<Value: Hashable>(

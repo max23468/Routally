@@ -1,8 +1,9 @@
 import Foundation
-import RoutallyData
 import RoutallyDomain
 import SwiftData
 import Testing
+
+@testable import RoutallyData
 
 @Suite("M02 E05 Local Persistence")
 struct E05PersistenceTests {
@@ -16,12 +17,13 @@ struct E05PersistenceTests {
       configuration: .local(url: temporaryStore.url)
     )
 
+    _ = try await store?.commit(
+      RoutallyStoreChange(catalog: fixture.catalog),
+      asOf: fixture.asOf,
+      calendar: calendar
+    )
     let committed = try await store?.commit(
-      RoutallyStoreChange(
-        catalog: fixture.catalog,
-        events: [fixture.event],
-        changedRoutineIDs: [fixture.sourceRoutineID]
-      ),
+      RoutallyStoreChange(events: [fixture.event]),
       asOf: fixture.asOf,
       calendar: calendar
     )
@@ -43,7 +45,7 @@ struct E05PersistenceTests {
   @Test("Retry e duplicati esatti vengono persistiti una sola volta")
   func exactDuplicatesAreStoredOnce() async throws {
     let fixture = SmallPersistenceFixture.make()
-    let store = try SwiftDataRoutallyStore()
+    let store = try SwiftDataRoutallyStore(configuration: .inMemory())
     let duplicateChange = RoutallyStoreChange(
       catalog: fixture.catalog,
       events: [fixture.event, fixture.event]
@@ -61,6 +63,76 @@ struct E05PersistenceTests {
     #expect(retried.catalog.routines.count == 2)
     #expect(retried.catalog.links.count == 1)
     #expect(retried.catalog.cycles.count == 1)
+  }
+
+  @Test("Duplicati già presenti nello store V1 vengono riconciliati al caricamento")
+  @MainActor
+  func persistedExactDuplicatesAreReconciled() async throws {
+    let temporaryStore = try TemporaryStore()
+    let fixture = SmallPersistenceFixture.make()
+    try seedV1Store(
+      at: temporaryStore.url,
+      catalog: fixture.catalog,
+      events: [
+        SeededEvent(recordID: fixture.event.id.rawValue, value: fixture.event),
+        SeededEvent(recordID: fixture.event.id.rawValue, value: fixture.event),
+      ]
+    )
+    let store = try SwiftDataRoutallyStore(configuration: .local(url: temporaryStore.url))
+
+    let loaded = try await store.load(asOf: fixture.asOf, calendar: calendar)
+
+    #expect(loaded.ledger.events == [fixture.event])
+    #expect(loaded.state.processedEventIDs == [fixture.event.id])
+  }
+
+  @Test("Un record con UUID scalare incoerente viene segnalato come corrotto")
+  @MainActor
+  func scalarPayloadMismatchIsRejected() async throws {
+    let temporaryStore = try TemporaryStore()
+    let fixture = SmallPersistenceFixture.make()
+    let corruptedID = uuid("00000000-0000-4000-8600-000000000001")
+    try seedV1Store(
+      at: temporaryStore.url,
+      catalog: fixture.catalog,
+      events: [SeededEvent(recordID: corruptedID, value: fixture.event)]
+    )
+    let store = try SwiftDataRoutallyStore(configuration: .local(url: temporaryStore.url))
+
+    await #expect(
+      throws: RoutallyStoreError.corruptedRecord(kind: "event", id: corruptedID)
+    ) {
+      try await store.load(asOf: fixture.asOf, calendar: calendar)
+    }
+  }
+
+  @Test("Una versione payload sconosciuta non viene decodificata implicitamente")
+  @MainActor
+  func unsupportedPayloadVersionIsRejected() async throws {
+    let temporaryStore = try TemporaryStore()
+    let fixture = SmallPersistenceFixture.make()
+    try seedV1Store(
+      at: temporaryStore.url,
+      catalog: fixture.catalog,
+      events: [
+        SeededEvent(
+          recordID: fixture.event.id.rawValue,
+          payloadVersion: 2,
+          value: fixture.event
+        )
+      ]
+    )
+    let store = try SwiftDataRoutallyStore(configuration: .local(url: temporaryStore.url))
+
+    await #expect(
+      throws: RoutallyStoreError.unsupportedPayloadVersion(
+        kind: "event",
+        id: fixture.event.id.rawValue,
+        version: 2
+      )
+    ) {
+      try await store.load(asOf: fixture.asOf, calendar: calendar)
+    }
   }
 
   @Test("Varianti, revisioni e tombstone convergono indipendentemente dall’ordine")
@@ -89,8 +161,8 @@ struct E05PersistenceTests {
       logicalClock: fixture.event.logicalClock,
       deletedAt: revision.authoredAt.addingTimeInterval(10)
     )
-    let forwardStore = try SwiftDataRoutallyStore()
-    let reverseStore = try SwiftDataRoutallyStore()
+    let forwardStore = try SwiftDataRoutallyStore(configuration: .inMemory())
+    let reverseStore = try SwiftDataRoutallyStore(configuration: .inMemory())
 
     let forward = try await forwardStore.commit(
       RoutallyStoreChange(
@@ -138,7 +210,7 @@ struct E05PersistenceTests {
       logicalClock: 1,
       recordedAt: fixture.event.recordedAt
     )
-    let store = try SwiftDataRoutallyStore()
+    let store = try SwiftDataRoutallyStore(configuration: .inMemory())
 
     await #expect(throws: DomainReductionError.unknownRoutine(unknownRoutineID)) {
       try await store.commit(
@@ -156,7 +228,7 @@ struct E05PersistenceTests {
   @Test("La sostituzione del catalogo rimuove configurazioni non più attive")
   func catalogReplacementIsAtomic() async throws {
     let fixture = SmallPersistenceFixture.make()
-    let store = try SwiftDataRoutallyStore()
+    let store = try SwiftDataRoutallyStore(configuration: .inMemory())
     _ = try await store.commit(
       RoutallyStoreChange(catalog: fixture.catalog),
       asOf: fixture.asOf,
@@ -189,6 +261,7 @@ struct E05PersistenceTests {
     )
 
     #expect(RoutallySchemaV1.versionIdentifier == Schema.Version(1, 0, 0))
+    #expect(RoutallySchemaV1.payloadVersion == 1)
     #expect(RoutallyMigrationPlan.schemas.count == 1)
     #expect(RoutallyMigrationPlan.stages.isEmpty)
     #expect(provisional.appGroupIdentifier == "group.com.temisfera.routally.dev.provisional")
@@ -202,7 +275,7 @@ struct E05PersistenceTests {
   @Test("Una cancellazione precedente al commit non lascia scritture parziali")
   func cancelledCommitDoesNotWrite() async throws {
     let fixture = ReferenceDomainFixture.make()
-    let store = try SwiftDataRoutallyStore()
+    let store = try SwiftDataRoutallyStore(configuration: .inMemory())
     let gate = SuspensionGate()
     let task = Task {
       await gate.wait()
@@ -231,15 +304,14 @@ struct E05PersistenceTests {
   @Test("Il dataset canonico viene persistito senza perdere la convergenza")
   func referenceDatasetPersistsCanonicalVolumes() async throws {
     let fixture = ReferenceDomainFixture.make()
-    let store = try SwiftDataRoutallyStore()
+    let store = try SwiftDataRoutallyStore(configuration: .inMemory())
 
     let snapshot = try await store.commit(
       RoutallyStoreChange(
         catalog: fixture.catalog,
         events: fixture.ledger.events,
         revisions: fixture.ledger.revisions,
-        tombstones: fixture.ledger.tombstones,
-        changedRoutineIDs: [fixture.changedRoutineID]
+        tombstones: fixture.ledger.tombstones
       ),
       asOf: fixture.asOf,
       calendar: fixture.calendar
@@ -371,6 +443,76 @@ private actor SuspensionGate {
     }
     waiters.removeAll()
   }
+}
+
+private struct SeededEvent {
+  let recordID: UUID
+  var payloadVersion = RoutallySchemaV1.payloadVersion
+  let value: RoutineEvent
+}
+
+@MainActor
+private func seedV1Store(
+  at url: URL,
+  catalog: DomainCatalog,
+  events: [SeededEvent]
+) throws {
+  let schema = Schema(versionedSchema: RoutallySchemaV1.self)
+  let configuration = ModelConfiguration(
+    "Routally",
+    schema: schema,
+    url: url,
+    cloudKitDatabase: .none
+  )
+  let container = try ModelContainer(for: schema, configurations: [configuration])
+  let context = ModelContext(container)
+  let encoder = JSONEncoder()
+  encoder.outputFormatting = [.sortedKeys]
+
+  for routine in catalog.routines {
+    context.insert(
+      RoutallySchemaV1.RoutineRecord(
+        id: routine.id.rawValue,
+        createdAt: routine.createdAt,
+        payload: try encoder.encode(routine)
+      )
+    )
+  }
+  for link in catalog.links {
+    context.insert(
+      RoutallySchemaV1.LinkRecord(
+        id: link.id.rawValue,
+        sourceRoutineID: link.sourceRoutineID.rawValue,
+        targetRoutineID: link.targetRoutineID.rawValue,
+        activeFrom: link.activeFrom,
+        payload: try encoder.encode(link)
+      )
+    )
+  }
+  for cycle in catalog.cycles {
+    context.insert(
+      RoutallySchemaV1.CycleRecord(
+        id: cycle.id.rawValue,
+        routineID: cycle.routineID.rawValue,
+        anchorDate: cycle.anchorDate,
+        payload: try encoder.encode(cycle)
+      )
+    )
+  }
+  for event in events {
+    context.insert(
+      RoutallySchemaV1.EventRecord(
+        id: event.recordID,
+        routineID: event.value.routineID.rawValue,
+        occurredAt: event.value.occurredAt,
+        recordedAt: event.value.recordedAt,
+        logicalClock: event.value.logicalClock,
+        payloadVersion: event.payloadVersion,
+        payload: try encoder.encode(event.value)
+      )
+    )
+  }
+  try context.save()
 }
 
 private func uuid(_ value: String) -> UUID {

@@ -16,7 +16,10 @@ duplicava modelli dimostrativi non collegati ai tipi di dominio.
 
 La persistenza locale di prodotto vive nel modulo `RoutallyData`, che dipende soltanto da
 `RoutallyDomain`. Il confine pubblico `RoutallyStore` è asincrono e `Sendable`; la sua
-implementazione `SwiftDataRoutallyStore` è un actor dedicato e non usa il `MainActor`.
+implementazione `SwiftDataRoutallyStore` conforma a `ModelActor`, usa il serial executor
+di SwiftData e non usa il `MainActor`. La configurazione è sempre esplicita: anche i test
+devono richiedere intenzionalmente lo store in-memory, così il chiamante di prodotto non
+può ottenere per omissione una persistenza effimera.
 
 Lo schema locale `RoutallySchemaV1` è formalmente versionato e contiene sei famiglie di
 record:
@@ -28,8 +31,10 @@ record:
 5. revisioni degli eventi;
 6. tombstone degli eventi.
 
-Ogni record conserva gli UUID e i campi necessari alla selezione come valori scalari e il
-valore di dominio completo come payload `Codable`. I modelli SwiftData non attraversano il
+Ogni record conserva gli UUID e i campi necessari alla selezione come valori scalari, una
+versione esplicita del payload e il valore di dominio completo come payload `Codable`. Una
+versione sconosciuta viene rifiutata prima della decodifica, così una futura evoluzione del
+formato deve dichiarare la propria migrazione. I modelli SwiftData non attraversano il
 confine del modulo e non vengono esposti al dominio o alla UI. Non si usa
 `@Attribute(.unique)`: i retry identici vengono deduplicati applicativamente, mentre
 varianti con lo stesso UUID restano disponibili al criterio deterministico del registro.
@@ -43,6 +48,11 @@ sono append-only. Un commit:
 4. controlla la cancellazione;
 5. esegue un solo salvataggio SwiftData.
 
+Le routine direttamente modificate vengono inferite da eventi, revisioni, tombstone e
+diff del catalogo; l'eventuale insieme fornito dal chiamante è soltanto additivo. Lo store
+propaga poi l'elenco alle dipendenze dirette tramite il dominio, evitando snapshot con
+`affectedRoutineIDs` vuoto dopo una scrittura reale.
+
 Un errore di validazione, ricalcolo, codifica o salvataggio non persiste parti della
 modifica. Lo stato derivato non viene salvato: resta riproducibile dal catalogo e dal
 registro. Cache, indici e repair engine richiedono una misura successiva.
@@ -55,8 +65,10 @@ iniettati e nessun asset remoto viene creato in E05.
 
 ## Conseguenze
 
-- Lo spike `RoutallyDataSpike` viene assorbito e rimosso; le sue garanzie restano coperte
-  dalle regressioni `E05PersistenceTests` sul modulo di prodotto.
+- Lo spike `RoutallyDataSpike` viene assorbito e rimosso; le garanzie pertinenti a E05
+  restano coperte dalle regressioni `E05PersistenceTests` sul modulo di prodotto. Il
+  reader compatto del widget appartiene a E13 e il primo stage di migrazione reale verrà
+  aggiunto insieme alla prima evoluzione dello schema.
 - E06 può integrare un flusso reale attraverso `RoutallyStore` senza importare SwiftData
   nelle feature.
 - E14 aggiungerà gli stati iCloud e l'integrazione CloudKit locale; M10 conserverà la prova

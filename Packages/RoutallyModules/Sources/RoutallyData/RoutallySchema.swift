@@ -3,6 +3,7 @@ import SwiftData
 
 public enum RoutallySchemaV1: VersionedSchema {
   public static let versionIdentifier = Schema.Version(1, 0, 0)
+  public static let payloadVersion = 1
 
   public static var models: [any PersistentModel.Type] {
     [
@@ -19,11 +20,18 @@ public enum RoutallySchemaV1: VersionedSchema {
   final class RoutineRecord {
     var id: UUID = UUID()
     var createdAt: Date = Date.distantPast
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
-    init(id: UUID, createdAt: Date, payload: Data) {
+    init(
+      id: UUID,
+      createdAt: Date,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
+      payload: Data
+    ) {
       self.id = id
       self.createdAt = createdAt
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
@@ -34,6 +42,7 @@ public enum RoutallySchemaV1: VersionedSchema {
     var sourceRoutineID: UUID = UUID()
     var targetRoutineID: UUID = UUID()
     var activeFrom: Date = Date.distantPast
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
     init(
@@ -41,12 +50,14 @@ public enum RoutallySchemaV1: VersionedSchema {
       sourceRoutineID: UUID,
       targetRoutineID: UUID,
       activeFrom: Date,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
       payload: Data
     ) {
       self.id = id
       self.sourceRoutineID = sourceRoutineID
       self.targetRoutineID = targetRoutineID
       self.activeFrom = activeFrom
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
@@ -56,12 +67,20 @@ public enum RoutallySchemaV1: VersionedSchema {
     var id: UUID = UUID()
     var routineID: UUID = UUID()
     var anchorDate: Date = Date.distantPast
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
-    init(id: UUID, routineID: UUID, anchorDate: Date, payload: Data) {
+    init(
+      id: UUID,
+      routineID: UUID,
+      anchorDate: Date,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
+      payload: Data
+    ) {
       self.id = id
       self.routineID = routineID
       self.anchorDate = anchorDate
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
@@ -73,6 +92,7 @@ public enum RoutallySchemaV1: VersionedSchema {
     var occurredAt: Date = Date.distantPast
     var recordedAt: Date = Date.distantPast
     var logicalClock: Int64 = 0
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
     init(
@@ -81,6 +101,7 @@ public enum RoutallySchemaV1: VersionedSchema {
       occurredAt: Date,
       recordedAt: Date,
       logicalClock: Int64,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
       payload: Data
     ) {
       self.id = id
@@ -88,6 +109,7 @@ public enum RoutallySchemaV1: VersionedSchema {
       self.occurredAt = occurredAt
       self.recordedAt = recordedAt
       self.logicalClock = logicalClock
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
@@ -98,6 +120,7 @@ public enum RoutallySchemaV1: VersionedSchema {
     var eventID: UUID = UUID()
     var authoredAt: Date = Date.distantPast
     var logicalClock: Int64 = 0
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
     init(
@@ -105,12 +128,14 @@ public enum RoutallySchemaV1: VersionedSchema {
       eventID: UUID,
       authoredAt: Date,
       logicalClock: Int64,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
       payload: Data
     ) {
       self.id = id
       self.eventID = eventID
       self.authoredAt = authoredAt
       self.logicalClock = logicalClock
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
@@ -121,6 +146,7 @@ public enum RoutallySchemaV1: VersionedSchema {
     var eventID: UUID = UUID()
     var deletedAt: Date = Date.distantPast
     var logicalClock: Int64 = 0
+    var payloadVersion: Int = RoutallySchemaV1.payloadVersion
     var payload: Data = Data()
 
     init(
@@ -128,12 +154,14 @@ public enum RoutallySchemaV1: VersionedSchema {
       eventID: UUID,
       deletedAt: Date,
       logicalClock: Int64,
+      payloadVersion: Int = RoutallySchemaV1.payloadVersion,
       payload: Data
     ) {
       self.id = id
       self.eventID = eventID
       self.deletedAt = deletedAt
       self.logicalClock = logicalClock
+      self.payloadVersion = payloadVersion
       self.payload = payload
     }
   }
