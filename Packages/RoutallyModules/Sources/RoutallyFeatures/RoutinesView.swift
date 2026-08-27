@@ -106,7 +106,6 @@ struct RoutinesView: View {
       } label: {
         Label(.nuovaRoutine, systemImage: "plus")
       }
-      .keyboardShortcut("n", modifiers: .command)
       .accessibilityIdentifier("new-routine-button")
     }
 
@@ -118,7 +117,6 @@ struct RoutinesView: View {
       } label: {
         Label(.profilo, systemImage: "person.crop.circle")
       }
-      .keyboardShortcut(",", modifiers: .command)
     }
   }
 
