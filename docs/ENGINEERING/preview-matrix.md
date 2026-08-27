@@ -86,6 +86,11 @@ La suite automatica protegge persistenza e riapertura, idempotenza arrivo/fallba
 selezione corretta dei follow-up per l'arrivo a casa, separazione tra visibilità e
 consegna, esclusione revisionale, undo tramite tombstone, completamento e reset, doppio
 tocco, offline, applicazione del draft, propagazione della locale e path di navigazione.
+Protegge inoltre il retry dopo il fallimento iniziale dello store e il ricalcolo temporale
+quando arriva il fallback, cambia la settimana o l'orologio viene spostato indietro. La
+root view ricarica all'attivazione della scena e ogni minuto mentre è attiva, serializzando
+il refresh con le scritture dell'utente. I campi di creazione conservano etichette
+accessibili esplicite anche dopo l'inserimento di un valore.
 Le build e i test che richiedono Simulator restano nella pipeline Apple/Xcode Cloud, come
 previsto dalla ripartizione CI del Master Plan; GitHub Actions non duplica tale pipeline.
 Geofencing e notifiche reali restano in E12, mentre E06 usa i relativi confini in-memory

@@ -68,21 +68,20 @@ struct RoutallyApp: App {
   }
 
   private static func makePersistentFeatureModel() -> RoutallyFeatureModel {
-    do {
-      let directory = URL.applicationSupportDirectory.appending(
-        path: "Routally",
-        directoryHint: .isDirectory
-      )
-      try FileManager.default.createDirectory(
-        at: directory,
-        withIntermediateDirectories: true
-      )
-      let persistence = try SwiftDataRoutallyStore(
-        configuration: .local(url: directory.appending(path: "Routally.store"))
-      )
-      return RoutallyFeatureModel(persistence: persistence)
-    } catch {
-      return RoutallyFeatureModel(previewSnapshot: failureSnapshot)
-    }
+    RoutallyFeatureModel(persistenceFactory: makePersistentStore)
+  }
+
+  private static func makePersistentStore() throws -> any RoutallyStore {
+    let directory = URL.applicationSupportDirectory.appending(
+      path: "Routally",
+      directoryHint: .isDirectory
+    )
+    try FileManager.default.createDirectory(
+      at: directory,
+      withIntermediateDirectories: true
+    )
+    return try SwiftDataRoutallyStore(
+      configuration: .local(url: directory.appending(path: "Routally.store"))
+    )
   }
 }

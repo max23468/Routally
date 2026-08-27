@@ -14,6 +14,7 @@ struct CreationRoutineStepView: View {
           .focused($isNameFocused)
           .textInputAutocapitalization(.sentences)
           .submitLabel(.next)
+          .accessibilityLabel(Text(.nomeRoutine))
           .accessibilityHint(.inserisciPalestraPerLoScenarioCanonico)
 
         Picker(.simbolo, selection: $symbol) {
@@ -82,6 +83,7 @@ struct CreationConsequencesStepView: View {
             }
           }
           TextField(.followUp, text: $followUpTitle)
+            .accessibilityLabel(Text(.followUp))
         }
       }
 
@@ -116,6 +118,7 @@ struct CreationReminderStepView: View {
           }
         }
         DatePicker(.fallback, selection: $fallbackTime, displayedComponents: .hourAndMinute)
+          .accessibilityLabel(Text(.fallback))
       }
 
       Section {

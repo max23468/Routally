@@ -1,6 +1,6 @@
 # E06 — Audit e checkpoint visuale della vertical slice
 
-- **Stato:** In corso — evidenze Simulator complete; approvazione del Product Owner pendente
+- **Stato:** Evidenze salvate — approvazione e formalizzazione rinviate a una PR dedicata
 - **Epic:** E06 — Vertical Slice Integration
 - **Gate:** DG-VISUAL
 - **Fonte canonica:** Master Plan, sezione 48.3
@@ -22,7 +22,8 @@ schermate di E07–E11.
 | Colore | Indaco per azioni/progresso, verde per effetto applicato, arancione per attenzione | confermati i token semantici; nessun significato dipende dal solo colore |
 | Tipografia | Stili Dynamic Type e SF Rounded limitato al valore del ciclo | confermata; nessuna dimensione fissa introdotta |
 | iPad | Lista e dettaglio usano `NavigationSplitView`; la creazione resta form sheet | verificato sul Simulator iPad con il flusso E06 reale in portrait e landscape |
-| Stati degradati | Offline ed errore recuperabile sono presenti ma prima erano alimentati da snapshot | offline ora accompagna scritture locali reali; retry rilegge lo store |
+| Stati degradati | Offline ed errore recuperabile sono presenti ma prima erano alimentati da snapshot | offline ora accompagna scritture locali reali; retry ricrea anche uno store che non si è inizializzato |
+| Accessibilità | I controlli nativi conservano ordine e semantica, ma i campi compilati non devono perdere il proprio nome | `Nome routine` e `Follow-up` mantengono un'etichetta esplicita anche quando contengono un valore |
 
 ## Linguaggio visuale proposto
 
@@ -37,7 +38,8 @@ La vertical slice conserva la direzione E02:
 6. caricamento, errore e offline non sostituiscono né nascondono i dati locali validi.
 
 Questa formulazione è provvisoria finché il Product Owner non approva le evidenze
-Simulator. Dopo l'approvazione diventa la base vincolante per E07–E11.
+Simulator. L'approvazione e la formalizzazione saranno trattate in una PR dedicata;
+soltanto dopo diventeranno la base vincolante per E07–E11.
 
 ## Evidenze richieste da DG-VISUAL
 
@@ -48,18 +50,29 @@ Simulator. Dopo l'approvazione diventa la base vincolante per E07–E11.
 | prototipo SwiftUI curato del flusso principale | implementato e verificato a runtime | `RoutallyFeatureModel` e viste E06 |
 | verifica iPhone Simulator | completata su iPhone 17 Pro, iOS 26.5 | [Oggi](evidence/e06/iphone-today.jpg), [conseguenze](evidence/e06/iphone-consequences.jpg), [follow-up pronto](evidence/e06/iphone-follow-up-ready.jpg) |
 | verifica iPad Simulator | completata su iPad Pro 11-inch (M5), iOS 26.5, portrait e landscape | [Oggi portrait](evidence/e06/ipad-today-portrait.jpg), [routine landscape](evidence/e06/ipad-routines-landscape.jpg), [conseguenze landscape](evidence/e06/ipad-consequences-landscape.jpg) |
-| approvazione visiva Product Owner | pendente | — |
+| approvazione visiva Product Owner | pendente, in una PR dedicata a `DG-VISUAL` | — |
 
-## Verifica runtime del 27 agosto 2026
+## Verifica tecnica e runtime del 27 agosto 2026
 
-- suite `Routally Tests`: 51 test superati, nessun fallimento o test saltato;
+- suite `Routally Tests`: 69 test superati, nessun fallimento o test saltato;
+  i 18 test di integrazione E06 sono inclusi nel target Xcode e non restano più soltanto
+  presenti nel filesystem;
 - iPhone: registrazione `Palestra` 1/3 → 2/3, propagazione
   `Asciugamano palestra` 3/4 → 4/4, creazione del follow-up, arrivo a casa,
   fallback idempotente, una sola notifica, completamento e reset 0/4;
+- creazione iPhone: percorso completo fino al salvataggio di `Corsa`, con nome dei
+  campi, stepper, picker, interruttori, riepilogo e azione finale esposti nell'albero
+  accessibile;
 - correzione: `Annulla registrazione` ripristina atomicamente sorgente ed effetto;
   dopo `Escludi` l'undo non applica due volte la correzione;
-- iPad: rendering accessibile in portrait e landscape, lista/dettaglio coordinati e
-  riepilogo delle conseguenze equivalente a iPhone;
+- tempo e ripresa: follow-up, cambio di settimana e modifica manuale dell'orologio
+  vengono ricalcolati senza riavvio; caricamenti e scritture sono serializzati;
+- le sei evidenze iPhone/iPad già acquisite sono state riesaminate e riutilizzate su
+  richiesta del Product Owner; le correzioni successive non cambiano il rendering;
+- iPad: le evidenze runtime esistenti confermano rendering accessibile in portrait e
+  landscape, lista/dettaglio coordinati e riepilogo equivalente a iPhone; la build
+  universale corrente è verde, mentre un nuovo lancio iPad è rimasto bloccato nel
+  servizio locale Simulator e non ha prodotto nuove schermate;
 - il conflitto UIKit tra le scorciatoie globali e quelle duplicate nella toolbar,
   emerso soltanto su iPad, è stato rimosso mantenendo i comandi globali.
 
@@ -74,3 +87,11 @@ L'approvazione deve confermare che:
 - l'interfaccia appare calma, Apple-native e coerente con Routally.
 
 Solo dopo questa conferma `DG-VISUAL` può essere registrato come chiuso.
+
+## Confine di pubblicazione
+
+La PR tecnica di E06 pubblica l'integrazione applicativa e conserva nel repository le sei
+evidenze Simulator. Non chiude `DG-VISUAL`: revisione visuale del Product Owner,
+formalizzazione del linguaggio approvato e aggiornamento del Decision Register restano
+nel perimetro della successiva PR dedicata. Fino al suo merge non inizia l'estensione
+delle schermate in E07–E11.

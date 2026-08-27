@@ -187,6 +187,10 @@ private enum EffectExclusion: Hashable, Sendable {
   case followUp(UsageCycleID)
 }
 
+private enum RoutallyFeatureModelError: Error {
+  case persistenceUnavailable
+}
+
 @MainActor
 @Observable
 public final class RoutallyFeatureModel {
@@ -195,7 +199,9 @@ public final class RoutallyFeatureModel {
   public private(set) var isLoading = false
   public private(set) var isPerformingOperation = false
 
-  private let persistence: (any RoutallyData.RoutallyStore)?
+  private var persistence: (any RoutallyData.RoutallyStore)?
+  private let persistenceFactory:
+    (@MainActor @Sendable () throws -> any RoutallyData.RoutallyStore)?
   private let calendar: DomainCalendar
   private let clock: RoutallyClock
   private let reminderScheduler: any ReminderScheduling
@@ -222,6 +228,32 @@ public final class RoutallyFeatureModel {
     locationReminder: any LocationReminding = InMemoryLocationReminder()
   ) {
     self.persistence = persistence
+    persistenceFactory = nil
+    self.seed = seed
+    self.calendar = calendar
+    self.clock = clock
+    self.isOffline = isOffline
+    self.reminderScheduler = reminderScheduler
+    self.locationReminder = locationReminder
+    currentAsOf = seed?.asOf ?? clock.now()
+    isLoaded = false
+    hasPendingChanges = false
+    snapshot = RoutallySnapshot(isOffline: isOffline)
+  }
+
+  public init(
+    persistenceFactory:
+      @escaping @MainActor @Sendable () throws ->
+      any RoutallyData.RoutallyStore,
+    seed: RoutallyFeatureSeed? = nil,
+    calendar: DomainCalendar = RoutallyFeatureModel.currentDomainCalendar(),
+    clock: RoutallyClock = .live,
+    isOffline: Bool = false,
+    reminderScheduler: any ReminderScheduling = InMemoryReminderScheduler(),
+    locationReminder: any LocationReminding = InMemoryLocationReminder()
+  ) {
+    persistence = nil
+    self.persistenceFactory = persistenceFactory
     self.seed = seed
     self.calendar = calendar
     self.clock = clock
@@ -239,6 +271,7 @@ public final class RoutallyFeatureModel {
     consequenceSummary: ConsequenceSummary? = nil
   ) {
     persistence = nil
+    persistenceFactory = nil
     seed = nil
     calendar = RoutallyFeatureModel.currentDomainCalendar()
     clock = .live
@@ -262,17 +295,25 @@ public final class RoutallyFeatureModel {
   }
 
   public func load(locale: Locale = .current, force: Bool = false) async {
-    guard let persistence else { return }
-    guard !isLoading else { return }
-    if isLoaded, !force {
+    guard persistence != nil || persistenceFactory != nil else { return }
+    guard !isLoading, !isPerformingOperation else { return }
+
+    let evaluationDate = clock.now()
+    if isLoaded, !force, evaluationDate == currentAsOf {
       await refreshPresentation(locale: locale)
       return
     }
 
     isLoading = true
-    defer { isLoading = false }
+    isPerformingOperation = true
+    defer {
+      isPerformingOperation = false
+      isLoading = false
+    }
+    currentAsOf = evaluationDate
 
     do {
+      let persistence = try resolvePersistence()
       var stored = try await persistence.load(asOf: currentAsOf, calendar: calendar)
       if let seed, stored.catalog.routines.isEmpty, stored.ledger.events.isEmpty {
         stored = try await persistence.commit(
@@ -283,10 +324,9 @@ public final class RoutallyFeatureModel {
             tombstones: seed.ledger.tombstones,
             changedRoutineIDs: Set(seed.catalog.routines.map(\.id))
           ),
-          asOf: seed.asOf,
+          asOf: currentAsOf,
           calendar: calendar
         )
-        currentAsOf = seed.asOf
       }
       apply(stored)
       isLoaded = true
@@ -387,7 +427,7 @@ public final class RoutallyFeatureModel {
         calendar: calendar
       )
       apply(stored)
-      markSuccessfulChange()
+      markSuccessfulChange(at: operationDate)
       await refreshPresentation(locale: locale)
       return routineKey(sourceID)
     } catch is CancellationError {
@@ -435,7 +475,7 @@ public final class RoutallyFeatureModel {
         calendar: calendar
       )
       apply(stored)
-      markSuccessfulChange()
+      markSuccessfulChange(at: operationDate)
       await refreshPresentation(locale: locale)
       consequenceSummary = makeConsequenceSummary(for: event, locale: locale)
       return true
@@ -485,7 +525,7 @@ public final class RoutallyFeatureModel {
       )
       apply(stored)
       await reconcileRemovedFollowUps(previousIDs: previousFollowUpIDs)
-      markSuccessfulChange()
+      markSuccessfulChange(at: operationDate)
       await refreshPresentation(locale: locale)
       consequenceSummary = summaryMarkingEffects(of: summary, excludedBy: exclusion)
       return true
@@ -523,7 +563,7 @@ public final class RoutallyFeatureModel {
       )
       apply(stored)
       await reconcileRemovedFollowUps(previousIDs: previousFollowUpIDs)
-      markSuccessfulChange()
+      markSuccessfulChange(at: operationDate)
       consequenceSummary = nil
       effectExclusions = [:]
       await refreshPresentation(locale: locale)
@@ -569,7 +609,7 @@ public final class RoutallyFeatureModel {
         calendar: calendar
       )
       apply(stored)
-      markSuccessfulChange()
+      markSuccessfulChange(at: operationDate)
       externallyReadyFollowUpIDs.remove(followUpID)
       await refreshPresentation(locale: locale)
       return true
@@ -586,6 +626,7 @@ public final class RoutallyFeatureModel {
     at locationID: String,
     locale: Locale = .current
   ) async -> Set<String> {
+    guard persistence != nil, !isLoading, !isPerformingOperation else { return [] }
     let candidates = domainState.followUps.values.compactMap {
       followUp -> LocationReminderCandidate? in
       guard
@@ -612,31 +653,22 @@ public final class RoutallyFeatureModel {
 
   @discardableResult
   public func triggerFallback(locale: Locale = .current) async -> Set<String> {
-    guard let persistence else { return [] }
+    guard persistence != nil, !isLoading, !isPerformingOperation else { return [] }
     let nextFallback = domainState.followUps.values
       .filter { $0.state != .completed }
       .compactMap(\.readyAt)
       .min()
     guard let nextFallback else { return [] }
 
-    currentAsOf = max(currentAsOf, nextFallback)
-    do {
-      let stored = try await persistence.load(asOf: currentAsOf, calendar: calendar)
-      apply(stored)
-      let readyIDs = Set(
-        domainState.followUps.values.lazy
-          .filter { $0.state == .ready }
-          .map { self.followUpKey($0.id) }
-      )
-      let delivered = await reminderScheduler.requestDelivery(for: readyIDs)
-      await refreshPresentation(locale: locale)
-      return delivered
-    } catch is CancellationError {
-      return []
-    } catch {
-      snapshot.hasRecoverableEventError = true
-      return []
-    }
+    let readyIDs = Set(
+      domainState.followUps.values.lazy
+        .filter { $0.state != .completed && $0.readyAt == nextFallback }
+        .map { self.followUpKey($0.id) }
+    )
+    externallyReadyFollowUpIDs.formUnion(readyIDs)
+    let delivered = await reminderScheduler.requestDelivery(for: readyIDs)
+    await refreshPresentation(locale: locale)
+    return delivered
   }
 
   public func clearConsequenceSummary() {
@@ -667,14 +699,26 @@ public final class RoutallyFeatureModel {
     await load(locale: locale)
   }
 
+  private func resolvePersistence() throws -> any RoutallyData.RoutallyStore {
+    if let persistence {
+      return persistence
+    }
+    guard let persistenceFactory else {
+      throw RoutallyFeatureModelError.persistenceUnavailable
+    }
+    let created = try persistenceFactory()
+    persistence = created
+    return created
+  }
+
   private func apply(_ stored: RoutallyStoreSnapshot) {
     catalog = stored.catalog
     ledger = stored.ledger
     domainState = stored.state
   }
 
-  private func markSuccessfulChange() {
-    currentAsOf = max(currentAsOf, clock.now())
+  private func markSuccessfulChange(at operationDate: Date) {
+    currentAsOf = operationDate
     hasPendingChanges = hasPendingChanges || isOffline
     snapshot.hasRecoverableEventError = false
   }
@@ -967,6 +1011,6 @@ public final class RoutallyFeatureModel {
   }
 
   private func nextOperationDate() -> Date {
-    max(currentAsOf, clock.now())
+    clock.now()
   }
 }

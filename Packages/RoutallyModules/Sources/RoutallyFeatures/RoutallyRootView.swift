@@ -4,6 +4,7 @@ import SwiftUI
 
 public struct RoutallyRootView: View {
   @Environment(\.locale) private var locale
+  @Environment(\.scenePhase) private var scenePhase
 
   private let store: RoutallyFeatureModel
   private let featureFlags: FeatureFlags
@@ -54,6 +55,18 @@ public struct RoutallyRootView: View {
     }
     .task {
       await store.load(locale: locale)
+    }
+    .task(id: scenePhase) {
+      guard scenePhase == .active else { return }
+      await store.load(locale: locale)
+      while !Task.isCancelled {
+        do {
+          try await Task.sleep(for: .seconds(60))
+        } catch {
+          return
+        }
+        await store.load(locale: locale)
+      }
     }
     .onChange(of: locale.identifier) { _, _ in
       Task {

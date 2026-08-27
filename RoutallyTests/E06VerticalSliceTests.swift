@@ -62,6 +62,55 @@ struct E06VerticalSliceTests {
     #expect(model.snapshot.followUps.first?.state == .ready)
   }
 
+  @Test("Il tempo corrente ricalcola follow-up e periodo senza riavviare l’app")
+  func advancingClockRecomputesTemporalState() async throws {
+    let fixture = DemoFixtures.connectedGymCycleSeed()
+    let clock = MutableClock(initial: fixture.asOf)
+    let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())
+    let model = RoutallyFeatureModel(
+      persistence: persistence,
+      seed: RoutallyFeatureSeed(
+        catalog: fixture.catalog,
+        ledger: fixture.ledger,
+        asOf: fixture.asOf
+      ),
+      calendar: fixture.calendar,
+      clock: RoutallyClock(now: clock.now)
+    )
+    await model.load(locale: italian)
+    #expect(await model.recordRoutine(id: sourceID, locale: italian))
+    #expect(model.snapshot.followUps.first?.state == .waitingForUsefulMoment)
+
+    let fallbackDate = try #require(
+      fixture.calendar.foundationCalendar.date(
+        from: DateComponents(year: 2026, month: 8, day: 27, hour: 20, minute: 1)
+      )
+    )
+    clock.advance(to: fallbackDate)
+    await model.load(locale: italian)
+    #expect(model.snapshot.followUps.first?.state == .ready)
+    #expect(model.snapshot.notificationCount == 0)
+
+    let nextWeek = try #require(
+      fixture.calendar.foundationCalendar.date(
+        from: DateComponents(year: 2026, month: 8, day: 31, hour: 12)
+      )
+    )
+    clock.advance(to: nextWeek)
+    await model.load(locale: italian)
+    #expect(model.snapshot.routines.first { $0.id == sourceID }?.progress == 0)
+
+    clock.advance(to: fixture.asOf)
+    await model.load(locale: italian)
+    #expect(model.snapshot.routines.first { $0.id == sourceID }?.progress == 2)
+
+    clock.advance(to: nextWeek)
+    await model.load(locale: italian)
+    clock.advance(to: fixture.asOf)
+    #expect(await model.recordRoutine(id: sourceID, locale: italian))
+    #expect(model.snapshot.routines.first { $0.id == sourceID }?.progress == 3)
+  }
+
   @Test("L'arrivo a casa seleziona soltanto il follow-up geografico corretto")
   func locationArrivalSelectsOnlyMatchingFollowUps() async throws {
     let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())
@@ -299,6 +348,25 @@ struct E06VerticalSliceTests {
     #expect(model.snapshot.routines.isEmpty)
   }
 
+  @Test("Un errore iniziale dello store è recuperabile senza riavviare l’app")
+  func recoverableStoreInitializationCanBeRetried() async throws {
+    let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())
+    let factory = PlannedPersistenceFactory(store: persistence, failures: 1)
+    let fixture = DemoFixtures.connectedGymCycleSeed()
+    let model = RoutallyFeatureModel(
+      persistenceFactory: factory.make,
+      calendar: fixture.calendar,
+      clock: .fixed(fixture.asOf)
+    )
+
+    await model.load(locale: italian)
+    #expect(model.snapshot.hasRecoverableEventError)
+
+    await model.retryRecoverableEvent(locale: italian)
+    #expect(!model.snapshot.hasRecoverableEventError)
+    #expect(model.snapshot.routines.isEmpty)
+  }
+
   @Test("Il retry dopo un errore di salvataggio applica lo stesso draft")
   func recoverableCommitFailurePreservesTheDraftForRetry() async throws {
     let base = try SwiftDataRoutallyStore(configuration: .inMemory())
@@ -387,6 +455,48 @@ struct E06VerticalSliceTests {
 
 private enum PlannedFailure: Error {
   case requested
+}
+
+private final class MutableClock: @unchecked Sendable {
+  private let lock = NSLock()
+  private var instant: Date
+
+  init(initial: Date) {
+    instant = initial
+  }
+
+  func now() -> Date {
+    lock.lock()
+    defer { lock.unlock() }
+    return instant
+  }
+
+  func advance(to date: Date) {
+    lock.lock()
+    defer { lock.unlock() }
+    instant = date
+  }
+}
+
+private final class PlannedPersistenceFactory: @unchecked Sendable {
+  private let lock = NSLock()
+  private let store: any RoutallyData.RoutallyStore
+  private var remainingFailures: Int
+
+  init(store: any RoutallyData.RoutallyStore, failures: Int) {
+    self.store = store
+    remainingFailures = failures
+  }
+
+  func make() throws -> any RoutallyData.RoutallyStore {
+    lock.lock()
+    defer { lock.unlock() }
+    if remainingFailures > 0 {
+      remainingFailures -= 1
+      throw PlannedFailure.requested
+    }
+    return store
+  }
 }
 
 private actor PlannedFailureStore: RoutallyData.RoutallyStore {
