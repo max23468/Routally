@@ -4,7 +4,8 @@
 - **Esito:** Adapt
 - **Data:** 2026-08-23
 - **Milestone:** `M01` Foundation
-- **Evidence target:** `RoutallyDataSpike` e `TGDataTests`
+- **Evidence target:** spike storico, poi regressioni `RoutallyData` ed
+  `E05PersistenceTests`
 
 ## Decisione
 
@@ -19,8 +20,9 @@ persistenza a tre adattamenti:
 3. identificativi App Group e container CloudKit iniettati dalla configurazione, senza
    incorporare nello schema asset Apple provvisori.
 
-Il target dello spike è collegato soltanto ai test. L'app, la UI e `RoutallyDomain` non
-dipendono da SwiftData: l'integrazione dello store di prodotto appartiene a `E05`.
+E05 ha assorbito il target isolato nel modulo di prodotto `RoutallyData`, rimuovendo la
+duplicazione dimostrativa. L'app, la UI e `RoutallyDomain` continuano a non dipendere da
+SwiftData; le garanzie dello spike vengono ora rieseguite sullo store reale.
 
 ## Evidenze
 
@@ -61,7 +63,8 @@ Il runbook differito è in `docs/ENGINEERING/tg-data-cloudkit-runbook.md`.
 ## Conseguenze per le epiche successive
 
 - `E04` può definire eventi, revisioni, reducer e invarianti senza importare SwiftData;
-- `E05` è sbloccata e deve applicare gli adattamenti stabiliti dal gate;
+- `E05` applica gli adattamenti stabiliti dal gate nello schema locale V1 e nel confine
+  transazionale dello store;
 - `E13` espone al widget soltanto il reader dello snapshot necessario;
 - `E14` implementa la sincronizzazione e gli stati iCloud senza anticipare asset Apple;
 - cache e indici persistenti restano vietati finché una misura non ne dimostra la necessità.

@@ -4,6 +4,10 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Implementata E05 con il modulo `RoutallyData`: schema SwiftData locale V1, piano di
+  migrazione baseline, store actor testabile, configurazioni in-memory/file/Apple
+  iniettate, deduplica UUID, commit atomico dopo il ricalcolo, offline e recovery su disco;
+  lo spike dati duplicato è stato assorbito nelle regressioni del modulo di prodotto.
 - Registrato `DG-VISUAL`: il checkpoint visuale di E06 deve essere approvato e
   formalizzato prima di estendere il linguaggio dell'interfaccia alle epiche E07-E11.
 - Reso proporzionato il ciclo di pubblicazione: classificazione condivisa locale/CI,
