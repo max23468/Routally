@@ -212,14 +212,16 @@ public actor SwiftDataRoutallyStore: RoutallyStore, ModelActor {
       newRevisions: newRevisions,
       newTombstones: newTombstones
     )
+    let removedRoutineIDs = Set(stored.catalog.routines.map(\.id))
+      .subtracting(catalog.routines.map(\.id))
+    let affectedRoutineIDs = catalog.affectedRoutineIDs(startingAt: affectedRoots)
+      .union(affectedRoots.intersection(removedRoutineIDs))
 
     return RoutallyStoreSnapshot(
       catalog: catalog,
       ledger: ledger,
       state: state,
-      affectedRoutineIDs: catalog.affectedRoutineIDs(
-        startingAt: affectedRoots
-      )
+      affectedRoutineIDs: affectedRoutineIDs
     )
   }
 
