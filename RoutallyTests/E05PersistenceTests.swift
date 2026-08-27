@@ -106,7 +106,7 @@ struct E05PersistenceTests {
     }
   }
 
-  @Test("Una versione payload sconosciuta non viene decodificata implicitamente")
+  @Test("Una versione payload futura non viene decodificata implicitamente")
   @MainActor
   func unsupportedPayloadVersionIsRejected() async throws {
     let temporaryStore = try TemporaryStore()
@@ -117,7 +117,7 @@ struct E05PersistenceTests {
       events: [
         SeededEvent(
           recordID: fixture.event.id.rawValue,
-          payloadVersion: 2,
+          payloadVersion: 3,
           value: fixture.event
         )
       ]
@@ -128,7 +128,32 @@ struct E05PersistenceTests {
       throws: RoutallyStoreError.unsupportedPayloadVersion(
         kind: "event",
         id: fixture.event.id.rawValue,
-        version: 2
+        version: 3
+      )
+    ) {
+      try await store.load(asOf: fixture.asOf, calendar: calendar)
+    }
+  }
+
+  @Test("Il payload V1 pre-E06 viene rifiutato prima della decodifica")
+  @MainActor
+  func preE06RoutinePayloadIsRejected() async throws {
+    let temporaryStore = try TemporaryStore()
+    let fixture = SmallPersistenceFixture.make()
+    let routine = try #require(fixture.catalog.routines.first)
+    try seedV1Store(
+      at: temporaryStore.url,
+      catalog: DomainCatalog(routines: [routine]),
+      routinePayloadVersion: 1,
+      events: []
+    )
+    let store = try SwiftDataRoutallyStore(configuration: .local(url: temporaryStore.url))
+
+    await #expect(
+      throws: RoutallyStoreError.unsupportedPayloadVersion(
+        kind: "routine",
+        id: routine.id.rawValue,
+        version: 1
       )
     ) {
       try await store.load(asOf: fixture.asOf, calendar: calendar)
@@ -252,7 +277,7 @@ struct E05PersistenceTests {
     )
   }
 
-  @Test("Schema V1, piano di migrazione e identificativi Apple restano iniettati")
+  @Test("Schema V1, payload V2 e identificativi Apple restano iniettati")
   func schemaAndEnvironmentAreStable() throws {
     let provisional = RoutallyStoreConfiguration.privateCloud(
       appGroupIdentifier: "group.com.temisfera.routally.dev.provisional",
@@ -264,7 +289,8 @@ struct E05PersistenceTests {
     )
 
     #expect(RoutallySchemaV1.versionIdentifier == Schema.Version(1, 0, 0))
-    #expect(RoutallySchemaV1.payloadVersion == 1)
+    #expect(RoutallySchemaV1.payloadVersion == 2)
+    #expect(RoutallySchemaV1.localStoreFilename == "Routally-v2.store")
     #expect(RoutallyMigrationPlan.schemas.count == 1)
     #expect(RoutallyMigrationPlan.stages.isEmpty)
     #expect(provisional.appGroupIdentifier == "group.com.temisfera.routally.dev.provisional")
@@ -415,7 +441,7 @@ private final class TemporaryStore {
       at: directory,
       withIntermediateDirectories: true
     )
-    url = directory.appending(path: "Routally.store")
+    url = directory.appending(path: RoutallySchemaV1.localStoreFilename)
   }
 
   func remove() throws {
@@ -458,6 +484,7 @@ private struct SeededEvent {
 private func seedV1Store(
   at url: URL,
   catalog: DomainCatalog,
+  routinePayloadVersion: Int = RoutallySchemaV1.payloadVersion,
   events: [SeededEvent]
 ) throws {
   let schema = Schema(versionedSchema: RoutallySchemaV1.self)
@@ -477,6 +504,7 @@ private func seedV1Store(
       RoutallySchemaV1.RoutineRecord(
         id: routine.id.rawValue,
         createdAt: routine.createdAt,
+        payloadVersion: routinePayloadVersion,
         payload: try encoder.encode(routine)
       )
     )

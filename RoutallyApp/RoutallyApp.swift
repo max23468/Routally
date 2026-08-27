@@ -81,7 +81,9 @@ struct RoutallyApp: App {
       withIntermediateDirectories: true
     )
     return try SwiftDataRoutallyStore(
-      configuration: .local(url: directory.appending(path: "Routally.store"))
+      configuration: .local(
+        url: directory.appending(path: RoutallySchemaV1.localStoreFilename)
+      )
     )
   }
 }

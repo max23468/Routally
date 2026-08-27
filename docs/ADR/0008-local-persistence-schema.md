@@ -1,4 +1,4 @@
-# ADR-0008 — Schema locale V1 e confine transazionale dello store
+# ADR-0008 — Schema locale V1, payload V2 e confine transazionale dello store
 
 - **Stato:** Confirmed
 - **Data:** 2026-08-27
@@ -38,6 +38,13 @@ formato deve dichiarare la propria migrazione. I modelli SwiftData non attravers
 confine del modulo e non vengono esposti al dominio o alla UI. Non si usa
 `@Attribute(.unique)`: i retry identici vengono deduplicati applicativamente, mentre
 varianti con lo stesso UUID restano disponibili al criterio deterministico del registro.
+
+E06 modifica intenzionalmente il payload `Codable` delle routine prima che esistano utenti
+o store distribuiti. Il payload applicativo passa quindi a V2 e l'app apre il nuovo file
+`Routally-v2.store`: l'eventuale file pre-release V1 resta intatto ma non viene consumato.
+Non viene aggiunto un decoder legacy né uno stage di migrazione artificiale; un payload V1
+aperto esplicitamente viene rifiutato prima della decodifica. Lo schema fisico SwiftData
+resta V1 perché le famiglie e i campi scalari dei record non cambiano.
 
 Il catalogo corrente viene sostituito come insieme completo; eventi, revisioni e tombstone
 sono append-only. Un commit:

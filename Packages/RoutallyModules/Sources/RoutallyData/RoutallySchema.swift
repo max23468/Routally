@@ -3,7 +3,8 @@ import SwiftData
 
 public enum RoutallySchemaV1: VersionedSchema {
   public static let versionIdentifier = Schema.Version(1, 0, 0)
-  public static let payloadVersion = 1
+  public static let payloadVersion = 2
+  public static let localStoreFilename = "Routally-v2.store"
 
   public static var models: [any PersistentModel.Type] {
     [
