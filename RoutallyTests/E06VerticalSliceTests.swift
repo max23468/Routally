@@ -389,6 +389,46 @@ struct E06VerticalSliceTests {
     #expect(model.snapshot.followUps.isEmpty)
   }
 
+  @Test("Il retry conserva e registra una sola volta l'evento fallito")
+  func recoverableRecordingFailureRetainsTheExactEvent() async throws {
+    let base = try SwiftDataRoutallyStore(configuration: .inMemory())
+    let fixture = DemoFixtures.connectedGymCycleSeed()
+    _ = try await base.commit(
+      RoutallyStoreChange(
+        catalog: fixture.catalog,
+        events: fixture.ledger.events,
+        revisions: fixture.ledger.revisions,
+        tombstones: fixture.ledger.tombstones
+      ),
+      asOf: fixture.asOf,
+      calendar: fixture.calendar
+    )
+    let persistence = PlannedFailureStore(base: base, commitFailures: 1)
+    let model = RoutallyFeatureModel(
+      persistence: persistence,
+      calendar: fixture.calendar,
+      clock: .fixed(fixture.asOf)
+    )
+    await model.load(locale: italian)
+
+    let firstAttempt = await model.recordRoutine(id: sourceID, locale: italian)
+    #expect(!firstAttempt)
+    #expect(model.snapshot.hasRecoverableEventError)
+    #expect(model.snapshot.routines.first { $0.id == sourceID }?.progress == 1)
+
+    await model.retryRecoverableEvent(locale: italian)
+    #expect(!model.snapshot.hasRecoverableEventError)
+    #expect(model.snapshot.routines.first { $0.id == sourceID }?.progress == 2)
+    #expect(model.snapshot.routines.first { $0.id == towelID }?.progress == 4)
+
+    let stored = try await base.load(asOf: fixture.asOf, calendar: fixture.calendar)
+    #expect(stored.ledger.events.count == fixture.ledger.events.count + 1)
+
+    await model.retryRecoverableEvent(locale: italian)
+    let retried = try await base.load(asOf: fixture.asOf, calendar: fixture.calendar)
+    #expect(retried.ledger.events.count == stored.ledger.events.count)
+  }
+
   @Test("Creazione e conseguenze rispettano la locale richiesta")
   func creationAndConsequencesUseRequestedLocale() async throws {
     let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())

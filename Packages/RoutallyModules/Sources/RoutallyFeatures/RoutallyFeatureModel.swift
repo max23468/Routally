@@ -215,6 +215,7 @@ public final class RoutallyFeatureModel {
   private var isLoaded: Bool
   private var isOffline: Bool
   private var hasPendingChanges: Bool
+  private var pendingRecording: RoutineEvent?
   private var externallyReadyFollowUpIDs: Set<String> = []
   private var effectExclusions: [String: EffectExclusion] = [:]
 
@@ -238,6 +239,7 @@ public final class RoutallyFeatureModel {
     currentAsOf = seed?.asOf ?? clock.now()
     isLoaded = false
     hasPendingChanges = false
+    pendingRecording = nil
     snapshot = RoutallySnapshot(isOffline: isOffline)
   }
 
@@ -263,6 +265,7 @@ public final class RoutallyFeatureModel {
     currentAsOf = seed?.asOf ?? clock.now()
     isLoaded = false
     hasPendingChanges = false
+    pendingRecording = nil
     snapshot = RoutallySnapshot(isOffline: isOffline)
   }
 
@@ -281,6 +284,7 @@ public final class RoutallyFeatureModel {
     isLoaded = true
     isOffline = previewSnapshot.isOffline
     hasPendingChanges = previewSnapshot.hasPendingChanges
+    pendingRecording = nil
     snapshot = previewSnapshot
     self.consequenceSummary = consequenceSummary
   }
@@ -330,7 +334,7 @@ public final class RoutallyFeatureModel {
       }
       apply(stored)
       isLoaded = true
-      snapshot.hasRecoverableEventError = false
+      snapshot.hasRecoverableEventError = pendingRecording != nil
       await refreshPresentation(locale: locale)
     } catch is CancellationError {
       return
@@ -443,7 +447,9 @@ public final class RoutallyFeatureModel {
     id routineID: String,
     locale: Locale = .current
   ) async -> Bool {
-    guard let persistence, !isPerformingOperation else { return false }
+    guard persistence != nil, pendingRecording == nil, !isPerformingOperation else {
+      return false
+    }
     await ensureLoaded(locale: locale)
     guard isLoaded else { return false }
     guard
@@ -466,25 +472,7 @@ public final class RoutallyFeatureModel {
       recordedAt: operationDate
     )
 
-    isPerformingOperation = true
-    defer { isPerformingOperation = false }
-    do {
-      let stored = try await persistence.commit(
-        RoutallyStoreChange(events: [event], changedRoutineIDs: [definition.id]),
-        asOf: operationDate,
-        calendar: calendar
-      )
-      apply(stored)
-      markSuccessfulChange(at: operationDate)
-      await refreshPresentation(locale: locale)
-      consequenceSummary = makeConsequenceSummary(for: event, locale: locale)
-      return true
-    } catch is CancellationError {
-      return false
-    } catch {
-      snapshot.hasRecoverableEventError = true
-      return false
-    }
+    return await commitRecording(event, locale: locale)
   }
 
   @discardableResult
@@ -580,6 +568,7 @@ public final class RoutallyFeatureModel {
   public func completeFollowUp(id followUpID: String, locale: Locale = .current) async -> Bool {
     guard
       let persistence,
+      pendingRecording == nil,
       !isPerformingOperation,
       let followUp = domainState.followUps.values.first(where: {
         followUpKey($0.id) == followUpID && $0.state != .completed
@@ -691,7 +680,38 @@ public final class RoutallyFeatureModel {
   }
 
   public func retryRecoverableEvent(locale: Locale = .current) async {
+    if let pendingRecording {
+      _ = await commitRecording(pendingRecording, locale: locale)
+      return
+    }
     await load(locale: locale, force: true)
+  }
+
+  private func commitRecording(_ event: RoutineEvent, locale: Locale) async -> Bool {
+    guard let persistence, !isPerformingOperation else { return false }
+    let evaluationDate = max(event.occurredAt, clock.now())
+
+    isPerformingOperation = true
+    defer { isPerformingOperation = false }
+    do {
+      let stored = try await persistence.commit(
+        RoutallyStoreChange(events: [event], changedRoutineIDs: [event.routineID]),
+        asOf: evaluationDate,
+        calendar: calendar
+      )
+      apply(stored)
+      pendingRecording = nil
+      markSuccessfulChange(at: evaluationDate)
+      await refreshPresentation(locale: locale)
+      consequenceSummary = makeConsequenceSummary(for: event, locale: locale)
+      return true
+    } catch is CancellationError {
+      return false
+    } catch {
+      pendingRecording = event
+      snapshot.hasRecoverableEventError = true
+      return false
+    }
   }
 
   private func ensureLoaded(locale: Locale) async {
@@ -720,7 +740,7 @@ public final class RoutallyFeatureModel {
   private func markSuccessfulChange(at operationDate: Date) {
     currentAsOf = operationDate
     hasPendingChanges = hasPendingChanges || isOffline
-    snapshot.hasRecoverableEventError = false
+    snapshot.hasRecoverableEventError = pendingRecording != nil
   }
 
   private func refreshPresentation(locale: Locale) async {
