@@ -1,10 +1,14 @@
 #!/usr/bin/env node
+// TEMPORANEO FINO ALLA 1.0: questo e solo questo file puo conoscere la tassonomia
+// di pianificazione. Va rimosso insieme alla roadmap operativa al consolidamento 1.0.
 // Verifica la gerarchia operativa del Master Plan:
 // fase/versione -> milestone -> epiche -> gate, senza inventari duplicati.
 //
 // Uso: node scripts/check-roadmap-hierarchy.mjs
 
-import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
+import { extname } from "node:path";
 
 const PLAN = "docs/MASTER_PLAN.md";
 const EXPECTED_MILESTONES = 12;
@@ -23,6 +27,36 @@ const EXPECTED_PHASES = [
   "0.9",
   "1.0",
 ];
+const THIS_FILE = "scripts/check-roadmap-hierarchy.mjs";
+const CODE_ROOTS = [
+  ".github",
+  "Configuration",
+  "Packages",
+  "Routally.xcodeproj",
+  "RoutallyApp",
+  "RoutallyTests",
+  "RoutallyTGDataProbeWidget",
+  "scripts",
+];
+const CODE_EXTENSIONS = new Set([
+  ".h",
+  ".js",
+  ".json",
+  ".m",
+  ".mjs",
+  ".mm",
+  ".pbxproj",
+  ".plist",
+  ".strings",
+  ".swift",
+  ".ts",
+  ".tsx",
+  ".xcconfig",
+  ".xcstrings",
+  ".yaml",
+  ".yml",
+]);
+const ROADMAP_REFERENCE = /\b(?:M\d{2}|E\d{2}|milestones?|epics?|epica|epiche)\b/i;
 const text = readFileSync(PLAN, "utf8");
 
 const section = (start, end) => {
@@ -48,6 +82,24 @@ const expectedSequence = (prefix, count) =>
 const same = (left, right) =>
   left.length === right.length && left.every((value, index) => value === right[index]);
 const clean = (value) => value.replaceAll("`", "").trim();
+
+const trackedCodeFiles = execFileSync(
+  "git",
+  ["ls-files", "--cached", "--others", "--exclude-standard", "--", ...CODE_ROOTS],
+  { encoding: "utf8" },
+)
+  .split("\n")
+  .filter(Boolean)
+  .filter(existsSync)
+  .filter((file) => file !== THIS_FILE && CODE_EXTENSIONS.has(extname(file)));
+const leakedRoadmapReferences = trackedCodeFiles.filter((file) => {
+  return ROADMAP_REFERENCE.test(file) || ROADMAP_REFERENCE.test(readFileSync(file, "utf8"));
+});
+if (leakedRoadmapReferences.length > 0) {
+  throw new Error(
+    `Riferimenti di pianificazione nel codice: ${leakedRoadmapReferences.join(", ")}`,
+  );
+}
 
 const rows = roadmap
   .split("\n")

@@ -6,9 +6,9 @@ import Testing
 
 @testable import RoutallyFeatures
 
-@Suite("E06 Vertical Slice Integration")
+@Suite("Vertical Slice Integration")
 @MainActor
-struct E06VerticalSliceTests {
+struct VerticalSliceTests {
   private let sourceID = "00000000-0000-4000-8000-000000000601"
   private let towelID = "00000000-0000-4000-8000-000000000602"
 

@@ -5,7 +5,7 @@ import Testing
 
 @testable import RoutallyFeatures
 
-@Suite("M01 E03 Foundation")
+@Suite("Foundation")
 @MainActor
 struct FoundationTests {
   @Test("Le fixture canoniche sono tutte disponibili")
@@ -52,7 +52,7 @@ struct FoundationTests {
     #expect(nonDemo.followUps.isEmpty)
   }
 
-  @Test("La fixture E06 usa il dominio solo nello scenario canonico")
+  @Test("La fixture della vertical slice usa il dominio solo nello scenario canonico")
   func verticalSliceFixtureRequiresCanonicalLaunchArguments() {
     #expect(
       DemoFixtures.verticalSliceSeed(

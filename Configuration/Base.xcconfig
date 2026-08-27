@@ -16,7 +16,7 @@ SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO
 ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
 LOCALIZATION_PREFERS_STRING_CATALOGS = YES
 STRING_CATALOG_GENERATE_SYMBOLS = YES
-// Routally non espone App Intents prima di E13: non avviare l'estrattore metadati Xcode.
+// Nessun target corrente espone App Intents: non avviare l'estrattore metadati Xcode.
 LM_SKIP_METADATA_EXTRACTION = YES
 MARKETING_VERSION = 0.1.0
 CURRENT_PROJECT_VERSION = 1

@@ -5,8 +5,8 @@ import Testing
 
 @testable import RoutallyData
 
-@Suite("M02 E05 Local Persistence")
-struct E05PersistenceTests {
+@Suite("Local Persistence")
+struct PersistenceTests {
   private let calendar = DomainCalendar(timeZoneIdentifier: "UTC")
 
   @Test("Lo store registra offline e recupera dominio e stato dopo la riapertura")
@@ -135,9 +135,9 @@ struct E05PersistenceTests {
     }
   }
 
-  @Test("Il payload V1 pre-E06 viene rifiutato prima della decodifica")
+  @Test("Il payload V1 incompatibile viene rifiutato prima della decodifica")
   @MainActor
-  func preE06RoutinePayloadIsRejected() async throws {
+  func incompatibleRoutinePayloadIsRejected() async throws {
     let temporaryStore = try TemporaryStore()
     let fixture = SmallPersistenceFixture.make()
     let routine = try #require(fixture.catalog.routines.first)
@@ -436,7 +436,7 @@ private final class TemporaryStore {
 
   init() throws {
     directory = FileManager.default.temporaryDirectory
-      .appending(path: "Routally-E05-\(UUID().uuidString)", directoryHint: .isDirectory)
+      .appending(path: "Routally-Persistence-\(UUID().uuidString)", directoryHint: .isDirectory)
     try FileManager.default.createDirectory(
       at: directory,
       withIntermediateDirectories: true
