@@ -225,7 +225,7 @@ struct E05PersistenceTests {
     #expect(unchanged.ledger == DomainLedger())
   }
 
-  @Test("La sostituzione del catalogo rimuove configurazioni non più attive")
+  @Test("La sostituzione del catalogo segnala anche le routine eliminate")
   func catalogReplacementIsAtomic() async throws {
     let fixture = SmallPersistenceFixture.make()
     let store = try SwiftDataRoutallyStore(configuration: .inMemory())
@@ -247,6 +247,9 @@ struct E05PersistenceTests {
     #expect(replaced.catalog == reducedCatalog)
     #expect(replaced.catalog.links.isEmpty)
     #expect(replaced.catalog.cycles.isEmpty)
+    #expect(
+      replaced.affectedRoutineIDs == [fixture.sourceRoutineID, fixture.targetRoutineID]
+    )
   }
 
   @Test("Schema V1, piano di migrazione e identificativi Apple restano iniettati")
