@@ -91,6 +91,24 @@
       },
       "extractionState": "manual"
     },
+    "Prepara un asciugamano pulito": {
+      "comment": "Canonical E06 follow-up title used by the deterministic domain fixture.",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare a clean towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepara un asciugamano pulito"
+          }
+        }
+      },
+      "extractionState": "manual"
+    },
     "fixture.routine.name": {
       "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
       "localizations": {

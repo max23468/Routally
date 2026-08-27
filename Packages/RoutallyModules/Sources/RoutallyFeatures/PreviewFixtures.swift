@@ -90,12 +90,55 @@
       RoutallySnapshot(routines: numberedRoutines(count: 30))
     }
 
-    static func consequenceStore() -> RoutallyStore {
-      let store = RoutallyStore(
-        snapshot: RoutallySnapshot(routines: connectedGymRoutines(towelProgress: 3))
+    static func consequenceModel() -> RoutallyFeatureModel {
+      let eventID = RoutineEventID(
+        rawValue: UUID(uuidString: "00000000-0000-4000-8000-000000000606")!
       )
-      store.recordRoutine(id: "gym")
-      return store
+      return RoutallyFeatureModel(
+        previewSnapshot: RoutallySnapshot(
+          routines: connectedGymRoutines(towelProgress: 4, towelState: .thresholdReached),
+          followUps: [
+            FollowUpSummary(
+              id: "clean-gym-towel",
+              title: L10n.string(.preparaUnAsciugamanoPulito),
+              origin: L10n.string(.creatoDaAsciugamanoPalestraSoglia44),
+              state: .waitingForUsefulMoment
+            )
+          ]
+        ),
+        consequenceSummary: ConsequenceSummary(
+          id: eventID.rawValue.uuidString,
+          sourceEventID: eventID,
+          title: L10n.string(.allenamentoRegistrato),
+          sourceRoutineID: "gym",
+          sourceRoutineName: L10n.string(.palestra),
+          effects: [
+            ConsequenceEffect(
+              id: "source",
+              title: L10n.string(.consequenceWeeklyProgress(L10n.string(.palestra), 2, 3)),
+              origin: L10n.string(.consequenceSourceOrigin(L10n.string(.palestra)))
+            ),
+            ConsequenceEffect(
+              id: "linked",
+              title: L10n.string(
+                .consequenceEffectProgress(L10n.string(.asciugamanoPalestra), 4, 4)
+              ),
+              origin: L10n.string(.consequenceLinkOrigin(L10n.string(.palestra))),
+              exclusionTarget: L10n.string(.asciugamanoPalestra)
+            ),
+            ConsequenceEffect(
+              id: "follow-up",
+              title: L10n.string(
+                .consequenceFollowupCreated(L10n.string(.preparaUnAsciugamanoPulito))
+              ),
+              origin: L10n.string(
+                .followupThresholdReached(L10n.string(.asciugamanoPalestra))
+              ),
+              exclusionTarget: L10n.string(.preparaUnAsciugamanoPulito)
+            ),
+          ]
+        )
+      )
     }
 
     private static func connectedGymRoutines(

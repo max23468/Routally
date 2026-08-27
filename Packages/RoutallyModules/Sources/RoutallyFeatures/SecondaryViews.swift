@@ -61,7 +61,7 @@ struct InsightsView: View {
 struct SearchView: View {
   @State private var query = ""
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
 
   var body: some View {
     NavigationStack {
@@ -93,7 +93,7 @@ struct SearchView: View {
 struct ProfileSheet: View {
   @Environment(\.dismiss) private var dismiss
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
 
   var body: some View {
     NavigationStack {
@@ -125,23 +125,23 @@ struct ProfileSheet: View {
 
 #if DEBUG
   #Preview("Cerca · Risultati · AX5") {
-    SearchView(store: RoutallyStore(snapshot: PreviewFixtures.scheduledDay))
+    SearchView(store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.scheduledDay))
       .environment(\.dynamicTypeSize, .accessibility5)
   }
 
   #Preview("Cerca · Vuoto · Dark") {
-    SearchView(store: RoutallyStore(snapshot: PreviewFixtures.empty))
+    SearchView(store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.empty))
       .preferredColorScheme(.dark)
   }
 
   #Preview("Profilo · Locale") {
-    ProfileSheet(store: RoutallyStore(snapshot: PreviewFixtures.unrestrictedLibrary))
+    ProfileSheet(store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.unrestrictedLibrary))
   }
 
   #Preview("Profilo · Offline · EN · Dark") {
     ProfileSheet(
-      store: RoutallyStore(
-        snapshot: PreviewFixtures.offlinePending(locale: Locale(identifier: "en"))
+      store: RoutallyFeatureModel(
+        previewSnapshot: PreviewFixtures.offlinePending(locale: Locale(identifier: "en"))
       )
     )
     .environment(\.locale, Locale(identifier: "en"))

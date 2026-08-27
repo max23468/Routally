@@ -25,7 +25,7 @@ let package = Package(
     ),
     .target(
       name: "RoutallyFeatures",
-      dependencies: ["RoutallyDomain", "RoutallyDesign"],
+      dependencies: ["RoutallyData", "RoutallyDomain", "RoutallyDesign"],
       resources: [.process("Resources")]
     ),
     .target(

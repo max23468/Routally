@@ -1,3 +1,5 @@
+import Foundation
+import RoutallyData
 import RoutallyDomain
 import RoutallyFeatures
 import SwiftUI
@@ -9,22 +11,47 @@ import SwiftUI
 @main
 @MainActor
 struct RoutallyApp: App {
-  @State private var store: RoutallyStore
+  @State private var store: RoutallyFeatureModel
   @State private var router = AppRouter()
   private let featureFlags: FeatureFlags
 
   init() {
     #if ROUTALLY_DEVELOPMENT
-      let initialSnapshot = DemoFixtures.snapshot(
-        arguments: ProcessInfo.processInfo.arguments
-      )
       featureFlags = .development
+      let arguments = ProcessInfo.processInfo.arguments
+      if let demo = DemoFixtures.verticalSliceSeed(arguments: arguments) {
+        do {
+          let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())
+          _store = State(
+            initialValue: RoutallyFeatureModel(
+              persistence: persistence,
+              seed: RoutallyFeatureSeed(
+                catalog: demo.catalog,
+                ledger: demo.ledger,
+                asOf: demo.asOf
+              ),
+              calendar: demo.calendar,
+              clock: .fixed(demo.asOf)
+            )
+          )
+        } catch {
+          _store = State(
+            initialValue: RoutallyFeatureModel(previewSnapshot: Self.failureSnapshot)
+          )
+        }
+      } else if arguments.contains("demo") {
+        _store = State(
+          initialValue: RoutallyFeatureModel(
+            previewSnapshot: DemoFixtures.snapshot(arguments: arguments)
+          )
+        )
+      } else {
+        _store = State(initialValue: Self.makePersistentFeatureModel())
+      }
     #else
-      let initialSnapshot = RoutallySnapshot.empty
       featureFlags = .publicRelease
+      _store = State(initialValue: Self.makePersistentFeatureModel())
     #endif
-
-    _store = State(initialValue: RoutallyStore(snapshot: initialSnapshot))
   }
 
   var body: some Scene {
@@ -33,6 +60,29 @@ struct RoutallyApp: App {
     }
     .commands {
       RoutallyCommands(router: router)
+    }
+  }
+
+  private static var failureSnapshot: RoutallySnapshot {
+    RoutallySnapshot(hasRecoverableEventError: true)
+  }
+
+  private static func makePersistentFeatureModel() -> RoutallyFeatureModel {
+    do {
+      let directory = URL.applicationSupportDirectory.appending(
+        path: "Routally",
+        directoryHint: .isDirectory
+      )
+      try FileManager.default.createDirectory(
+        at: directory,
+        withIntermediateDirectories: true
+      )
+      let persistence = try SwiftDataRoutallyStore(
+        configuration: .local(url: directory.appending(path: "Routally.store"))
+      )
+      return RoutallyFeatureModel(persistence: persistence)
+    } catch {
+      return RoutallyFeatureModel(previewSnapshot: failureSnapshot)
     }
   }
 }

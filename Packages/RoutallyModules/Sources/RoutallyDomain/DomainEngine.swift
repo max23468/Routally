@@ -402,6 +402,8 @@ private struct ReductionWorker {
       let key = LocalPeriodKey.containing(today, unit: goal.period, calendar: calendar)
       projection.attention =
         projection.periodTotals[key, default: 0] >= goal.target ? .notNeeded : .due
+    case .cycleDriven:
+      projection.attention = .notNeeded
     }
     state.routines[definition.id] = projection
   }
@@ -520,9 +522,30 @@ private struct ReductionWorker {
         second: 0,
         of: nextDay
       )
-    case .geographic(_, let fallbackAfter):
-      return createdAt.addingTimeInterval(fallbackAfter)
+    case .geographic(_, let fallbackTime):
+      return nextOccurrence(of: fallbackTime, onOrAfter: createdAt)
     }
+  }
+
+  private func nextOccurrence(of time: LocalTime, onOrAfter date: Date) -> Date? {
+    let foundationCalendar = calendar.foundationCalendar
+    if let sameDay = foundationCalendar.date(
+      bySettingHour: time.hour,
+      minute: time.minute,
+      second: 0,
+      of: date
+    ), sameDay >= date {
+      return sameDay
+    }
+    guard let nextDay = foundationCalendar.date(byAdding: .day, value: 1, to: date) else {
+      return nil
+    }
+    return foundationCalendar.date(
+      bySettingHour: time.hour,
+      minute: time.minute,
+      second: 0,
+      of: nextDay
+    )
   }
 
   private func cycleEvaluationDate(for lifecycle: RoutineLifecycle) -> Date {

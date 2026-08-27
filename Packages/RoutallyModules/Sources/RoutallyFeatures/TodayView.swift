@@ -5,7 +5,7 @@ import SwiftUI
 struct TodayView: View {
   @Environment(\.locale) private var locale
 
-  let store: RoutallyStore
+  let store: RoutallyFeatureModel
   let router: AppRouter
   let featureFlags: FeatureFlags
 
@@ -59,7 +59,9 @@ struct TodayView: View {
         )
         .foregroundStyle(RoutallyColor.statusAttention)
         Button(.riprova) {
-          store.retryRecoverableEvent()
+          Task {
+            await store.retryRecoverableEvent(locale: locale)
+          }
         }
       }
     }
@@ -73,8 +75,11 @@ struct TodayView: View {
       Section(.adesso) {
         ForEach(readyFollowUps) { followUp in
           FollowUpRow(followUp: followUp) {
-            store.completeFollowUp(id: followUp.id)
+            Task {
+              await store.completeFollowUp(id: followUp.id, locale: locale)
+            }
           }
+          .disabled(store.isPerformingOperation)
         }
         routineRows(nowRoutines)
       }
@@ -130,10 +135,13 @@ struct TodayView: View {
       RoutineRow(routine: routine, isRecordable: store.canRecordRoutine(id: routine.id)) {
         router.showRoutine(id: routine.id)
       } primaryAction: {
-        if store.recordRoutine(id: routine.id, locale: locale) {
-          router.sheet = .consequences
+        Task {
+          if await store.recordRoutine(id: routine.id, locale: locale) {
+            router.sheet = .consequences
+          }
         }
       }
+      .disabled(store.isPerformingOperation)
     }
   }
 
@@ -142,13 +150,17 @@ struct TodayView: View {
     if featureFlags.developerDiagnosticsEnabled, !store.snapshot.followUps.isEmpty {
       Section(.scenarioDev) {
         Button(.simulaArrivoACasa) {
-          let revealedFollowUpIDs = store.revealFollowUpAtHome()
-          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
+          Task {
+            await store.simulateArrival(at: "home", locale: locale)
+          }
         }
+        .disabled(store.isPerformingOperation)
         Button(.simulaFallbackDelle2000) {
-          let revealedFollowUpIDs = store.triggerFallback()
-          store.simulateNotificationDelivery(for: revealedFollowUpIDs)
+          Task {
+            await store.triggerFallback(locale: locale)
+          }
         }
+        .disabled(store.isPerformingOperation)
         LabeledContent(.notificheSimulate, value: String(store.snapshot.notificationCount))
       }
     }

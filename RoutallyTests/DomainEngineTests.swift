@@ -1119,7 +1119,10 @@ struct DomainEngineTests {
       threshold: .progress(1),
       followUp: FollowUpPolicy(
         title: "Sostituisci",
-        usefulMoment: .geographic(locationID: "", fallbackAfter: -1)
+        usefulMoment: .geographic(
+          locationID: "",
+          fallbackTime: LocalTime(hour: 25, minute: 0)
+        )
       ),
       anchorDate: date(2026, 1, 1)
     )
