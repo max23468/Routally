@@ -45,7 +45,7 @@ deploy, TestFlight e App Store conservano le rispettive autorizzazioni e prove m
 
 ## Riferimenti
 
-- Master Plan, sezioni 28.3.1–28.3.3.
+- Master Plan, sezioni 28.3.1–28.3.2.
 - `scripts/change-policy.mjs`, `scripts/verify-change.mjs` e
   `scripts/verify-merge-tree.mjs`.
 - `.github/workflows/publication-gate.yml`.
