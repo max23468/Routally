@@ -83,6 +83,14 @@ test("valida realmente le modifiche alla pipeline applicativa", () => {
   assert.equal(result.needsSwiftFormat, true);
 });
 
+test("riesegue CodeQL quando cambia la configurazione dedicata", () => {
+  const result = classifyChangedFiles([".github/codeql-config.yml"]);
+  assert.equal(result.kind, "governance");
+  assert.equal(result.needsBuild, false);
+  assert.equal(result.needsCodeQL, true);
+  assert.equal(result.needsSwiftFormat, false);
+});
+
 test("espone output GitHub booleani e stabili", () => {
   const outputs = githubOutputs(classifyChangedFiles(["README.md"]));
   assert.deepEqual(outputs, {

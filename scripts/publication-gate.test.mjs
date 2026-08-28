@@ -59,6 +59,27 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(scheduled, /category: \/language:swift\/scheduled/);
 });
 
+test("CodeQL prepara una sola volta il package graph fuori dall'estrazione", async () => {
+  const workflow = await readFile(workflowURL, "utf8");
+  const scheduled = await readFile(codeqlURL, "utf8");
+  for (const source of [workflow, scheduled]) {
+    assert.match(source, /xcodebuild -resolvePackageDependencies/);
+    assert.equal(
+      source.match(/-derivedDataPath "\$RUNNER_TEMP\/RoutallyCodeQLDerivedData"/g)?.length,
+      2,
+    );
+    assert.match(source, /-disableAutomaticPackageResolution/);
+    assert.match(source, /-skipPackageUpdates/);
+    assert.match(source, /COMPILATION_CACHE_ENABLE_CACHING=NO/);
+    assert.match(source, /SWIFT_ENABLE_COMPILE_CACHE=NO/);
+    assert.match(source, /SWIFT_USE_INTEGRATED_DRIVER=NO/);
+    assert.ok(
+      source.indexOf("Prepara package graph fuori da CodeQL")
+        < source.indexOf("Initialize CodeQL"),
+    );
+  }
+});
+
 test("mantiene build e test Simulator sul Mac controllato", async () => {
   const workflow = await readFile(workflowURL, "utf8");
   assert.doesNotMatch(workflow, /name: Build e test/);

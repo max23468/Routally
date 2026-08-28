@@ -134,6 +134,12 @@ jobs:
       - name: Registra il merge analizzato
         id: codeql_ref
         run: echo "merge_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Prepara package graph fuori da CodeQL
+        run: >-
+          xcodebuild -resolvePackageDependencies
+          -project Routally.xcodeproj
+          -scheme "Routally Dev"
+          -derivedDataPath "$RUNNER_TEMP/RoutallyCodeQLDerivedData"
       - name: Initialize CodeQL
         uses: github/codeql-action/init@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
         with:
@@ -145,6 +151,9 @@ jobs:
           -project Routally.xcodeproj
           -scheme "Routally Dev"
           -destination "generic/platform=iOS Simulator"
+          -derivedDataPath "$RUNNER_TEMP/RoutallyCodeQLDerivedData"
+          -disableAutomaticPackageResolution
+          -skipPackageUpdates
           ARCHS=arm64
           ONLY_ACTIVE_ARCH=YES
           CODE_SIGNING_REQUIRED=NO

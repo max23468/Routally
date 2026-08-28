@@ -3288,8 +3288,9 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 - matrice, roadmap e test degli script per documentazione canonica e governance;
 - `swift-format` in GitHub Actions per codice o configurazioni applicative;
 - evidenza di build e test Simulator eseguiti sul Mac controllato, legata all'HEAD esatto;
-- CodeQL nella PR per Swift e configurazioni di progetto, con analisi read-only e upload
-  SARIF trusted separato;
+- CodeQL nella PR per Swift, configurazioni Xcode/SwiftPM e configurazione CodeQL dedicata,
+  con analisi read-only e upload SARIF trusted separato; la sola orchestrazione CI priva di
+  impatto sull'app mantiene i propri test ma non forza una scansione applicativa;
 - controlli degli asset ed evidenza visuale dichiarata per UI.
 
 Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per
@@ -3301,6 +3302,11 @@ anche per i PR Dependabot. Il
 comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
 classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
 restano esplicite e non vengono sostituite da un successo automatico.
+
+Prima dell'inizializzazione CodeQL il workflow risolve il package graph SwiftPM in un
+`DerivedData` dedicato. La build strumentata riusa quel percorso con risoluzione automatica
+e aggiornamenti dei package disabilitati, mantenendo invece disattivati compilation cache e
+Swift integrated driver affinché l'estrattore osservi tutte le unità compilate.
 
 ### 28.3.2 Auto-merge e rilettura finale
 
