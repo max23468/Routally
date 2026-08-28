@@ -3198,23 +3198,7 @@ Non hanno ruoli fissi complementari.
 - nessuno dei due agenti ha il ruolo di revisore dell'altro;
 - il cambio richiede handoff documentato.
 
-## 27.3 La review non è un ruolo di agente
-
-Il gate `codex-review` della sezione 28.3.1 è un controllo di integrazione continua della
-repository, non un intervento dell'agente Codex sul task dell'agente Claude Code. Vale allo
-stesso modo per ogni pull request, indipendentemente da quale interfaccia l'abbia prodotta,
-esattamente come CodeQL o `swift-format`.
-
-Di conseguenza:
-
-- il gate non viola l'esclusività della sezione 27.2, perché non assegna un task a un secondo agente;
-- l'agente che ha aperto la pull request resta l'unico a lavorarci e a rispondere ai finding;
-- un finding non trasferisce il task all'altra interfaccia né richiede un handoff;
-- la sostituzione futura del gate con un altro strumento di review non cambia le regole di questa sezione.
-
-Registrato in `docs/ADR/0005-review-gate-ci.md`.
-
-## 27.4 Handoff
+## 27.3 Handoff
 
 Prima del passaggio:
 

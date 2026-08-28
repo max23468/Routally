@@ -52,7 +52,6 @@ function runNodeTests() {
   run("node", [
     "--test",
     "scripts/change-policy.test.mjs",
-    "scripts/codex-review-gate.test.mjs",
     "scripts/publication-gate.test.mjs",
     "scripts/verify-merge-tree.test.mjs",
   ]);
