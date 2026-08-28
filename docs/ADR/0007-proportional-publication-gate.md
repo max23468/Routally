@@ -12,9 +12,7 @@ CodeQL Swift partiva soltanto dopo il merge e aggiungeva circa venti-trenta minu
 rilettura finale. Build, test e format potevano inoltre essere ripetuti senza distinguere
 fra documentazione, dominio, UI e configurazioni critiche.
 
-Il gate `codex-review` distingueva già P0/P1 bloccanti da P2/P3 advisory, mentre la branch
-protection richiedeva comunque la risoluzione di ogni conversazione. Auto-merge era
-disabilitato.
+Auto-merge era disabilitato.
 
 ## Decisione
 
@@ -25,11 +23,8 @@ La pubblicazione usa un modello proporzionato e deterministico:
 3. verifiche documentali, format e CodeQL applicabili girano in parallelo; build/test
    Simulator restano sul Mac controllato e sono registrati sull'HEAD esatto della PR;
 4. CodeQL Swift valida la PR, mentre `main` mantiene soltanto la scansione settimanale;
-5. la review Codex invalida subito i vecchi SHA, esegue polling ogni 30 secondi e scade
-   dopo un'ora;
-6. P2/P3 non bloccano tramite la risoluzione generica delle conversazioni;
-7. lo squash auto-merge integra la PR quando i gate richiesti sono verdi;
-8. dopo il merge si verifica l'equivalenza del tree anziché ripetere gli stessi gate.
+5. lo squash auto-merge integra la PR quando i gate richiesti sono verdi;
+6. dopo il merge si verifica l'equivalenza del tree anziché ripetere gli stessi gate.
 
 Le modifiche UI continuano a richiedere evidenza visuale reale, registrata marcando il
 checkbox dedicato nel corpo della PR; il gate la verifica e resta rosso se manca. Release,
@@ -46,12 +41,11 @@ deploy, TestFlight e App Store conservano le rispettive autorizzazioni e prove m
   esegue i job sul merge proposto con permessi di sola lettura; CodeQL produce un SARIF come
   dato e un job trusted separato lo carica. Soltanto i job trusted pubblicano stato,
   incluso `publication-gate` sull'HEAD dei PR Dependabot.
-- Il repository richiede `codex-review` e `publication-gate`, consente auto-merge e non
-  richiede la risoluzione generica delle conversazioni.
+- Il repository richiede `publication-gate` e consente auto-merge.
 
 ## Riferimenti
 
-- Master Plan, sezioni 28.3.1–28.3.3.
+- Master Plan, sezioni 28.3.1–28.3.2.
 - `scripts/change-policy.mjs`, `scripts/verify-change.mjs` e
   `scripts/verify-merge-tree.mjs`.
-- `.github/workflows/publication-gate.yml` e `.github/workflows/codex-review-gate.yml`.
+- `.github/workflows/publication-gate.yml`.

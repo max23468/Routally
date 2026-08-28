@@ -102,14 +102,6 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
 - Prima della PR esegui `node scripts/verify-change.mjs --base origin/main`: il comando
   classifica il diff e lancia soltanto i controlli applicabili, rieseguendo la suite completa
   sull'HEAD finale quando cambia codice Swift.
-- Ogni PR richiede lo status `codex-review` sull'HEAD corrente. All'apertura o al
-  passaggio da draft a ready parte la review nativa; dopo un nuovo commit usa una sola
-  riga `@codex review`. Un nuovo commit invalida subito lo status precedente senza tenere
-  aperto un runner; l'attesa della nuova review parte dalla richiesta esplicita. Il polling
-  è ogni 30 secondi e termina dopo un'ora; `workflow_dispatch` resta per bootstrap o retry.
-- Il gate è un controllo di integrazione continua della repository, non un intervento
-  dell'agente Codex sul task altrui: vale per ogni PR e non trasferisce il lavoro a un
-  secondo agente. Chi ha aperto la PR risponde ai finding e la porta a termine.
 - Ogni PR richiede anche `publication-gate`, sempre presente e aggregato. Classificazione,
   verifiche documentali, format e CodeQL vengono eseguiti in parallelo; build/test Simulator
   restano sul Mac controllato e sono registrati nel corpo con l'HEAD completo. I controlli

@@ -48,9 +48,9 @@ la review è conclusa e l'evidenza si riferisce all'HEAD esatto, li riepiloga e
 prosegue con la pubblicazione senza richiedere la risoluzione delle conversazioni;
 i finding P0/P1 restano bloccanti.
 
-La PR richiede `codex-review` e `publication-gate`. Abilita lo squash auto-merge appena
-i gate sono in corso; GitHub integra automaticamente l'HEAD soltanto quando entrambi sono
-verdi. CodeQL applicabile gira nella PR in parallelo agli altri controlli; il workflow trusted
+La PR richiede `publication-gate`. Abilita lo squash auto-merge appena
+il gate è in corso; GitHub integra automaticamente l'HEAD soltanto quando è
+verde. CodeQL applicabile gira nella PR in parallelo agli altri controlli; il workflow trusted
 su `main` verifica il merge proposto e pubblica lo status anche per Dependabot. Per una PR UI allega
 l'evidenza reale e marca il checkbox visuale prima dell'apertura: in sua assenza il gate fallisce.
 Dopo il merge,
