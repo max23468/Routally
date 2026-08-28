@@ -66,8 +66,17 @@ test("classifica configurazioni e sicurezza al livello massimo", () => {
   assert.equal(result.needsCodeQL, true);
 });
 
-test("valida realmente le modifiche alla pipeline applicativa", () => {
+test("tratta il consolidatore di governance senza build Apple", () => {
   const result = classifyChangedFiles([".github/workflows/publication-gate.yml"]);
+  assert.equal(result.kind, "governance");
+  assert.equal(result.needsBuild, false);
+  assert.equal(result.needsCodeQL, false);
+  assert.equal(result.needsSwiftFormat, false);
+  assert.equal(result.needsNodeTests, true);
+});
+
+test("valida realmente le modifiche alla pipeline applicativa", () => {
+  const result = classifyChangedFiles([".github/workflows/codeql.yml"]);
   assert.equal(result.kind, "release-security");
   assert.equal(result.needsBuild, true);
   assert.equal(result.needsCodeQL, true);
