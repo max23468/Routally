@@ -7,6 +7,11 @@ import {
   publicationStatus,
   visualEvidenceApproved,
 } from "./publication-gate.mjs";
+import {
+  codeQLAnalysisIdentity,
+  inspectReusableCodeQL,
+  reusableCodeQLAnalysis,
+} from "./codeql-reuse.mjs";
 
 const workflowURL = new URL("../.github/workflows/publication-gate.yml", import.meta.url);
 const codeqlURL = new URL("../.github/workflows/codeql.yml", import.meta.url);
@@ -44,6 +49,7 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   const scheduled = await readFile(codeqlURL, "utf8");
   assert.match(workflow, /build-mode: manual/);
   assert.match(workflow, /upload: never/);
+  assert.match(workflow, /upload-database: false/);
   assert.match(workflow, /codeql-upload:/);
   assert.match(workflow, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
   assert.match(workflow, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
@@ -57,6 +63,99 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(scheduled, /workflow_dispatch:/);
   assert.doesNotMatch(scheduled, /\n  push:/);
   assert.match(scheduled, /category: \/language:swift\/scheduled/);
+});
+
+test("un edit della PR riusa CodeQL soltanto sullo stesso merge SHA", async () => {
+  const workflow = await readFile(workflowURL, "utf8");
+  assert.match(workflow, /codeql-state:\s*\n    name: Verifica CodeQL riutilizzabile/);
+  assert.match(workflow, /github\.event\.action == 'edited'/);
+  assert.match(workflow, /node scripts\/codeql-reuse\.mjs/);
+  assert.match(workflow, /security-events: read/);
+  assert.match(
+    workflow,
+    /github\.event\.action != 'edited' \|\| needs\.codeql-state\.outputs\.reusable != 'true'/,
+  );
+  assert.match(
+    workflow,
+    /CODEQL_RESULT:.*needs\.codeql-state\.outputs\.reusable.*needs\.codeql-upload\.result/,
+  );
+
+  const mergeSha = "0123456789abcdef0123456789abcdef01234567";
+  const valid = {
+    analysis_key: codeQLAnalysisIdentity.analysisKey,
+    category: codeQLAnalysisIdentity.category,
+    commit_sha: mergeSha,
+    error: "",
+    id: 42,
+    ref: "refs/pull/37/merge",
+  };
+  assert.equal(reusableCodeQLAnalysis([valid], mergeSha)?.id, 42);
+  assert.equal(
+    reusableCodeQLAnalysis([{ ...valid, commit_sha: "f".repeat(40) }], mergeSha),
+    undefined,
+  );
+  assert.equal(
+    reusableCodeQLAnalysis([{ ...valid, error: "build failed" }], mergeSha),
+    undefined,
+  );
+  assert.equal(
+    reusableCodeQLAnalysis([{ ...valid, analysis_key: "untrusted" }], mergeSha),
+    undefined,
+  );
+
+  const requestedPaths = [];
+  const result = await inspectReusableCodeQL({
+    expectedHeadSha: "a".repeat(40),
+    pullRequestNumber: "37",
+    repository: "max23468/Routally",
+    token: "synthetic-token",
+    requestJSON: async (path) => {
+      requestedPaths.push(path);
+      return path.endsWith("/pulls/37")
+        ? { head: { sha: "a".repeat(40) }, merge_commit_sha: mergeSha }
+        : [valid];
+    },
+  });
+  assert.equal(result.analysis?.id, 42);
+  assert.deepEqual(requestedPaths, [
+    "/repos/max23468/Routally/pulls/37",
+    "/repos/max23468/Routally/code-scanning/analyses?ref=refs%2Fpull%2F37%2Fmerge&per_page=100",
+  ]);
+
+  await assert.rejects(
+    inspectReusableCodeQL({
+      expectedHeadSha: "a".repeat(40),
+      pullRequestNumber: "37",
+      repository: "max23468/Routally",
+      token: "synthetic-token",
+      requestJSON: async () => ({
+        head: { sha: "b".repeat(40) },
+        merge_commit_sha: mergeSha,
+      }),
+    }),
+    /HEAD della pull request è cambiato/,
+  );
+});
+
+test("CodeQL prepara una sola volta il package graph fuori dall'estrazione", async () => {
+  const workflow = await readFile(workflowURL, "utf8");
+  const scheduled = await readFile(codeqlURL, "utf8");
+  for (const source of [workflow, scheduled]) {
+    assert.match(source, /xcodebuild -resolvePackageDependencies/);
+    assert.equal(
+      source.match(/-derivedDataPath "\$RUNNER_TEMP\/RoutallyCodeQLDerivedData"/g)?.length,
+      2,
+    );
+    assert.match(source, /-disableAutomaticPackageResolution/);
+    assert.match(source, /-skipPackageUpdates/);
+    assert.match(source, /COMPILATION_CACHE_ENABLE_CACHING=NO/);
+    assert.match(source, /SWIFT_ENABLE_COMPILE_CACHE=NO/);
+    assert.match(source, /SWIFT_USE_INTEGRATED_DRIVER=NO/);
+    assert.ok(
+      source.indexOf("Prepara package graph fuori da CodeQL")
+        < source.indexOf("Initialize CodeQL"),
+    );
+  }
 });
 
 test("mantiene build e test Simulator sul Mac controllato", async () => {

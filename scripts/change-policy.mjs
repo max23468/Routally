@@ -1,6 +1,10 @@
 const matchesAny = (file, patterns) => patterns.some((pattern) => pattern.test(file));
 
 const swiftSource = /\.swift$/;
+const swiftTestSource = [
+  /^RoutallyTests\//,
+  /(^|\/)Tests\//,
+];
 const projectConfiguration = [
   /(^|\/)Package\.swift$/,
   /(^|\/)Package\.resolved$/,
@@ -35,10 +39,17 @@ const applicationPipeline = [
   /^\.github\/workflows\/codeql\.yml$/,
   /^\.github\/workflows\/swift-format\.yml$/,
 ];
+const codeQLConfiguration = [
+  /^\.github\/workflows\/codeql\.yml$/,
+  /^\.github\/codeql-config\.ya?ml$/,
+];
 
 export function classifyChangedFiles(inputFiles) {
   const files = [...new Set(inputFiles.filter(Boolean))].sort();
   const hasSwift = files.some((file) => swiftSource.test(file));
+  const hasApplicationSwift = files.some(
+    (file) => swiftSource.test(file) && !matchesAny(file, swiftTestSource),
+  );
   const hasProjectConfiguration = files.some((file) =>
     matchesAny(file, projectConfiguration),
   );
@@ -49,9 +60,13 @@ export function classifyChangedFiles(inputFiles) {
   const hasGovernance = files.some((file) => matchesAny(file, governance));
   const hasReleaseOrSecurity = files.some((file) => matchesAny(file, releaseOrSecurity));
   const changesApplicationPipeline = files.some((file) => matchesAny(file, applicationPipeline));
+  const changesCodeQLConfiguration = files.some((file) =>
+    matchesAny(file, codeQLConfiguration),
+  );
   const hasDocumentation = files.some((file) => /\.md$/.test(file));
   const needsBuild = hasSwift || hasProjectConfiguration || hasUI || changesApplicationPipeline;
-  const needsCodeQL = hasSwift || hasProjectConfiguration || changesApplicationPipeline;
+  const needsCodeQL =
+    hasApplicationSwift || hasProjectConfiguration || changesCodeQLConfiguration;
   const needsRoadmap = hasCanonicalDocumentation || hasGovernance;
   const needsNodeTests = hasGovernance || hasCanonicalDocumentation;
   const needsSwiftFormat =

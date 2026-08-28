@@ -111,6 +111,15 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   Ogni esecuzione invalida subito l'esito precedente; lo status viene pubblicato dal job
   finale trusted e i job sul merge proposto hanno permessi di sola lettura, così anche i PR
   Dependabot restano supportati senza affidarsi al workflow della PR.
+  Per CodeQL, SwiftPM risolve il package graph prima dell'inizializzazione dell'estrattore;
+  la build successiva usa lo stesso `DerivedData` e non aggiorna né risolve automaticamente
+  i package. Il gate resta richiesto per sorgenti Swift applicativi, configurazioni
+  Xcode/SwiftPM e configurazione CodeQL dedicata, non per modifiche esclusivamente ai test
+  Swift né per la sola orchestrazione CI priva di impatto sull'app. L'analisi PR conserva e
+  carica soltanto il SARIF tramite il job trusted: non tenta l'upload del database CodeQL.
+  Se cambia soltanto titolo o corpo della PR, un'analisi precedente viene riusata esclusivamente
+  quando GitHub la conferma riuscita per lo stesso merge SHA, la stessa categoria e lo stesso
+  job trusted; altrimenti viene eseguita una scansione completa.
 - P0/P1 dell'HEAD corrente bloccano; P2/P3 vengono registrati come advisory e non richiedono
   la risoluzione della conversazione per il merge.
 - Abilita lo squash auto-merge quando i gate sono in corso. Dopo il merge usa

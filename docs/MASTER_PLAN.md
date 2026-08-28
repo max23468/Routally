@@ -3288,8 +3288,10 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 - matrice, roadmap e test degli script per documentazione canonica e governance;
 - `swift-format` in GitHub Actions per codice o configurazioni applicative;
 - evidenza di build e test Simulator eseguiti sul Mac controllato, legata all'HEAD esatto;
-- CodeQL nella PR per Swift e configurazioni di progetto, con analisi read-only e upload
-  SARIF trusted separato;
+- CodeQL nella PR per sorgenti Swift applicativi, configurazioni Xcode/SwiftPM e configurazione
+  CodeQL dedicata, con analisi read-only e upload SARIF trusted separato; modifiche esclusivamente
+  ai test Swift o alla sola orchestrazione CI priva di impatto sull'app mantengono i propri
+  controlli applicabili ma non forzano una scansione dello scheme applicativo;
 - controlli degli asset ed evidenza visuale dichiarata per UI.
 
 Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per
@@ -3301,6 +3303,15 @@ anche per i PR Dependabot. Il
 comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
 classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
 restano esplicite e non vengono sostituite da un successo automatico.
+
+Prima dell'inizializzazione CodeQL il workflow risolve il package graph SwiftPM in un
+`DerivedData` dedicato. La build strumentata riusa quel percorso con risoluzione automatica
+e aggiornamenti dei package disabilitati, mantenendo invece disattivati compilation cache e
+Swift integrated driver affinché l'estrattore osservi tutte le unità compilate. L'analisi PR
+non tenta l'upload del database CodeQL: conserva il SARIF come dato e il job trusted separato
+pubblica il risultato. Un evento che modifica soltanto titolo o corpo della PR riusa un'analisi
+precedente esclusivamente quando GitHub conferma lo stesso merge SHA, la categoria PR prevista,
+il job trusted e l'assenza di errori; in ogni altro caso parte una scansione completa.
 
 ### 28.3.2 Auto-merge e rilettura finale
 

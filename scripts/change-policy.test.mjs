@@ -38,6 +38,25 @@ test("richiede build, format e CodeQL per Swift di dominio", () => {
   assert.equal(result.needsVisualEvidence, false);
 });
 
+test("non riesegue CodeQL per modifiche esclusivamente ai test Swift", () => {
+  const result = classifyChangedFiles([
+    "RoutallyTests/DomainEngineTests.swift",
+    "Packages/RoutallyModules/Tests/RoutallyDomainTests/ReplayTests.swift",
+  ]);
+  assert.equal(result.kind, "swift");
+  assert.equal(result.needsBuild, true);
+  assert.equal(result.needsCodeQL, false);
+  assert.equal(result.needsSwiftFormat, true);
+});
+
+test("mantiene CodeQL quando test e codice applicativo cambiano insieme", () => {
+  const result = classifyChangedFiles([
+    "RoutallyTests/DomainEngineTests.swift",
+    "Packages/RoutallyModules/Sources/RoutallyDomain/DomainEngine.swift",
+  ]);
+  assert.equal(result.needsCodeQL, true);
+});
+
 test("aggiunge evidenza visuale per una superficie UI", () => {
   const result = classifyChangedFiles([
     "Packages/RoutallyModules/Sources/RoutallyFeatures/TodayView.swift",
@@ -81,6 +100,14 @@ test("valida realmente le modifiche alla pipeline applicativa", () => {
   assert.equal(result.needsBuild, true);
   assert.equal(result.needsCodeQL, true);
   assert.equal(result.needsSwiftFormat, true);
+});
+
+test("riesegue CodeQL quando cambia la configurazione dedicata", () => {
+  const result = classifyChangedFiles([".github/codeql-config.yml"]);
+  assert.equal(result.kind, "governance");
+  assert.equal(result.needsBuild, false);
+  assert.equal(result.needsCodeQL, true);
+  assert.equal(result.needsSwiftFormat, false);
 });
 
 test("espone output GitHub booleani e stabili", () => {
