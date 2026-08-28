@@ -3277,35 +3277,7 @@ Ogni PR include:
 - accessibilità/localizzazione;
 - documenti aggiornati.
 
-### 28.3.1 Gate review Codex
-
-Ogni PR richiede lo status `codex-review` sull'HEAD corrente. Il gate osserva soltanto
-la review Codex nativa: un finding P0/P1 dell'HEAD fallisce lo status; P2/P3 restano
-advisory dopo la conclusione della review e un breve assestamento dei segnali. Una
-reaction positiva della review iniziale o un verdetto pulito con `Reviewed commit`
-coincidente lo completano. Segnali relativi a commit precedenti non vengono riutilizzati.
-
-Il workflow usa `pull_request_target`, esegue esclusivamente il codice già presente su
-`main`, ha Issues in sola lettura e non pubblica commenti o richieste `@codex review`.
-Lo status resta pending mentre la review è in corso e diventa failure su finding, limite
-o errore, mentre il job Actions termina senza mostrare un falso errore del workflow.
-
-All'apertura o al passaggio da draft a ready si usa la review nativa senza commenti
-di richiesta. Dopo un nuovo commit o per un retry l'agente pubblica una sola riga
-`@codex review`; `workflow_dispatch` resta disponibile per bootstrap e retry manuali.
-La PR che introduce il gate è l'unica eccezione tecnica: viene revisionata da Codex
-prima del merge e lo status diventa required subito dopo, quando il workflow è presente
-su `main`.
-
-Il gate è un controllo di integrazione continua della repository e non assegna il lavoro a
-un secondo agente: si applica la sezione 27.3.
-
-Un nuovo commit invalida immediatamente lo status precedente e termina il relativo job;
-l'attesa riparte soltanto con la nuova richiesta di review. Il polling usa intervalli brevi
-e un timeout massimo di un'ora. I finding P2/P3 restano registrati ma non richiedono la
-risoluzione della conversazione per il merge, mentre P0/P1 continuano a bloccare.
-
-### 28.3.2 Gate di pubblicazione proporzionato
+### 28.3.1 Gate di pubblicazione proporzionato
 
 Ogni PR produce lo status richiesto `publication-gate` sull'HEAD esatto. Il workflow del PR
 parte sempre con permessi non privilegiati e classifica il diff come documentazione ordinaria,
@@ -3330,9 +3302,9 @@ comando locale `node scripts/verify-change.mjs --base origin/main` usa la stessa
 classificazione della CI. Le prove manuali, inclusa l'approvazione visuale quando prevista,
 restano esplicite e non vengono sostituite da un successo automatico.
 
-### 28.3.3 Auto-merge e rilettura finale
+### 28.3.2 Auto-merge e rilettura finale
 
-Quando `codex-review` e `publication-gate` sono in corso si abilita lo squash auto-merge.
+Quando `publication-gate` è in corso si abilita lo squash auto-merge.
 GitHub integra la PR soltanto dopo il successo dei gate richiesti. Dopo il merge, il tree
 ottenuto applicando l'HEAD validato della PR al parent del commit pubblicato deve coincidere
 con il tree del commit squash; `scripts/verify-merge-tree.mjs` rende eseguibile il controllo.
