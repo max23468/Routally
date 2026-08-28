@@ -114,10 +114,13 @@ jobs:
 
   codeql:
     name: CodeQL Swift
-    needs: classify
+    needs: [classify, codeql-state]
     if: >-
+      always() &&
+      needs.classify.result == 'success' &&
       needs.classify.outputs.needs_codeql == 'true' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action != 'edited' || needs.codeql-state.outputs.reusable != 'true')
     runs-on: macos-26
     timeout-minutes: 30
     permissions:
@@ -168,6 +171,7 @@ jobs:
           category: /language:swift/pr-validation
           output: codeql-results
           upload: never
+          upload-database: false
       - name: Conserva il SARIF senza pubblicarlo
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -175,6 +179,33 @@ jobs:
           path: ${{ steps.analyze.outputs.sarif-output }}
           if-no-files-found: error
           retention-days: 1
+
+  codeql-state:
+    name: Verifica CodeQL riutilizzabile
+    needs: classify
+    if: >-
+      needs.classify.outputs.needs_codeql == 'true' &&
+      github.event.action == 'edited' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      security-events: read
+    outputs:
+      reusable: ${{ steps.reuse.outputs.reusable }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+      PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Verifica analisi sul merge SHA corrente
+        id: reuse
+        run: node scripts/codeql-reuse.mjs
 
   codeql-upload:
     name: Pubblica risultati CodeQL
@@ -206,7 +237,7 @@ jobs:
   publication-gate:
     name: Consolida pubblicazione
     if: always()
-    needs: [invalidate, classify, validation, swift-format, codeql, codeql-upload]
+    needs: [invalidate, classify, validation, swift-format, codeql-state, codeql, codeql-upload]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -216,7 +247,7 @@ jobs:
       APPLE_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_build }}
       CLASSIFY_RESULT: ${{ needs.classify.result }}
       CODEQL_REQUIRED: ${{ needs.classify.outputs.needs_codeql }}
-      CODEQL_RESULT: ${{ needs.codeql-upload.result }}
+      CODEQL_RESULT: ${{ needs.codeql-state.outputs.reusable == 'true' && needs.codeql-state.result || needs.codeql-upload.result }}
       FORMAT_REQUIRED: ${{ needs.classify.outputs.needs_swift_format }}
       FORMAT_RESULT: ${{ needs.swift-format.result }}
       VALIDATION_REQUIRED: ${{ needs.classify.outputs.needs_roadmap == 'true' || needs.classify.outputs.needs_node_tests == 'true' || needs.classify.outputs.needs_ui_assets == 'true' }}
