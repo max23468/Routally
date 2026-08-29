@@ -42,12 +42,6 @@ bloccanti, merge, tag e GitHub Release quando previsti, deploy o promozione
 tecnica e verifica live. La sequenza concreta, in particolare tra versionamento,
 merge, deploy e release, è quella definita dalla policy della repository.
 
-I finding P2/P3 della review restano advisory e non autorizzano modifiche:
-l'agente li implementa soltanto su richiesta esplicita del proprietario. Quando
-la review è conclusa e l'evidenza si riferisce all'HEAD esatto, li riepiloga e
-prosegue con la pubblicazione senza richiedere la risoluzione delle conversazioni;
-i finding P0/P1 restano bloccanti.
-
 La PR richiede `publication-gate`. Abilita lo squash auto-merge appena
 il gate è in corso; GitHub integra automaticamente l'HEAD soltanto quando è
 verde. CodeQL applicabile gira nella PR in parallelo agli altri controlli; il workflow trusted

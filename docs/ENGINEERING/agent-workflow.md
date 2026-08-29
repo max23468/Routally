@@ -120,8 +120,6 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   Se cambia soltanto titolo o corpo della PR, un'analisi precedente viene riusata esclusivamente
   quando GitHub la conferma riuscita per lo stesso merge SHA, la stessa categoria e lo stesso
   job trusted; altrimenti viene eseguita una scansione completa.
-- P0/P1 dell'HEAD corrente bloccano; P2/P3 vengono registrati come advisory e non richiedono
-  la risoluzione della conversazione per il merge.
 - Abilita lo squash auto-merge quando i gate sono in corso. Dopo il merge usa
   `node scripts/verify-merge-tree.mjs --pr-head <sha> --merge <sha>` e rileggi PR, `main`,
   `origin/main`, branch, worktree e stash. Se il tree coincide, build/test locali e CodeQL
