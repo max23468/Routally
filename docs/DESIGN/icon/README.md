@@ -71,4 +71,6 @@ node scripts/validate-icon-assets.mjs
 ```
 
 Il builder elimina esclusivamente gli SVG generati e conserva qualsiasi evidenza manuale non
-SVG presente nelle cartelle.
+SVG presente nelle cartelle. L'eventuale output alternativo deve restare all'interno della
+working directory reale: il generatore rifiuta percorsi esterni e componenti simbolici prima
+di cancellare o scrivere file.

@@ -88,7 +88,9 @@ jobs:
         run: >-
           node --test
           scripts/change-policy.test.mjs
+          scripts/generated-directory-safety.test.mjs
           scripts/publication-gate.test.mjs
+          scripts/verify-change.test.mjs
           scripts/verify-merge-tree.test.mjs
       - name: Verifica asset UI Foundation
         if: needs.classify.outputs.needs_ui_assets == 'true'
@@ -253,7 +255,6 @@ jobs:
       VALIDATION_REQUIRED: ${{ needs.classify.outputs.needs_roadmap == 'true' || needs.classify.outputs.needs_node_tests == 'true' || needs.classify.outputs.needs_ui_assets == 'true' }}
       VALIDATION_RESULT: ${{ needs.validation.result }}
       VISUAL_EVIDENCE_REQUIRED: ${{ needs.classify.outputs.needs_visual_evidence }}
-      PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
     steps:

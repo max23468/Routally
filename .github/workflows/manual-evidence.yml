@@ -1,0 +1,70 @@
+name: Register manual evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      head_sha:
+        description: HEAD completo della pull request verificata
+        required: true
+        type: string
+      evidence:
+        description: Evidenza manuale verificata
+        required: true
+        type: choice
+        options:
+          - apple
+          - visual
+          - apple-and-visual
+
+permissions:
+  contents: read
+
+jobs:
+  register:
+    name: Register trusted evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+      statuses: write
+    env:
+      EVIDENCE: ${{ inputs.evidence }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      HEAD_SHA: ${{ inputs.head_sha }}
+    steps:
+      - name: Verifica l'HEAD senza eseguire codice del repository
+        run: |
+          if [[ ! "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "HEAD non valido" >&2
+            exit 1
+          fi
+          gh api "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA" --silent
+      - name: Registra gli status trusted sull'HEAD
+        run: |
+          contexts=()
+          case "$EVIDENCE" in
+            apple) contexts+=("manual-evidence/apple") ;;
+            visual) contexts+=("manual-evidence/visual") ;;
+            apple-and-visual)
+              contexts+=("manual-evidence/apple" "manual-evidence/visual")
+              ;;
+            *) echo "Tipo di evidenza non valido" >&2; exit 1 ;;
+          esac
+          for context in "${contexts[@]}"; do
+            gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$HEAD_SHA" \
+              -f state=success \
+              -f context="$context" \
+              -f description='Evidenza manuale verificata da un maintainer' \
+              -f target_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          done
+      - name: Riesegui il consolidatore trusted per lo stesso HEAD
+        run: |
+          run_id="$(gh api \
+            "repos/$GITHUB_REPOSITORY/actions/workflows/publication-gate.yml/runs?event=pull_request_target&head_sha=$HEAD_SHA&per_page=1" \
+            --jq '.workflow_runs[0].id // empty')"
+          if [[ ! "$run_id" =~ ^[0-9]+$ ]]; then
+            echo "Run publication-gate non trovata per $HEAD_SHA" >&2
+            exit 1
+          fi
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/rerun"

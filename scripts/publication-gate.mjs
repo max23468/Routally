@@ -1,16 +1,50 @@
 import { pathToFileURL } from "node:url";
 
 const required = (value) => value === true || value === "true";
+const validSha = (value) => /^[0-9a-f]{40}$/.test(value || "");
 
-export function visualEvidenceApproved(body) {
-  return /^- \[[xX]\] Screenshot o video allegati per modifiche UI\s*$/m.test(body || "");
+export const manualEvidenceContexts = {
+  apple: "manual-evidence/apple",
+  visual: "manual-evidence/visual",
+};
+
+export function manualEvidenceApproved(evidence, headSha, context) {
+  if (!validSha(headSha) || evidence?.headSha !== headSha || !Array.isArray(evidence.statuses)) {
+    return false;
+  }
+  const latestStatus = evidence.statuses.find((status) => status.context === context);
+  return latestStatus?.state === "success";
 }
 
-export function appleEvidenceApproved(body, headSha) {
-  if (!/^[0-9a-f]{40}$/.test(headSha || "")) return false;
-  const checklist = /^- \[[xX]\] Build e test applicabili completati\s*$/m.test(body || "");
-  const marker = `- HEAD Apple verificato: \`${headSha}\``;
-  return checklist && (body || "").split("\n").some((line) => line.trim() === marker);
+async function githubJSON(path, token) {
+  const response = await fetch(`https://api.github.com${path}`, {
+    headers: {
+      accept: "application/vnd.github+json",
+      authorization: `Bearer ${token}`,
+      "x-github-api-version": "2022-11-28",
+    },
+  });
+  if (!response.ok) throw new Error(`Lettura attestazioni manuali fallita: ${response.status}`);
+  return response.json();
+}
+
+export async function readManualEvidence({
+  headSha,
+  repository,
+  token,
+  requestJSON = githubJSON,
+}) {
+  if (!validSha(headSha)) throw new Error("HEAD delle attestazioni manuali non valido");
+  if (!/^[^/\s]+\/[^/\s]+$/.test(repository || "")) {
+    throw new Error("Repository delle attestazioni manuali non valido");
+  }
+  if (!token) throw new Error("Token GitHub delle attestazioni manuali mancante");
+  const statuses = await requestJSON(
+    `/repos/${repository}/commits/${headSha}/statuses?per_page=100`,
+    token,
+  );
+  if (!Array.isArray(statuses)) throw new Error("Risposta attestazioni manuali non valida");
+  return { headSha, statuses };
 }
 
 export function evaluatePublicationGate(input) {
@@ -26,15 +60,23 @@ export function evaluatePublicationGate(input) {
   }
   if (
     required(input.visualEvidenceRequired)
-    && !visualEvidenceApproved(input.pullRequestBody)
+    && !manualEvidenceApproved(
+      input.manualEvidence,
+      input.pullRequestHead,
+      manualEvidenceContexts.visual,
+    )
   ) {
-    throw new Error("Evidenza visuale UI non registrata nella checklist della PR");
+    throw new Error("Evidenza visuale UI trusted non registrata per l'HEAD corrente");
   }
   if (
     required(input.appleEvidenceRequired)
-    && !appleEvidenceApproved(input.pullRequestBody, input.pullRequestHead)
+    && !manualEvidenceApproved(
+      input.manualEvidence,
+      input.pullRequestHead,
+      manualEvidenceContexts.apple,
+    )
   ) {
-    throw new Error("Build e test Apple non registrati per l'HEAD corrente");
+    throw new Error("Build e test Apple trusted non registrati per l'HEAD corrente");
   }
   return {
     needsVisualEvidence: required(input.visualEvidenceRequired),
@@ -77,6 +119,15 @@ const isDirectExecution =
 
 if (isDirectExecution) {
   try {
+    const manualEvidenceRequired = required(process.env.APPLE_EVIDENCE_REQUIRED)
+      || required(process.env.VISUAL_EVIDENCE_REQUIRED);
+    const manualEvidence = manualEvidenceRequired
+      ? await readManualEvidence({
+          headSha: process.env.PULL_REQUEST_HEAD,
+          repository: process.env.GITHUB_REPOSITORY,
+          token: process.env.GITHUB_TOKEN,
+        })
+      : undefined;
     const result = evaluatePublicationGate({
       appleEvidenceRequired: process.env.APPLE_EVIDENCE_REQUIRED,
       classifyResult: process.env.CLASSIFY_RESULT,
@@ -87,7 +138,7 @@ if (isDirectExecution) {
       validationRequired: process.env.VALIDATION_REQUIRED,
       validationResult: process.env.VALIDATION_RESULT,
       visualEvidenceRequired: process.env.VISUAL_EVIDENCE_REQUIRED,
-      pullRequestBody: process.env.PULL_REQUEST_BODY,
+      manualEvidence,
       pullRequestHead: process.env.PULL_REQUEST_HEAD,
     });
     if (result.needsVisualEvidence) {

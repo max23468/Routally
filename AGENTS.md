@@ -28,7 +28,8 @@ Il comando classifica il diff e applica i controlli proporzionati: documentazion
 documentazione canonica, governance, Swift, UI o release/sicurezza. Per Swift esegue format,
 build e test completi; per UI segnala anche l'evidenza visuale manuale richiesta. Rieseguilo
 sull'HEAD finale dopo ogni correzione che modifica il contenuto validato. Se richiede il gate
-Apple, marca il checkbox build/test e registra nel corpo l'HEAD completo verificato.
+Apple o visuale, registra dopo la prova il relativo status trusted sull'HEAD completo tramite
+`.github/workflows/manual-evidence.yml`; la checklist della PR resta un riepilogo umano.
 
 ## Significato di `Pubblica`
 
@@ -46,7 +47,8 @@ La PR richiede `publication-gate`. Abilita lo squash auto-merge appena
 il gate è in corso; GitHub integra automaticamente l'HEAD soltanto quando è
 verde. CodeQL applicabile gira nella PR in parallelo agli altri controlli; il workflow trusted
 su `main` verifica il merge proposto e pubblica lo status anche per Dependabot. Per una PR UI allega
-l'evidenza reale e marca il checkbox visuale prima dell'apertura: in sua assenza il gate fallisce.
+l'evidenza reale, marca il checkbox visuale e registra lo status trusted sull'HEAD verificato:
+in sua assenza il gate fallisce.
 Dopo il merge,
 verifica l'equivalenza del tree pubblicato con `scripts/verify-merge-tree.mjs`; la scansione
 CodeQL settimanale di `main` è asincrona e non prolunga il ciclo già validato.

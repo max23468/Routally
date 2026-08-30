@@ -3287,16 +3287,20 @@ Swift, UI oppure release/sicurezza. I job applicabili vengono eseguiti in parall
 - integrità del diff per ogni modifica;
 - matrice, roadmap e test degli script per documentazione canonica e governance;
 - `swift-format` in GitHub Actions per codice o configurazioni applicative;
-- evidenza di build e test Simulator eseguiti sul Mac controllato, legata all'HEAD esatto;
+- evidenza di build e test Simulator eseguiti sul Mac controllato, attestata da uno status
+  trusted legato all'HEAD esatto;
 - CodeQL nella PR per sorgenti Swift applicativi, configurazioni Xcode/SwiftPM e configurazione
   CodeQL dedicata, con analisi read-only e upload SARIF trusted separato; modifiche esclusivamente
   ai test Swift o alla sola orchestrazione CI priva di impatto sull'app mantengono i propri
   controlli applicabili ma non forzano una scansione dello scheme applicativo;
-- controlli degli asset ed evidenza visuale dichiarata per UI.
+- controlli degli asset ed evidenza visuale attestata da uno status trusted per UI.
 
 Un job non applicabile viene saltato, ma il gate aggregato restituisce sempre un esito. Per
-una PR UI il checkbox «Screenshot o video allegati per modifiche UI» deve essere marcato nel
-corpo della PR dopo una prova reale; in sua assenza il gate fallisce. Il workflow trusted
+una PR UI il checkbox «Screenshot o video allegati per modifiche UI» documenta la prova reale,
+ma non costituisce autorità. Dopo la prova un maintainer autorizzato usa il workflow manuale
+trusted per registrare sull'HEAD `manual-evidence/visual`; lo stesso canale registra
+`manual-evidence/apple` per build e test Simulator. In assenza dello status richiesto il gate
+fallisce. Il workflow trusted
 presente su `main` imposta subito l'HEAD su `pending`, classifica il diff, esegue i job sul
 merge proposto con permessi di sola lettura e pubblica lo status da un job finale separato,
 anche per i PR Dependabot. Il
@@ -3312,6 +3316,9 @@ non tenta l'upload del database CodeQL: conserva il SARIF come dato e il job tru
 pubblica il risultato. Un evento che modifica soltanto titolo o corpo della PR riusa un'analisi
 precedente esclusivamente quando GitHub conferma lo stesso merge SHA, la categoria PR prevista,
 il job trusted e l'assenza di errori; in ogni altro caso parte una scansione completa.
+Anche la scansione pianificata su `main` usa un job read-only senza credenziali Git persistenti
+per checkout, build e analisi, quindi consegna il solo SARIF a un job separato senza checkout
+dotato di `security-events: write`.
 
 ### 28.3.2 Auto-merge e rilettura finale
 

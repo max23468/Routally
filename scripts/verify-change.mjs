@@ -1,45 +1,67 @@
 import { appendFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
+import { TextDecoder } from "node:util";
+import { pathToFileURL } from "node:url";
 import { classifyChangedFiles, githubOutputs } from "./change-policy.mjs";
+
+const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
-    encoding: "utf8",
+    cwd: options.cwd,
     stdio: options.capture ? "pipe" : "inherit",
   });
   if (result.error) throw result.error;
   if (result.status !== 0) {
-    const detail = options.capture ? `\n${result.stderr || result.stdout}` : "";
+    const detail = options.capture
+      ? `\n${utf8Decoder.decode(result.stderr?.length ? result.stderr : result.stdout)}`
+      : "";
     throw new Error(`${command} ${args.join(" ")} non riuscito${detail}`);
   }
-  return options.capture ? result.stdout.trim() : "";
+  return options.capture ? result.stdout : undefined;
 }
 
-function outputLines(command, args) {
-  const output = run(command, args, { capture: true });
-  return output ? output.split("\n").filter(Boolean) : [];
+function nulSeparatedOutput(command, args, cwd) {
+  const output = utf8Decoder.decode(run(command, args, { capture: true, cwd }));
+  if (!output) return [];
+  const records = output.split("\0");
+  if (records.at(-1) === "") records.pop();
+  if (records.some((record) => record.length === 0)) {
+    throw new Error(`${command} ha restituito un pathname vuoto`);
+  }
+  return records;
 }
 
-export function changedFiles(base, head = "HEAD") {
-  const committed = outputLines("git", [
+export function changedFiles(base, head = "HEAD", cwd = process.cwd()) {
+  const committed = nulSeparatedOutput("git", [
     "diff",
     "--no-renames",
     "--name-only",
+    "-z",
     "--diff-filter=ACMRD",
     `${base}...${head}`,
-  ]);
+  ], cwd);
   if (head !== "HEAD") return committed;
   return [
     ...committed,
-    ...outputLines("git", ["diff", "--no-renames", "--name-only", "--diff-filter=ACMRD"]),
-    ...outputLines("git", [
+    ...nulSeparatedOutput(
+      "git",
+      ["diff", "--no-renames", "--name-only", "-z", "--diff-filter=ACMRD"],
+      cwd,
+    ),
+    ...nulSeparatedOutput("git", [
       "diff",
       "--no-renames",
       "--cached",
       "--name-only",
+      "-z",
       "--diff-filter=ACMRD",
-    ]),
-    ...outputLines("git", ["ls-files", "--others", "--exclude-standard"]),
+    ], cwd),
+    ...nulSeparatedOutput(
+      "git",
+      ["ls-files", "--others", "--exclude-standard", "-z"],
+      cwd,
+    ),
   ];
 }
 
@@ -52,7 +74,9 @@ function runNodeTests() {
   run("node", [
     "--test",
     "scripts/change-policy.test.mjs",
+    "scripts/generated-directory-safety.test.mjs",
     "scripts/publication-gate.test.mjs",
+    "scripts/verify-change.test.mjs",
     "scripts/verify-merge-tree.test.mjs",
   ]);
 }
@@ -110,31 +134,40 @@ function executeChecks(classification, base) {
   }
 }
 
-const base = argumentValue("--base", "origin/main");
-const head = argumentValue("--head", "HEAD");
-const classification = classifyChangedFiles(changedFiles(base, head));
-const githubOutputPath = argumentValue("--github-output");
+async function main() {
+  const base = argumentValue("--base", "origin/main");
+  const head = argumentValue("--head", "HEAD");
+  const classification = classifyChangedFiles(changedFiles(base, head));
+  const githubOutputPath = argumentValue("--github-output");
 
-if (githubOutputPath) {
-  const lines = Object.entries(githubOutputs(classification))
-    .map(([key, value]) => `${key}=${value}`)
-    .join("\n");
-  await appendFile(githubOutputPath, `${lines}\n`);
-}
+  if (githubOutputPath) {
+    const lines = Object.entries(githubOutputs(classification))
+      .map(([key, value]) => `${key}=${value}`)
+      .join("\n");
+    await appendFile(githubOutputPath, `${lines}\n`);
+  }
 
-if (process.argv.includes("--json")) {
-  process.stdout.write(`${JSON.stringify(classification, null, 2)}\n`);
-} else {
-  process.stdout.write(
-    `Profilo: ${classification.kind}; ${classification.files.length} file modificati.\n`,
-  );
-}
-
-if (!process.argv.includes("--plan-only")) {
-  executeChecks(classification, base);
-  if (classification.needsVisualEvidence) {
+  if (process.argv.includes("--json")) {
+    process.stdout.write(`${JSON.stringify(classification, null, 2)}\n`);
+  } else {
     process.stdout.write(
-      "Verifica manuale richiesta: evidenza visuale proporzionata su iPhone e iPad Simulator.\n",
+      `Profilo: ${classification.kind}; ${classification.files.length} file modificati.\n`,
     );
   }
+
+  if (!process.argv.includes("--plan-only")) {
+    executeChecks(classification, base);
+    if (classification.needsVisualEvidence) {
+      process.stdout.write(
+        "Verifica manuale richiesta: evidenza visuale proporzionata su iPhone e iPad Simulator.\n",
+      );
+    }
+  }
+}
+
+const isDirectExecution =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectExecution) {
+  await main();
 }

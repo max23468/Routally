@@ -29,9 +29,10 @@
 // - i livelli in layers/ hanno le coordinate gia' trasformate, con precisione a quattro
 //   decimali: a due, il raggio scalato di un arco si sposta quanto basta a muovere il
 //   bordo di mezzo pixel rispetto al file unico.
-import { mkdirSync, writeFileSync, rmSync, readdirSync } from "node:fs";
-import { join, resolve } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { writeFileSync, rmSync, readdirSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { prepareGeneratedDirectory } from "./generated-directory-safety.mjs";
 
 export const DEFAULT_OUTPUT = "docs/DESIGN/icon";
 
@@ -458,17 +459,23 @@ export function iconAssets() {
 
 // Scrive gli asset. Rimuove soltanto gli SVG generati: cancellare l'intera cartella
 // porterebbe via anche i file scritti a mano, come il README.
-export function build(outDir = DEFAULT_OUTPUT) {
+export function build(outDir = DEFAULT_OUTPUT, cwd = process.cwd()) {
+  const outputRoot = resolve(cwd);
+  const requestedOutput = resolve(outputRoot, outDir);
+  const safeOutDir = prepareGeneratedDirectory(
+    outputRoot,
+    relative(outputRoot, requestedOutput),
+  );
+  const safeLayersDir = prepareGeneratedDirectory(safeOutDir, "layers");
   const files = iconAssets();
-  mkdirSync(join(outDir, "layers"), { recursive: true });
-  for (const dir of [outDir, join(outDir, "layers")]) {
+  for (const dir of [safeOutDir, safeLayersDir]) {
     for (const f of readdirSync(dir)) if (f.endsWith(".svg")) rmSync(join(dir, f));
   }
-  for (const [name, body] of files) writeFileSync(join(outDir, name), body, "utf8");
+  for (const [name, body] of files) writeFileSync(join(safeOutDir, name), body, "utf8");
   return files.size;
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-  const outDir = resolve(process.argv[2] ?? DEFAULT_OUTPUT);
-  console.log(`${build(outDir)} file scritti in ${outDir}`);
+  const outDir = process.argv[2] ?? DEFAULT_OUTPUT;
+  console.log(`${build(outDir)} file scritti in ${resolve(outDir)}`);
 }

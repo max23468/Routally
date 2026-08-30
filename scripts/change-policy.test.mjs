@@ -126,9 +126,10 @@ test("espone output GitHub booleani e stabili", () => {
 
 test("l'inventario tratta un rename come rimozione e aggiunta", async () => {
   const source = await readFile(new URL("./verify-change.mjs", import.meta.url), "utf8");
-  assert.match(source, /"diff",\s*\n\s*"--no-renames",\s*\n\s*"--name-only"/);
-  assert.match(source, /"diff", "--no-renames", "--name-only"/);
+  assert.match(source, /"diff",\s*\n\s*"--no-renames",\s*\n\s*"--name-only",\s*\n\s*"-z"/);
+  assert.match(source, /"diff", "--no-renames", "--name-only", "-z"/);
   assert.match(source, /"--no-renames",\s*\n\s*"--cached"/);
+  assert.match(source, /"ls-files", "--others", "--exclude-standard", "-z"/);
 });
 
 test("il gate Apple locale costruisce entrambi gli scheme applicativi", async () => {
