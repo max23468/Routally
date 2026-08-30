@@ -56,6 +56,10 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(workflow, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
   assert.match(workflow, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
   assert.match(workflow, /codeql-upload:[\s\S]*?security-events: write/);
+  assert.match(
+    workflow,
+    /codeql-upload:[\s\S]*?if: >-\s+always\(\) &&\s+needs\.classify\.result == 'success'/,
+  );
   assert.doesNotMatch(
     workflow.match(/  codeql:\n[\s\S]*?\n  codeql-upload:/)?.[0] || "",
     /security-events: write/,

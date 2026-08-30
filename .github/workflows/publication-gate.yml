@@ -213,6 +213,8 @@ jobs:
     name: Pubblica risultati CodeQL
     needs: [classify, codeql]
     if: >-
+      always() &&
+      needs.classify.result == 'success' &&
       needs.classify.outputs.needs_codeql == 'true' &&
       needs.codeql.result == 'success' &&
       github.event.pull_request.head.repo.full_name == github.repository
