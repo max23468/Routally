@@ -104,10 +104,15 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   sull'HEAD finale quando cambia codice Swift.
 - Ogni PR richiede anche `publication-gate`, sempre presente e aggregato. Classificazione,
   verifiche documentali, format e CodeQL vengono eseguiti in parallelo; build/test Simulator
-  restano sul Mac controllato e sono registrati nel corpo con l'HEAD completo. I controlli
+  restano sul Mac controllato e sono attestati da uno status trusted legato all'HEAD completo. I controlli
   costosi sono condizionali al contenuto del diff. Modifiche UI richiedono inoltre evidenza
   visuale proporzionata, che resta una prova umana e non viene simulata dalla CI: allegala e
-  marca il relativo checkbox nel corpo prima di aprire la PR, altrimenti il gate fallisce.
+  marca il relativo checkbox nel corpo. Dopo la prova, un maintainer con accesso write registra
+  `manual-evidence/apple`, `manual-evidence/visual` o entrambi tramite il workflow manuale
+  trusted; il body della PR non è un'autorità e, senza gli status richiesti sull'HEAD, il gate fallisce.
+  Il comando è `gh workflow run manual-evidence.yml --ref main -f head_sha=<sha> -f evidence=<tipo>`,
+  dove il tipo è `apple`, `visual` o `apple-and-visual`; il workflow riesegue il consolidatore relativo
+  allo stesso HEAD senza fare checkout né eseguire codice del repository.
   Ogni esecuzione invalida subito l'esito precedente; lo status viene pubblicato dal job
   finale trusted e i job sul merge proposto hanno permessi di sola lettura, così anche i PR
   Dependabot restano supportati senza affidarsi al workflow della PR.
@@ -117,6 +122,8 @@ Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
   Xcode/SwiftPM e configurazione CodeQL dedicata, non per modifiche esclusivamente ai test
   Swift né per la sola orchestrazione CI priva di impatto sull'app. L'analisi PR conserva e
   carica soltanto il SARIF tramite il job trusted: non tenta l'upload del database CodeQL.
+  Anche il monitor pianificato su `main` separa checkout, build e analisi read-only dal job
+  senza checkout che possiede il solo permesso necessario a pubblicare il SARIF.
   Se cambia soltanto titolo o corpo della PR, un'analisi precedente viene riusata esclusivamente
   quando GitHub la conferma riuscita per lo stesso merge SHA, la stessa categoria e lo stesso
   job trusted; altrimenti viene eseguita una scansione completa.

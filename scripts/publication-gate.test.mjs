@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
-  appleEvidenceApproved,
   evaluatePublicationGate,
+  manualEvidenceApproved,
+  manualEvidenceContexts,
   publicationStatus,
-  visualEvidenceApproved,
+  readManualEvidence,
 } from "./publication-gate.mjs";
 import {
   codeQLAnalysisIdentity,
@@ -15,6 +16,7 @@ import {
 
 const workflowURL = new URL("../.github/workflows/publication-gate.yml", import.meta.url);
 const codeqlURL = new URL("../.github/workflows/codeql.yml", import.meta.url);
+const manualEvidenceURL = new URL("../.github/workflows/manual-evidence.yml", import.meta.url);
 
 test("il gate aggregato parte per ogni PR senza filtri di percorso", async () => {
   const workflow = await readFile(workflowURL, "utf8");
@@ -39,7 +41,7 @@ test("consolida soltanto i job richiesti dalla classificazione", async () => {
   assert.match(workflow, /APPLE_EVIDENCE_REQUIRED:.*needs_build/);
   assert.match(workflow, /needs_swift_format == 'true'/);
   assert.match(workflow, /needs_visual_evidence/);
-  assert.match(workflow, /PULL_REQUEST_BODY:/);
+  assert.doesNotMatch(workflow, /PULL_REQUEST_BODY:/);
   assert.match(workflow, /ready_for_review, edited/);
   assert.match(workflow, /node scripts\/publication-gate\.mjs/);
 });
@@ -54,6 +56,10 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(workflow, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
   assert.match(workflow, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
   assert.match(workflow, /codeql-upload:[\s\S]*?security-events: write/);
+  assert.match(
+    workflow,
+    /codeql-upload:[\s\S]*?if: >-\s+always\(\) &&\s+needs\.classify\.result == 'success'/,
+  );
   assert.doesNotMatch(
     workflow.match(/  codeql:\n[\s\S]*?\n  codeql-upload:/)?.[0] || "",
     /security-events: write/,
@@ -63,6 +69,28 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(scheduled, /workflow_dispatch:/);
   assert.doesNotMatch(scheduled, /\n  push:/);
   assert.match(scheduled, /category: \/language:swift\/scheduled/);
+  const scheduledAnalysis = scheduled.match(/  analyze-swift:\n[\s\S]*?\n  upload-sarif:/)?.[0] || "";
+  const scheduledUpload = scheduled.match(/  upload-sarif:\n[\s\S]*/)?.[0] || "";
+  assert.doesNotMatch(scheduledAnalysis, /security-events: write/);
+  assert.match(scheduledAnalysis, /persist-credentials: false/);
+  assert.match(scheduledAnalysis, /upload: never/);
+  assert.match(scheduledAnalysis, /upload-database: false/);
+  assert.match(scheduledAnalysis, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
+  assert.match(scheduledUpload, /security-events: write/);
+  assert.match(scheduledUpload, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
+  assert.doesNotMatch(scheduledUpload, /actions\/checkout|xcodebuild/);
+});
+
+test("le evidenze manuali passano da un workflow trusted senza checkout", async () => {
+  const workflow = await readFile(manualEvidenceURL, "utf8");
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /type: choice/);
+  assert.match(workflow, /manual-evidence\/apple/);
+  assert.match(workflow, /manual-evidence\/visual/);
+  assert.match(workflow, /actions: write/);
+  assert.match(workflow, /statuses: write/);
+  assert.match(workflow, /actions\/runs\/\$run_id\/rerun/);
+  assert.doesNotMatch(workflow, /actions\/checkout|xcodebuild|node scripts\//);
 });
 
 test("un edit della PR riusa CodeQL soltanto sullo stesso merge SHA", async () => {
@@ -206,7 +234,8 @@ test("blocca un job richiesto saltato o fallito", () => {
   );
 });
 
-test("blocca una PR UI finché la prova visuale non è registrata", () => {
+test("blocca una PR UI finché uno status trusted non attesta l'HEAD", () => {
+  const head = "0123456789abcdef0123456789abcdef01234567";
   const input = {
     appleEvidenceRequired: false,
     classifyResult: "success",
@@ -217,36 +246,48 @@ test("blocca una PR UI finché la prova visuale non è registrata", () => {
     validationRequired: false,
     validationResult: "skipped",
     visualEvidenceRequired: true,
+    pullRequestHead: head,
   };
   assert.throws(
     () => evaluatePublicationGate({
       ...input,
       pullRequestBody: "- [ ] Screenshot o video allegati per modifiche UI",
     }),
-    /Evidenza visuale UI non registrata/,
+    /Evidenza visuale UI trusted non registrata/,
   );
+  const manualEvidence = {
+    headSha: head,
+    statuses: [{ context: manualEvidenceContexts.visual, state: "success" }],
+  };
   assert.deepEqual(
     evaluatePublicationGate({
       ...input,
-      pullRequestBody: "- [x] Screenshot o video allegati per modifiche UI",
+      manualEvidence,
     }),
     { needsVisualEvidence: true },
   );
   assert.equal(
-    visualEvidenceApproved("- [X] Screenshot o video allegati per modifiche UI"),
+    manualEvidenceApproved(manualEvidence, head, manualEvidenceContexts.visual),
     true,
   );
 });
 
-test("lega l'evidenza Apple all'HEAD completo verificato localmente", () => {
+test("lega l'evidenza Apple all'HEAD e usa lo status più recente", () => {
   const head = "0123456789abcdef0123456789abcdef01234567";
-  const body = [
-    "- [x] Build e test applicabili completati",
-    `- HEAD Apple verificato: \`${head}\``,
-  ].join("\n");
-  assert.equal(appleEvidenceApproved(body, head), true);
+  const evidence = {
+    headSha: head,
+    statuses: [
+      { context: manualEvidenceContexts.apple, state: "failure" },
+      { context: manualEvidenceContexts.apple, state: "success" },
+    ],
+  };
+  assert.equal(manualEvidenceApproved(evidence, head, manualEvidenceContexts.apple), false);
   assert.equal(
-    appleEvidenceApproved(body, "abcdef0123456789abcdef0123456789abcdef01"),
+    manualEvidenceApproved(
+      { ...evidence, statuses: evidence.statuses.slice(1) },
+      "abcdef0123456789abcdef0123456789abcdef01",
+      manualEvidenceContexts.apple,
+    ),
     false,
   );
   assert.throws(
@@ -258,11 +299,42 @@ test("lega l'evidenza Apple all'HEAD completo verificato localmente", () => {
       formatRequired: false,
       formatResult: "skipped",
       pullRequestBody: "- [x] Build e test applicabili completati",
+      manualEvidence: evidence,
       pullRequestHead: head,
       validationRequired: false,
       validationResult: "skipped",
     }),
-    /Build e test Apple non registrati/,
+    /Build e test Apple trusted non registrati/,
+  );
+});
+
+test("legge gli status dall'endpoint dell'HEAD esatto", async () => {
+  const head = "0123456789abcdef0123456789abcdef01234567";
+  const requested = [];
+  const evidence = await readManualEvidence({
+    headSha: head,
+    repository: "max23468/Routally",
+    token: "synthetic-token",
+    requestJSON: async (path, token) => {
+      requested.push([path, token]);
+      return [{ context: manualEvidenceContexts.apple, state: "success" }];
+    },
+  });
+  assert.deepEqual(evidence, {
+    headSha: head,
+    statuses: [{ context: manualEvidenceContexts.apple, state: "success" }],
+  });
+  assert.deepEqual(requested, [[
+    `/repos/max23468/Routally/commits/${head}/statuses?per_page=100`,
+    "synthetic-token",
+  ]]);
+  await assert.rejects(
+    readManualEvidence({
+      headSha: "HEAD",
+      repository: "max23468/Routally",
+      token: "synthetic-token",
+    }),
+    /HEAD.*non valido/,
   );
 });
 

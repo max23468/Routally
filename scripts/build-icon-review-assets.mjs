@@ -4,14 +4,14 @@
 // microvarianti A1 e tavole di evidenza vettoriali.
 
 import {
-  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { prepareGeneratedDirectory } from "./generated-directory-safety.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ICON_DIR = join(ROOT, "docs", "DESIGN", "icon");
@@ -35,8 +35,7 @@ const VARIANTS = [
 const round4 = (value) => Math.round(value * 10000) / 10000;
 const format = (value) => String(round4(value));
 
-function prepareGeneratedDirectory(path) {
-  mkdirSync(path, { recursive: true });
+function clearGeneratedDirectory(path) {
   for (const name of readdirSync(path)) {
     if (name.endsWith(".svg")) rmSync(join(path, name), { force: true });
   }
@@ -147,7 +146,7 @@ function standaloneLayer(slug, theme, groupName, svg) {
   ].join("\n");
 }
 
-function buildComposerLayers() {
+function buildComposerLayers(composerDir) {
   let count = 0;
   for (const variant of VARIANTS) {
     for (const theme of THEMES) {
@@ -155,7 +154,7 @@ function buildComposerLayers() {
       for (const group of variant.groups) {
         const body = standaloneLayer(variant.slug, theme, group, svg);
         writeFileSync(
-          join(COMPOSER_DIR, `${variant.slug}-${theme}-${group}.svg`),
+          join(composerDir, `${variant.slug}-${theme}-${group}.svg`),
           body,
           "utf8",
         );
@@ -217,7 +216,7 @@ function makeMonochromeSimulation(svg) {
   );
 }
 
-function buildExperiments() {
+function buildExperiments(experimentDir) {
   const files = [];
   for (const theme of THEMES) {
     const base = readIcon("a1-air-medium", theme);
@@ -246,7 +245,7 @@ function buildExperiments() {
     makeMonochromeSimulation(readIcon("a1-air-medium", "indigo")),
   ]);
 
-  for (const [name, body] of files) writeFileSync(join(EXPERIMENT_DIR, name), body, "utf8");
+  for (const [name, body] of files) writeFileSync(join(experimentDir, name), body, "utf8");
   return files.length;
 }
 
@@ -337,11 +336,11 @@ function buildCandidateComparison() {
   );
 }
 
-function buildRefinementMatrix() {
+function buildRefinementMatrix(experimentDir) {
   const variants = [
     [readIcon("a1-air-medium", "indigo"), "50 · Lavender · baseline"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-amber-indigo.svg"), "utf8"), "50 · Amber · controllo"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-head54-indigo.svg"), "utf8"), "54 · Lavender · archivio"],
+    [readFileSync(join(experimentDir, "a1-air-medium-amber-indigo.svg"), "utf8"), "50 · Amber · controllo"],
+    [readFileSync(join(experimentDir, "a1-air-medium-head54-indigo.svg"), "utf8"), "54 · Lavender · archivio"],
   ];
   const content = [];
   variants.forEach(([source, label], index) => {
@@ -362,11 +361,11 @@ function buildRefinementMatrix() {
   );
 }
 
-function buildAppearanceReadiness() {
+function buildAppearanceReadiness(experimentDir) {
   const sources = [
     [readIcon("a1-air-medium", "indigo"), "Default · fondo indaco"],
     [readIcon("a1-air-medium", "light"), "Trattamento chiaro"],
-    [readFileSync(join(EXPERIMENT_DIR, "a1-air-medium-monochrome-simulation.svg"), "utf8"), "Mono · simulazione luminanza"],
+    [readFileSync(join(experimentDir, "a1-air-medium-monochrome-simulation.svg"), "utf8"), "Mono · simulazione luminanza"],
   ];
   const content = [];
   sources.forEach(([source, label], index) => {
@@ -469,23 +468,26 @@ function buildDevComparison() {
   );
 }
 
-function buildEvidence() {
+function buildEvidence(evidenceDir, experimentDir) {
   const outputs = new Map([
     ["candidate-comparison.svg", buildCandidateComparison()],
-    ["refinement-matrix.svg", buildRefinementMatrix()],
-    ["appearance-readiness.svg", buildAppearanceReadiness()],
+    ["refinement-matrix.svg", buildRefinementMatrix(experimentDir)],
+    ["appearance-readiness.svg", buildAppearanceReadiness(experimentDir)],
     ["context-simulation.svg", buildContextSimulation()],
     ["dev-comparison.svg", buildDevComparison()],
   ]);
-  for (const [name, body] of outputs) writeFileSync(join(EVIDENCE_DIR, name), body, "utf8");
+  for (const [name, body] of outputs) writeFileSync(join(evidenceDir, name), body, "utf8");
   return outputs.size;
 }
 
 export function buildIconReviewAssets() {
-  for (const path of [COMPOSER_DIR, EXPERIMENT_DIR, EVIDENCE_DIR]) prepareGeneratedDirectory(path);
-  const layers = buildComposerLayers();
-  const experiments = buildExperiments();
-  const evidence = buildEvidence();
+  const composerDir = prepareGeneratedDirectory(ROOT, relative(ROOT, COMPOSER_DIR));
+  const experimentDir = prepareGeneratedDirectory(ROOT, relative(ROOT, EXPERIMENT_DIR));
+  const evidenceDir = prepareGeneratedDirectory(ROOT, relative(ROOT, EVIDENCE_DIR));
+  for (const path of [composerDir, experimentDir, evidenceDir]) clearGeneratedDirectory(path);
+  const layers = buildComposerLayers(composerDir);
+  const experiments = buildExperiments(experimentDir);
+  const evidence = buildEvidence(evidenceDir, experimentDir);
   return { layers, experiments, evidence };
 }
 
