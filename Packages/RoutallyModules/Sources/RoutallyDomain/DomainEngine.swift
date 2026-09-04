@@ -74,8 +74,8 @@ private struct ReductionWorker {
 
   private var routinesByID: [RoutineID: RoutineDefinition]
   private var linksBySource: [RoutineID: [RoutineLink]]
-  private var cyclesByRoutine: [RoutineID: [UsageCycleDefinition]]
-  private var cyclesByID: [UsageCycleID: UsageCycleDefinition]
+  private var cyclesByRoutine: [RoutineID: [CycleAccumulator]]
+  private var cyclesByID: [UsageCycleID: CycleAccumulator]
   private var recordedDatesByRoutine: [RoutineID: [Date]] = [:]
   private var skippedOccurrencesByRoutine: [RoutineID: Set<Date>] = [:]
 
@@ -86,22 +86,17 @@ private struct ReductionWorker {
     routinesByID = Dictionary(uniqueKeysWithValues: catalog.routines.map { ($0.id, $0) })
     linksBySource = Dictionary(
       grouping: catalog.links.sorted { $0.id < $1.id }, by: \.sourceRoutineID)
+    let cycleAccumulators = catalog.cycles.map(CycleAccumulator.init)
     cyclesByRoutine = Dictionary(
-      grouping: catalog.cycles.sorted { $0.id < $1.id },
-      by: \.routineID
+      grouping: cycleAccumulators.sorted { $0.definition.id < $1.definition.id },
+      by: { $0.definition.routineID }
     )
-    cyclesByID = Dictionary(uniqueKeysWithValues: catalog.cycles.map { ($0.id, $0) })
+    cyclesByID = Dictionary(
+      uniqueKeysWithValues: cycleAccumulators.map { ($0.definition.id, $0) }
+    )
     state = DomainState(
       routines: Dictionary(
         uniqueKeysWithValues: catalog.routines.map { ($0.id, RoutineProjection()) }
-      ),
-      cycles: Dictionary(
-        uniqueKeysWithValues: catalog.cycles.map { cycle in
-          (
-            cycle.id,
-            CycleProjection(startedAt: cycle.anchorDate)
-          )
-        }
       )
     )
   }
@@ -188,7 +183,8 @@ private struct ReductionWorker {
     }
 
     for cycle in catalog.cycles {
-      guard let projection = state.cycles[cycle.id] else { continue }
+      guard let accumulator = cyclesByID[cycle.id] else { continue }
+      let projection = accumulator.projection
       let evaluationDate = cycleEvaluationDate(
         for: routinesByID[cycle.routineID]?.lifecycle ?? .active
       )
@@ -196,7 +192,10 @@ private struct ReductionWorker {
         !projection.followUpSuppressedUntilNextProgress,
         thresholdReached(cycle.threshold, projection: projection, at: evaluationDate)
       {
-        createFollowUp(for: cycle, triggeredAt: thresholdDate(for: cycle, at: evaluationDate))
+        createFollowUp(
+          using: accumulator,
+          triggeredAt: thresholdDate(for: cycle, at: evaluationDate)
+        )
       }
     }
 
@@ -213,6 +212,10 @@ private struct ReductionWorker {
         updateCyclePhase(for: followUpID, phase: .followUpReady)
       }
     }
+
+    state.cycles = Dictionary(
+      uniqueKeysWithValues: cyclesByID.map { ($0.key, $0.value.projection) }
+    )
   }
 
   private mutating func applyProgress(
@@ -243,26 +246,24 @@ private struct ReductionWorker {
       DomainConsequence(kind: consequence)
     )
 
-    for cycle in cyclesByRoutine[definition.id, default: []] {
-      guard var cycleProjection = state.cycles[cycle.id] else { continue }
-      guard event.occurredAt >= cycleProjection.startedAt else { continue }
-      cycleProjection.followUpSuppressedUntilNextProgress = false
-      cycleProjection.progress += amount
-      state.cycles[cycle.id] = cycleProjection
+    for accumulator in cyclesByRoutine[definition.id, default: []] {
+      let cycle = accumulator.definition
+      guard event.occurredAt >= accumulator.projection.startedAt else { continue }
+      accumulator.projection.followUpSuppressedUntilNextProgress = false
+      accumulator.projection.progress += amount
 
-      if cycleProjection.currentFollowUpID == nil,
-        thresholdReached(cycle.threshold, projection: cycleProjection, at: event.occurredAt)
+      if accumulator.projection.currentFollowUpID == nil,
+        thresholdReached(cycle.threshold, projection: accumulator.projection, at: event.occurredAt)
       {
         state.consequencesByEvent[event.id, default: []].append(
           DomainConsequence(kind: .cycleThresholdReached(cycle.id))
         )
         if event.exclusions.followUpCycleIDs.contains(cycle.id) {
-          cycleProjection.phase = .thresholdReached
-          cycleProjection.followUpSuppressedUntilNextProgress = true
-          state.cycles[cycle.id] = cycleProjection
+          accumulator.projection.phase = .thresholdReached
+          accumulator.projection.followUpSuppressedUntilNextProgress = true
         } else {
           createFollowUp(
-            for: cycle,
+            using: accumulator,
             triggeredAt: thresholdDate(for: cycle, at: event.occurredAt),
             sourceEventID: event.id
           )
@@ -275,13 +276,14 @@ private struct ReductionWorker {
     _ followUpID: FollowUpID,
     with event: RoutineEvent
   ) throws {
-    guard let definition = cyclesByID[followUpID.cycleID] else {
+    guard let accumulator = cyclesByID[followUpID.cycleID] else {
       throw DomainReductionError.unknownFollowUp(followUpID)
     }
+    let definition = accumulator.definition
     guard definition.routineID == event.routineID else {
       throw DomainReductionError.unknownFollowUp(followUpID)
     }
-    guard var cycle = state.cycles[definition.id], cycle.sequence == followUpID.sequence else {
+    guard accumulator.projection.sequence == followUpID.sequence else {
       if var historical = state.followUps[followUpID] {
         historical.state = .completed
         historical.completedAt = event.occurredAt
@@ -306,34 +308,33 @@ private struct ReductionWorker {
     state.followUps[followUpID] = followUp
 
     if definition.followUp.startsNextCycle {
-      cycle.sequence += 1
-      cycle.progress = 0
-      cycle.startedAt = event.occurredAt
-      cycle.phase = .active
-      cycle.currentFollowUpID = nil
-      cycle.followUpSuppressedUntilNextProgress = false
+      accumulator.projection.sequence += 1
+      accumulator.projection.progress = 0
+      accumulator.projection.startedAt = event.occurredAt
+      accumulator.projection.phase = .active
+      accumulator.projection.currentFollowUpID = nil
+      accumulator.projection.followUpSuppressedUntilNextProgress = false
       state.consequencesByEvent[event.id, default: []].append(
         DomainConsequence(kind: .cycleReset(definition.id))
       )
     } else {
-      cycle.phase = .complete
-      cycle.currentFollowUpID = followUpID
+      accumulator.projection.phase = .complete
+      accumulator.projection.currentFollowUpID = followUpID
     }
-    state.cycles[definition.id] = cycle
   }
 
   private mutating func createFollowUp(
-    for definition: UsageCycleDefinition,
+    using accumulator: CycleAccumulator,
     triggeredAt: Date,
     sourceEventID: RoutineEventID? = nil
   ) {
-    guard var cycle = state.cycles[definition.id], cycle.currentFollowUpID == nil else {
+    let definition = accumulator.definition
+    guard accumulator.projection.currentFollowUpID == nil else {
       return
     }
-    let followUpID = FollowUpID(cycleID: definition.id, sequence: cycle.sequence)
+    let followUpID = FollowUpID(cycleID: definition.id, sequence: accumulator.projection.sequence)
     guard state.followUps[followUpID] == nil else {
-      cycle.currentFollowUpID = followUpID
-      state.cycles[definition.id] = cycle
+      accumulator.projection.currentFollowUpID = followUpID
       return
     }
 
@@ -353,9 +354,8 @@ private struct ReductionWorker {
       state: isReady ? .ready : .waitingForUsefulMoment
     )
     state.followUps[followUpID] = followUp
-    cycle.currentFollowUpID = followUpID
-    cycle.phase = isReady ? .followUpReady : .followUpWaiting
-    state.cycles[definition.id] = cycle
+    accumulator.projection.currentFollowUpID = followUpID
+    accumulator.projection.phase = isReady ? .followUpReady : .followUpWaiting
 
     if let sourceEventID {
       state.consequencesByEvent[sourceEventID, default: []].append(
@@ -466,7 +466,7 @@ private struct ReductionWorker {
   }
 
   private func thresholdDate(for definition: UsageCycleDefinition, at fallback: Date) -> Date {
-    guard let projection = state.cycles[definition.id] else { return fallback }
+    guard let projection = cyclesByID[definition.id]?.projection else { return fallback }
     switch definition.threshold {
     case .progress:
       return fallback
@@ -555,8 +555,16 @@ private struct ReductionWorker {
   }
 
   private mutating func updateCyclePhase(for followUpID: FollowUpID, phase: CyclePhase) {
-    guard var cycle = state.cycles[followUpID.cycleID] else { return }
-    cycle.phase = phase
-    state.cycles[followUpID.cycleID] = cycle
+    cyclesByID[followUpID.cycleID]?.projection.phase = phase
+  }
+}
+
+private final class CycleAccumulator {
+  let definition: UsageCycleDefinition
+  var projection: CycleProjection
+
+  init(definition: UsageCycleDefinition) {
+    self.definition = definition
+    projection = CycleProjection(startedAt: definition.anchorDate)
   }
 }
