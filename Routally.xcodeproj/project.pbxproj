@@ -17,6 +17,7 @@
 		B10000000000000000000008 /* PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000010 /* PersistenceTests.swift */; };
 		B10000000000000000000009 /* DomainEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000011 /* DomainEngineTests.swift */; };
 		B10000000000000000000010 /* VerticalSliceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000012 /* VerticalSliceTests.swift */; };
+		B10000000000000000000011 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000013 /* PerformanceTests.swift */; };
 		B20000000000000000000011 /* RoutallyDomain in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000011 /* RoutallyDomain */; };
 		B20000000000000000000012 /* RoutallyDesign in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000012 /* RoutallyDesign */; };
 		B20000000000000000000013 /* RoutallyFeatures in Frameworks */ = {isa = PBXBuildFile; productRef = D20000000000000000000013 /* RoutallyFeatures */; };
@@ -43,6 +44,7 @@
 		F10000000000000000000010 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000011 /* DomainEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEngineTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000012 /* VerticalSliceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSliceTests.swift; sourceTree = "<group>"; };
+		F10000000000000000000013 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000101 /* Routally Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Routally Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000102 /* Routally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Routally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000103 /* RoutallyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutallyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +115,7 @@
 				F10000000000000000000010 /* PersistenceTests.swift */,
 				F10000000000000000000011 /* DomainEngineTests.swift */,
 				F10000000000000000000012 /* VerticalSliceTests.swift */,
+				F10000000000000000000013 /* PerformanceTests.swift */,
 			);
 			path = RoutallyTests;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				B10000000000000000000008 /* PersistenceTests.swift in Sources */,
 				B10000000000000000000009 /* DomainEngineTests.swift in Sources */,
 				B10000000000000000000010 /* VerticalSliceTests.swift in Sources */,
+				B10000000000000000000011 /* PerformanceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

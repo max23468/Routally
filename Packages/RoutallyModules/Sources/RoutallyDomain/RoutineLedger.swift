@@ -150,34 +150,53 @@ public struct DomainLedger: Codable, Equatable, Sendable {
   }
 
   public func resolvedEvents(asOf: Date? = nil) -> [RoutineEvent] {
-    let visibleEvents = events.filter { event in
-      asOf.map { event.recordedAt <= $0 } ?? true
-    }
-    let visibleRevisions = revisions.filter { revision in
-      asOf.map { revision.authoredAt <= $0 } ?? true
-    }
-    let visibleTombstones = tombstones.filter { tombstone in
-      asOf.map { tombstone.deletedAt <= $0 } ?? true
-    }
-    let canonicalEvents = Dictionary(grouping: visibleEvents, by: \.id).compactMapValues {
-      candidates in
-      candidates.max(by: { $0.precedesForConflictResolution($1) })
-    }
-    let canonicalRevisions = Dictionary(grouping: visibleRevisions, by: \.id).compactMapValues {
-      candidates in
-      candidates.max(by: { $0.precedesForConflictResolution($1) })
-    }
-    let revisionsByEvent = Dictionary(grouping: canonicalRevisions.values, by: \.eventID)
-    let tombstonesByID = Dictionary(grouping: visibleTombstones, by: \.id).compactMapValues {
-      candidates in
-      candidates.max(by: { $0.precedesForConflictResolution($1) })
-    }
-    let canonicalTombstones = Dictionary(grouping: tombstonesByID.values, by: \.eventID)
-      .compactMapValues { candidates in
-        candidates.max(by: { $0.precedesForConflictResolution($1) })
+    var canonicalEvents: [RoutineEventID: RoutineEvent] = [:]
+    canonicalEvents.reserveCapacity(events.count)
+    for event in events where asOf.map({ event.recordedAt <= $0 }) ?? true {
+      if let current = canonicalEvents[event.id], !current.precedesForConflictResolution(event) {
+        continue
       }
+      canonicalEvents[event.id] = event
+    }
 
-    return canonicalEvents.values.compactMap { event in
+    var canonicalRevisions: [EventRevisionID: EventRevision] = [:]
+    canonicalRevisions.reserveCapacity(revisions.count)
+    for revision in revisions where asOf.map({ revision.authoredAt <= $0 }) ?? true {
+      if let current = canonicalRevisions[revision.id],
+        !current.precedesForConflictResolution(revision)
+      {
+        continue
+      }
+      canonicalRevisions[revision.id] = revision
+    }
+    var revisionsByEvent: [RoutineEventID: [EventRevision]] = [:]
+    for revision in canonicalRevisions.values {
+      revisionsByEvent[revision.eventID, default: []].append(revision)
+    }
+
+    var tombstonesByID: [TombstoneID: EventTombstone] = [:]
+    tombstonesByID.reserveCapacity(tombstones.count)
+    for tombstone in tombstones where asOf.map({ tombstone.deletedAt <= $0 }) ?? true {
+      if let current = tombstonesByID[tombstone.id],
+        !current.precedesForConflictResolution(tombstone)
+      {
+        continue
+      }
+      tombstonesByID[tombstone.id] = tombstone
+    }
+    var canonicalTombstones: [RoutineEventID: EventTombstone] = [:]
+    for tombstone in tombstonesByID.values {
+      if let current = canonicalTombstones[tombstone.eventID],
+        !current.precedesForConflictResolution(tombstone)
+      {
+        continue
+      }
+      canonicalTombstones[tombstone.eventID] = tombstone
+    }
+
+    var resolvedEvents: [RoutineEvent] = []
+    resolvedEvents.reserveCapacity(canonicalEvents.count)
+    for event in canonicalEvents.values {
       let applicableRevisions = revisionsByEvent[event.id, default: []]
         .sorted(by: EventRevision.canonicalOrder)
       let winningClock = max(
@@ -185,16 +204,16 @@ public struct DomainLedger: Codable, Equatable, Sendable {
         applicableRevisions.last?.logicalClock ?? .min
       )
       if let tombstone = canonicalTombstones[event.id], tombstone.logicalClock >= winningClock {
-        return nil
+        continue
       }
 
       var resolved = event
       for revision in applicableRevisions where revision.logicalClock >= resolved.logicalClock {
         resolved = resolved.applying(revision.patch, logicalClock: revision.logicalClock)
       }
-      return resolved
+      resolvedEvents.append(resolved)
     }
-    .sorted(by: RoutineEvent.canonicalOrder)
+    return resolvedEvents.sorted(by: RoutineEvent.canonicalOrder)
   }
 }
 
