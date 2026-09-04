@@ -2,6 +2,7 @@ import RoutallyDesign
 import SwiftUI
 
 struct CreationSheet: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.dismiss) private var dismiss
   @Environment(\.locale) private var locale
   @FocusState private var isNameFocused: Bool
@@ -11,6 +12,7 @@ struct CreationSheet: View {
   @State private var submissionState: CreationSubmissionState
   @State private var retryIncludesOptionalConfiguration = true
   @State private var showingDiscardConfirmation = false
+  @State private var stepMovesForward = true
 
   let store: RoutallyFeatureModel
   let router: AppRouter
@@ -49,6 +51,8 @@ struct CreationSheet: View {
       Form {
         progressSection
         stepContent
+          .id(form.step)
+          .transition(stepTransition)
         errorSection
       }
       .disabled(submissionState.isSaving)
@@ -70,6 +74,10 @@ struct CreationSheet: View {
         updateLocalizedDefaults(for: locale)
       }
     }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: submissionState
+    )
     .interactiveDismissDisabled(form.hasUnsavedChanges || submissionState.isSaving)
     .presentationDetents([.large])
     .confirmationDialog(
@@ -102,6 +110,7 @@ struct CreationSheet: View {
           createRoutine(includeOptionalConfiguration: retryIncludesOptionalConfiguration)
         }
       }
+      .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
     }
   }
 
@@ -158,9 +167,9 @@ struct CreationSheet: View {
         followUpDisplayName: followUpDisplayName,
         usefulMoment: form.usefulMoment,
         fallbackTime: form.fallbackTime,
-        editRule: { form.step = .rule },
-        editConsequences: { form.step = .consequences },
-        editReminder: { form.step = .reminder }
+        editRule: { move(to: .rule) },
+        editConsequences: { move(to: .consequences) },
+        editReminder: { move(to: .reminder) }
       )
     }
   }
@@ -170,7 +179,7 @@ struct CreationSheet: View {
     if form.step != .routine {
       ToolbarItem(placement: .topBarLeading) {
         Button(.indietro, systemImage: "chevron.backward") {
-          form.move(by: -1)
+          move(by: -1)
         }
         .disabled(submissionState.isSaving)
         .accessibilityIdentifier("creation-back")
@@ -192,7 +201,7 @@ struct CreationSheet: View {
 
       if form.step == .rule {
         Button(.continuaAConfigurare) {
-          form.move(by: 1)
+          move(by: 1)
         }
         .disabled(!form.canContinue || submissionState.isSaving)
         .accessibilityIdentifier("creation-continue-configuration")
@@ -216,7 +225,7 @@ struct CreationSheet: View {
         .accessibilityIdentifier("creation-create")
       } else {
         Button(.continua) {
-          form.move(by: 1)
+          move(by: 1)
         }
         .buttonStyle(.glassProminent)
         .disabled(!form.canContinue || submissionState.isSaving)
@@ -230,8 +239,10 @@ struct CreationSheet: View {
     if submissionState.isSaving {
       ProgressView()
         .accessibilityLabel(.salvataggioInCorso)
+        .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
     } else {
       Text(.creaRoutine)
+        .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
     }
   }
 
@@ -243,11 +254,31 @@ struct CreationSheet: View {
     form.followUpDisplayName(fallback: L10n.string(.ilFollowUp, locale: locale))
   }
 
+  private var stepTransition: AnyTransition {
+    guard !reduceMotion else { return .opacity }
+    return .asymmetric(
+      insertion: .opacity.combined(with: .move(edge: stepMovesForward ? .trailing : .leading)),
+      removal: .opacity.combined(with: .move(edge: stepMovesForward ? .leading : .trailing))
+    )
+  }
+
   private func requestDismissal() {
     if form.hasUnsavedChanges {
       showingDiscardConfirmation = true
     } else {
       dismiss()
+    }
+  }
+
+  private func move(by offset: Int) {
+    guard let step = CreationStep(rawValue: form.step.rawValue + offset) else { return }
+    move(to: step)
+  }
+
+  private func move(to step: CreationStep) {
+    stepMovesForward = step.rawValue > form.step.rawValue
+    withAnimation(RoutallyMotion.animation(reduceMotion: reduceMotion)) {
+      form.step = step
     }
   }
 

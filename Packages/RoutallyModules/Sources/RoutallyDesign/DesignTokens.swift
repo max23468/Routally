@@ -17,6 +17,23 @@ public enum RoutallySpacing {
   public static let space16: CGFloat = 16
 }
 
+public enum RoutallyMotion {
+  public static func animation(reduceMotion: Bool) -> Animation {
+    reduceMotion ? .easeOut(duration: 0.12) : .smooth(duration: 0.24)
+  }
+
+  public static func reveal(
+    from edge: Edge,
+    reduceMotion: Bool
+  ) -> AnyTransition {
+    reduceMotion ? .opacity : .opacity.combined(with: .move(edge: edge))
+  }
+
+  public static func emphasis(reduceMotion: Bool) -> AnyTransition {
+    reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.96))
+  }
+}
+
 public enum RoutallyFont {
   public static let itemTitle = Font.body
   public static let itemContext = Font.subheadline

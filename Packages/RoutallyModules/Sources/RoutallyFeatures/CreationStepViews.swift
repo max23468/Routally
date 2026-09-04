@@ -2,6 +2,8 @@ import RoutallyDesign
 import SwiftUI
 
 struct CreationRoutineStepView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
   @Binding var name: String
   @Binding var symbol: String
   @Binding var area: RoutineArea
@@ -33,17 +35,25 @@ struct CreationRoutineStepView: View {
         }
       }
 
-      if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      if isNameEmpty {
         Section {
           Label(.inserisciUnNomePerContinuare, systemImage: "info.circle")
             .foregroundStyle(RoutallyColor.contentSecondary)
         }
+        .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
       }
     }
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: isNameEmpty)
+  }
+
+  private var isNameEmpty: Bool {
+    name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
 }
 
 struct CreationRuleStepView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
   @Binding var weeklyTarget: Int
   let displayName: String
 
@@ -52,6 +62,9 @@ struct CreationRuleStepView: View {
       Stepper(value: $weeklyTarget, in: 1...7) {
         LabeledContent {
           Text(.creationGoalTimes(Int32(weeklyTarget)))
+            .contentTransition(
+              reduceMotion ? .opacity : .numericText(value: Double(weeklyTarget))
+            )
         } label: {
           Text(.obiettivoSettimanale)
         }
@@ -60,10 +73,13 @@ struct CreationRuleStepView: View {
         .font(RoutallyFont.itemContext)
         .foregroundStyle(RoutallyColor.contentSecondary)
     }
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: weeklyTarget)
   }
 }
 
 struct CreationConsequencesStepView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
   @Binding var linksTowel: Bool
   @Binding var towelThreshold: Int
   @Binding var followUpTitle: String
@@ -78,12 +94,17 @@ struct CreationConsequencesStepView: View {
           Stepper(value: $towelThreshold, in: 1...12) {
             LabeledContent {
               Text(.creationThresholdUses(Int32(towelThreshold)))
+                .contentTransition(
+                  reduceMotion ? .opacity : .numericText(value: Double(towelThreshold))
+                )
             } label: {
               Text(.soglia)
             }
           }
+          .transition(.opacity)
           TextField(.followUp, text: $followUpTitle)
             .accessibilityLabel(Text(.followUp))
+            .transition(.opacity)
         }
       }
 
@@ -99,8 +120,11 @@ struct CreationConsequencesStepView: View {
           )
           .font(RoutallyFont.itemContext)
         }
+        .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
       }
     }
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: linksTowel)
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: towelThreshold)
   }
 }
 
