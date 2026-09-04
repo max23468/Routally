@@ -69,8 +69,7 @@ public struct ConsequenceEffect: Identifiable, Equatable, Sendable {
   }
 }
 
-public struct ConsequenceSummary: Identifiable, Equatable, Sendable {
-  public let id: String
+public struct ConsequenceSummary: Equatable, Sendable {
   public let sourceEventID: RoutineEventID
   public let title: String
   public let sourceRoutineID: String
@@ -78,14 +77,12 @@ public struct ConsequenceSummary: Identifiable, Equatable, Sendable {
   public var effects: [ConsequenceEffect]
 
   public init(
-    id: String,
     sourceEventID: RoutineEventID,
     title: String,
     sourceRoutineID: String,
     sourceRoutineName: String,
     effects: [ConsequenceEffect]
   ) {
-    self.id = id
     self.sourceEventID = sourceEventID
     self.title = title
     self.sourceRoutineID = sourceRoutineID
@@ -124,60 +121,22 @@ public struct RoutallyClock: Sendable {
   }
 }
 
-public struct LocationReminderCandidate: Equatable, Sendable {
-  public let followUpID: String
-  public let locationID: String
-
-  public init(followUpID: String, locationID: String) {
-    self.followUpID = followUpID
-    self.locationID = locationID
-  }
-}
-
-public protocol LocationReminding: Sendable {
-  func followUpIDs(
-    arrivingAt locationID: String,
-    candidates: [LocationReminderCandidate]
-  ) async -> Set<String>
-}
-
-public struct InMemoryLocationReminder: LocationReminding {
-  public init() {}
-
-  public func followUpIDs(
-    arrivingAt locationID: String,
-    candidates: [LocationReminderCandidate]
-  ) async -> Set<String> {
-    Set(
-      candidates.lazy
-        .filter { $0.locationID == locationID }
-        .map(\.followUpID)
-    )
-  }
-}
-
-public protocol ReminderScheduling: Sendable {
-  func requestDelivery(for followUpIDs: Set<String>) async -> Set<String>
-  func deliveredFollowUpIDs() async -> Set<String>
-  func invalidateDeliveries(for followUpIDs: Set<String>) async
-}
-
-public actor InMemoryReminderScheduler: ReminderScheduling {
+private actor InMemoryReminderScheduler {
   private var deliveredIDs: Set<String> = []
 
-  public init() {}
+  init() {}
 
-  public func requestDelivery(for followUpIDs: Set<String>) -> Set<String> {
+  func requestDelivery(for followUpIDs: Set<String>) -> Set<String> {
     let newlyDelivered = followUpIDs.subtracting(deliveredIDs)
     deliveredIDs.formUnion(newlyDelivered)
     return newlyDelivered
   }
 
-  public func deliveredFollowUpIDs() -> Set<String> {
+  func deliveredFollowUpIDs() -> Set<String> {
     deliveredIDs
   }
 
-  public func invalidateDeliveries(for followUpIDs: Set<String>) {
+  func invalidateDeliveries(for followUpIDs: Set<String>) {
     deliveredIDs.subtract(followUpIDs)
   }
 }
@@ -204,8 +163,7 @@ public final class RoutallyFeatureModel {
     (@MainActor @Sendable () throws -> any RoutallyData.RoutallyStore)?
   private let calendar: DomainCalendar
   private let clock: RoutallyClock
-  private let reminderScheduler: any ReminderScheduling
-  private let locationReminder: any LocationReminding
+  private let reminderScheduler: InMemoryReminderScheduler
   private let seed: RoutallyFeatureSeed?
 
   private var catalog = DomainCatalog(routines: [])
@@ -224,9 +182,7 @@ public final class RoutallyFeatureModel {
     seed: RoutallyFeatureSeed? = nil,
     calendar: DomainCalendar = RoutallyFeatureModel.currentDomainCalendar(),
     clock: RoutallyClock = .live,
-    isOffline: Bool = false,
-    reminderScheduler: any ReminderScheduling = InMemoryReminderScheduler(),
-    locationReminder: any LocationReminding = InMemoryLocationReminder()
+    isOffline: Bool = false
   ) {
     self.persistence = persistence
     persistenceFactory = nil
@@ -234,8 +190,7 @@ public final class RoutallyFeatureModel {
     self.calendar = calendar
     self.clock = clock
     self.isOffline = isOffline
-    self.reminderScheduler = reminderScheduler
-    self.locationReminder = locationReminder
+    reminderScheduler = InMemoryReminderScheduler()
     currentAsOf = seed?.asOf ?? clock.now()
     isLoaded = false
     hasPendingChanges = false
@@ -250,9 +205,7 @@ public final class RoutallyFeatureModel {
     seed: RoutallyFeatureSeed? = nil,
     calendar: DomainCalendar = RoutallyFeatureModel.currentDomainCalendar(),
     clock: RoutallyClock = .live,
-    isOffline: Bool = false,
-    reminderScheduler: any ReminderScheduling = InMemoryReminderScheduler(),
-    locationReminder: any LocationReminding = InMemoryLocationReminder()
+    isOffline: Bool = false
   ) {
     persistence = nil
     self.persistenceFactory = persistenceFactory
@@ -260,8 +213,7 @@ public final class RoutallyFeatureModel {
     self.calendar = calendar
     self.clock = clock
     self.isOffline = isOffline
-    self.reminderScheduler = reminderScheduler
-    self.locationReminder = locationReminder
+    reminderScheduler = InMemoryReminderScheduler()
     currentAsOf = seed?.asOf ?? clock.now()
     isLoaded = false
     hasPendingChanges = false
@@ -279,7 +231,6 @@ public final class RoutallyFeatureModel {
     calendar = RoutallyFeatureModel.currentDomainCalendar()
     clock = .live
     reminderScheduler = InMemoryReminderScheduler()
-    locationReminder = InMemoryLocationReminder()
     currentAsOf = Date()
     isLoaded = true
     isOffline = previewSnapshot.isOffline
@@ -325,8 +276,7 @@ public final class RoutallyFeatureModel {
             catalog: seed.catalog,
             events: seed.ledger.events,
             revisions: seed.ledger.revisions,
-            tombstones: seed.ledger.tombstones,
-            changedRoutineIDs: Set(seed.catalog.routines.map(\.id))
+            tombstones: seed.ledger.tombstones
           ),
           asOf: currentAsOf,
           calendar: calendar
@@ -382,11 +332,9 @@ public final class RoutallyFeatureModel {
     )
 
     var updatedCatalog = catalog
-    var changedRoutineIDs: Set<RoutineID> = [sourceID]
     updatedCatalog.routines.append(source)
     if draft.linksTowel {
       let linkedID = RoutineID()
-      changedRoutineIDs.insert(linkedID)
       let linked = RoutineDefinition(
         id: linkedID,
         name: L10n.string(.asciugamanoPalestra, locale: locale),
@@ -423,10 +371,7 @@ public final class RoutallyFeatureModel {
     defer { isPerformingOperation = false }
     do {
       let stored = try await persistence.commit(
-        RoutallyStoreChange(
-          catalog: updatedCatalog,
-          changedRoutineIDs: changedRoutineIDs
-        ),
+        RoutallyStoreChange(catalog: updatedCatalog),
         asOf: operationDate,
         calendar: calendar
       )
@@ -507,7 +452,7 @@ public final class RoutallyFeatureModel {
     defer { isPerformingOperation = false }
     do {
       let stored = try await persistence.commit(
-        RoutallyStoreChange(revisions: [revision], changedRoutineIDs: [event.routineID]),
+        RoutallyStoreChange(revisions: [revision]),
         asOf: operationDate,
         calendar: calendar
       )
@@ -542,10 +487,7 @@ public final class RoutallyFeatureModel {
     defer { isPerformingOperation = false }
     do {
       let stored = try await persistence.commit(
-        RoutallyStoreChange(
-          tombstones: [tombstone],
-          changedRoutineIDs: routineDefinition(for: summary.sourceRoutineID).map { [$0.id] } ?? []
-        ),
+        RoutallyStoreChange(tombstones: [tombstone]),
         asOf: operationDate,
         calendar: calendar
       )
@@ -593,7 +535,7 @@ public final class RoutallyFeatureModel {
     defer { isPerformingOperation = false }
     do {
       let stored = try await persistence.commit(
-        RoutallyStoreChange(events: [event], changedRoutineIDs: [followUp.routineID]),
+        RoutallyStoreChange(events: [event]),
         asOf: operationDate,
         calendar: calendar
       )
@@ -616,24 +558,18 @@ public final class RoutallyFeatureModel {
     locale: Locale = .current
   ) async -> Set<String> {
     guard persistence != nil, !isLoading, !isPerformingOperation else { return [] }
-    let candidates = domainState.followUps.values.compactMap {
-      followUp -> LocationReminderCandidate? in
-      guard
-        followUp.state != .completed,
-        let cycle = catalog.cycles.first(where: { $0.id == followUp.cycleID }),
-        case .geographic(let candidateLocationID, _) = cycle.followUp.usefulMoment
-      else {
-        return nil
-      }
-      return LocationReminderCandidate(
-        followUpID: followUpKey(followUp.id),
-        locationID: candidateLocationID
-      )
-    }
-    let matchingIDs = await locationReminder.followUpIDs(
-      arrivingAt: locationID,
-      candidates: candidates
-    )
+    let matchingIDs = Set(
+      domainState.followUps.values.compactMap { followUp -> String? in
+        guard
+          followUp.state != .completed,
+          let cycle = catalog.cycles.first(where: { $0.id == followUp.id.cycleID }),
+          case .geographic(let candidateLocationID, _) = cycle.followUp.usefulMoment,
+          candidateLocationID == locationID
+        else {
+          return nil
+        }
+        return followUpKey(followUp.id)
+      })
     externallyReadyFollowUpIDs.formUnion(matchingIDs)
     let delivered = await reminderScheduler.requestDelivery(for: matchingIDs)
     await refreshPresentation(locale: locale)
@@ -695,7 +631,7 @@ public final class RoutallyFeatureModel {
     defer { isPerformingOperation = false }
     do {
       let stored = try await persistence.commit(
-        RoutallyStoreChange(events: [event], changedRoutineIDs: [event.routineID]),
+        RoutallyStoreChange(events: [event]),
         asOf: evaluationDate,
         calendar: calendar
       )
@@ -760,7 +696,6 @@ public final class RoutallyFeatureModel {
       isOffline: isOffline,
       hasPendingChanges: hasPendingChanges,
       notificationCount: deliveredIDs.count,
-      notifiedFollowUpIDs: deliveredIDs,
       hasCloudConflict: cloudConflict,
       hasRecoverableEventError: recoverableError
     )
@@ -832,8 +767,8 @@ public final class RoutallyFeatureModel {
     for followUp: DomainFollowUp,
     locale: Locale
   ) -> FollowUpSummary {
-    let cycleDefinition = catalog.cycles.first { $0.id == followUp.cycleID }
-    let progress = domainState.cycles[followUp.cycleID]?.progress ?? 0
+    let cycleDefinition = catalog.cycles.first { $0.id == followUp.id.cycleID }
+    let progress = domainState.cycles[followUp.id.cycleID]?.progress ?? 0
     let target = cycleDefinition.map { thresholdTarget($0.threshold) } ?? 1
     let routineName = routineDefinition(id: followUp.routineID)?.name ?? followUp.title
     let state: FollowUpState
@@ -940,7 +875,6 @@ public final class RoutallyFeatureModel {
     }
 
     return ConsequenceSummary(
-      id: event.id.rawValue.uuidString,
       sourceEventID: event.id,
       title: L10n.string(.allenamentoRegistrato, locale: locale),
       sourceRoutineID: routineKey(source.id),

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
-  <title id="title">a3-air-wide-short · indigo · symbol</title>
-  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
-  <g id="symbol" fill="#FFFFFF" color="#FFFFFF">
-    <path fill-rule="evenodd" d="M 728.8264 461.4279 A 225.5731 214.802 0 1 1 277.6802 461.4279 A 225.5731 214.802 0 1 1 728.8264 461.4279 Z M 636.5032 461.4279 A 133.2499 133.2499 0 1 1 370.0034 461.4279 A 133.2499 133.2499 0 1 1 636.5032 461.4279 Z"/>
-    <rect x="277.6802" y="461.4279" width="92.3232" height="323.6069"/>
-    <path d="M 347.6444 621.5102 L 582.4656 785.0348 L 744.9988 785.0348 L 392.3624 555.1549 Z"/>
-  </g>
-</svg>

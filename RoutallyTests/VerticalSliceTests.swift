@@ -136,6 +136,7 @@ struct VerticalSliceTests {
 
     #expect(await model.recordRoutine(id: eveningID, locale: italian))
     #expect(await model.recordRoutine(id: homeID, locale: italian))
+    #expect(await model.simulateArrival(at: "office", locale: italian) == [])
     let deliveredAtHome = await model.simulateArrival(at: "home", locale: italian)
 
     #expect(deliveredAtHome.count == 1)

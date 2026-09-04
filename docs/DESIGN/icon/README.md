@@ -1,76 +1,48 @@
-# Icona Routally — asset, baseline e import
+# Icona Routally — asset di prodotto e fallback
 
 La baseline canonica per la validazione Apple è **A1 Lavender con testa 50**. Il segno è un
 monogramma `R` costruito attorno a un ciclo; `DG-ICON` resta aperto per le prove Apple e
 umane, non per una nuova esplorazione visuale.
 
-## Struttura della cartella
+## Asset mantenuti
 
 | Percorso | Uso |
 |---|---|
-| `a1-air-medium-*.svg` | baseline canonica Lavender 50 |
-| `dev-app-icon-*.svg` | stessa baseline con fascia Dev |
-| `t1-cycle-consequence-*` | fallback globale |
-| `a2-*`, `a3-*`, `t2-*`, `v1-*`–`v3-*` | alternative archiviate |
-| `composer-layers/` | livelli autonomi per tutte le varianti |
 | `../../../RoutallyApp/AppIcon.icon` | pacchetto Icon Composer pubblico |
 | `../../../RoutallyApp/AppIconDev.icon` | pacchetto Icon Composer Dev |
-| `experiments/a1-air-medium-amber-*` | controllo Amber 50 |
-| `experiments/a1-air-medium-head54-*` | confronto storico archiviato |
-| `experiments/*monochrome*` | simulazione piatta, non resa Apple |
-| `evidence/` | tavole comparative SVG riproducibili |
+| `t1-cycle-consequence-*.svg` | benchmark e fallback globale T1 |
+| `composer-layers/t1-cycle-consequence-*` | livelli autonomi del solo fallback T1 |
 
-Il generatore canonico produce direttamente testa 50 sia per A1 sia per la derivata Dev. Il
-trattamento primario usa fondo `#4C46D8`, monogramma bianco e accento `#CAC7FF`.
-
-## Confronto residuo
-
-Le sole varianti ammesse alle verifiche mancanti sono:
-
-1. A1 Lavender 50 — baseline;
-2. A1 Amber 50 — controllo cromatico;
-3. T1 — fallback globale.
-
-A3 e testa 54 sono archiviate e si riaprono soltanto se Icon Composer o i dispositivi
-mostrano un problema concreto.
+I pacchetti `.icon` sono la sorgente reale dei target. Il laboratorio SVG usato per
+selezionare e canonicalizzare A1 è chiuso: generatori, alternative, esperimenti, tavole e
+607 controlli indipendenti restano consultabili nella cronologia Git, senza continuare a
+gravare sui gate correnti.
 
 ## Icon Composer
 
-I livelli A1 sono importati in due pacchetti distinti, entrambi iOS-only: `AppIcon.icon` per
-il target pubblico e `AppIconDev.icon` per il target Dev. I gruppi usano Liquid Glass in
-modalità Individual con riflesso speculare, translucenza e ombra al 50%; la sfocatura resta
-disattivata per preservare il segno alle dimensioni minime. La variante Dark è annotata con
-una palette realmente scura e mantiene l'indaco nei dettagli, mentre Mono resta affidato al
-rendering di sistema.
+I pacchetti sono distinti e iOS-only. `AppIcon.icon` serve il target pubblico;
+`AppIconDev.icon` aggiunge la fascia Dev. I gruppi usano Liquid Glass in modalità
+Individual con riflesso speculare, translucenza e ombra al 50%; la sfocatura resta
+disattivata per preservare il segno alle dimensioni minime.
 
 Default, Dark e Mono sono stati controllati in Icon Composer anche a 29 e 40 pt. Clear e
 Tinted sono stati verificati sulla Home Screen di iOS Simulator 26.5 in modalità chiara e
 scura, per entrambe le build. Le prove su iPhone/iPad reali e lo user test sono assegnati
 a `E20` / `M10` Alpha; decisione figurativa e ratifica appartengono a `E21` / `M11` Beta.
 
-T1 resta il benchmark della silhouette e non è una sostituzione automatica alle piccole dimensioni: è un eventuale fallback globale
-scelto esplicitamente.
+T1 resta il benchmark della silhouette e non sostituisce automaticamente A1: è un fallback
+globale da scegliere esplicitamente soltanto se le verifiche residue mostrano un problema.
 
-## Evidenze
+## Evidenze e controllo corrente
 
-- [validation-plan.md](validation-plan.md): stato degli interventi;
+- [validation-plan.md](validation-plan.md): stato e verifiche residue;
 - [icon-composer-checklist.md](icon-composer-checklist.md): prova Apple;
 - [user-test-protocol.md](user-test-protocol.md): test cieco;
 - [originality-scan.md](originality-scan.md): ricerca preliminare;
 - [decision-record.md](decision-record.md): ratifica e chiusura di `DG-ICON`.
 
-## Rigenerazione e controlli
+Il controllo automatizzato corrente valida direttamente i due pacchetti di prodotto:
 
 ```sh
-node scripts/build-icon-assets.mjs
-node scripts/check-icon-assets.mjs
 node scripts/check-icon-composer-assets.mjs
-node scripts/build-icon-review-assets.mjs
-node scripts/check-icon-review-assets.mjs
-node scripts/validate-icon-assets.mjs
 ```
-
-Il builder elimina esclusivamente gli SVG generati e conserva qualsiasi evidenza manuale non
-SVG presente nelle cartelle. L'eventuale output alternativo deve restare all'interno della
-working directory reale: il generatore rifiuta percorsi esterni e componenti simbolici prima
-di cancellare o scrivere file.

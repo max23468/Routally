@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
-  <title id="title">a2-air-wide · light · symbol</title>
-  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
-  <g id="symbol" fill="#4C46D8" color="#4C46D8">
-    <path fill-rule="evenodd" d="M 734.6148 463.0477 A 227.0799 216.0413 0 1 1 280.4549 463.0477 A 227.0799 216.0413 0 1 1 734.6148 463.0477 Z M 639.9981 463.0477 A 132.4633 132.4633 0 1 1 375.0716 463.0477 A 132.4633 132.4633 0 1 1 639.9981 463.0477 Z"/>
-    <rect x="280.4549" y="463.0477" width="94.6166" height="321.6966"/>
-    <path d="M 352.1586 623.2021 L 583.8905 784.7442 L 750.4631 784.7442 L 397.9846 555.2043 Z"/>
-  </g>
-</svg>

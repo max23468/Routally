@@ -2940,16 +2940,18 @@ baseline indicativa è:
 
 ```swift
 protocol RoutallyStore: Sendable { ... }
-protocol ReminderScheduling: Sendable { ... }
-protocol LocationReminding: Sendable { ... }
-protocol Clock: Sendable { ... }
+struct RoutallyClock: Sendable { ... }
 ```
+
+I confini nativi per notifiche e posizione nascono in E12 insieme ai rispettivi lifecycle
+di sistema; la simulazione E06 usa implementazioni concrete locali e non anticipa
+protocolli con un solo consumer.
 
 Nella 1.0 non esiste un confine di entitlement. `EntitlementProviding` può essere introdotto
 soltanto nella 1.X, dopo il checkpoint A di `DG-PLUS-LAUNCH`, se `TG-STOREKIT` dimostra
 che serve un confine testabile.
 
-`Clock` e calendario devono essere controllabili nei test. Non si crea un protocollo per
+Clock e calendario devono essere controllabili nei test. Non si crea un protocollo per
 ogni modello, framework o possibile fornitore futuro; un nuovo confine richiede almeno due
 implementazioni reali o un test che non può essere scritto in modo più semplice.
 

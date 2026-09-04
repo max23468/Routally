@@ -5,10 +5,11 @@ macOS Tahoe 26.4 o successivo.
 
 ## Materiale da preparare
 
-- A1 Lavender 50 dai livelli `composer-layers/a1-air-medium-*`;
-- A1 Amber 50 duplicando A1 e applicando al solo accento i token Amber;
+- A1 Lavender 50 dal pacchetto `RoutallyApp/AppIcon.icon`;
+- derivata Dev dal pacchetto `RoutallyApp/AppIconDev.icon`;
 - T1 dai livelli `composer-layers/t1-cycle-consequence-*`;
-- derivata Dev dai livelli `composer-layers/dev-app-icon-*`.
+- A1 Amber 50 resta un controllo storico recuperabile dalla cronologia Git soltanto se
+  una verifica residua richiede di riaprire il confronto cromatico.
 
 A3 e testa 54 non fanno parte del test residuo.
 

@@ -20,8 +20,12 @@
 | Evidenze non SVG | preservate mediante file sentinella |
 | Whitespace | `git diff --check` superato |
 
-La testa 50 è ora prodotta dal generatore canonico sia per A1 sia per Dev. Amber 50 resta
-controllo cromatico, T1 fallback globale e testa 54 confronto storico archiviato.
+La testa 50 era prodotta dal generatore canonico sia per A1 sia per Dev. Amber 50 resta
+controllo cromatico storico, T1 fallback globale e testa 54 confronto archiviato.
+
+Questo rapporto conserva l'esito del laboratorio concluso. I generatori, gli asset
+intermedi e i 607 controlli restano nella cronologia Git; il repository corrente mantiene
+i pacchetti `.icon` di prodotto e il solo fallback T1.
 
 ## Limiti
 

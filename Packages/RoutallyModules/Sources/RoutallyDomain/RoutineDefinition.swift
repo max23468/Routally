@@ -95,15 +95,6 @@ public enum RoutineLifecycle: Codable, Equatable, Hashable, Sendable {
       return date < deletedAt
     }
   }
-
-  public func acceptsFollowUpAction(at date: Date) -> Bool {
-    switch self {
-    case .active:
-      return true
-    case .paused(let since), .archived(let since), .recentlyDeleted(let since):
-      return date < since
-    }
-  }
 }
 
 public struct RoutineAppearance: Codable, Equatable, Hashable, Sendable {
@@ -362,16 +353,6 @@ extension DomainCatalog {
         throw DomainValidationError.invalidFollowUp(cycle.id)
       }
     }
-  }
-
-  public func affectedRoutineIDs(startingAt changedRoutineIDs: Set<RoutineID>) -> Set<RoutineID> {
-    let knownRoutineIDs = Set(routines.map(\.id))
-    let knownChangedRoutineIDs = changedRoutineIDs.intersection(knownRoutineIDs)
-    var affected = knownChangedRoutineIDs
-    for link in links where knownChangedRoutineIDs.contains(link.sourceRoutineID) {
-      affected.insert(link.targetRoutineID)
-    }
-    return affected
   }
 
   private func firstDuplicate<Value: Hashable>(in values: [Value]) -> Value? {

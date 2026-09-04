@@ -86,20 +86,17 @@ public struct RoutallyStoreChange: Equatable, Sendable {
   public var events: [RoutineEvent]
   public var revisions: [EventRevision]
   public var tombstones: [EventTombstone]
-  public var changedRoutineIDs: Set<RoutineID>
 
   public init(
     catalog: DomainCatalog? = nil,
     events: [RoutineEvent] = [],
     revisions: [EventRevision] = [],
-    tombstones: [EventTombstone] = [],
-    changedRoutineIDs: Set<RoutineID> = []
+    tombstones: [EventTombstone] = []
   ) {
     self.catalog = catalog
     self.events = events
     self.revisions = revisions
     self.tombstones = tombstones
-    self.changedRoutineIDs = changedRoutineIDs
   }
 }
 
@@ -107,18 +104,15 @@ public struct RoutallyStoreSnapshot: Equatable, Sendable {
   public let catalog: DomainCatalog
   public let ledger: DomainLedger
   public let state: DomainState
-  public let affectedRoutineIDs: Set<RoutineID>
 
   public init(
     catalog: DomainCatalog,
     ledger: DomainLedger,
-    state: DomainState,
-    affectedRoutineIDs: Set<RoutineID>
+    state: DomainState
   ) {
     self.catalog = catalog
     self.ledger = ledger
     self.state = state
-    self.affectedRoutineIDs = affectedRoutineIDs
   }
 }
 
@@ -164,8 +158,7 @@ public actor SwiftDataRoutallyStore: RoutallyStore, ModelActor {
     return RoutallyStoreSnapshot(
       catalog: content.catalog,
       ledger: content.ledger,
-      state: state,
-      affectedRoutineIDs: []
+      state: state
     )
   }
 
@@ -203,25 +196,10 @@ public actor SwiftDataRoutallyStore: RoutallyStore, ModelActor {
       throw error
     }
 
-    let affectedRoots = affectedRoots(
-      for: change,
-      stored: stored,
-      committedCatalog: catalog,
-      committedLedger: ledger,
-      newEvents: newEvents,
-      newRevisions: newRevisions,
-      newTombstones: newTombstones
-    )
-    let removedRoutineIDs = Set(stored.catalog.routines.map(\.id))
-      .subtracting(catalog.routines.map(\.id))
-    let affectedRoutineIDs = catalog.affectedRoutineIDs(startingAt: affectedRoots)
-      .union(affectedRoots.intersection(removedRoutineIDs))
-
     return RoutallyStoreSnapshot(
       catalog: catalog,
       ledger: ledger,
-      state: state,
-      affectedRoutineIDs: affectedRoutineIDs
+      state: state
     )
   }
 
@@ -479,60 +457,6 @@ public actor SwiftDataRoutallyStore: RoutallyStore, ModelActor {
         version: version
       )
     }
-  }
-
-  private func affectedRoots(
-    for change: RoutallyStoreChange,
-    stored: StoredContent,
-    committedCatalog: DomainCatalog,
-    committedLedger: DomainLedger,
-    newEvents: [RoutineEvent],
-    newRevisions: [EventRevision],
-    newTombstones: [EventTombstone]
-  ) -> Set<RoutineID> {
-    var result = change.changedRoutineIDs
-    result.formUnion(newEvents.map(\.routineID))
-
-    let changedEventIDs = Set(newRevisions.map(\.eventID) + newTombstones.map(\.eventID))
-    result.formUnion(
-      committedLedger.events.lazy
-        .filter { changedEventIDs.contains($0.id) }
-        .map(\.routineID)
-    )
-
-    guard change.catalog != nil else { return result }
-
-    let storedRoutines = Dictionary(grouping: stored.catalog.routines, by: \.id)
-      .mapValues(Set.init)
-    let committedRoutines = Dictionary(grouping: committedCatalog.routines, by: \.id)
-      .mapValues(Set.init)
-    for id in Set(storedRoutines.keys).union(committedRoutines.keys)
-    where storedRoutines[id] != committedRoutines[id] {
-      result.insert(id)
-    }
-
-    let storedLinks = Dictionary(grouping: stored.catalog.links, by: \.id).mapValues(Set.init)
-    let committedLinks = Dictionary(grouping: committedCatalog.links, by: \.id)
-      .mapValues(Set.init)
-    for id in Set(storedLinks.keys).union(committedLinks.keys)
-    where storedLinks[id] != committedLinks[id] {
-      for link in storedLinks[id, default: []].union(committedLinks[id, default: []]) {
-        result.insert(link.sourceRoutineID)
-        result.insert(link.targetRoutineID)
-      }
-    }
-
-    let storedCycles = Dictionary(grouping: stored.catalog.cycles, by: \.id).mapValues(Set.init)
-    let committedCycles = Dictionary(grouping: committedCatalog.cycles, by: \.id)
-      .mapValues(Set.init)
-    for id in Set(storedCycles.keys).union(committedCycles.keys)
-    where storedCycles[id] != committedCycles[id] {
-      for cycle in storedCycles[id, default: []].union(committedCycles[id, default: []]) {
-        result.insert(cycle.routineID)
-      }
-    }
-
-    return result
   }
 
   private func uniqueAdditions<Value: Hashable>(

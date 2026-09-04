@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
-  <title id="title">t2-cycle-threshold · light · symbol</title>
-  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
-  <g id="symbol" fill="#4C46D8" color="#4C46D8">
-    <path d="M 748.7555 276.8429 A 295.6012 281.2317 0 1 1 652.7365 189.4968 L 593.062 285.0027 A 172.434 172.434 0 1 0 647.9124 339.8531 Z"/>
-    <rect x="206.081" y="431.2329" width="123.1672" height="418.7683"/>
-    <path d="M 299.4212 639.7138 L 601.0781 850.0012 L 817.9139 850.0012 L 359.0752 551.1977 Z"/>
-  </g>
-</svg>

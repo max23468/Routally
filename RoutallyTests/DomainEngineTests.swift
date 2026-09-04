@@ -1157,12 +1157,6 @@ struct DomainEngineTests {
       )
     }
 
-    let catalog = DomainCatalog(
-      routines: [source, target],
-      links: [link(2, source: source.id, target: target.id)]
-    )
-    #expect(catalog.affectedRoutineIDs(startingAt: [routineID(999)]).isEmpty)
-    #expect(catalog.affectedRoutineIDs(startingAt: [source.id]) == [source.id, target.id])
   }
 
   private func reduce(_ catalog: DomainCatalog, events: [RoutineEvent]) throws -> DomainState {
@@ -1248,7 +1242,6 @@ struct TGRecalcTests {
     let forward = try await DomainRecalculator.recalculate(
       catalog: fixture.catalog,
       ledger: fixture.ledger,
-      changedRoutineIDs: [fixture.changedRoutineID],
       asOf: fixture.asOf,
       calendar: fixture.calendar
     )
@@ -1259,17 +1252,13 @@ struct TGRecalcTests {
         revisions: Array(fixture.ledger.revisions.reversed()),
         tombstones: Array(fixture.ledger.tombstones.reversed())
       ),
-      changedRoutineIDs: [fixture.changedRoutineID],
       asOf: fixture.asOf,
       calendar: fixture.calendar
     )
 
-    #expect(forward.state == reverse.state)
-    #expect(forward.state.processedEventIDs.count == 9_900)
-    #expect(forward.state.followUps.count == 500)
-    #expect(forward.affectedRoutineIDs.count == 2)
-    print("TG_RECALC_FORWARD_DURATION=\(forward.duration)")
-    print("TG_RECALC_REVERSE_DURATION=\(reverse.duration)")
+    #expect(forward == reverse)
+    #expect(forward.processedEventIDs.count == 9_900)
+    #expect(forward.followUps.count == 500)
   }
 
   @Test("La cancellazione non restituisce uno stato parziale")
@@ -1279,7 +1268,6 @@ struct TGRecalcTests {
       try await DomainRecalculator.recalculate(
         catalog: fixture.catalog,
         ledger: fixture.ledger,
-        changedRoutineIDs: [fixture.changedRoutineID],
         asOf: fixture.asOf,
         calendar: fixture.calendar
       )
@@ -1295,7 +1283,6 @@ struct TGRecalcTests {
 struct ReferenceDomainFixture: Sendable {
   let catalog: DomainCatalog
   let ledger: DomainLedger
-  let changedRoutineID: RoutineID
   let asOf: Date
   let calendar: DomainCalendar
 
@@ -1371,7 +1358,6 @@ struct ReferenceDomainFixture: Sendable {
     return Self(
       catalog: DomainCatalog(routines: routines, links: links, cycles: cycles),
       ledger: DomainLedger(events: events, revisions: revisions, tombstones: tombstones),
-      changedRoutineID: routines[0].id,
       asOf: asOf,
       calendar: calendar
     )

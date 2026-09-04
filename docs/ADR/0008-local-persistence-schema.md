@@ -55,10 +55,9 @@ sono append-only. Un commit:
 4. controlla la cancellazione;
 5. esegue un solo salvataggio SwiftData.
 
-Le routine direttamente modificate vengono inferite da eventi, revisioni, tombstone e
-diff del catalogo; l'eventuale insieme fornito dal chiamante è soltanto additivo. Lo store
-propaga poi l'elenco alle dipendenze dirette tramite il dominio, evitando snapshot con
-`affectedRoutineIDs` vuoto dopo una scrittura reale.
+Lo snapshot restituito espone soltanto catalogo, registro canonico e stato ricalcolato.
+Non propaga liste di routine interessate: nessun consumer esegue ricalcoli parziali o usa
+questa informazione, quindi lo store mantiene un unico percorso di ricalcolo completo.
 
 Un errore di validazione, ricalcolo, codifica o salvataggio non persiste parti della
 modifica. Lo stato derivato non viene salvato: resta riproducibile dal catalogo e dal
