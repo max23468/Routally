@@ -59,6 +59,7 @@ struct InsightsView: View {
 }
 
 struct SearchView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var query = ""
 
   let store: RoutallyFeatureModel
@@ -70,13 +71,19 @@ struct SearchView: View {
           Text(verbatim: routine.name)
         } icon: {
           Image(systemName: routine.symbol)
+            .symbolRenderingMode(.hierarchical)
         }
       }
       .overlay {
         if filteredRoutines.isEmpty {
           ContentUnavailableView.search(text: query)
+            .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
         }
       }
+      .animation(
+        RoutallyMotion.animation(reduceMotion: reduceMotion),
+        value: filteredRoutines.isEmpty
+      )
       .navigationTitle(.cerca)
       .searchable(text: $query, prompt: .routineFollowUpEKit)
     }
@@ -91,6 +98,7 @@ struct SearchView: View {
 }
 
 struct ProfileSheet: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.dismiss) private var dismiss
 
   let store: RoutallyFeatureModel
@@ -109,6 +117,7 @@ struct ProfileSheet: View {
               : .soloDatiLocaliNellaFoundation,
             systemImage: store.snapshot.isOffline ? "icloud.slash" : "internaldrive"
           )
+          .contentTransition(reduceMotion ? .opacity : .symbolEffect(.replace))
         }
       }
       .navigationTitle(.profilo)
@@ -120,6 +129,10 @@ struct ProfileSheet: View {
         }
       }
     }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: store.snapshot.isOffline
+    )
   }
 }
 

@@ -2,6 +2,7 @@ import RoutallyDesign
 import SwiftUI
 
 struct ConsequenceSummarySheet: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.dismiss) private var dismiss
   @Environment(\.locale) private var locale
 
@@ -23,6 +24,7 @@ struct ConsequenceSummarySheet: View {
                       ? "minus.circle"
                       : "checkmark.circle.fill"
                   )
+                  .contentTransition(reduceMotion ? .opacity : .symbolEffect(.replace))
                 }
                 .foregroundStyle(
                   effect.isExcluded
@@ -40,9 +42,11 @@ struct ConsequenceSummarySheet: View {
                     }
                   }
                   .disabled(store.isPerformingOperation)
+                  .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
                 }
               }
               .accessibilityElement(children: .contain)
+              .transition(.opacity)
             }
           }
 
@@ -63,8 +67,13 @@ struct ConsequenceSummarySheet: View {
           }
         } else {
           ContentUnavailableView(.nessunaConseguenza, systemImage: "checkmark.circle")
+            .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
         }
       }
+      .animation(
+        RoutallyMotion.animation(reduceMotion: reduceMotion),
+        value: store.consequenceSummary
+      )
       .navigationTitle(
         store.consequenceSummary?.title ?? L10n.string(.riepilogo, locale: locale)
       )

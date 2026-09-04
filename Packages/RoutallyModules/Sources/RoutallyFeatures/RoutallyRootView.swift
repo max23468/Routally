@@ -2,6 +2,7 @@ import RoutallyDesign
 import SwiftUI
 
 public struct RoutallyRootView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.locale) private var locale
   @Environment(\.scenePhase) private var scenePhase
 
@@ -54,8 +55,13 @@ public struct RoutallyRootView: View {
         ProgressView()
           .controlSize(.large)
           .accessibilityLabel(.caricamento)
+          .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
       }
     }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: store.isLoading
+    )
     .task {
       await store.load(locale: locale)
     }

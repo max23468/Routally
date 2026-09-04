@@ -1,6 +1,6 @@
 import SwiftUI
 
-public enum CycleVisualizationState: Sendable {
+public enum CycleVisualizationState: Equatable, Sendable {
   case active
   case thresholdReached
   case followUpReady
@@ -13,6 +13,8 @@ public enum CycleVisualizationSize: Sendable {
 }
 
 public struct CycleVisualization: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
   private let title: String
   private let current: Int
   private let target: Int
@@ -66,7 +68,9 @@ public struct CycleVisualization: View {
       Label(stateLabel, systemImage: stateSymbol)
         .font(RoutallyFont.itemContext.weight(.semibold))
         .foregroundStyle(tint)
+        .contentTransition(reduceMotion ? .opacity : .symbolEffect(.replace))
     }
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: state)
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(title)
     .accessibilityValue(accessibilityValue)
@@ -79,9 +83,14 @@ public struct CycleVisualization: View {
       Text(verbatim: "\(current)/\(target)")
         .font(size == .compact ? RoutallyFont.supporting : RoutallyFont.cycleValue)
         .fontWeight(.semibold)
+        .contentTransition(
+          reduceMotion ? .opacity : .numericText(value: Double(current))
+        )
     }
     .gaugeStyle(.accessoryCircularCapacity)
     .tint(tint)
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: current)
+    .animation(RoutallyMotion.animation(reduceMotion: reduceMotion), value: state)
   }
 
   private var normalizedProgress: Double {

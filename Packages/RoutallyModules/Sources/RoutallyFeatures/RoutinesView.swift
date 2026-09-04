@@ -3,6 +3,7 @@ import RoutallyDomain
 import SwiftUI
 
 struct RoutinesView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
   let store: RoutallyFeatureModel
@@ -45,10 +46,17 @@ struct RoutinesView: View {
     } detail: {
       if let selectedRoutineID = router.selectedRoutineID {
         RoutineDetailView(routine: routine(id: selectedRoutineID), store: store)
+          .id(selectedRoutineID)
+          .transition(.opacity)
       } else {
         ContentUnavailableView(.scegliUnaRoutine, systemImage: "list.bullet.rectangle")
+          .transition(.opacity)
       }
     }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: router.selectedRoutineID
+    )
   }
 
   private var compactRoutineList: some View {
@@ -56,8 +64,13 @@ struct RoutinesView: View {
       NavigationLink(value: RoutineRoute.detail(id: routine.id)) {
         routineLabel(for: routine)
       }
+      .transition(.opacity)
     }
     .overlay { emptyState }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: store.snapshot.routines
+    )
   }
 
   private var selectableRoutineList: some View {
@@ -70,20 +83,33 @@ struct RoutinesView: View {
       NavigationLink(value: routine.id) {
         routineLabel(for: routine)
       }
+      .transition(.opacity)
     }
     .overlay { emptyState }
+    .animation(
+      RoutallyMotion.animation(reduceMotion: reduceMotion),
+      value: store.snapshot.routines
+    )
   }
 
   private func routineLabel(for routine: RoutineSummary) -> some View {
     Label {
       VStack(alignment: .leading) {
         Text(verbatim: routine.name)
-        Text(verbatim: "\(routine.progress)/\(routine.target)")
-          .font(RoutallyFont.supporting)
-          .foregroundStyle(RoutallyColor.contentSecondary)
+        HStack(spacing: RoutallySpacing.space4) {
+          Text(verbatim: "\(routine.progress)/\(routine.target)")
+            .contentTransition(
+              reduceMotion ? .opacity : .numericText(value: Double(routine.progress))
+            )
+          Text(verbatim: "·")
+          Text(routine.cycleStateLabel)
+        }
+        .font(RoutallyFont.supporting)
+        .foregroundStyle(RoutallyColor.contentSecondary)
       }
     } icon: {
       Image(systemName: routine.symbol)
+        .symbolRenderingMode(.hierarchical)
     }
   }
 
@@ -95,6 +121,7 @@ struct RoutinesView: View {
         systemImage: "repeat",
         description: Text(.usaIlPulsanteNuovaRoutinePerIniziare)
       )
+      .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
     }
   }
 

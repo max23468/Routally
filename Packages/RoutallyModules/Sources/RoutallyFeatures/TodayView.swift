@@ -3,6 +3,7 @@ import RoutallyDomain
 import SwiftUI
 
 struct TodayView: View {
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(\.locale) private var locale
 
   let store: RoutallyFeatureModel
@@ -20,6 +21,10 @@ struct TodayView: View {
           emptySection
           developerSection
         }
+        .animation(
+          RoutallyMotion.animation(reduceMotion: reduceMotion),
+          value: store.snapshot
+        )
       }
       .navigationTitle(.oggi)
       .toolbar {
@@ -42,6 +47,7 @@ struct TodayView: View {
         )
         .foregroundStyle(RoutallyColor.statusAttention)
       }
+      .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
     }
 
     if store.snapshot.hasCloudConflict {
@@ -49,6 +55,7 @@ struct TodayView: View {
         Label(.statusCloudConflict, systemImage: "exclamationmark.icloud")
           .foregroundStyle(RoutallyColor.statusAttention)
       }
+      .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
     }
 
     if store.snapshot.hasRecoverableEventError {
@@ -64,6 +71,7 @@ struct TodayView: View {
           }
         }
       }
+      .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
     }
   }
 
@@ -80,9 +88,11 @@ struct TodayView: View {
             }
           }
           .disabled(store.isPerformingOperation)
+          .transition(.opacity)
         }
         routineRows(nowRoutines)
       }
+      .transition(RoutallyMotion.reveal(from: .top, reduceMotion: reduceMotion))
     }
   }
 
@@ -93,6 +103,7 @@ struct TodayView: View {
       Section(.todaySectionLater) {
         routineRows(laterRoutines)
       }
+      .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
     }
   }
 
@@ -103,6 +114,7 @@ struct TodayView: View {
       Section(.questaSettimana) {
         routineRows(weekRoutines)
       }
+      .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
     }
   }
 
@@ -123,6 +135,7 @@ struct TodayView: View {
           .buttonStyle(.glassProminent)
         }
       }
+      .transition(RoutallyMotion.emphasis(reduceMotion: reduceMotion))
     }
   }
 
@@ -142,6 +155,7 @@ struct TodayView: View {
         }
       }
       .disabled(store.isPerformingOperation)
+      .transition(.opacity)
     }
   }
 
@@ -163,6 +177,7 @@ struct TodayView: View {
         .disabled(store.isPerformingOperation)
         LabeledContent(.notificheSimulate, value: String(store.snapshot.notificationCount))
       }
+      .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
     }
   }
 
