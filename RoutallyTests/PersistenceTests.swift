@@ -28,7 +28,6 @@ struct PersistenceTests {
       calendar: calendar
     )
     #expect(committed?.state.processedEventIDs == [fixture.event.id])
-    #expect(committed?.affectedRoutineIDs == [fixture.sourceRoutineID, fixture.targetRoutineID])
 
     store = nil
     store = try SwiftDataRoutallyStore(configuration: .local(url: temporaryStore.url))
@@ -250,7 +249,7 @@ struct PersistenceTests {
     #expect(unchanged.ledger == DomainLedger())
   }
 
-  @Test("La sostituzione del catalogo segnala anche le routine eliminate")
+  @Test("La sostituzione del catalogo è atomica")
   func catalogReplacementIsAtomic() async throws {
     let fixture = SmallPersistenceFixture.make()
     let store = try SwiftDataRoutallyStore(configuration: .inMemory())
@@ -272,9 +271,6 @@ struct PersistenceTests {
     #expect(replaced.catalog == reducedCatalog)
     #expect(replaced.catalog.links.isEmpty)
     #expect(replaced.catalog.cycles.isEmpty)
-    #expect(
-      replaced.affectedRoutineIDs == [fixture.sourceRoutineID, fixture.targetRoutineID]
-    )
   }
 
   @Test("Schema V1, payload V2 e identificativi Apple restano iniettati")

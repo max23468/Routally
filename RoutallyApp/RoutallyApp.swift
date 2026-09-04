@@ -13,11 +13,11 @@ import SwiftUI
 struct RoutallyApp: App {
   @State private var store: RoutallyFeatureModel
   @State private var router = AppRouter()
-  private let featureFlags: FeatureFlags
+  private let developerDiagnosticsEnabled: Bool
 
   init() {
     #if ROUTALLY_DEVELOPMENT
-      featureFlags = .development
+      developerDiagnosticsEnabled = true
       let arguments = ProcessInfo.processInfo.arguments
       if let demo = DemoFixtures.verticalSliceSeed(arguments: arguments) {
         do {
@@ -49,14 +49,18 @@ struct RoutallyApp: App {
         _store = State(initialValue: Self.makePersistentFeatureModel())
       }
     #else
-      featureFlags = .publicRelease
+      developerDiagnosticsEnabled = false
       _store = State(initialValue: Self.makePersistentFeatureModel())
     #endif
   }
 
   var body: some Scene {
     WindowGroup {
-      RoutallyRootView(store: store, featureFlags: featureFlags, router: router)
+      RoutallyRootView(
+        store: store,
+        developerDiagnosticsEnabled: developerDiagnosticsEnabled,
+        router: router
+      )
     }
     .commands {
       RoutallyCommands(router: router)

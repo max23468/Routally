@@ -1,5 +1,4 @@
 import RoutallyDesign
-import RoutallyDomain
 import SwiftUI
 
 public struct RoutallyRootView: View {
@@ -7,16 +6,16 @@ public struct RoutallyRootView: View {
   @Environment(\.scenePhase) private var scenePhase
 
   private let store: RoutallyFeatureModel
-  private let featureFlags: FeatureFlags
+  private let developerDiagnosticsEnabled: Bool
   private let router: AppRouter
 
   public init(
     store: RoutallyFeatureModel,
-    featureFlags: FeatureFlags,
+    developerDiagnosticsEnabled: Bool,
     router: AppRouter
   ) {
     self.store = store
-    self.featureFlags = featureFlags
+    self.developerDiagnosticsEnabled = developerDiagnosticsEnabled
     self.router = router
   }
 
@@ -25,7 +24,11 @@ public struct RoutallyRootView: View {
 
     TabView(selection: $router.selectedTab) {
       Tab(.oggi, systemImage: "sun.max", value: .today) {
-        TodayView(store: store, router: router, featureFlags: featureFlags)
+        TodayView(
+          store: store,
+          router: router,
+          developerDiagnosticsEnabled: developerDiagnosticsEnabled
+        )
       }
 
       Tab(.routine, systemImage: "repeat", value: .routines) {
@@ -90,7 +93,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Primo ingresso · Light") {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.empty),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
   }
@@ -98,7 +101,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Adesso, Più tardi, settimana") {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.scheduledDay),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
   }
@@ -106,7 +109,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Soglia in attesa · Dark") {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.thresholdWaiting),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
     .preferredColorScheme(.dark)
@@ -115,7 +118,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Follow-up pronto") {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.followUpReady),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
   }
@@ -125,7 +128,7 @@ public struct RoutallyRootView: View {
       store: RoutallyFeatureModel(
         previewSnapshot: PreviewFixtures.offlinePending(locale: Locale(identifier: "en"))
       ),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
     .environment(\.locale, Locale(identifier: "en"))
@@ -134,7 +137,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone · Errore recuperabile") {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.recoverableError),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
   }
@@ -142,7 +145,7 @@ public struct RoutallyRootView: View {
   #Preview("iPhone landscape · Giornata popolata", traits: .fixedLayout(width: 874, height: 402)) {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.scheduledDay),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: AppRouter()
     )
   }
@@ -150,7 +153,7 @@ public struct RoutallyRootView: View {
   #Preview("iPad · Routine · AX5", traits: .fixedLayout(width: 1_024, height: 768)) {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.thresholdWaiting),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: routinePreviewRouter()
     )
     .environment(\.dynamicTypeSize, .accessibility5)
@@ -159,7 +162,7 @@ public struct RoutallyRootView: View {
   #Preview("iPad · Routine · Dark", traits: .fixedLayout(width: 768, height: 1_024)) {
     RoutallyRootView(
       store: RoutallyFeatureModel(previewSnapshot: PreviewFixtures.thresholdWaiting),
-      featureFlags: .development,
+      developerDiagnosticsEnabled: true,
       router: routinePreviewRouter()
     )
     .preferredColorScheme(.dark)

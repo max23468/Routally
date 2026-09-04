@@ -8,7 +8,6 @@ public enum DomainAttentionState: String, Codable, Equatable, Hashable, Sendable
 }
 
 public struct RoutineProjection: Codable, Equatable, Sendable {
-  public let routineID: RoutineID
   public var total: Double
   public var periodTotals: [LocalPeriodKey: Double]
   public var lastRecordedAt: Date?
@@ -19,8 +18,7 @@ public struct RoutineProjection: Codable, Equatable, Sendable {
   public var skippedOccurrenceCount: Int
   public var attention: DomainAttentionState
 
-  public init(routineID: RoutineID) {
-    self.routineID = routineID
+  public init() {
     total = 0
     periodTotals = [:]
     lastRecordedAt = nil
@@ -42,8 +40,6 @@ public enum CyclePhase: String, Codable, Equatable, Hashable, Sendable {
 }
 
 public struct CycleProjection: Codable, Equatable, Hashable, Sendable {
-  public let cycleID: UsageCycleID
-  public let routineID: RoutineID
   public var sequence: Int
   public var progress: Double
   public var startedAt: Date
@@ -52,8 +48,6 @@ public struct CycleProjection: Codable, Equatable, Hashable, Sendable {
   public var followUpSuppressedUntilNextProgress: Bool
 
   public init(
-    cycleID: UsageCycleID,
-    routineID: RoutineID,
     sequence: Int = 1,
     progress: Double = 0,
     startedAt: Date,
@@ -61,8 +55,6 @@ public struct CycleProjection: Codable, Equatable, Hashable, Sendable {
     currentFollowUpID: FollowUpID? = nil,
     followUpSuppressedUntilNextProgress: Bool = false
   ) {
-    self.cycleID = cycleID
-    self.routineID = routineID
     self.sequence = sequence
     self.progress = progress
     self.startedAt = startedAt
@@ -80,7 +72,6 @@ public enum DomainFollowUpState: String, Codable, Equatable, Hashable, Sendable 
 
 public struct DomainFollowUp: Codable, Equatable, Hashable, Sendable {
   public let id: FollowUpID
-  public let cycleID: UsageCycleID
   public let routineID: RoutineID
   public let title: String
   public let createdAt: Date
@@ -91,7 +82,6 @@ public struct DomainFollowUp: Codable, Equatable, Hashable, Sendable {
 
   public init(
     id: FollowUpID,
-    cycleID: UsageCycleID,
     routineID: RoutineID,
     title: String,
     createdAt: Date,
@@ -101,7 +91,6 @@ public struct DomainFollowUp: Codable, Equatable, Hashable, Sendable {
     state: DomainFollowUpState
   ) {
     self.id = id
-    self.cycleID = cycleID
     self.routineID = routineID
     self.title = title
     self.createdAt = createdAt
@@ -121,11 +110,9 @@ public enum DomainConsequenceKind: Codable, Equatable, Hashable, Sendable {
 }
 
 public struct DomainConsequence: Codable, Equatable, Hashable, Sendable {
-  public let sourceEventID: RoutineEventID
   public let kind: DomainConsequenceKind
 
-  public init(sourceEventID: RoutineEventID, kind: DomainConsequenceKind) {
-    self.sourceEventID = sourceEventID
+  public init(kind: DomainConsequenceKind) {
     self.kind = kind
   }
 }
@@ -149,21 +136,5 @@ public struct DomainState: Codable, Equatable, Sendable {
     self.followUps = followUps
     self.consequencesByEvent = consequencesByEvent
     self.processedEventIDs = processedEventIDs
-  }
-}
-
-public struct DomainRecalculationResult: Equatable, Sendable {
-  public let state: DomainState
-  public let affectedRoutineIDs: Set<RoutineID>
-  public let duration: Duration
-
-  public init(
-    state: DomainState,
-    affectedRoutineIDs: Set<RoutineID>,
-    duration: Duration
-  ) {
-    self.state = state
-    self.affectedRoutineIDs = affectedRoutineIDs
-    self.duration = duration
   }
 }

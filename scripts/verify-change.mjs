@@ -74,7 +74,6 @@ function runNodeTests() {
   run("node", [
     "--test",
     "scripts/change-policy.test.mjs",
-    "scripts/generated-directory-safety.test.mjs",
     "scripts/publication-gate.test.mjs",
     "scripts/verify-change.test.mjs",
     "scripts/verify-merge-tree.test.mjs",

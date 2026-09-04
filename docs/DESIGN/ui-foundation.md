@@ -58,25 +58,20 @@ sovrappongono più strati di vetro.
 
 ## Token semantici
 
-I nomi seguenti sono il contratto per l'Asset Catalog e il modulo `RoutallyDesign` di
-E03. Le view usano il ruolo semantico, mai un colore hardcoded.
+I nomi seguenti sono il contratto effettivamente usato dal modulo `RoutallyDesign` di E03.
+Le view usano il ruolo semantico o il colore di sistema diretto; una costante Swift nasce
+soltanto al primo uso reale.
 
 ### Colore
 
 | Token | Sorgente | Uso |
 |---|---|---|
 | `brandAccent` | asset dinamico Routally Indigo | selezione, CTA e progresso principale |
-| `contentPrimary` | `primary` | testo e simboli principali |
 | `contentSecondary` | `secondary` | contesto e metadati |
-| `surfacePrimary` | `systemBackground` | contenuto principale |
-| `surfaceGrouped` | `systemGroupedBackground` | form e gruppi |
-| `surfaceRaised` | `secondarySystemBackground` | riepiloghi e card indispensabili |
 | `separator` | `separator` | separazioni native |
 | `statusComplete` | system green | completato, sempre con checkmark/testo |
-| `statusUpcoming` | secondary | in arrivo, sempre con clock/testo |
 | `statusDue` | `brandAccent` | da fare, sempre con simbolo/testo |
 | `statusAttention` | system orange | richiede attenzione, mai errore |
-| `statusDestructive` | system red | eliminazione o perdita dati |
 
 `brandAccent` usa queste varianti iniziali, da riportare senza conversioni arbitrarie
 nell'Asset Catalog:
@@ -88,7 +83,9 @@ nell'Asset Catalog:
 | Light + Increase Contrast | `#3429BD` |
 | Dark + Increase Contrast | `#CAC7FF` |
 
-Gli accenti opzionali sono token di scelta disponibili a tutti nella 1.0, non token di stato. Le coppie Light/Dark sono:
+Gli accenti opzionali restano asset di scelta disponibili a tutti nella 1.0, non token di
+stato. Le costanti Swift verranno introdotte quando una view li userà. Le coppie Light/Dark
+sono:
 
 | Token | Light | Dark |
 |---|---|---|
@@ -106,8 +103,6 @@ Nessun accento può sostituire rosso, verde o arancione semantici.
 
 | Token | Stile SwiftUI | Uso |
 |---|---|---|
-| `screenTitle` | `.largeTitle` | titolo radice quando il sistema lo mostra |
-| `sectionTitle` | `.headline` | sezioni e gruppi |
 | `itemTitle` | `.body` con enfasi semantica | nome routine o follow-up |
 | `itemContext` | `.subheadline` | momento, sorgente e conseguenze |
 | `supporting` | `.footnote` | spiegazioni e metadati |
@@ -119,13 +114,13 @@ si riduce il testo per farlo entrare. `cycleValue` è l'unico uso ordinario di S
 ### Spaziatura, forma ed elevazione
 
 I componenti nativi mantengono metriche, margini e forme del sistema. Per componenti
-Routally ricorrenti sono ammessi soltanto i token `space4`, `space8`, `space12`,
-`space16`, `space24` e `space32`. Il margine di contenuto normale è `space16`; a testo
+Routally ricorrenti sono ammessi soltanto i token `space4`, `space8`, `space12` e
+`space16`. Il margine di contenuto normale è `space16`; a testo
 accessibility diventa il minimo, non un vincolo orizzontale.
 
-Le forme custom usano angoli continui e concentrici rispetto al contenitore. Il raggio
-`radius16` è riservato a riepiloghi e anteprime Kit; i cicli restano circolari. Non
-esistono token di shadow custom: profondità, separazione e vibrancy sono del sistema.
+Le forme custom usano angoli continui e concentrici rispetto al contenitore; un token di
+raggio nasce soltanto quando una forma ricorrente lo richiede. I cicli restano circolari.
+Non esistono token di shadow custom: profondità, separazione e vibrancy sono del sistema.
 
 ### Movimento e feedback
 
@@ -178,9 +173,10 @@ canonica per la validazione Apple è A1 con fondo indaco, monogramma bianco, acc
 e testa terminale da 50 unità. Il ciclo resta la forma dominante, il fianco ne continua la
 tangente verticale e la gamba completa la lettera.
 
-A1 Amber con testa 50 resta l'unico controllo cromatico; T1 è il benchmark e fallback
-globale. A3 e la testa 54 sono archiviate. I livelli autonomi sono in
-`docs/DESIGN/icon/composer-layers/`; le tavole SVG non simulano Liquid Glass.
+A1 Amber con testa 50 resta il controllo cromatico storico; T1 è il benchmark e fallback
+globale conservato in SVG con i relativi livelli autonomi. A3, la testa 54 e le tavole del
+laboratorio chiuso restano consultabili nella cronologia Git; gli asset di prodotto sono i
+pacchetti Icon Composer.
 
 `DG-ICON` resta aperto per Icon Composer, modi di rendering Apple, file `.icon`, dispositivi
 reali, user test cieco e verifica figurativa. La selezione visuale non va riaperta in assenza

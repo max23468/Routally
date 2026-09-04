@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="title desc">
-  <title id="title">v2-nested-cycle-threshold · indigo · symbol</title>
-  <desc id="desc">Livello SVG autonomo per il confronto in Icon Composer; coordinate già trasformate e nessuna dipendenza esterna.</desc>
-  <g id="symbol" fill="#FFFFFF" color="#FFFFFF">
-    <path d="M 631.6941 254.7166 A 243.6814 232.0128 0 1 1 552.5595 182.6223 L 493.5152 277.1159 A 123.6962 123.6962 0 1 0 532.8712 316.4719 Z"/>
-    <rect x="184.2851" y="382.0205" width="119.9853" height="461.799"/>
-    <path d="M 261.5643 576.6049 L 439.5631 843.8195 L 583.2362 843.8195 L 346.9765 517.2926 Z"/>
-  </g>
-</svg>

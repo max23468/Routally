@@ -65,8 +65,7 @@
             state: .ready
           )
         ],
-        notificationCount: 1,
-        notifiedFollowUpIDs: ["clean-gym-towel"]
+        notificationCount: 1
       )
     }
 
@@ -107,7 +106,6 @@
           ]
         ),
         consequenceSummary: ConsequenceSummary(
-          id: eventID.rawValue.uuidString,
           sourceEventID: eventID,
           title: L10n.string(.allenamentoRegistrato),
           sourceRoutineID: "gym",

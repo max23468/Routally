@@ -7,7 +7,7 @@ struct TodayView: View {
 
   let store: RoutallyFeatureModel
   let router: AppRouter
-  let featureFlags: FeatureFlags
+  let developerDiagnosticsEnabled: Bool
 
   var body: some View {
     NavigationStack {
@@ -147,7 +147,7 @@ struct TodayView: View {
 
   @ViewBuilder
   private var developerSection: some View {
-    if featureFlags.developerDiagnosticsEnabled, !store.snapshot.followUps.isEmpty {
+    if developerDiagnosticsEnabled, !store.snapshot.followUps.isEmpty {
       Section(.scenarioDev) {
         Button(.simulaArrivoACasa) {
           Task {

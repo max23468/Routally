@@ -38,15 +38,13 @@ frequenza periodica. Il fallback di `UsefulMomentPolicy.geographic` conserva un
 `LocalTime`; il reducer calcola la prima occorrenza locale non precedente alla creazione
 del follow-up.
 
-E06 introduce i soli confini testabili necessari:
+E06 usa uno scheduler concreto in-memory che deduplica le consegne tramite l'identità del
+follow-up e le invalida quando una correzione rimuove la conseguenza. Il luogo simulato
+viene filtrato direttamente dalla feature. `RoutallyClock` resta iniettabile per rendere
+deterministici data, periodo e fallback.
 
-- `ReminderScheduling` deduplica le consegne tramite l'identità del follow-up e invalida
-  l'identità quando una correzione rimuove la conseguenza;
-- `LocationReminding` seleziona i follow-up compatibili con il luogo simulato;
-- `RoutallyClock` rende deterministici data, periodo e fallback.
-
-Le implementazioni E06 restano locali e in-memory. E12 collegherà questi contratti a
-notifiche e posizione di sistema; E14 aggiungerà gli stati iCloud senza esporre SwiftData
+I confini nativi per notifiche e posizione verranno introdotti in E12, quando esisteranno
+i relativi lifecycle di sistema. E14 aggiungerà gli stati iCloud senza esporre SwiftData
 alla feature.
 
 ## Conseguenze

@@ -46,12 +46,9 @@ public enum DomainRecalculator {
   public static func recalculate(
     catalog: DomainCatalog,
     ledger: DomainLedger,
-    changedRoutineIDs: Set<RoutineID>,
     asOf: Date,
     calendar: DomainCalendar
-  ) async throws -> DomainRecalculationResult {
-    let clock = ContinuousClock()
-    let startedAt = clock.now
+  ) async throws -> DomainState {
     let worker = Task.detached(priority: .userInitiated) {
       try DomainEngine.reduce(
         catalog: catalog,
@@ -61,17 +58,11 @@ public enum DomainRecalculator {
         cancellationCheck: { try Task.checkCancellation() }
       )
     }
-    let state = try await withTaskCancellationHandler {
+    return try await withTaskCancellationHandler {
       try await worker.value
     } onCancel: {
       worker.cancel()
     }
-    let duration = startedAt.duration(to: clock.now)
-    return DomainRecalculationResult(
-      state: state,
-      affectedRoutineIDs: catalog.affectedRoutineIDs(startingAt: changedRoutineIDs),
-      duration: duration
-    )
   }
 }
 
@@ -102,17 +93,13 @@ private struct ReductionWorker {
     cyclesByID = Dictionary(uniqueKeysWithValues: catalog.cycles.map { ($0.id, $0) })
     state = DomainState(
       routines: Dictionary(
-        uniqueKeysWithValues: catalog.routines.map { ($0.id, RoutineProjection(routineID: $0.id)) }
+        uniqueKeysWithValues: catalog.routines.map { ($0.id, RoutineProjection()) }
       ),
       cycles: Dictionary(
         uniqueKeysWithValues: catalog.cycles.map { cycle in
           (
             cycle.id,
-            CycleProjection(
-              cycleID: cycle.id,
-              routineID: cycle.routineID,
-              startedAt: cycle.anchorDate
-            )
+            CycleProjection(startedAt: cycle.anchorDate)
           )
         }
       )
@@ -162,11 +149,11 @@ private struct ReductionWorker {
       }
 
     case .followUpCompleted(let followUpID):
-      guard definition.lifecycle.acceptsFollowUpAction(at: event.occurredAt) else { return }
+      guard definition.lifecycle.acceptsAutomaticUpdate(at: event.occurredAt) else { return }
       try completeFollowUp(followUpID, with: event)
 
     case .followUpPostponed(let followUpID, let until):
-      guard definition.lifecycle.acceptsFollowUpAction(at: event.occurredAt) else { return }
+      guard definition.lifecycle.acceptsAutomaticUpdate(at: event.occurredAt) else { return }
       guard var followUp = state.followUps[followUpID], followUp.routineID == event.routineID else {
         throw DomainReductionError.unknownFollowUp(followUpID)
       }
@@ -253,7 +240,7 @@ private struct ReductionWorker {
     }
     state.routines[definition.id] = projection
     state.consequencesByEvent[event.id, default: []].append(
-      DomainConsequence(sourceEventID: event.id, kind: consequence)
+      DomainConsequence(kind: consequence)
     )
 
     for cycle in cyclesByRoutine[definition.id, default: []] {
@@ -267,7 +254,7 @@ private struct ReductionWorker {
         thresholdReached(cycle.threshold, projection: cycleProjection, at: event.occurredAt)
       {
         state.consequencesByEvent[event.id, default: []].append(
-          DomainConsequence(sourceEventID: event.id, kind: .cycleThresholdReached(cycle.id))
+          DomainConsequence(kind: .cycleThresholdReached(cycle.id))
         )
         if event.exclusions.followUpCycleIDs.contains(cycle.id) {
           cycleProjection.phase = .thresholdReached
@@ -308,7 +295,6 @@ private struct ReductionWorker {
       state.followUps[followUpID]
       ?? DomainFollowUp(
         id: followUpID,
-        cycleID: definition.id,
         routineID: definition.routineID,
         title: definition.followUp.title,
         createdAt: event.occurredAt,
@@ -327,7 +313,7 @@ private struct ReductionWorker {
       cycle.currentFollowUpID = nil
       cycle.followUpSuppressedUntilNextProgress = false
       state.consequencesByEvent[event.id, default: []].append(
-        DomainConsequence(sourceEventID: event.id, kind: .cycleReset(definition.id))
+        DomainConsequence(kind: .cycleReset(definition.id))
       )
     } else {
       cycle.phase = .complete
@@ -360,7 +346,6 @@ private struct ReductionWorker {
     let isReady = readyAt.map { $0 <= evaluationDate } ?? false
     let followUp = DomainFollowUp(
       id: followUpID,
-      cycleID: definition.id,
       routineID: definition.routineID,
       title: definition.followUp.title,
       createdAt: triggeredAt,
@@ -374,7 +359,7 @@ private struct ReductionWorker {
 
     if let sourceEventID {
       state.consequencesByEvent[sourceEventID, default: []].append(
-        DomainConsequence(sourceEventID: sourceEventID, kind: .followUpCreated(followUpID))
+        DomainConsequence(kind: .followUpCreated(followUpID))
       )
     }
   }
@@ -504,24 +489,7 @@ private struct ReductionWorker {
     case .immediate:
       return createdAt
     case .temporal(let time):
-      let foundationCalendar = calendar.foundationCalendar
-      if let sameDay = foundationCalendar.date(
-        bySettingHour: time.hour,
-        minute: time.minute,
-        second: 0,
-        of: createdAt
-      ), sameDay >= createdAt {
-        return sameDay
-      }
-      guard let nextDay = foundationCalendar.date(byAdding: .day, value: 1, to: createdAt) else {
-        return nil
-      }
-      return foundationCalendar.date(
-        bySettingHour: time.hour,
-        minute: time.minute,
-        second: 0,
-        of: nextDay
-      )
+      return nextOccurrence(of: time, onOrAfter: createdAt)
     case .geographic(_, let fallbackTime):
       return nextOccurrence(of: fallbackTime, onOrAfter: createdAt)
     }
