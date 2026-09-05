@@ -15,9 +15,9 @@ La resa Trama Fase 1 del commit `92f97de` è approvata dal Product Owner il 5 se
 | Passo | Risultato di design | Stato |
 |---|---|---|
 | Trama Fase 1 | Oggi, dettaglio Routine e conseguenze, confronto concept–SwiftUI su iPhone e iPad | approvato; evidenze in [Trama Fase 1](trama-phase-one.md) |
-| Formalizzazione | approvazione registrata, linguaggio comune, evidenze e limiti coerenti | in corso di consolidamento |
-| Navigazione e componenti condivisi | specificare anatomia, tipografia, spaziature, pulsanti, righe, sheet e stati sulla base Trama | prossimo passaggio di design |
-| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | da progettare e sottoporre al Product Owner |
+| Formalizzazione | approvazione registrata, linguaggio comune, evidenze e limiti coerenti | fase 1 consolidata in [Trama](trama-phase-one.md) e [contratto componenti](trama-components.md); consegna complessiva aperta |
+| Navigazione e componenti condivisi | specificare anatomia, tipografia, spaziature, pulsanti, righe, sheet e stati sulla base Trama | contratto documentato in [trama-components.md](trama-components.md), applicazioni future da valutare |
+| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | tre composizioni del passaggio minimo valido in revisione; [vincoli](creation-flow.md#proposta-visuale-trama--dg-visual) |
 | Copertura delle superfici | design di stati vuoti, follow-up, cronologia e modifica di Oggi/Routine; poi Esplora e Kit | da completare come specifiche e concept |
 | Consegna visuale finale | raccordare decisioni, copertura, evidenze e problemi aperti per concludere il lavoro DG-VISUAL | da consolidare |
 

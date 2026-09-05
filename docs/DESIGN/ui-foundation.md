@@ -270,3 +270,11 @@ usati per dichiarare completato lavoro non ancora iniziato.
 - Apple HIG — [Materials](https://developer.apple.com/design/human-interface-guidelines/materials)
 - Apple HIG — [Color](https://developer.apple.com/design/human-interface-guidelines/color)
 - Apple — [Build a SwiftUI app with the new design](https://developer.apple.com/videos/play/wwdc2025/323/)
+
+
+## Consolidamento Trama per DG-VISUAL
+
+Il [contratto dei componenti e degli stati](trama-components.md) raccoglie anatomia,
+misure scalabili, azioni e adattamenti della fase 1 approvata. Le nuove composizioni
+rimangono proposte di design finché non vengono valutate; non autorizzano l’avvio delle
+epiche di implementazione successive.

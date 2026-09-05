@@ -128,3 +128,41 @@ non simula servizi o anticipa il motore di dominio.
 - Apple HIG — [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons)
 - Apple HIG — [Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback)
 - Apple HIG — [Undo and redo](https://developer.apple.com/design/human-interface-guidelines/undo-and-redo)
+
+
+## Proposta visuale Trama — DG-VISUAL
+
+Lo studio visuale confronta tre composizioni dello stesso stato minimo valido:
+`Palestra`, obiettivo `3 volte a settimana`. `Crea routine` è già disponibile;
+`Continua a configurare` aggiunge collegamenti e passo successivo facoltativi.
+La variabile del confronto è la gerarchia fra campi, frase riepilogativa e azioni,
+non il modello funzionale. I concept non dichiarano una nuova implementazione E08.
+
+Vincoli della revisione:
+
+- conservare l’unico flusso e le quattro macro-fasi senza presentare la configurazione
+  facoltativa come lavoro obbligatorio;
+- distinguere dati inseriti, anteprima e routine effettivamente creata;
+- applicare il [contratto Trama](trama-components.md), senza cambiare il riferimento approvato;
+- verificare in seguito campo vuoto, tastiera, errore, testo massimo, dark mode e iPad
+  sulla composizione scelta; il raster standard non certifica questi stati;
+- nessun dato d’esempio o Kit viene installato dalla consultazione del concept.
+
+La scelta visuale precede le successive tavole del flusso. Qualunque implementazione
+funzionale di E07–E11 resta esclusa dal piano DG-VISUAL corrente.
+
+
+### Prima revisione delle tre composizioni
+
+Tavole generate il 5 settembre 2026, mostrate nell’ordine 1, 2, 3. Sono concept,
+non screenshot di una nuova build. Le immagini non approvate restano fuori dalla repository.
+
+| Composizione | Oggetto del confronto | Correzione da conservare nella rifinitura |
+|---|---|---|
+| 1 | campi espliciti e riepilogo subordinato | rimuovere il simbolo a scintille non appartenente alla grammatica Trama |
+| 2 | sorgente compatta e configurazione verticale | il filo non deve decorare i passi del form: riservarlo all’anteprima delle conseguenze; rendere esplicito «Continua a configurare» |
+| 3 | frase riepilogativa prima dei controlli | verificare ridondanza del riepilogo e dimensione del titolo; le porzioni modificabili devono restare controlli nativi accessibili |
+
+Questi punti non sono nuove decisioni di prodotto. Servono a distinguere la composizione
+che si sta valutando dai dettagli generati che non rispettano ancora il contratto.
+La scelta e la rifinitura rimangono nel lavoro di design DG-VISUAL.
