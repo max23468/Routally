@@ -175,4 +175,33 @@ fra l’obiettivo nella frase in alto e la riga sotto «Misura».
 La rifinitura conserva l’obiettivo modificabile soltanto nella frase «Voglio allenarmi
 3 volte a settimana»; sotto rimane la sola riga «Misura — Ogni allenamento (+1)».
 Il contenitore viene ridotto a una riga senza aggiungere nuovi campi.
-La tavola corretta resta da approvare; questa scelta non chiude l’intero DG-VISUAL.
+Il proprietario ha chiesto di proseguire mantenendo la tavola corretta senza ulteriori
+campi o testo esplicativo sotto «Misura». Questa scelta non chiude l’intero DG-VISUAL.
+
+
+### Passaggio successivo: Cosa succede dopo
+
+Lo studio prosegue sullo stesso flusso e sulla stessa grammatica visuale. Lo stato
+rappresentato è una configurazione in bozza: ogni allenamento di Palestra aggiunge
+un utilizzo ad Asciugamano palestra; alla soglia di quattro utilizzi viene preparato
+il passo «Prepara un asciugamano pulito».
+
+Il confronto riguarda tre gerarchie: anteprima causale prima dei campi, campi prima
+di un’anteprima compatta, oppure frase modificabile che unisce configurazione e
+anteprima senza duplicare i controlli. L’etichetta «Anteprima» distingue la regola
+in preparazione da eventi registrati o collegamenti già salvati.
+
+`Crea routine` rimane disponibile; `Continua a configurare` conduce al momento del
+promemoria. Luogo e fallback temporale appartengono al passaggio seguente e non sono
+precompilati da questa tavola. La scelta della composizione e le varianti vuote,
+incomplete e accessibili restano aperte. Nessuna nuova funzionalità viene implementata.
+
+
+Revisione delle tavole, nell’ordine mostrato 1–3: la prima rende esplicita la catena
+ma ripete diversi valori fra anteprima e campi; la seconda conserva la separazione
+fra form e riepilogo; la terza evita la duplicazione dei controlli. Nella rifinitura
+vanno uniformati i titoli a «Nuova routine» e «Cosa succede dopo?», eliminati i nomi
+interni dei concept e il testo tecnico generato, e mantenuta distinta la soglia del
+collegamento dall’obiettivo settimanale di Palestra. Il filo della terza tavola deve
+collegare nodi effettivi o essere rimosso. Le tavole sono confronti compositivi,
+non specifiche finali né evidenza di accessibilità.
