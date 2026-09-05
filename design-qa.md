@@ -149,3 +149,13 @@ e [CFBundleAllowMixedLocalizations](https://developer.apple.com/documentation/bu
 La regressione di localizzazione controlla il bundle compilato con la configurazione
 condivisa: i test sono hostless, quindi `Bundle.main` appartiene al runner Apple.
 La selezione effettiva nell’app è verificata separatamente nelle catture IT/EN.
+
+### Chiusura DG-VISUAL
+
+Il 5 settembre 2026 il Product Owner ha approvato il pacchetto complessivo con
+«Approvo». Riferimento: `1119333b93af80071f67253dbd29f7f14060b562`, build Dev e
+pubblica riuscite e 75 test in 5 suite verdi nella verifica sull’HEAD finale.
+Questa approvazione supera lo stato aperto riportato nelle sezioni storiche sopra.
+I sei requisiti della sezione 48.3 sono soddisfatti e DG-VISUAL è chiuso.
+Restano validi i limiti dichiarati; la chiusura non certifica le milestone successive
+e non autorizza implementazione E07–E11 o pubblicazione.

@@ -1,6 +1,6 @@
 # E06 — Audit e checkpoint visuale della vertical slice
 
-- **Stato:** Fase 1 approvata il 5 settembre 2026; consolidamento del design in corso
+- **Stato:** Confirmed — DG-VISUAL chiuso il 5 settembre 2026
 - **Epic:** E06 — Vertical Slice Integration
 - **Gate:** DG-VISUAL
 - **Fonte canonica:** Master Plan, sezione 48.3
@@ -93,6 +93,10 @@ Dynamic Type massimo, sono in [Trama Fase 1](trama-phase-one.md); le acquisizion
 qui sopra restano la baseline storica.
 
 ## Confine di pubblicazione
+
+Il Product Owner ha approvato anche il pacchetto complessivo `1119333` con «Approvo»
+il 5 settembre 2026. La [revisione approvata](design-review.md) completa la
+formalizzazione e chiude DG-VISUAL secondo i sei requisiti della sezione 48.3.
 
 Il lavoro corrente segue il [piano DG-VISUAL](dg-visual-plan.md) per la chiusura di E06
 e la formalizzazione del design approvato.

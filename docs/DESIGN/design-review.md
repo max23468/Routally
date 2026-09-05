@@ -1,6 +1,6 @@
 # Trama — revisione complessiva del design
 
-**Stato:** pacchetto di revisione DG-VISUAL, approvazione complessiva aperta.
+**Stato:** Confirmed — pacchetto approvato; DG-VISUAL chiuso il 5 settembre 2026.
 **Data:** 5 settembre 2026. **Ambito:** E06, prototipo visuale con dati sintetici.
 
 Il proprietario ha chiesto di completare insieme i quattro passaggi del
@@ -94,7 +94,10 @@ VoiceOver parlato, Voice Control, tastiera/puntatore iPad, aptica e prove su dis
 fisico restano verifiche delle milestone pertinenti. Le etichette AX e gli screenshot non
 certificano un audit completo di accessibilità né autorizzano Nutrition Labels.
 
-Il pacchetto richiede la revisione complessiva del Product Owner prevista da DG-VISUAL.
-L’approvazione delle composizioni precedenti resta acquisita; non viene estesa
-implicitamente alle nuove superfici. E07–E11 richiedono un incarico distinto.
+Il Product Owner ha approvato esplicitamente il pacchetto complessivo con «Approvo»
+il 5 settembre 2026, dopo la consegna della galleria. L’approvazione riguarda il commit
+`1119333b93af80071f67253dbd29f7f14060b562`, verificato con build Dev e pubblica e
+75 test verdi in 5 suite. Insieme alle evidenze della fase 1 e alla formalizzazione,
+soddisfa i sei requisiti della sezione 48.3 e chiude DG-VISUAL.
+E07–E11 richiedono un incarico distinto.
 Push, PR, merge, TestFlight, App Store e aggiornamenti di servizi remoti non sono richiesti.
