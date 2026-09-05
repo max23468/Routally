@@ -100,4 +100,6 @@ il 5 settembre 2026, dopo la consegna della galleria. L’approvazione riguarda 
 75 test verdi in 5 suite. Insieme alle evidenze della fase 1 e alla formalizzazione,
 soddisfa i sei requisiti della sezione 48.3 e chiude DG-VISUAL.
 E07–E11 richiedono un incarico distinto.
-Push, PR, merge, TestFlight, App Store e aggiornamenti di servizi remoti non sono richiesti.
+La successiva richiesta del 5 settembre autorizza la pubblicazione tecnica tramite
+push, PR e merge. TestFlight e App Store restano esclusi. DG-VISUAL è chiuso, mentre
+la prova fisica per E06/M03 resta aperta nell’[audit](e06-visual-audit.md).

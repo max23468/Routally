@@ -92,7 +92,44 @@ La conferma è stata ricevuta. Le evidenze aggiornate iPhone/iPad, incluse dark 
 Dynamic Type massimo, sono in [Trama Fase 1](trama-phase-one.md); le acquisizioni E06
 qui sopra restano la baseline storica.
 
-## Confine di pubblicazione
+## Verifica di chiusura E06/M03 — 5 settembre 2026
+
+DG-VISUAL è chiuso; **E06/M03 resta aperta per la prova end-to-end su dispositivo
+fisico** richiesta dalla sezione 48.3. Le prove Simulator non sostituiscono questo
+criterio. Il 5 settembre `xcrun devicectl list devices` rileva il dispositivo associato
+come `unavailable`; non è stata eseguita né attestata una prova hardware.
+
+| Criterio M03 | Evidenza e risultato |
+|---|---|
+| Flusso end-to-end su device | aperto: evidenze attuali su Simulator, prova fisica da eseguire |
+| Offline e persistenza locale | store E05 e regressioni di riapertura, scritture offline e recovery in `VerticalSliceTests` e test dati |
+| Undo/correction | esclusioni revisionali, tombstone e annullamento senza doppia correzione verificati dai test e dal percorso Simulator |
+| Follow-up e reset | soglia, momento utile, completamento e ciclo successivo coperti dalle regressioni E06 |
+| Reminder/fallback testabili | arrivo e fallback idempotenti, selezione del luogo e recovery coperti; trigger OS completi in E12 |
+| Accessibilità base | controlli etichettati, Dynamic Type massimo, contrasto, scuro e layout iPad nelle evidenze Trama; audit completo in E19 |
+| Screenshot e design approvato | gallerie fase 1 e revisione complessiva; DG-VISUAL chiuso |
+| Dominio generico | quattro archetipi nei test di dominio; il catalogo Palestra è una fixture Dev |
+
+Per completare la prova residua, su un dispositivo disponibile e una build Dev del
+commit verificato:
+
+1. eseguire `demo connectedGymCycle` e registrare Palestra: 1/3 → 2/3,
+   Asciugamano 3/4 → 4/4 e un solo follow-up in attesa;
+2. verificare Escludi e Annulla registrazione, poi registrare di nuovo, simulare
+   l’arrivo e il fallback dai controlli Dev: una sola consegna, Fatto e reset a 0/4;
+3. senza argomenti demo, creare dati sintetici nello store locale, registrare offline,
+   chiudere e riaprire l’app: dati e conseguenze conservati. La fixture in-memory
+   del primo passaggio non dimostra la persistenza dopo il riavvio;
+4. verificare nomi e ordine dei controlli con VoiceOver, azioni raggiungibili con testo
+   grande e assenza di blocchi; raccogliere screenshot/video, SHA, modello, versione OS,
+   esito e anomalie in questo audit.
+
+La prova non richiede CloudKit, geofencing reale o notifiche OS complete. La chiusura
+di E06/M03 e il prerequisito device di M04 restano sospesi fino all’evidenza, senza
+spostare il requisito ad Alpha. La pubblicazione tecnica del lavoro già verificato è
+autorizzata dal Product Owner il 5 settembre 2026 e non certifica tale chiusura.
+
+### Autorizzazione tecnica
 
 Il Product Owner ha approvato anche il pacchetto complessivo `1119333` con «Approvo»
 il 5 settembre 2026. La [revisione approvata](design-review.md) completa la
@@ -100,6 +137,6 @@ formalizzazione e chiude DG-VISUAL secondo i sei requisiti della sezione 48.3.
 
 Il lavoro corrente segue il [piano DG-VISUAL](dg-visual-plan.md) per la chiusura di E06
 e la formalizzazione del design approvato.
-La chiusura di DG-VISUAL non autorizza l’implementazione di E07–E11. Push, PR, merge,
-TestFlight e App Store restano operazioni separate; questa registrazione non ne dichiara
-l’esecuzione.
+La chiusura di DG-VISUAL non autorizza l’implementazione di E07–E11. La richiesta
+successiva «integra eventuali findings, poi pubblica» autorizza push, PR e merge secondo
+il workflow del repository. TestFlight e App Store restano fuori dal perimetro.

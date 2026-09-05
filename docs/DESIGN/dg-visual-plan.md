@@ -48,7 +48,9 @@ limiti dichiarati, senza essere sostituiti dalle sole etichette AX.
 
 Il checkpoint della fase 1 è approvato. La chiusura dell’intero lavoro sul design non si
 confonde con questa approvazione, con il completamento delle epiche successive o con la
-pubblicazione. Push, PR, merge, TestFlight e App Store non fanno parte dell’incarico corrente.
+pubblicazione. La successiva richiesta del 5 settembre autorizza push, PR e merge;
+TestFlight e App Store restano esclusi. La verifica finale ha rilevato la prova fisica
+ancora necessaria per E06/M03, registrata nell’[audit](e06-visual-audit.md).
 
 ## Completamento dei quattro passaggi
 

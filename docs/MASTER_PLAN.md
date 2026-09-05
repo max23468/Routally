@@ -4979,6 +4979,12 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
 
+**Stato al 5 settembre 2026:** DG-VISUAL chiuso; E06/M03 non ancora chiusa.
+La prova end-to-end su dispositivo fisico resta da eseguire: le evidenze disponibili
+sono Simulator. Criteri verificati e protocollo residuo sono nell’[audit E06](DESIGN/e06-visual-audit.md#verifica-di-chiusura-e06m03--5-settembre-2026).
+La pubblicazione tecnica del lavoro verificato non sostituisce questa prova né sblocca
+il prerequisito device di M04.
+
 ### Checkpoint visuale obbligatorio di E06
 
 Prima di considerare completa la vertical slice, `E06` deve:
