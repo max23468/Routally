@@ -233,3 +233,31 @@ senza spezzare il nome. Alla dimensione standard si dispone la frase su righe in
 Non si riduce il font per ottenere questo risultato. A dimensioni accessibili o con
 nomi più lunghi resta necessario un layout adattivo senza troncamenti. Nessun codice
 funzionale cambia.
+
+
+La tavola delle conseguenze corretta negli a capo è stata approvata dal proprietario.
+Il lavoro prosegue con il passaggio «Quando ricordartelo», conservando la stessa scala.
+
+### Studio del momento utile
+
+La tavola successiva riguarda il passo «Prepara un asciugamano pulito», configurato
+per l’arrivo nel luogo salvato Casa con orario di riserva alle 20:00. Il promemoria
+riguarda il follow-up dopo la soglia, non l’obiettivo settimanale di Palestra.
+La configurazione rimane in bozza; la tavola non certifica permessi o pianificazione.
+
+Tre composizioni confrontano frase modificabile integrata, campi nativi separati
+dal contesto, oppure due blocchi «Momento utile» e «Orario di riserva». Ogni valore
+ha un solo controllo. L’interfaccia usa «Orario di riserva» anziché il termine tecnico
+fallback; il collegamento geografico non può essere configurato senza questa alternativa.
+
+`Crea routine` rimane la primaria; `Rivedi routine` porta al riepilogo finale del flusso.
+Il contesto presenta una sola volta il nome del follow-up con il relativo simbolo.
+Il permesso geografico si richiede soltanto dopo la scelta del luogo; se negato, resta
+l’orario di riserva. Permesso negato, luogo non disponibile, testo accessibile e modalità
+scura sono stati successivi da coprire, non già verificati dal concept configurato.
+
+Le revisioni delle composizioni con campi separati e con due blocchi sostituiscono
+le prime tavole che avevano ripreso erroneamente il nome Palestra dal riferimento.
+Tutte le composizioni valide identificano «Prepara un asciugamano pulito» e usano
+«Rivedi routine» per accedere al riepilogo. Le icone generate sono riferimenti
+compositivi: nella resa nativa si riutilizza il simbolo del follow-up già approvato.
