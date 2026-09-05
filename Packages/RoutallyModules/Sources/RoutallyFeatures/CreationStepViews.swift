@@ -20,8 +20,8 @@ struct CreationRoutineStepView: View {
           .accessibilityHint(.inserisciPalestraPerLoScenarioCanonico)
 
         Picker(.simbolo, selection: $symbol) {
-          Label(.allenamento, systemImage: "figure.strengthtraining.traditional")
-            .tag("figure.strengthtraining.traditional")
+          Label(.allenamento, systemImage: "dumbbell")
+            .tag("dumbbell")
           Label(.benessere, systemImage: "heart")
             .tag("heart")
           Label(.casa, systemImage: "house")

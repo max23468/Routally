@@ -49,6 +49,9 @@ public struct RoutallyRootView: View {
       }
     }
     .tint(RoutallyColor.brandAccent)
+    .sensoryFeedback(.success, trigger: store.consequenceSummary?.sourceEventID) { _, new in
+      new != nil
+    }
     .tabBarMinimizeBehavior(.onScrollDown)
     .overlay {
       if store.isLoading && store.snapshot.routines.isEmpty {

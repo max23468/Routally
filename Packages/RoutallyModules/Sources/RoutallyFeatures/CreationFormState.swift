@@ -91,7 +91,7 @@ struct CreationFormState {
   init(
     step: CreationStep = .routine,
     name: String = "",
-    symbol: String = "figure.strengthtraining.traditional",
+    symbol: String = "dumbbell",
     area: RoutineArea = .wellbeing,
     weeklyTarget: Int = 3,
     linksTowel: Bool = true,
@@ -137,7 +137,7 @@ struct CreationFormState {
 
   var hasUnsavedChanges: Bool {
     !name.isEmpty
-      || symbol != "figure.strengthtraining.traditional"
+      || symbol != "dumbbell"
       || area != .wellbeing
       || weeklyTarget != 3
       || !linksTowel

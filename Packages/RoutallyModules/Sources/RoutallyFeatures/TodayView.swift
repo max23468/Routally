@@ -21,6 +21,9 @@ struct TodayView: View {
           emptySection
           developerSection
         }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Color(uiColor: .systemBackground))
         .animation(
           RoutallyMotion.animation(reduceMotion: reduceMotion),
           value: store.snapshot
@@ -111,8 +114,18 @@ struct TodayView: View {
   private var weekSection: some View {
     let weekRoutines = routines(in: .thisWeek)
     if !weekRoutines.isEmpty {
-      Section(.questaSettimana) {
+      Section {
         routineRows(weekRoutines)
+      } header: {
+        if routines(in: .now).isEmpty && routines(in: .later).isEmpty
+          && store.snapshot.followUps.allSatisfy({ $0.state != .ready })
+        {
+          Text(store.presentationDate, format: .dateTime.weekday(.wide).day().month(.wide))
+            .font(.footnote)
+            .textCase(nil)
+        } else {
+          Text(.questaSettimana)
+        }
       }
       .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
     }
@@ -145,15 +158,18 @@ struct TodayView: View {
 
   private func routineRows(_ routines: [RoutineSummary]) -> some View {
     ForEach(routines) { routine in
-      RoutineRow(routine: routine, isRecordable: store.canRecordRoutine(id: routine.id)) {
+      RoutineCausalCard(routine: routine, store: store) {
         router.showRoutine(id: routine.id)
-      } primaryAction: {
+      } record: {
         Task {
           if await store.recordRoutine(id: routine.id, locale: locale) {
             router.sheet = .consequences
           }
         }
       }
+      .listRowSeparator(.hidden)
+      .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+      .listRowBackground(Color.clear)
       .disabled(store.isPerformingOperation)
       .transition(.opacity)
     }
@@ -188,82 +204,6 @@ struct TodayView: View {
       Label(.profilo, systemImage: "person.crop.circle")
     }
     .accessibilityIdentifier("profile-button")
-  }
-}
-
-private struct RoutineRow: View {
-  @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-  @Environment(\.locale) private var locale
-
-  let routine: RoutineSummary
-  let isRecordable: Bool
-  let openDetail: () -> Void
-  let primaryAction: () -> Void
-
-  var body: some View {
-    Group {
-      if dynamicTypeSize.isAccessibilitySize {
-        VStack(alignment: .leading, spacing: RoutallySpacing.space12) {
-          detailButton
-          primaryButton
-        }
-      } else {
-        HStack(alignment: .center, spacing: RoutallySpacing.space12) {
-          detailButton
-          primaryButton
-        }
-      }
-    }
-    .padding(.vertical, RoutallySpacing.space4)
-    .accessibilityElement(children: .contain)
-  }
-
-  private var detailButton: some View {
-    Button(action: openDetail) {
-      HStack(spacing: RoutallySpacing.space12) {
-        CycleVisualization(
-          title: routine.name,
-          current: routine.progress,
-          target: routine.target,
-          state: routine.cycleVisualizationState,
-          stateLabel: routine.cycleStateLabel,
-          size: .compact,
-          isInteractive: true
-        )
-        .accessibilityHidden(true)
-
-        VStack(alignment: .leading, spacing: RoutallySpacing.space4) {
-          Text(verbatim: routine.name)
-            .font(RoutallyFont.itemTitle)
-            .fontWeight(.semibold)
-          Text(verbatim: routine.context)
-            .font(RoutallyFont.itemContext)
-            .foregroundStyle(RoutallyColor.contentSecondary)
-        }
-      }
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .contentShape(.rect)
-    }
-    .buttonStyle(.plain)
-    .accessibilityLabel(routine.name)
-    .accessibilityValue(
-      .routineAccessibilityProgress(
-        L10n.string(routine.cycleStateLabel, locale: locale),
-        Int32(routine.progress),
-        Int32(routine.target)
-      )
-    )
-    .accessibilityHint(routine.context)
-  }
-
-  @ViewBuilder
-  private var primaryButton: some View {
-    if isRecordable {
-      Button(.registra, action: primaryAction)
-        .buttonStyle(.glassProminent)
-        .controlSize(dynamicTypeSize.isAccessibilitySize ? .large : .small)
-        .accessibilityLabel(.routineLogAction(routine.name))
-    }
   }
 }
 

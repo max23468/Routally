@@ -12,7 +12,7 @@
           routine(
             id: "gym",
             name: L10n.string(.palestra),
-            symbol: "figure.strengthtraining.traditional",
+            symbol: "dumbbell",
             context: L10n.string(.obiettivo3VolteASettimana),
             progress: 1,
             target: 3,
@@ -21,7 +21,7 @@
           routine(
             id: "laundry",
             name: L10n.string(.lavatrice),
-            symbol: "washer",
+            symbol: "tshirt",
             context: L10n.string(.questaSera),
             progress: 0,
             target: 1,
@@ -148,7 +148,7 @@
         routine(
           id: "gym",
           name: L10n.string(.palestra, locale: locale),
-          symbol: "figure.strengthtraining.traditional",
+          symbol: "dumbbell",
           context: L10n.string(.obiettivo3VolteASettimana, locale: locale),
           progress: 1,
           target: 3,
@@ -157,7 +157,7 @@
         RoutineSummary(
           id: "gym-towel",
           name: L10n.string(.asciugamanoPalestra, locale: locale),
-          symbol: "washer",
+          symbol: "tshirt",
           context: L10n.string(.siAggiornaQuandoRegistriPalestra, locale: locale),
           progress: towelProgress,
           target: 4,

@@ -14,40 +14,36 @@ struct ConsequenceSummarySheet: View {
       List {
         if let summary = store.consequenceSummary {
           Section {
-            ForEach(summary.effects) { effect in
-              VStack(alignment: .leading, spacing: RoutallySpacing.space8) {
-                Label {
-                  Text(verbatim: effect.title)
-                } icon: {
-                  Image(
-                    systemName: effect.isExcluded
-                      ? "minus.circle"
-                      : "checkmark.circle.fill"
+            VStack(alignment: .leading, spacing: 0) {
+              ForEach(Array(summary.effects.enumerated()), id: \.element.id) { index, effect in
+                VStack(alignment: .leading, spacing: 0) {
+                  CausalEffectRow(
+                    symbol: effect.isExcluded ? "minus.circle" : "checkmark.circle.fill",
+                    title: effect.title,
+                    context: effect.isExcluded
+                      ? "\(L10n.string(.consequenceExcluded, locale: locale)) · \(effect.origin)"
+                      : effect.origin,
+                    isLast: index == summary.effects.count - 1,
+                    completed: !effect.isExcluded
                   )
-                  .contentTransition(reduceMotion ? .opacity : .symbolEffect(.replace))
-                }
-                .foregroundStyle(
-                  effect.isExcluded
-                    ? RoutallyColor.contentSecondary
-                    : RoutallyColor.statusComplete
-                )
-                Text(verbatim: effect.origin)
-                  .font(RoutallyFont.supporting)
-                  .foregroundStyle(RoutallyColor.contentSecondary)
-
-                if let exclusionTarget = effect.exclusionTarget, !effect.isExcluded {
-                  Button(.consequenceExcludeAction(exclusionTarget)) {
-                    Task {
-                      await store.excludeEffect(id: effect.id, locale: locale)
+                  if let target = effect.exclusionTarget, !effect.isExcluded {
+                    Button(.consequenceExcludeAction(target)) {
+                      Task { await store.excludeEffect(id: effect.id, locale: locale) }
                     }
+                    .font(.subheadline)
+                    .frame(minHeight: 44, alignment: .leading)
+                    .padding(.leading, RoutallySpacing.space16)
+                    .padding(.bottom, RoutallySpacing.space12)
+                    .disabled(store.isPerformingOperation)
                   }
-                  .disabled(store.isPerformingOperation)
-                  .transition(RoutallyMotion.reveal(from: .bottom, reduceMotion: reduceMotion))
                 }
+                .accessibilityElement(children: .contain)
               }
-              .accessibilityElement(children: .contain)
-              .transition(.opacity)
             }
+            .padding(RoutallySpacing.space16)
+            .background(RoutallyColor.causalSurface, in: .rect(cornerRadius: 24))
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
           }
 
           Section {

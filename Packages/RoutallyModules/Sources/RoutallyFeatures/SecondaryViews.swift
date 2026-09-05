@@ -10,7 +10,7 @@ struct ExploreView: View {
     NavigationStack {
       List {
         Section(.perIniziare) {
-          Label(.palestra, systemImage: "figure.strengthtraining.traditional")
+          Label(.palestra, systemImage: "dumbbell")
           Label(.casaSenzaStress, systemImage: "house")
         }
         Section(.routineCollegate) {

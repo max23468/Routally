@@ -74,7 +74,7 @@ public enum DemoFixtures {
       measurement: .count,
       frequency: .withinPeriod(PeriodicGoalRule(target: 3, period: .week)),
       appearance: RoutineAppearance(
-        symbolName: "figure.strengthtraining.traditional",
+        symbolName: "dumbbell",
         areaIdentifier: "wellbeing"
       ),
       createdAt: createdAt
@@ -84,7 +84,7 @@ public enum DemoFixtures {
       name: text(.asciugamanoPalestra),
       measurement: .count,
       frequency: .cycleDriven,
-      appearance: RoutineAppearance(symbolName: "washer", areaIdentifier: "wellbeing"),
+      appearance: RoutineAppearance(symbolName: "tshirt", areaIdentifier: "wellbeing"),
       createdAt: createdAt
     )
     let link = RoutineLink(
@@ -214,7 +214,7 @@ public enum DemoFixtures {
       RoutineSummary(
         id: "gym",
         name: text(.palestra),
-        symbol: "figure.strengthtraining.traditional",
+        symbol: "dumbbell",
         context: text(.obiettivo3VolteASettimana),
         progress: 1,
         target: 3
@@ -222,7 +222,7 @@ public enum DemoFixtures {
       RoutineSummary(
         id: "gym-towel",
         name: text(.asciugamanoPalestra),
-        symbol: "washer",
+        symbol: "tshirt",
         context: text(.siAggiornaQuandoRegistriPalestra),
         progress: towelProgress,
         target: 4
