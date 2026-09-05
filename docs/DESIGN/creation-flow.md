@@ -299,3 +299,10 @@ intestazione Palestra separata e lista nativa con Frequenza, Collegamento, Passo
 successivo e Promemoria. Ogni sezione permette la modifica; «Crea routine» resta
 l’unica azione finale. Questo è il riferimento del riepilogo ordinario; stati
 alternativi e verifiche native rimangono nel lavoro di design da completare.
+
+### Stati alternativi e prove native
+
+La [revisione complessiva](design-review.md) completa la proposta degli stati vuoti,
+tastiera, dati mancanti, uscita, salvataggio, errore, successo, posizione negata e
+orario di riserva. Le evidenze native sono nella relativa galleria e nel QA.
+Sono fixture di design in memoria, non implementazioni funzionali delle epiche future.

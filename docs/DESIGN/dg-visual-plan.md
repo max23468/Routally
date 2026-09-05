@@ -17,9 +17,9 @@ La resa Trama Fase 1 del commit `92f97de` è approvata dal Product Owner il 5 se
 | Trama Fase 1 | Oggi, dettaglio Routine e conseguenze, confronto concept–SwiftUI su iPhone e iPad | approvato; evidenze in [Trama Fase 1](trama-phase-one.md) |
 | Formalizzazione | approvazione registrata, linguaggio comune, evidenze e limiti coerenti | fase 1 consolidata in [Trama](trama-phase-one.md) e [contratto componenti](trama-components.md); consegna complessiva aperta |
 | Navigazione e componenti condivisi | specificare anatomia, tipografia, spaziature, pulsanti, righe, sheet e stati sulla base Trama | contratto documentato in [trama-components.md](trama-components.md), applicazioni future da valutare |
-| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | passaggio minimo, «Cosa succede dopo» e «Quando ricordartelo» approvati; composizione 2 scelta per il riepilogo finale; stati alternativi da completare; [vincoli](creation-flow.md#proposta-visuale-trama--dg-visual) |
-| Copertura delle superfici | design di stati vuoti, follow-up, cronologia e modifica di Oggi/Routine; poi Esplora e Kit | da completare come specifiche e concept |
-| Consegna visuale finale | raccordare decisioni, copertura, evidenze e problemi aperti per concludere il lavoro DG-VISUAL | da consolidare |
+| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | passaggio minimo, «Cosa succede dopo» e «Quando ricordartelo» approvati; composizione 2 scelta per il riepilogo finale; stati alternativi raccolti nel prototipo visuale; [vincoli](creation-flow.md#proposta-visuale-trama--dg-visual) |
+| Copertura delle superfici | design di stati vuoti, follow-up, cronologia e modifica di Oggi/Routine; poi Esplora e Kit | raccolte nella [revisione complessiva](design-review.md), da ratificare |
+| Consegna visuale finale | raccordare decisioni, copertura, evidenze e problemi aperti per concludere il lavoro DG-VISUAL | pacchetto predisposto nella [revisione complessiva](design-review.md); checkpoint Product Owner aperto |
 
 I concept delle superfici future descrivono l’esperienza prevista dal Master Plan.
 Non introducono implementazioni di creazione generale, catalogo installabile, modifica,
@@ -49,3 +49,11 @@ limiti dichiarati, senza essere sostituiti dalle sole etichette AX.
 Il checkpoint della fase 1 è approvato. La chiusura dell’intero lavoro sul design non si
 confonde con questa approvazione, con il completamento delle epiche successive o con la
 pubblicazione. Push, PR, merge, TestFlight e App Store non fanno parte dell’incarico corrente.
+
+## Completamento dei quattro passaggi
+
+Il 5 settembre 2026 il proprietario ha autorizzato il completamento congiunto degli
+stati, della verifica trasversale, delle altre superfici e della consegna finale.
+Si usa una sola soluzione coerente per stato; il piano non prescrive nuove alternative
+quando la composizione è già stata scelta. La [revisione](design-review.md) raccoglie
+prototipo nativo, evidenze, confronto e limiti, conservando il checkpoint finale.

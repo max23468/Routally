@@ -30,7 +30,7 @@ let package = Package(
     ),
     .target(
       name: "RoutallyFixtures",
-      dependencies: ["RoutallyDomain"],
+      dependencies: ["RoutallyDomain", "RoutallyDesign"],
       resources: [.process("Resources")]
     ),
   ],
