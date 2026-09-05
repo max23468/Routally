@@ -24,7 +24,8 @@ vengono mostrate le conseguenze, non da decorazioni sovrapposte.
 4. **Stato:** testo, simbolo e forma comunicano sempre insieme al colore.
 
 “Predominante” descrive la copertura del livello interattivo, non la quantità di vetro
-sullo schermo: ogni azione primaria visibile usa `glassProminent`, mentre barre,
+sullo schermo: le azioni primarie usano `glassProminent`, con l’eccezione del pulsante Registra
+satinato approvato per [Trama, Fase 1](trama-phase-one.md), mentre barre,
 toolbar, search e presentazioni lasciano il materiale al sistema. Il contenuto non viene
 reso glass per compensare un controllo implementato con uno stile non coerente.
 
@@ -40,7 +41,7 @@ interferirebbero con lo scroll-edge effect e con l'adattamento automatico del ma
 | Sidebar iPad | superficie di sistema sopra il contenuto |
 | Navigation bar e toolbar | item nativi raggruppati per relazione |
 | Sheet, popover, menu e dialog | presentazione nativa senza background custom |
-| Pulsante primario | `glassProminent` di sistema con tint brand |
+| Pulsante primario | `glassProminent` di sistema; Registra in Trama è un `Button` nativo con superficie satinata e target di 44 pt |
 | Controlli custom | `CycleVisualization` glass soltanto quando è un controllo interattivo |
 
 La variante glass `regular` è il default. `clear` è esclusa dalla UI ordinaria: potrà
@@ -108,19 +109,24 @@ Nessun accento può sostituire rosso, verde o arancione semantici.
 | `supporting` | `.footnote` | spiegazioni e metadati |
 | `cycleValue` | `.title2`, design rounded | valore centrale del ciclo |
 
-San Francisco e Dynamic Type sono obbligatori. Non si fissano dimensioni in punti e non
-si riduce il testo per farlo entrare. `cycleValue` è l'unico uso ordinario di SF Rounded.
+San Francisco e Dynamic Type sono obbligatori. Non si riduce il testo per farlo entrare.
+Il modulo Trama usa metriche scalabili `ScaledMetric`: base 14 pt per le conseguenze,
+12 pt per i metadati e 13 pt per l’azione, mantenendo un titolo sorgente `title3`.
+Queste basi non bloccano la crescita del testo; ad accessibility il layout si dispone
+verticalmente. `cycleValue` è l’unico uso ordinario di SF Rounded.
 
 ### Spaziatura, forma ed elevazione
 
 I componenti nativi mantengono metriche, margini e forme del sistema. Per componenti
-Routally ricorrenti sono ammessi soltanto i token `space4`, `space8`, `space12` e
-`space16`. Il margine di contenuto normale è `space16`; a testo
+Routally ricorrenti usano i token `space4`, `space8`, `space12` e `space16`.
+Le geometrie locali di Trama aggiungono gli intervalli del concept (20/24 pt) e
+ancorano il filo ai nodi misurati; non introducono un sistema di token parallelo. Il margine di contenuto normale è `space16`; a testo
 accessibility diventa il minimo, non un vincolo orizzontale.
 
 Le forme custom usano angoli continui e concentrici rispetto al contenitore; un token di
-raggio nasce soltanto quando una forma ricorrente lo richiede. I cicli restano circolari.
-Non esistono token di shadow custom: profondità, separazione e vibrancy sono del sistema.
+raggio nasce soltanto quando una forma ricorrente lo richiede. Il modulo Trama usa una traccia con punti di progresso e un unico filo causale continuo;
+le altre visualizzazioni dei cicli restano circolari. La sola azione satinata ha un’ombra
+locale discreta; profondità, separazione e vibrancy del chrome restano del sistema.
 
 ### Movimento e feedback
 
@@ -156,7 +162,7 @@ API SwiftUI.
 
 | Componente | Responsabilità | Varianti/stati | Accessibilità |
 |---|---|---|---|
-| `RoutineRow` | nome, contesto, progresso e azione | normale, soglia, follow-up; enabled/disabled | un contenitore leggibile, azione nominata |
+| `RoutineCausalCard` | sorgente, progresso, anteprima e azione; riga compatta senza conseguenze | espanso/compresso, soglia, follow-up; enabled/disabled | valori testuali completi, azione nominata, layout AX scalabile |
 | `CycleVisualization` | progresso e stato del ciclo | attivo, soglia, follow-up, completato | valore testuale completo; non solo anello/colore |
 | `LinkedRoutineRow` | sorgente e conseguenza | incremento, durata, quantità | frase naturale sulla relazione |
 | `ConsequenceSummary` | esito e correzione della registrazione | semplice, collegato, errore parziale; esclusione per singolo effetto | titolo annunciato e azioni nominate con il target |
@@ -202,7 +208,8 @@ Master Plan; questa specifica non amplia il benchmark né introduce nuove featur
 1. navigation bar Liquid Glass con titolo `Oggi` e Profilo;
 2. contenuto scrollabile edge-to-edge;
 3. sezioni presenti soltanto quando contengono elementi: Adesso, Più tardi, Questa
-   settimana;
+   settimana; quando resta soltanto il gruppo settimanale, la data compare sotto Oggi e
+   il periodo resta nel sottotitolo delle sorgenti, senza modificare la classificazione;
 4. righe compatte, con una sola azione primaria visibile;
 5. stato `Tutto sotto controllo` quando non esiste alcuna azione utile;
 6. riepilogo conseguenze in sheet nativa dopo una registrazione collegata.
@@ -263,3 +270,11 @@ usati per dichiarare completato lavoro non ancora iniziato.
 - Apple HIG — [Materials](https://developer.apple.com/design/human-interface-guidelines/materials)
 - Apple HIG — [Color](https://developer.apple.com/design/human-interface-guidelines/color)
 - Apple — [Build a SwiftUI app with the new design](https://developer.apple.com/videos/play/wwdc2025/323/)
+
+
+## Consolidamento Trama per DG-VISUAL
+
+Il [contratto dei componenti e degli stati](trama-components.md) raccoglie anatomia,
+misure scalabili, azioni e adattamenti della fase 1 approvata. Le nuove composizioni
+rimangono proposte di design finché non vengono valutate; non autorizzano l’avvio delle
+epiche di implementazione successive.

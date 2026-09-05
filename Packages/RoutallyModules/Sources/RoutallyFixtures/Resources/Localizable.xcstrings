@@ -1,8 +1,189 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld times": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld time"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld times"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld volta"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld volte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld times per week": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld time per week"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld times per week"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld volta a settimana"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld volte a settimana"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld uses": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld use"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld uses"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld utilizzo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld utilizzi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "0 of 3 this week": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 of 3 this week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 di 3 questa settimana"
+          }
+        }
+      }
+    },
+    "1 of 3 this week": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 of 3 this week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 di 3 questa settimana"
+          }
+        }
+      }
+    },
+    "10:00 · 1 workout": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10:00 · 1 workout"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10:00 · 1 allenamento"
+          }
+        }
+      }
+    },
     "2 sessioni questa settimana": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -16,11 +197,191 @@
             "value": "2 sessioni questa settimana"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "3 of 4 uses · from Gym": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 of 4 uses · from Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 di 4 utilizzi · da Palestra"
+          }
+        }
+      }
+    },
+    "3 workouts per week · towel after 4 uses": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 workouts per week · towel after 4 uses"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3 allenamenti a settimana · asciugamano dopo 4 utilizzi"
+          }
+        }
+      }
+    },
+    "5 September 2026": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 September 2026"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 settembre 2026"
+          }
+        }
+      }
+    },
+    "5 September 2026 · 10:00": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 September 2026 · 10:00"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 settembre 2026 · 10:00"
+          }
+        }
+      }
+    },
+    "Active": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attive"
+          }
+        }
+      }
+    },
+    "All": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutte"
+          }
+        }
+      }
+    },
+    "Apply correction": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply correction"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applica correzione"
+          }
+        }
+      }
+    },
+    "Apply this correction?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply this correction?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applicare questa correzione?"
+          }
+        }
+      }
+    },
+    "Archive routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archive routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archivia routine"
+          }
+        }
+      }
+    },
+    "Archived": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archived"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archiviata"
+          }
+        }
+      }
     },
     "Asciugamano palestra": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -34,11 +395,869 @@
             "value": "Asciugamano palestra"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "At": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A"
+          }
+        }
+      }
+    },
+    "At %@": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle %@"
+          }
+        }
+      }
+    },
+    "At %lld uses: %@": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "At %lld use: %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "At %lld uses: %@"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "A %lld utilizzo: %@"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "A %lld utilizzi: %@"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "At the selected time": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the selected time"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All’orario scelto"
+          }
+        }
+      }
+    },
+    "Back": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indietro"
+          }
+        }
+      }
+    },
+    "Backup time": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Backup time"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orario di riserva"
+          }
+        }
+      }
+    },
+    "Bed linen": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bed linen"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lenzuola"
+          }
+        }
+      }
+    },
+    "Before applying": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Before applying"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prima di applicare"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
+          }
+        }
+      }
+    },
+    "Change moment": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change moment"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia momento"
+          }
+        }
+      }
+    },
+    "Changing your sheets also advances the mattress protector cycle.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changing your sheets also advances the mattress protector cycle."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambiare le lenzuola aggiorna anche il ciclo del coprimaterasso."
+          }
+        }
+      }
+    },
+    "Choose a place": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a place"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli un luogo"
+          }
+        }
+      }
+    },
+    "Choose a routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli una routine"
+          }
+        }
+      }
+    },
+    "Choose a saved place": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a saved place"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli un luogo salvato"
+          }
+        }
+      }
+    },
+    "Close": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiudi"
+          }
+        }
+      }
+    },
+    "Completing it starts a new cycle": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completing it starts a new cycle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al completamento inizia un nuovo ciclo"
+          }
+        }
+      }
+    },
+    "Configuration": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuration"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configurazione"
+          }
+        }
+      }
+    },
+    "Configure and add": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure and add"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configura e aggiungi"
+          }
+        }
+      }
+    },
+    "Connected routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine collegate"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua"
+          }
+        }
+      }
+    },
+    "Continue configuring": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue configuring"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua a configurare"
+          }
+        }
+      }
+    },
+    "Correct entry": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct entry"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correggi registrazione"
+          }
+        }
+      }
+    },
+    "Corrected": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corrected"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corretta"
+          }
+        }
+      }
+    },
+    "Correction": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correction"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correzione"
+          }
+        }
+      }
+    },
+    "Create it in Routines, or explore a Kit.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create it in Routines, or explore a Kit."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creala in Routine, oppure esplora un Kit."
+          }
+        }
+      }
+    },
+    "Create routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea routine"
+          }
+        }
+      }
+    },
+    "Date and time": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date and time"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data e ora"
+          }
+        }
+      }
+    },
+    "Design review": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design review"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Studio visuale"
+          }
+        }
+      }
+    },
+    "Discard changes": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard changes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scarta modifiche"
+          }
+        }
+      }
+    },
+    "Discard this routine?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard this routine?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interrompere la creazione?"
+          }
+        }
+      }
+    },
+    "Discard unsaved changes?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discard unsaved changes?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scartare le modifiche?"
+          }
+        }
+      }
+    },
+    "Done": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fatto"
+          }
+        }
+      }
+    },
+    "Each workout (+1)": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each workout (+1)"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ogni allenamento (+1)"
+          }
+        }
+      }
+    },
+    "Each workout adds": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each workout adds"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ogni allenamento aggiunge"
+          }
+        }
+      }
+    },
+    "Each workout adds %lld uses": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Each workout adds %lld use"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Each workout adds %lld uses"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Ogni allenamento aggiunge %lld utilizzo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Ogni allenamento aggiunge %lld utilizzi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Each workout adds 1 use": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each workout adds 1 use"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ogni allenamento aggiunge 1 utilizzo"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifica"
+          }
+        }
+      }
+    },
+    "Edit configuration": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit configuration"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifica configurazione"
+          }
+        }
+      }
+    },
+    "Edit routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifica routine"
+          }
+        }
+      }
+    },
+    "Effect of this change": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effect of this change"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effetto della modifica"
+          }
+        }
+      }
+    },
+    "Enter a name to continue.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a name to continue."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inserisci un nome per continuare."
+          }
+        }
+      }
+    },
+    "Everything is under control": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Everything is under control"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutto sotto controllo"
+          }
+        }
+      }
+    },
+    "Explore": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esplora"
+          }
+        }
+      }
+    },
+    "Explore Kits": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore Kits"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esplora i Kit"
+          }
+        }
+      }
+    },
+    "Filter": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtro"
+          }
+        }
+      }
     },
     "Fixture sintetica": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -52,29 +1271,119 @@
             "value": "Fixture sintetica"
           }
         }
-      },
-      "extractionState": "manual"
+      }
     },
-    "Obiettivo: 3 volte a settimana": {
-      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+    "For example, Gym": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Goal: 3 times a week"
+            "value": "For example, Gym"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Obiettivo: 3 volte a settimana"
+            "value": "Per esempio, Palestra"
           }
         }
-      },
-      "extractionState": "manual"
+      }
     },
-    "Palestra": {
-      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+    "Frequency": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequenza"
+          }
+        }
+      }
+    },
+    "Frequency and goal": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency and goal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequenza e obiettivo"
+          }
+        }
+      }
+    },
+    "From Gym towel · 4 of 4 uses": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "From Gym towel · 4 of 4 uses"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Da Asciugamano palestra · 4 di 4 utilizzi"
+          }
+        }
+      }
+    },
+    "Go to Routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to Routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vai a Routine"
+          }
+        }
+      }
+    },
+    "Goal within a period": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal within a period"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo entro un periodo"
+          }
+        }
+      }
+    },
+    "Gym": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -88,11 +1397,983 @@
             "value": "Palestra"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "Gym towel": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra"
+          }
+        }
+      }
+    },
+    "Gym towel starts a new cycle: 0 of 4 uses.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel starts a new cycle: 0 of 4 uses."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra inizia un nuovo ciclo: 0 di 4 utilizzi."
+          }
+        }
+      }
+    },
+    "Gym towel: +1 use": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel: +1 use"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra: +1 utilizzo"
+          }
+        }
+      }
+    },
+    "Gym towel: 3 of 4 → 4 of 4": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym towel: 3 of 4 → 4 of 4"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asciugamano palestra: 3 di 4 → 4 di 4"
+          }
+        }
+      }
+    },
+    "Gym: +1 toward your weekly goal": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym: +1 toward your weekly goal"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palestra: +1 nell’obiettivo settimanale"
+          }
+        }
+      }
+    },
+    "Gym: 1 of 3 → 2 of 3": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym: 1 of 3 → 2 of 3"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palestra: 1 di 3 → 2 di 3"
+          }
+        }
+      }
+    },
+    "History": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cronologia"
+          }
+        }
+      }
+    },
+    "History is kept. The routine will no longer appear in Today.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History is kept. The routine will no longer appear in Today."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cronologia viene conservata. La routine non comparirà più in Oggi."
+          }
+        }
+      }
+    },
+    "Home": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casa"
+          }
+        }
+      }
+    },
+    "Home and the backup time are chosen during configuration.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home and the backup time are chosen during configuration."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Casa e l’orario di riserva si scelgono durante la configurazione."
+          }
+        }
+      }
+    },
+    "I want to work out": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I want to work out"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voglio allenarmi"
+          }
+        }
+      }
+    },
+    "Increment": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Increment"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incremento"
+          }
+        }
+      }
+    },
+    "Insights": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analisi"
+          }
+        }
+      }
+    },
+    "Keep connected cleaning cycles in step.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep connected cleaning cycles in step."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coordina i cicli di pulizia collegati."
+          }
+        }
+      }
+    },
+    "Keep editing": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep editing"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua a modificare"
+          }
+        }
+      }
+    },
+    "Keep the count after completion": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the count after completion"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantieni il conteggio dopo il completamento"
+          }
+        }
+      }
+    },
+    "Later": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Later"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Più tardi"
+          }
+        }
+      }
+    },
+    "Linked": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collegate"
+          }
+        }
+      }
+    },
+    "Linked routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collegamento"
+          }
+        }
+      }
+    },
+    "Linked routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Linked routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collegamenti"
+          }
+        }
+      }
+    },
+    "Local profile": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local profile"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilo locale"
+          }
+        }
+      }
+    },
+    "Location is unavailable": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location is unavailable"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posizione non disponibile"
+          }
+        }
+      }
+    },
+    "Log": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra"
+          }
+        }
+      }
+    },
+    "Log once. Update your equipment.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log once. Update your equipment."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registra una volta. Aggiorna l’attrezzatura."
+          }
+        }
+      }
+    },
+    "Mattress protector": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mattress protector"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coprimaterasso"
+          }
+        }
+      }
+    },
+    "Measurement": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measurement"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Misura"
+          }
+        }
+      }
+    },
+    "More": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altro"
+          }
+        }
+      }
+    },
+    "New routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuova routine"
+          }
+        }
+      }
+    },
+    "Next step": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next step"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passo successivo"
+          }
+        }
+      }
+    },
+    "Next step: Prepare a clean towel": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next step: Prepare a clean towel"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passo successivo: Prepara un asciugamano pulito"
+          }
+        }
+      }
+    },
+    "No activity has been recorded in this example.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No activity has been recorded in this example."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In questo esempio non ci sono registrazioni."
+          }
+        }
+      }
+    },
+    "No activity yet": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No activity yet"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna registrazione"
+          }
+        }
+      }
+    },
+    "No archived routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No archived routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna routine archiviata"
+          }
+        }
+      }
+    },
+    "No paused routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No paused routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna routine in pausa"
+          }
+        }
+      }
+    },
+    "No place selected": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No place selected"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun luogo selezionato"
+          }
+        }
+      }
+    },
+    "No remote account": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No remote account"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun account remoto"
+          }
+        }
+      }
+    },
+    "No routines were added. Your choices are still here.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No routines were added. Your choices are still here."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna routine è stata aggiunta. Le tue scelte sono ancora qui."
+          }
+        }
+      }
+    },
+    "No routines yet": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No routines yet"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna routine"
+          }
+        }
+      }
+    },
+    "Nothing is added just by viewing a Kit.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is added just by viewing a Kit."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consultare un Kit non aggiunge dati."
+          }
+        }
+      }
+    },
+    "Nothing needs your attention right now.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing needs your attention right now."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Al momento non serve intervenire."
+          }
+        }
+      }
+    },
+    "Now": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Now"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adesso"
+          }
+        }
+      }
+    },
+    "Obiettivo: 3 volte a settimana": {
+      "comment": "Copy used in the native routine creation and linked-consequence flow.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goal: 3 times a week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo: 3 volte a settimana"
+          }
+        }
+      }
+    },
+    "Office": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Office"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ufficio"
+          }
+        }
+      }
+    },
+    "On arrival at %@, otherwise at %@": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On arrival at %@, otherwise at %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All’arrivo a %@, altrimenti alle %@"
+          }
+        }
+      }
+    },
+    "On arrival at Home, otherwise at 20:00": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On arrival at Home, otherwise at 20:00"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All’arrivo a Casa, altrimenti alle 20:00"
+          }
+        }
+      }
+    },
+    "One action, useful connections": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One action, useful connections"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un’azione, collegamenti utili"
+          }
+        }
+      }
+    },
+    "One workout updates your goal and your towel cycle.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One workout updates your goal and your towel cycle."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un allenamento aggiorna l’obiettivo e il ciclo dell’asciugamano."
+          }
+        }
+      }
+    },
+    "Original entry": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original entry"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registrazione originale"
+          }
+        }
+      }
+    },
+    "Original entry kept in history.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original entry kept in history."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’originale è conservato nella cronologia."
+          }
+        }
+      }
+    },
+    "Otherwise at": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otherwise at"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altrimenti alle"
+          }
+        }
+      }
+    },
+    "Palestra": {
+      "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gym"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palestra"
+          }
+        }
+      }
+    },
+    "Pause routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metti in pausa"
+          }
+        }
+      }
+    },
+    "Pause this routine?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause this routine?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettere in pausa la routine?"
+          }
+        }
+      }
+    },
+    "Paused": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In pausa"
+          }
+        }
+      }
     },
     "Prepara un asciugamano pulito": {
       "comment": "Canonical follow-up title used by the deterministic connected-cycle fixture.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -106,29 +2387,407 @@
             "value": "Prepara un asciugamano pulito"
           }
         }
-      },
-      "extractionState": "manual"
+      }
     },
-    "fixture.routine.name": {
-      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+    "Prepare a clean towel": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Routine %d"
+            "value": "Prepare a clean towel"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Routine %d"
+            "value": "Prepara un asciugamano pulito"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "Profile": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profilo"
+          }
+        }
+      }
+    },
+    "Quantity: %lld": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quantity: %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quantità: %lld"
+          }
+        }
+      }
+    },
+    "Reminder": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promemoria"
+          }
+        }
+      }
+    },
+    "Reminder moved. The cycle stays at 4 of 4.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder moved. The cycle stays at 4 of 4."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Promemoria rinviato. Il ciclo resta a 4 di 4."
+          }
+        }
+      }
+    },
+    "Reminder time": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminder time"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orario del promemoria"
+          }
+        }
+      }
+    },
+    "Restore routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ripristina routine"
+          }
+        }
+      }
+    },
+    "Resume routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprendi routine"
+          }
+        }
+      }
+    },
+    "Review correction": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review correction"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rivedi correzione"
+          }
+        }
+      }
+    },
+    "Review routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rivedi routine"
+          }
+        }
+      }
+    },
+    "Review your routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review your routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rivedi la routine"
+          }
+        }
+      }
+    },
+    "Revision applied to the original entry": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revision applied to the original entry"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revisione applicata alla registrazione originale"
+          }
+        }
+      }
+    },
+    "Routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine"
+          }
+        }
+      }
+    },
+    "Routine created": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine created"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine creata"
+          }
+        }
+      }
+    },
+    "Routine name": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine name"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome della routine"
+          }
+        }
+      }
+    },
+    "Routine restored": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine restored"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine ripristinata"
+          }
+        }
+      }
+    },
+    "Routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine"
+          }
+        }
+      }
+    },
+    "Save": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salva"
+          }
+        }
+      }
+    },
+    "Saved place": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved place"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luogo salvato"
+          }
+        }
+      }
+    },
+    "Saving…": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving…"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvataggio…"
+          }
+        }
+      }
+    },
+    "Search": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca"
+          }
+        }
+      }
+    },
+    "Show all": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show all"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra tutte"
+          }
+        }
+      }
     },
     "Si aggiorna quando registri Palestra": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -142,11 +2801,65 @@
             "value": "Si aggiorna quando registri Palestra"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "Start a new cycle on completion": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start a new cycle on completion"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inizia un nuovo ciclo al completamento"
+          }
+        }
+      }
+    },
+    "Start with a Kit and adapt it to your day.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with a Kit and adapt it to your day."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parti da un Kit e adattalo alla tua giornata."
+          }
+        }
+      }
+    },
+    "Start with one routine": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with one routine"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inizia da una routine"
+          }
+        }
+      }
     },
     "Studio": {
       "comment": "User-facing copy in the Routally SwiftUI Foundation.",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -160,8 +2873,859 @@
             "value": "Studio"
           }
         }
-      },
-      "extractionState": "manual"
+      }
+    },
+    "Suggested values can be changed before adding.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggested values can be changed before adding."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I valori suggeriti sono modificabili prima di aggiungere."
+          }
+        }
+      }
+    },
+    "The cycle stays at 4 of 4 until you complete this step.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The cycle stays at 4 of 4 until you complete this step."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il ciclo resta a 4 di 4 finché non completi questo passo."
+          }
+        }
+      }
+    },
+    "The linked count and any open next step will be recalculated.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The linked count and any open next step will be recalculated."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il conteggio collegato e l’eventuale passo ancora aperto verranno ricalcolati."
+          }
+        }
+      }
+    },
+    "The new goal recalculates the current period. Changing a linked source applies only to future entries.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The new goal recalculates the current period. Changing a linked source applies only to future entries."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il nuovo obiettivo ricalcola il periodo corrente. Cambiare la sorgente di un collegamento vale soltanto per le registrazioni future."
+          }
+        }
+      }
+    },
+    "The original entry remains in history.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original entry remains in history."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La registrazione originale resta nella cronologia."
+          }
+        }
+      }
+    },
+    "The reminder can still use your backup time.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The reminder can still use your backup time."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il promemoria può comunque usare l’orario di riserva."
+          }
+        }
+      }
+    },
+    "This Kit could not be added": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Kit could not be added"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non è stato possibile aggiungere il Kit"
+          }
+        }
+      }
+    },
+    "This Kit has already been added": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Kit has already been added"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai già aggiunto questo Kit"
+          }
+        }
+      }
+    },
+    "This evening": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This evening"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questa sera"
+          }
+        }
+      }
+    },
+    "Threshold": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Threshold"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soglia"
+          }
+        }
+      }
+    },
+    "Threshold: %lld uses": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Threshold: %lld use"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Threshold: %lld uses"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Soglia: %lld utilizzo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Soglia: %lld utilizzi"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "To get started": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To get started"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per iniziare"
+          }
+        }
+      }
+    },
+    "Today": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oggi"
+          }
+        }
+      }
+    },
+    "Tomorrow": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomorrow"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Domani"
+          }
+        }
+      }
+    },
+    "Try again": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprova"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
+          }
+        }
+      }
+    },
+    "Undo completion": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo completion"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla completamento"
+          }
+        }
+      }
+    },
+    "Use New routine to get started.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use New routine to get started."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa Nuova routine per iniziare."
+          }
+        }
+      }
+    },
+    "Use time only": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use time only"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa solo l’orario"
+          }
+        }
+      }
+    },
+    "Useful moment": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Useful moment"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Momento utile"
+          }
+        }
+      }
+    },
+    "View existing routines": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View existing routines"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visualizza le routine esistenti"
+          }
+        }
+      }
+    },
+    "Visual prototype. Sample data stays in memory.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visual prototype. Sample data stays in memory."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prototipo visuale. I dati di esempio restano in memoria."
+          }
+        }
+      }
+    },
+    "Weekly target": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly target"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo settimanale"
+          }
+        }
+      }
+    },
+    "Weekly target: %lld": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly target: %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obiettivo settimanale: %lld"
+          }
+        }
+      }
+    },
+    "Wellbeing": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wellbeing"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benessere"
+          }
+        }
+      }
+    },
+    "What happens next?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens next?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosa succede dopo?"
+          }
+        }
+      }
+    },
+    "What will be created": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What will be created"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cosa verrà creato"
+          }
+        }
+      }
+    },
+    "What would you like to manage?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What would you like to manage?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Che cosa vuoi gestire?"
+          }
+        }
+      }
+    },
+    "When I arrive at": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When I arrive at"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando arrivo a"
+          }
+        }
+      }
+    },
+    "When I arrive at Home": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When I arrive at Home"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando arrivo a Casa"
+          }
+        }
+      }
+    },
+    "When should we remind you?": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When should we remind you?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando ricordartelo?"
+          }
+        }
+      }
+    },
+    "When you log": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When you log"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quando registri"
+          }
+        }
+      }
+    },
+    "Workout": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workout"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allenamento"
+          }
+        }
+      }
+    },
+    "Workout logged": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workout logged"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allenamento registrato"
+          }
+        }
+      }
+    },
+    "You can view your routines or configure another independent copy.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can view your routines or configure another independent copy."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puoi consultare le tue routine oppure configurare un’altra copia indipendente."
+          }
+        }
+      }
+    },
+    "Your choices are still here. Try again.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your choices are still here. Try again."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le tue scelte sono ancora qui. Riprova."
+          }
+        }
+      }
+    },
+    "Your first log and its effects will appear here.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your first log and its effects will appear here."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qui compariranno la prima registrazione e le sue conseguenze."
+          }
+        }
+      }
+    },
+    "Your other routines are still available.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your other routines are still available."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le altre routine sono ancora disponibili."
+          }
+        }
+      }
+    },
+    "Your patterns will appear here": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your patterns will appear here"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qui vedrai i tuoi ritmi"
+          }
+        }
+      }
+    },
+    "Your routine could not be saved": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your routine could not be saved"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non è stato possibile creare la routine"
+          }
+        }
+      }
+    },
+    "Your routine takes shape.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your routine takes shape."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La tua routine prende forma."
+          }
+        }
+      }
+    },
+    "Your unsaved choices will be lost.": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your unsaved choices will be lost."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le scelte non salvate andranno perse."
+          }
+        }
+      }
+    },
+    "fixture.routine.name": {
+      "comment": "Formatted user-facing copy; preserve placeholder order and meaning.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Routine %d"
+          }
+        }
+      }
+    },
+    "per week": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "per week"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "a settimana"
+          }
+        }
+      }
+    },
+    "the next step is": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the next step is"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "il passo successivo è"
+          }
+        }
+      }
+    },
+    "to %@": {
+      "comment": "DG-VISUAL fixture copy; excluded from the public app.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "to %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "a %@"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

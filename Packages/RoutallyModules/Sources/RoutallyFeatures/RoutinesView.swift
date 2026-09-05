@@ -28,7 +28,7 @@ struct RoutinesView: View {
         .navigationDestination(for: RoutineRoute.self) { route in
           switch route {
           case .detail(let routineID):
-            RoutineDetailView(routine: routine(id: routineID), store: store)
+            RoutineDetailView(router: router, routine: routine(id: routineID), store: store)
           }
         }
         .navigationTitle(.routine)
@@ -45,7 +45,7 @@ struct RoutinesView: View {
         .toolbar { rootToolbar }
     } detail: {
       if let selectedRoutineID = router.selectedRoutineID {
-        RoutineDetailView(routine: routine(id: selectedRoutineID), store: store)
+        RoutineDetailView(router: router, routine: routine(id: selectedRoutineID), store: store)
           .id(selectedRoutineID)
           .transition(.opacity)
       } else {
@@ -153,6 +153,9 @@ struct RoutinesView: View {
 }
 
 private struct RoutineDetailView: View {
+  @Environment(\.locale) private var locale
+  let router: AppRouter
+
   let routine: RoutineSummary?
   let store: RoutallyFeatureModel
 
@@ -160,22 +163,15 @@ private struct RoutineDetailView: View {
     if let routine {
       List {
         Section {
-          CycleVisualization(
-            title: routine.name,
-            current: routine.progress,
-            target: routine.target,
-            state: routine.cycleVisualizationState,
-            stateLabel: routine.cycleStateLabel
-          )
-          .frame(maxWidth: .infinity)
-          .listRowBackground(Color.clear)
-        }
-
-        if store.hasLinkedRoutine(forRoutineID: routine.id) {
-          Section(.conseguenze) {
-            LabeledContent(.obiettivoSettimanale, value: "\(routine.progress)/\(routine.target)")
-            Label(.aggiunge1UtilizzoAdAsciugamanoPalestra, systemImage: "link")
+          RoutineCausalCard(routine: routine, store: store, openDetail: nil) {
+            Task {
+              if await store.recordRoutine(id: routine.id, locale: locale) {
+                router.sheet = .consequences
+              }
+            }
           }
+          .listRowInsets(EdgeInsets())
+          .listRowBackground(Color.clear)
         }
 
         Section(.configurazione) {

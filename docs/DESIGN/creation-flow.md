@@ -128,3 +128,181 @@ non simula servizi o anticipa il motore di dominio.
 - Apple HIG — [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons)
 - Apple HIG — [Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback)
 - Apple HIG — [Undo and redo](https://developer.apple.com/design/human-interface-guidelines/undo-and-redo)
+
+
+## Proposta visuale Trama — DG-VISUAL
+
+Lo studio visuale confronta tre composizioni dello stesso stato minimo valido:
+`Palestra`, obiettivo `3 volte a settimana`. `Crea routine` è già disponibile;
+`Continua a configurare` aggiunge collegamenti e passo successivo facoltativi.
+La variabile del confronto è la gerarchia fra campi, frase riepilogativa e azioni,
+non il modello funzionale. I concept non dichiarano una nuova implementazione E08.
+
+Vincoli della revisione:
+
+- conservare l’unico flusso e le quattro macro-fasi senza presentare la configurazione
+  facoltativa come lavoro obbligatorio;
+- distinguere dati inseriti, anteprima e routine effettivamente creata;
+- applicare il [contratto Trama](trama-components.md), senza cambiare il riferimento approvato;
+- verificare in seguito campo vuoto, tastiera, errore, testo massimo, dark mode e iPad
+  sulla composizione scelta; il raster standard non certifica questi stati;
+- nessun dato d’esempio o Kit viene installato dalla consultazione del concept.
+
+La scelta visuale precede le successive tavole del flusso. Qualunque implementazione
+funzionale di E07–E11 resta esclusa dal piano DG-VISUAL corrente.
+
+
+### Prima revisione delle tre composizioni
+
+Tavole generate il 5 settembre 2026, mostrate nell’ordine 1, 2, 3. Sono concept,
+non screenshot di una nuova build. Le immagini non approvate restano fuori dalla repository.
+
+| Composizione | Oggetto del confronto | Correzione da conservare nella rifinitura |
+|---|---|---|
+| 1 | campi espliciti e riepilogo subordinato | rimuovere il simbolo a scintille non appartenente alla grammatica Trama |
+| 2 | sorgente compatta e configurazione verticale | il filo non deve decorare i passi del form: riservarlo all’anteprima delle conseguenze; rendere esplicito «Continua a configurare» |
+| 3 | frase riepilogativa prima dei controlli | verificare ridondanza del riepilogo e dimensione del titolo; le porzioni modificabili devono restare controlli nativi accessibili |
+
+Questi punti non sono nuove decisioni di prodotto. Servono a distinguere la composizione
+che si sta valutando dai dettagli generati che non rispettano ancora il contratto.
+La scelta e la rifinitura rimangono nel lavoro di design DG-VISUAL.
+
+
+### Composizione scelta e correzione richiesta
+
+Il proprietario ha scelto la composizione 3, chiedendo di eliminare la duplicazione
+fra l’obiettivo nella frase in alto e la riga sotto «Misura».
+La rifinitura conserva l’obiettivo modificabile soltanto nella frase «Voglio allenarmi
+3 volte a settimana»; sotto rimane la sola riga «Misura — Ogni allenamento (+1)».
+Il contenitore viene ridotto a una riga senza aggiungere nuovi campi.
+Il proprietario ha chiesto di proseguire mantenendo la tavola corretta senza ulteriori
+campi o testo esplicativo sotto «Misura». Questa scelta non chiude l’intero DG-VISUAL.
+
+
+### Passaggio successivo: Cosa succede dopo
+
+Lo studio prosegue sullo stesso flusso e sulla stessa grammatica visuale. Lo stato
+rappresentato è una configurazione in bozza: ogni allenamento di Palestra aggiunge
+un utilizzo ad Asciugamano palestra; alla soglia di quattro utilizzi viene preparato
+il passo «Prepara un asciugamano pulito».
+
+Il confronto riguarda tre gerarchie: anteprima causale prima dei campi, campi prima
+di un’anteprima compatta, oppure frase modificabile che unisce configurazione e
+anteprima senza duplicare i controlli. L’etichetta «Anteprima» distingue la regola
+in preparazione da eventi registrati o collegamenti già salvati.
+
+`Crea routine` rimane disponibile; `Continua a configurare` conduce al momento del
+promemoria. Luogo e fallback temporale appartengono al passaggio seguente e non sono
+precompilati da questa tavola. La scelta della composizione e le varianti vuote,
+incomplete e accessibili restano aperte. Nessuna nuova funzionalità viene implementata.
+
+
+Revisione delle tavole, nell’ordine mostrato 1–3: la prima rende esplicita la catena
+ma ripete diversi valori fra anteprima e campi; la seconda conserva la separazione
+fra form e riepilogo; la terza evita la duplicazione dei controlli. Nella rifinitura
+vanno uniformati i titoli a «Nuova routine» e «Cosa succede dopo?», eliminati i nomi
+interni dei concept e il testo tecnico generato, e mantenuta distinta la soglia del
+collegamento dall’obiettivo settimanale di Palestra. Il filo della terza tavola deve
+collegare nodi effettivi o essere rimosso. Le tavole sono confronti compositivi,
+non specifiche finali né evidenza di accessibilità.
+
+
+### Rifinitura della composizione 3 delle conseguenze
+
+Il proprietario ha scelto la terza composizione chiedendo testo iniziale sensato,
+caratteri più grandi, rimozione dell’intestazione «Anteprima» con icona duplicata
+e una rifinitura generale. La revisione conserva «Nuova routine» nella barra e
+«Cosa succede dopo?» come titolo, senza sottotitolo esplicativo.
+
+Il modulo contiene una sola intestazione Palestra con simbolo. Le frasi modificabili
+mostrano incremento, routine collegata, soglia e passo successivo una sola volta;
+i valori lunghi vanno a capo mantenendo la dimensione del corpo. Si rimuovono «Origine»,
+il filo senza destinazione e i contenitori pesanti dei singoli valori. Dopo aver visto
+la revisione, il proprietario ha rifiutato l’ingrandimento eccessivo: il corpo usa
+lo stile di sistema `.body` (17 pt alla dimensione standard), anche per i valori
+modificabili. La leggibilità si migliora con spaziatura e disposizione, non con una
+scala tipografica diversa per questa schermata. Dynamic Type richiede verifica nativa.
+
+Questa revisione supera la precedente richiesta di un’intestazione «Anteprima»:
+la superficie è il controllo della regola in creazione, senza un riepilogo duplicato,
+e non rappresenta eventi applicati. Rimangono invariati i valori e le azioni del flusso.
+Il proprietario ha approvato la versione con scala tipografica standard, richiedendo
+soltanto «Cosa succede dopo?» su una riga e «Asciugamano palestra» come unico controllo
+senza spezzare il nome. Alla dimensione standard si dispone la frase su righe intenzionali:
+«Ogni allenamento aggiunge», poi il valore «1 utilizzo», poi «a Asciugamano palestra».
+Non si riduce il font per ottenere questo risultato. A dimensioni accessibili o con
+nomi più lunghi resta necessario un layout adattivo senza troncamenti. Nessun codice
+funzionale cambia.
+
+
+La tavola delle conseguenze corretta negli a capo è stata approvata dal proprietario.
+Il lavoro prosegue con il passaggio «Quando ricordartelo», conservando la stessa scala.
+
+### Studio del momento utile
+
+La tavola successiva riguarda il passo «Prepara un asciugamano pulito», configurato
+per l’arrivo nel luogo salvato Casa con orario di riserva alle 20:00. Il promemoria
+riguarda il follow-up dopo la soglia, non l’obiettivo settimanale di Palestra.
+La configurazione rimane in bozza; la tavola non certifica permessi o pianificazione.
+
+Tre composizioni confrontano frase modificabile integrata, campi nativi separati
+dal contesto, oppure due blocchi «Momento utile» e «Orario di riserva». Ogni valore
+ha un solo controllo. L’interfaccia usa «Orario di riserva» anziché il termine tecnico
+fallback; il collegamento geografico non può essere configurato senza questa alternativa.
+
+`Crea routine` rimane la primaria; `Rivedi routine` porta al riepilogo finale del flusso.
+Il contesto presenta una sola volta il nome del follow-up con il relativo simbolo.
+Il permesso geografico si richiede soltanto dopo la scelta del luogo; se negato, resta
+l’orario di riserva. Permesso negato, luogo non disponibile, testo accessibile e modalità
+scura sono stati successivi da coprire, non già verificati dal concept configurato.
+
+Le revisioni delle composizioni con campi separati e con due blocchi sostituiscono
+le prime tavole che avevano ripreso erroneamente il nome Palestra dal riferimento.
+Tutte le composizioni valide identificano «Prepara un asciugamano pulito» e usano
+«Rivedi routine» per accedere al riepilogo. Le icone generate sono riferimenti
+compositivi: nella resa nativa si riutilizza il simbolo del follow-up già approvato.
+
+Il proprietario ha approvato esplicitamente la seconda delle due revisioni, ossia
+l’ultima immagine mostrata: un solo modulo con il follow-up, «Momento utile»,
+«Quando arrivo a Casa», «Cambia momento» e «Orario di riserva — Altrimenti alle 20:00».
+Il riferimento selezionato è `exec-0ff038b1-81f5-4652-8afe-063cf2dfd088.png`.
+Restano confermate le azioni «Crea routine» e «Rivedi routine». Il prossimo passaggio
+di design è il riepilogo finale; l’approvazione non certifica gli stati alternativi
+ancora da coprire né avvia l’implementazione funzionale.
+
+### Studio del riepilogo finale
+
+Il riepilogo conserva la scala tipografica approvata e il titolo «Rivedi la routine».
+Mostra una sola volta ciascun valore in quattro sezioni modificabili: frequenza,
+collegamento, passo successivo e promemoria. Le frasi delle sezioni costituiscono
+il riepilogo naturale, senza aggiungere un secondo blocco che ripeta gli stessi dati.
+
+Lo scenario resta Palestra tre volte a settimana, Asciugamano palestra con un utilizzo
+per allenamento, soglia di quattro utilizzi e passo «Prepara un asciugamano pulito».
+Il riepilogo esplicita anche il nuovo ciclo al completamento previsto dallo scenario
+canonico. Il promemoria riguarda il passo successivo: arrivo a Casa, altrimenti 20:00.
+
+Le tre composizioni confrontano un modulo integrato, una lista nativa separata dal
+contesto e un riepilogo causale Trama. Tutte conservano l’accesso alla modifica delle
+sezioni e una sola azione finale «Crea routine». Non compare un’azione per continuare
+la configurazione oltre il riepilogo. Nessuna tavola rappresenta dati già salvati.
+Salvataggio, errore e successo restano stati da verificare separatamente.
+
+Le tavole sono mostrate nell’ordine modulo integrato, lista separata, riepilogo causale.
+Nella rifinitura si conservano gli allineamenti di navigazione approvati: il titolo
+centrato generato nella terza composizione non introduce una nuova convenzione.
+I simboli devono riusare quelli del sistema Trama; non diventano una nuova famiglia
+di icone per il riepilogo.
+
+Il proprietario ha scelto la composizione 2, `exec-bd250cc1-6d2e-4459-8ce5-04423faaa5a7.png`:
+intestazione Palestra separata e lista nativa con Frequenza, Collegamento, Passo
+successivo e Promemoria. Ogni sezione permette la modifica; «Crea routine» resta
+l’unica azione finale. Questo è il riferimento del riepilogo ordinario; stati
+alternativi e verifiche native rimangono nel lavoro di design da completare.
+
+### Stati alternativi e prove native
+
+La [revisione complessiva](design-review.md) completa la proposta degli stati vuoti,
+tastiera, dati mancanti, uscita, salvataggio, errore, successo, posizione negata e
+orario di riserva. Le evidenze native sono nella relativa galleria e nel QA.
+Sono fixture di design in memoria, non implementazioni funzionali delle epiche future.

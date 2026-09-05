@@ -91,6 +91,26 @@ public struct ConsequenceSummary: Equatable, Sendable {
   }
 }
 
+struct RecordingPreview: Equatable, Sendable {
+  let sourceProgression: RecordingPreviewProgress
+  let effects: [RecordingPreviewEffect]
+  var sourceProgress: String { sourceProgression.formatted }
+}
+
+struct RecordingPreviewProgress: Equatable, Sendable {
+  let before: String
+  let after: String
+  var formatted: String { "\(before) → \(after)" }
+}
+
+struct RecordingPreviewEffect: Identifiable, Equatable, Sendable {
+  let id: String
+  let title: String
+  let symbol: String
+  let context: String
+  var progression: RecordingPreviewProgress?
+}
+
 public struct RoutallyFeatureSeed: Sendable {
   public let catalog: DomainCatalog
   public let ledger: DomainLedger
@@ -157,6 +177,7 @@ public final class RoutallyFeatureModel {
   public private(set) var consequenceSummary: ConsequenceSummary?
   public private(set) var isLoading = false
   public private(set) var isPerformingOperation = false
+  var presentationDate: Date { currentAsOf }
 
   private var persistence: (any RoutallyData.RoutallyStore)?
   private let persistenceFactory:
@@ -341,7 +362,7 @@ public final class RoutallyFeatureModel {
         measurement: .count,
         frequency: .cycleDriven,
         appearance: RoutineAppearance(
-          symbolName: "washer",
+          symbolName: "tshirt",
           areaIdentifier: draft.area
         ),
         createdAt: operationDate
@@ -611,6 +632,96 @@ public final class RoutallyFeatureModel {
     return !catalog.links.contains { $0.targetRoutineID == definition.id }
   }
 
+  func progressPeriodLabel(forRoutineID routineID: String) -> LocalizedStringResource {
+    guard let definition = routineDefinition(for: routineID),
+      case .withinPeriod(let goal) = definition.frequency
+    else { return .inCorso }
+    switch goal.period {
+    case .day: return .progressPeriodDay
+    case .week: return .progressPeriodWeek
+    case .month: return .progressPeriodMonth
+    case .year: return .progressPeriodYear
+    }
+  }
+
+  /// Evaluates a hypothetical event using the same reducer as a real recording.
+  /// Nothing is committed, scheduled or published to the visible snapshot.
+  func recordingPreview(id: String, locale: Locale = .current) async throws -> RecordingPreview? {
+    guard !isPerformingOperation, pendingRecording == nil,
+      let definition = routineDefinition(for: id), canRecordRoutine(id: id)
+    else { return nil }
+    let date = clock.now()
+    let previewCatalog = catalog
+    let originalLedger = ledger
+    let event = RoutineEvent(
+      routineID: definition.id, kind: .recorded(.count), occurredAt: date,
+      originalLocalDay: LocalDay(date: date, timeZoneIdentifier: calendar.timeZoneIdentifier),
+      logicalClock: nextLogicalClock, recordedAt: date
+    )
+    var previewLedger = originalLedger
+    previewLedger.events.append(event)
+    let before = try await DomainRecalculator.recalculate(
+      catalog: previewCatalog, ledger: originalLedger, asOf: date, calendar: calendar
+    )
+    let after = try await DomainRecalculator.recalculate(
+      catalog: previewCatalog, ledger: previewLedger, asOf: date, calendar: calendar
+    )
+    try Task.checkCancellation()
+    guard catalog == previewCatalog, ledger == originalLedger, !isPerformingOperation else {
+      return nil
+    }
+    func progress(_ routine: RoutineDefinition) -> RecordingPreviewProgress {
+      let old = routineSummary(for: routine, locale: locale, evaluatedState: before, date: date)
+      let new = routineSummary(for: routine, locale: locale, evaluatedState: after, date: date)
+      return RecordingPreviewProgress(
+        before: "\(old.progress)/\(old.target)",
+        after: "\(new.progress)/\(new.target)")
+    }
+    let effects = after.consequencesByEvent[event.id, default: []].compactMap {
+      consequence -> RecordingPreviewEffect? in
+      switch consequence.kind {
+      case .linkedProgress(let linkID, let routineID, _):
+        guard let routine = previewCatalog.routines.first(where: { $0.id == routineID }) else {
+          return nil
+        }
+        return RecordingPreviewEffect(
+          id: linkID.rawValue.uuidString, title: routine.name,
+          symbol: routine.appearance.symbolName, context: progress(routine).formatted,
+          progression: progress(routine)
+        )
+      case .followUpCreated(let followUpID):
+        guard let followUp = after.followUps[followUpID],
+          let cycle = previewCatalog.cycles.first(where: { $0.id == followUpID.cycleID })
+        else { return nil }
+        let moment: String
+        switch cycle.followUp.usefulMoment {
+        case .immediate:
+          moment = L10n.string(.adesso, locale: locale)
+        case .geographic(let locationID, _):
+          moment =
+            locationID == "home"
+            ? L10n.string(.previewAtHome, locale: locale)
+            : L10n.string(.previewAtSavedLocation, locale: locale)
+        case .temporal:
+          moment =
+            followUp.readyAt.map {
+              $0.formatted(
+                Date.FormatStyle(
+                  date: .omitted, time: .shortened, locale: locale,
+                  timeZone: calendar.foundationCalendar.timeZone))
+            } ?? L10n.string(.todaySectionLater, locale: locale)
+        }
+        return RecordingPreviewEffect(
+          id: followUpKey(followUpID), title: followUp.title, symbol: "basket",
+          context: moment
+        )
+      default:
+        return nil
+      }
+    }
+    return RecordingPreview(sourceProgression: progress(definition), effects: effects)
+  }
+
   public func areaIdentifier(forRoutineID routineID: String) -> String? {
     routineDefinition(for: routineID)?.appearance.areaIdentifier
   }
@@ -714,8 +825,12 @@ public final class RoutallyFeatureModel {
 
   private func routineSummary(
     for definition: RoutineDefinition,
-    locale: Locale
+    locale: Locale,
+    evaluatedState: DomainState? = nil,
+    date: Date? = nil
   ) -> RoutineSummary {
+    let domainState = evaluatedState ?? self.domainState
+    let currentAsOf = date ?? self.currentAsOf
     let cycleDefinition = catalog.cycles.first { $0.routineID == definition.id }
     let cycle = cycleDefinition.flatMap { domainState.cycles[$0.id] }
     let progress: Int

@@ -19,7 +19,9 @@ struct RoutallyApp: App {
     #if ROUTALLY_DEVELOPMENT
       developerDiagnosticsEnabled = true
       let arguments = ProcessInfo.processInfo.arguments
-      if let demo = DemoFixtures.verticalSliceSeed(arguments: arguments) {
+      if DesignReviewScenario.requested(arguments: arguments) != nil {
+        _store = State(initialValue: RoutallyFeatureModel(previewSnapshot: .empty))
+      } else if let demo = DemoFixtures.verticalSliceSeed(arguments: arguments) {
         do {
           let persistence = try SwiftDataRoutallyStore(configuration: .inMemory())
           _store = State(
@@ -56,15 +58,29 @@ struct RoutallyApp: App {
 
   var body: some Scene {
     WindowGroup {
-      RoutallyRootView(
-        store: store,
-        developerDiagnosticsEnabled: developerDiagnosticsEnabled,
-        router: router
-      )
+      #if ROUTALLY_DEVELOPMENT
+        if let scenario = DesignReviewScenario.requested(
+          arguments: ProcessInfo.processInfo.arguments
+        ) {
+          TramaDesignReview(scenario: scenario)
+        } else {
+          appContent
+        }
+      #else
+        appContent
+      #endif
     }
     .commands {
       RoutallyCommands(router: router)
     }
+  }
+
+  private var appContent: some View {
+    RoutallyRootView(
+      store: store,
+      developerDiagnosticsEnabled: developerDiagnosticsEnabled,
+      router: router
+    )
   }
 
   private static var failureSnapshot: RoutallySnapshot {

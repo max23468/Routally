@@ -12,6 +12,52 @@ struct VerticalSliceTests {
   private let sourceID = "00000000-0000-4000-8000-000000000601"
   private let towelID = "00000000-0000-4000-8000-000000000602"
 
+  @Test("L’anteprima usa il reducer senza scrivere eventi o creare promemoria")
+  func recordingPreviewDoesNotMutateAndMatchesRecording() async throws {
+    let (persistence, model, fixture) = try makeModel()
+    await model.load(locale: italian)
+    let original = model.snapshot
+    let before = try await persistence.load(asOf: fixture.asOf, calendar: fixture.calendar)
+    let preview = try #require(try await model.recordingPreview(id: sourceID, locale: italian))
+    #expect(preview.sourceProgress == "1/3 → 2/3")
+    #expect(preview.effects.count == 2)
+    #expect(preview.effects[0].context == "3/4 → 4/4")
+    #expect(preview.effects[1].context == "Al rientro a casa")
+    #expect(model.snapshot == original)
+    #expect(model.consequenceSummary == nil)
+    let after = try await persistence.load(asOf: fixture.asOf, calendar: fixture.calendar)
+    #expect(after.ledger == before.ledger)
+    #expect(after.state == before.state)
+    #expect(await model.recordRoutine(id: sourceID, locale: italian))
+    #expect(model.snapshot.routines.first { $0.id == towelID }?.progress == 4)
+    #expect(model.snapshot.followUps.first?.title == preview.effects[1].title)
+    #expect(model.snapshot.followUps.first?.state == .waitingForUsefulMoment)
+    let next = try #require(try await model.recordingPreview(id: sourceID, locale: italian))
+    #expect(next.effects.count == 1)
+    #expect(next.effects.first?.context == "4/4 → 5/4")
+  }
+
+  @Test("Anteprima localizzata e ricalcolata dopo annullamento e reset")
+  func recordingPreviewFollowsUndoAndCycleReset() async throws {
+    let (_, model, _) = try makeModel()
+    await model.load(locale: italian)
+    let first = try #require(try await model.recordingPreview(id: sourceID, locale: italian))
+    #expect(await model.recordRoutine(id: sourceID, locale: italian))
+    #expect(await model.undoLastRecording(locale: italian))
+    let restored = try #require(try await model.recordingPreview(id: sourceID, locale: italian))
+    #expect(restored == first)
+    let english = try #require(
+      try await model.recordingPreview(id: sourceID, locale: Locale(identifier: "en")))
+    #expect(english.effects.last?.context == "When you get home")
+    #expect(await model.recordRoutine(id: sourceID, locale: italian))
+    let followUp = try #require(model.snapshot.followUps.first)
+    #expect(await model.completeFollowUp(id: followUp.id, locale: italian))
+    let reset = try #require(try await model.recordingPreview(id: sourceID, locale: italian))
+    #expect(reset.effects.count == 1)
+    #expect(reset.effects.first?.context == "0/4 → 1/4")
+    #expect(try await model.recordingPreview(id: towelID, locale: italian) == nil)
+  }
+
   @Test("La fixture parte da 1 su 3 e 3 su 4 usando il registro reale")
   func canonicalFixtureLoadsFromDomainAndPersistence() async throws {
     let (_, model, _) = try makeModel()

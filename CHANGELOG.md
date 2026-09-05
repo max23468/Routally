@@ -4,6 +4,12 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Approvato e formalizzato Trama per Oggi, dettaglio e conseguenze, con anteprima
+  calcolata dal reducer senza scritture, prototipi Dev degli altri stati, localizzazione
+  IT/EN e prove iPhone/iPad Simulator. E06/M03 e DG-VISUAL chiusi dopo l’approvazione
+  e la rimozione esplicita del requisito hardware di M03 da parte del Product Owner.
+  Le epiche E07–E11 non sono implementate.
+
 - Implementata E05 con il modulo `RoutallyData`: schema SwiftData locale V1, piano di
   migrazione baseline, store `ModelActor` testabile, configurazioni in-memory/file/Apple
   esplicite e iniettate, payload V1 dichiarati, deduplica UUID anche per record già

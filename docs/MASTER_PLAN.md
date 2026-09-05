@@ -4353,7 +4353,7 @@ della milestone: sono condizioni che ne precedono o vincolano il completamento.
 | `0.1` | `M01` Foundation | `E01`–`E03` | `TG-DATA` chiuso **Adapt** su evidenze locali; prototipi mirati per le integrazioni UI/sistema |
 | `0.2` | `M02` Core Routine Engine | `E04`–`E05` | adattamenti di `TG-DATA` applicati; `TG-RECALC` prima delle feature dipendenti |
 | `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili; `DG-VISUAL` chiuso sul linguaggio visuale della vertical slice, senza anticipare le integrazioni di sistema complete |
-| `0.4` | `M04` Today & Routine | `E07`–`E10` | `DG-VISUAL` chiuso; vertical slice reale verificata su device e offline |
+| `0.4` | `M04` Today & Routine | `E07`–`E10` | `DG-VISUAL` chiuso; vertical slice reale verificata su Simulator e offline |
 | `0.5` | `M05` Explore & Kits | `E11` | `DG-VISUAL` chiuso; motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
 | `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 implementati e verificati localmente; predisposizione iCloud testata su Simulator |
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
@@ -4970,7 +4970,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 
 ## 48.3 M03 — Vertical Slice
 
-- flusso end-to-end su device;
+- flusso end-to-end su iPhone e iPad Simulator;
 - offline;
 - undo/correction;
 - follow-up;
@@ -4978,6 +4978,13 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - accessibility base;
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
+
+**Stato al 5 settembre 2026:** E06/M03 e DG-VISUAL chiusi.
+Il Product Owner ha rimosso esplicitamente il requisito del flusso su dispositivo
+fisico per questa milestone e il relativo prerequisito di M04; la verifica end-to-end
+resta richiesta su Simulator. Criteri ed evidenze sono nell’[audit E06](DESIGN/e06-visual-audit.md#verifica-di-chiusura-e06m03--5-settembre-2026).
+Le prove hardware delle milestone successive restano richieste nei rispettivi perimetri.
+La chiusura non avvia automaticamente E07–E11.
 
 ### Checkpoint visuale obbligatorio di E06
 
@@ -5160,15 +5167,22 @@ dell’epica né della 1.0 senza change control.
 - `E21` / `M11`: verifica figurativa formale o accettazione esplicita del rischio,
   ratifica del Product Owner e chiusura del gate prima degli asset App Store definitivi.
 
-## DG-VISUAL
+## DG-VISUAL — chiuso il 5 settembre 2026
 
-- appartiene a `E06` / `M03` e resta aperto fino al checkpoint visuale della sezione 48.3;
-- richiede le sei evidenze previste dal checkpoint, inclusa la verifica del prototipo su
-  iPhone e iPad Simulator;
-- viene chiuso soltanto dall'approvazione visiva del Product Owner e dalla formalizzazione
-  del linguaggio visuale risultante;
-- blocca l'estensione delle schermate in `E07`–`E11`, quindi è un prerequisito esplicito
-  di `M04` e `M05` nella mappa della sezione 37.2.
+**Confirmed.** Il Product Owner ha approvato la resa SwiftUI Trama della revisione
+`92f97de` dopo il confronto con il concept e le verifiche iPhone/iPad («Mi piace»).
+Audit, revisione, prototipo, evidenze Simulator, approvazione e formalizzazione sono
+raccolti in [Trama Fase 1](DESIGN/trama-phase-one.md), [UI Foundation](DESIGN/ui-foundation.md)
+e [audit E06](DESIGN/e06-visual-audit.md). Il 5 settembre 2026 il Product Owner ha
+approvato anche il pacchetto complessivo `1119333b93af80071f67253dbd29f7f14060b562`
+con «Approvo»: [revisione](DESIGN/design-review.md), galleria e formalizzazione del
+[piano DG-VISUAL](DESIGN/dg-visual-plan.md). I sei requisiti della sezione 48.3 sono
+soddisfatti; DG-VISUAL è chiuso.
+
+Trama è la base vincolante per le future E07–E11. La chiusura soddisfa il prerequisito
+visuale, ma non autorizza l’avvio delle epiche successive e non completa M04/M05,
+i gate di accessibilità, le prove su device reali o la pubblicazione.
+Il lavoro corrente resta circoscritto a E06 e alla formalizzazione del design.
 
 ## DG-DEVELOPER-IDENTITY
 

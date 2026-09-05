@@ -1,6 +1,6 @@
 # E06 — Audit e checkpoint visuale della vertical slice
 
-- **Stato:** Evidenze salvate — approvazione e formalizzazione rinviate a una PR dedicata
+- **Stato:** Confirmed — DG-VISUAL chiuso il 5 settembre 2026
 - **Epic:** E06 — Vertical Slice Integration
 - **Gate:** DG-VISUAL
 - **Fonte canonica:** Master Plan, sezione 48.3
@@ -25,7 +25,7 @@ schermate di E07–E11.
 | Stati degradati | Offline ed errore recuperabile sono presenti ma prima erano alimentati da snapshot | offline ora accompagna scritture locali reali; retry ricrea anche uno store che non si è inizializzato |
 | Accessibilità | I controlli nativi conservano ordine e semantica, ma i campi compilati non devono perdere il proprio nome | `Nome routine` e `Follow-up` mantengono un'etichetta esplicita anche quando contengono un valore |
 
-## Linguaggio visuale proposto
+## Linguaggio visuale approvato
 
 La vertical slice conserva la direzione E02:
 
@@ -37,9 +37,10 @@ La vertical slice conserva la direzione E02:
 5. ogni automazione mostra origine, risultato e correzione disponibile;
 6. caricamento, errore e offline non sostituiscono né nascondono i dati locali validi.
 
-Questa formulazione è provvisoria finché il Product Owner non approva le evidenze
-Simulator. L'approvazione e la formalizzazione saranno trattate in una PR dedicata;
-soltanto dopo diventeranno la base vincolante per E07–E11.
+La revisione Trama sostituisce la baseline visuale descritta nell’audit iniziale.
+Il riferimento vincolante è [Trama Fase 1](trama-phase-one.md), formalizzato nella
+[UI Foundation](ui-foundation.md). Il 5 settembre il Product Owner ha approvato la
+resa reale `92f97de` con «Mi piace» dopo il confronto concept–SwiftUI.
 
 ## Evidenze richieste da DG-VISUAL
 
@@ -50,7 +51,8 @@ soltanto dopo diventeranno la base vincolante per E07–E11.
 | prototipo SwiftUI curato del flusso principale | implementato e verificato a runtime | `RoutallyFeatureModel` e viste E06 |
 | verifica iPhone Simulator | completata su iPhone 17 Pro, iOS 26.5 | [Oggi](evidence/e06/iphone-today.jpg), [conseguenze](evidence/e06/iphone-consequences.jpg), [follow-up pronto](evidence/e06/iphone-follow-up-ready.jpg) |
 | verifica iPad Simulator | completata su iPad Pro 11-inch (M5), iOS 26.5, portrait e landscape | [Oggi portrait](evidence/e06/ipad-today-portrait.jpg), [routine landscape](evidence/e06/ipad-routines-landscape.jpg), [conseguenze landscape](evidence/e06/ipad-consequences-landscape.jpg) |
-| approvazione visiva Product Owner | pendente, in una PR dedicata a `DG-VISUAL` | — |
+| approvazione visiva Product Owner | completata il 5 settembre 2026 sulla revisione Trama `92f97de` | [Trama Fase 1](trama-phase-one.md) e [QA](../../design-qa.md) |
+| formalizzazione del linguaggio approvato | completata; riferimento vincolante E07–E11 | [UI Foundation](ui-foundation.md) |
 
 ## Verifica tecnica e runtime del 27 agosto 2026
 
@@ -86,12 +88,43 @@ L'approvazione deve confermare che:
 - iPhone e iPad mantengono contenuto, azioni e ordine di lettura;
 - l'interfaccia appare calma, Apple-native e coerente con Routally.
 
-Solo dopo questa conferma `DG-VISUAL` può essere registrato come chiuso.
+La conferma è stata ricevuta. Le evidenze aggiornate iPhone/iPad, incluse dark mode e
+Dynamic Type massimo, sono in [Trama Fase 1](trama-phase-one.md); le acquisizioni E06
+qui sopra restano la baseline storica.
 
-## Confine di pubblicazione
+## Verifica di chiusura E06/M03 — 5 settembre 2026
 
-La PR tecnica di E06 pubblica l'integrazione applicativa e conserva nel repository le sei
-evidenze Simulator. Non chiude `DG-VISUAL`: revisione visuale del Product Owner,
-formalizzazione del linguaggio approvato e aggiornamento del Decision Register restano
-nel perimetro della successiva PR dedicata. Fino al suo merge non inizia l'estensione
-delle schermate in E07–E11.
+**E06/M03 e DG-VISUAL sono chiusi.** Il 5 settembre il Product Owner ha rimosso
+esplicitamente il requisito del flusso su dispositivo fisico da M03 e dal prerequisito
+di M04. La sezione 48.3 richiede ora il flusso end-to-end su iPhone e iPad Simulator,
+coperto dalle evidenze sotto. Nessuna prova hardware viene attestata.
+
+| Criterio M03 | Evidenza e risultato |
+|---|---|
+| Flusso end-to-end su Simulator | registrazione, propagazione, correzione, follow-up e reset nelle evidenze E06; resa Trama verificata su iPhone e iPad |
+| Offline e persistenza locale | store E05 e regressioni di riapertura, scritture offline e recovery in `VerticalSliceTests` e test dati |
+| Undo/correction | esclusioni revisionali, tombstone e annullamento senza doppia correzione verificati dai test e dal percorso Simulator |
+| Follow-up e reset | soglia, momento utile, completamento e ciclo successivo coperti dalle regressioni E06 |
+| Reminder/fallback testabili | arrivo e fallback idempotenti, selezione del luogo e recovery coperti; trigger OS completi in E12 |
+| Accessibilità base | controlli etichettati, Dynamic Type massimo, contrasto, scuro e layout iPad nelle evidenze Trama; audit completo in E19 |
+| Screenshot e design approvato | gallerie fase 1 e revisione complessiva; DG-VISUAL chiuso |
+| Dominio generico | quattro archetipi nei test di dominio; il catalogo Palestra è una fixture Dev |
+
+La fixture `demo connectedGymCycle` attraversa store E05, reducer E04 e feature model
+reali, con dati sintetici in memoria. La persistenza su disco e la riapertura sono
+verificate separatamente dai test dati; una fixture in-memory non le certifica.
+CloudKit, geofencing e notifiche OS complete restano nelle milestone pertinenti, così
+come l’audit completo di accessibilità e le rispettive prove hardware.
+La pubblicazione tecnica è autorizzata dal Product Owner il 5 settembre 2026.
+
+### Autorizzazione tecnica
+
+Il Product Owner ha approvato anche il pacchetto complessivo `1119333` con «Approvo»
+il 5 settembre 2026. La [revisione approvata](design-review.md) completa la
+formalizzazione e chiude DG-VISUAL secondo i sei requisiti della sezione 48.3.
+
+Il lavoro corrente segue il [piano DG-VISUAL](dg-visual-plan.md) per la chiusura di E06
+e la formalizzazione del design approvato.
+La chiusura di DG-VISUAL non autorizza l’implementazione di E07–E11. La richiesta
+successiva «integra eventuali findings, poi pubblica» autorizza push, PR e merge secondo
+il workflow del repository. TestFlight e App Store restano fuori dal perimetro.

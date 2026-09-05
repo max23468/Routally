@@ -3,6 +3,13 @@ import SwiftUI
 public enum RoutallyColor {
   public static let brandAccent = Color("brandAccent", bundle: .module)
 
+  public static let causalSurface = Color(
+    uiColor: UIColor { traits in
+      traits.userInterfaceStyle == .dark
+        ? UIColor(red: 0.10, green: 0.10, blue: 0.15, alpha: 1)
+        : UIColor(red: 0.965, green: 0.963, blue: 0.985, alpha: 1)
+    })
+
   public static let contentSecondary = Color.secondary
   public static let separator = Color(uiColor: .separator)
   public static let statusComplete = Color(uiColor: .systemGreen)

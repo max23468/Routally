@@ -8,6 +8,20 @@ import Testing
 @Suite("Foundation")
 @MainActor
 struct FoundationTests {
+  @Test("La configurazione condivisa permette la selezione italiana e inglese")
+  func hostSupportsBothProductLanguages() throws {
+    // I test sono hostless: Bundle.main è il runner Apple, non il bundle configurato.
+    let configuredBundle = try #require(
+      Bundle.allBundles.first { $0.bundleURL.pathExtension == "xctest" }
+    )
+    for language in ["it", "en"] {
+      let selected = Bundle.preferredLocalizations(
+        from: configuredBundle.localizations, forPreferences: [language]
+      )
+      #expect(selected.first == language)
+    }
+  }
+
   @Test("Le fixture canoniche sono tutte disponibili")
   func canonicalFixturesAreAvailable() {
     #expect(
@@ -35,6 +49,20 @@ struct FoundationTests {
     #expect(largeHistory.routines.count == 30)
     #expect(largeHistory.followUps.count == 120)
     #expect(largeHistory.followUps.allSatisfy { $0.state == .completed })
+  }
+
+  @Test("Lo studio visuale richiede un opt-in e non ricade sui dati locali per argomenti errati")
+  func designReviewRequiresExplicitLaunchArgument() {
+    #expect(DesignReviewScenario.requested(arguments: ["creation-review"]) == nil)
+    #expect(DesignReviewScenario.requested(arguments: ["-launchMode", "demo"]) == nil)
+    #expect(
+      DesignReviewScenario.requested(arguments: ["-designReview", "creation-error"])
+        == .creationError
+    )
+    #expect(DesignReviewScenario.requested(arguments: ["-designReview"]) == .gallery)
+    #expect(
+      DesignReviewScenario.requested(arguments: ["-designReview", "unknown-scenario"]) == .gallery
+    )
   }
 
   @Test("Le fixture richiedono esplicitamente la modalità demo")
