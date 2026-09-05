@@ -166,3 +166,13 @@ non screenshot di una nuova build. Le immagini non approvate restano fuori dalla
 Questi punti non sono nuove decisioni di prodotto. Servono a distinguere la composizione
 che si sta valutando dai dettagli generati che non rispettano ancora il contratto.
 La scelta e la rifinitura rimangono nel lavoro di design DG-VISUAL.
+
+
+### Composizione scelta e correzione richiesta
+
+Il proprietario ha scelto la composizione 3, chiedendo di eliminare la duplicazione
+fra l’obiettivo nella frase in alto e la riga sotto «Misura».
+La rifinitura conserva l’obiettivo modificabile soltanto nella frase «Voglio allenarmi
+3 volte a settimana»; sotto rimane la sola riga «Misura — Ogni allenamento (+1)».
+Il contenitore viene ridotto a una riga senza aggiungere nuovi campi.
+La tavola corretta resta da approvare; questa scelta non chiude l’intero DG-VISUAL.
