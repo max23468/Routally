@@ -41,6 +41,26 @@ Il valore `prima → dopo` resta completo. In presenza di poco spazio si va a ca
 tronca una conseguenza, non si riduce il carattere e non si sostituisce una frase con un
 simbolo ambiguo.
 
+## Tipografia delle sheet di configurazione
+
+Le sheet condividono gli stili di sistema e la [UI Foundation](ui-foundation.md#tipografia).
+Non si ingrandisce tutta una tavola per correggere la leggibilità di singoli elementi.
+
+| Ruolo | Stile | Base standard |
+|---|---|---|
+| Domanda principale | `.largeTitle` bold | 34 pt |
+| Titolo sorgente nel modulo Trama | `.title3` semibold | 20 pt |
+| Frase e valori modificabili | `.body` | 17 pt |
+| Titolo della barra, azioni e pulsanti | metriche native, corpo standard | 17 pt |
+| Contesto secondario, quando necessario | `.subheadline` | 15 pt |
+| Metadati, quando necessari | `.footnote` | 13 pt |
+
+I numeri descrivono la dimensione standard, non misure fisse da imporre a Dynamic Type.
+Corpo e valori selezionabili mantengono la stessa dimensione; colore e chevron distinguono
+l’interazione. Testi lunghi vanno a capo e i controlli conservano il target minimo di 44 pt.
+La scala vale per tutto il flusso, senza alterare le metriche specifiche della card causale
+già approvata. I pixel del raster non equivalgono ai punti della UI nativa.
+
 ## Pulsanti e controlli
 
 | Ruolo | Trattamento | Vincolo |

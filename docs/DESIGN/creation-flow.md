@@ -217,8 +217,11 @@ e una rifinitura generale. La revisione conserva «Nuova routine» nella barra e
 Il modulo contiene una sola intestazione Palestra con simbolo. Le frasi modificabili
 mostrano incremento, routine collegata, soglia e passo successivo una sola volta;
 i valori lunghi vanno a capo mantenendo la dimensione del corpo. Si rimuovono «Origine»,
-il filo senza destinazione e i contenitori pesanti dei singoli valori. Il corpo della
-tavola punta a 20–22 pt logici; la resa effettiva e Dynamic Type richiedono verifica nativa.
+il filo senza destinazione e i contenitori pesanti dei singoli valori. Dopo aver visto
+la revisione, il proprietario ha rifiutato l’ingrandimento eccessivo: il corpo usa
+lo stile di sistema `.body` (17 pt alla dimensione standard), anche per i valori
+modificabili. La leggibilità si migliora con spaziatura e disposizione, non con una
+scala tipografica diversa per questa schermata. Dynamic Type richiede verifica nativa.
 
 Questa revisione supera la precedente richiesta di un’intestazione «Anteprima»:
 la superficie è il controllo della regola in creazione, senza un riepilogo duplicato,
