@@ -226,4 +226,10 @@ scala tipografica diversa per questa schermata. Dynamic Type richiede verifica n
 Questa revisione supera la precedente richiesta di un’intestazione «Anteprima»:
 la superficie è il controllo della regola in creazione, senza un riepilogo duplicato,
 e non rappresenta eventi applicati. Rimangono invariati i valori e le azioni del flusso.
-La rifinitura visuale resta da valutare dal proprietario; nessun codice funzionale cambia.
+Il proprietario ha approvato la versione con scala tipografica standard, richiedendo
+soltanto «Cosa succede dopo?» su una riga e «Asciugamano palestra» come unico controllo
+senza spezzare il nome. Alla dimensione standard si dispone la frase su righe intenzionali:
+«Ogni allenamento aggiunge», poi il valore «1 utilizzo», poi «a Asciugamano palestra».
+Non si riduce il font per ottenere questo risultato. A dimensioni accessibili o con
+nomi più lunghi resta necessario un layout adattivo senza troncamenti. Nessun codice
+funzionale cambia.
