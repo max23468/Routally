@@ -261,3 +261,11 @@ le prime tavole che avevano ripreso erroneamente il nome Palestra dal riferiment
 Tutte le composizioni valide identificano «Prepara un asciugamano pulito» e usano
 «Rivedi routine» per accedere al riepilogo. Le icone generate sono riferimenti
 compositivi: nella resa nativa si riutilizza il simbolo del follow-up già approvato.
+
+Il proprietario ha approvato esplicitamente la seconda delle due revisioni, ossia
+l’ultima immagine mostrata: un solo modulo con il follow-up, «Momento utile»,
+«Quando arrivo a Casa», «Cambia momento» e «Orario di riserva — Altrimenti alle 20:00».
+Il riferimento selezionato è `exec-0ff038b1-81f5-4652-8afe-063cf2dfd088.png`.
+Restano confermate le azioni «Crea routine» e «Rivedi routine». Il prossimo passaggio
+di design è il riepilogo finale; l’approvazione non certifica gli stati alternativi
+ancora da coprire né avvia l’implementazione funzionale.

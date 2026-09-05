@@ -17,7 +17,7 @@ La resa Trama Fase 1 del commit `92f97de` è approvata dal Product Owner il 5 se
 | Trama Fase 1 | Oggi, dettaglio Routine e conseguenze, confronto concept–SwiftUI su iPhone e iPad | approvato; evidenze in [Trama Fase 1](trama-phase-one.md) |
 | Formalizzazione | approvazione registrata, linguaggio comune, evidenze e limiti coerenti | fase 1 consolidata in [Trama](trama-phase-one.md) e [contratto componenti](trama-components.md); consegna complessiva aperta |
 | Navigazione e componenti condivisi | specificare anatomia, tipografia, spaziature, pulsanti, righe, sheet e stati sulla base Trama | contratto documentato in [trama-components.md](trama-components.md), applicazioni future da valutare |
-| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | composizione 3 del passaggio minimo scelta e corretta senza duplicare l’obiettivo; «Cosa succede dopo» approvato anche negli a capo; studio di «Quando ricordartelo» in corso; [vincoli](creation-flow.md#proposta-visuale-trama--dg-visual) |
+| Nuova routine | proposta visuale del flusso rapido e della configurazione progressiva, con collegamenti comprensibili | passaggio minimo, «Cosa succede dopo» e «Quando ricordartelo» approvati; riepilogo finale e stati alternativi da completare; [vincoli](creation-flow.md#proposta-visuale-trama--dg-visual) |
 | Copertura delle superfici | design di stati vuoti, follow-up, cronologia e modifica di Oggi/Routine; poi Esplora e Kit | da completare come specifiche e concept |
 | Consegna visuale finale | raccordare decisioni, copertura, evidenze e problemi aperti per concludere il lavoro DG-VISUAL | da consolidare |
 
