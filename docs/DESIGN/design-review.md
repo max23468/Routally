@@ -102,4 +102,4 @@ soddisfa i sei requisiti della sezione 48.3 e chiude DG-VISUAL.
 E07–E11 richiedono un incarico distinto.
 La successiva richiesta del 5 settembre autorizza la pubblicazione tecnica tramite
 push, PR e merge. TestFlight e App Store restano esclusi. DG-VISUAL è chiuso, mentre
-la prova fisica per E06/M03 resta aperta nell’[audit](e06-visual-audit.md).
+E06/M03 è chiusa secondo i criteri aggiornati dal Product Owner nell’[audit](e06-visual-audit.md).

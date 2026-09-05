@@ -94,14 +94,14 @@ qui sopra restano la baseline storica.
 
 ## Verifica di chiusura E06/M03 — 5 settembre 2026
 
-DG-VISUAL è chiuso; **E06/M03 resta aperta per la prova end-to-end su dispositivo
-fisico** richiesta dalla sezione 48.3. Le prove Simulator non sostituiscono questo
-criterio. Il 5 settembre `xcrun devicectl list devices` rileva il dispositivo associato
-come `unavailable`; non è stata eseguita né attestata una prova hardware.
+**E06/M03 e DG-VISUAL sono chiusi.** Il 5 settembre il Product Owner ha rimosso
+esplicitamente il requisito del flusso su dispositivo fisico da M03 e dal prerequisito
+di M04. La sezione 48.3 richiede ora il flusso end-to-end su iPhone e iPad Simulator,
+coperto dalle evidenze sotto. Nessuna prova hardware viene attestata.
 
 | Criterio M03 | Evidenza e risultato |
 |---|---|
-| Flusso end-to-end su device | aperto: evidenze attuali su Simulator, prova fisica da eseguire |
+| Flusso end-to-end su Simulator | registrazione, propagazione, correzione, follow-up e reset nelle evidenze E06; resa Trama verificata su iPhone e iPad |
 | Offline e persistenza locale | store E05 e regressioni di riapertura, scritture offline e recovery in `VerticalSliceTests` e test dati |
 | Undo/correction | esclusioni revisionali, tombstone e annullamento senza doppia correzione verificati dai test e dal percorso Simulator |
 | Follow-up e reset | soglia, momento utile, completamento e ciclo successivo coperti dalle regressioni E06 |
@@ -110,24 +110,12 @@ come `unavailable`; non è stata eseguita né attestata una prova hardware.
 | Screenshot e design approvato | gallerie fase 1 e revisione complessiva; DG-VISUAL chiuso |
 | Dominio generico | quattro archetipi nei test di dominio; il catalogo Palestra è una fixture Dev |
 
-Per completare la prova residua, su un dispositivo disponibile e una build Dev del
-commit verificato:
-
-1. eseguire `demo connectedGymCycle` e registrare Palestra: 1/3 → 2/3,
-   Asciugamano 3/4 → 4/4 e un solo follow-up in attesa;
-2. verificare Escludi e Annulla registrazione, poi registrare di nuovo, simulare
-   l’arrivo e il fallback dai controlli Dev: una sola consegna, Fatto e reset a 0/4;
-3. senza argomenti demo, creare dati sintetici nello store locale, registrare offline,
-   chiudere e riaprire l’app: dati e conseguenze conservati. La fixture in-memory
-   del primo passaggio non dimostra la persistenza dopo il riavvio;
-4. verificare nomi e ordine dei controlli con VoiceOver, azioni raggiungibili con testo
-   grande e assenza di blocchi; raccogliere screenshot/video, SHA, modello, versione OS,
-   esito e anomalie in questo audit.
-
-La prova non richiede CloudKit, geofencing reale o notifiche OS complete. La chiusura
-di E06/M03 e il prerequisito device di M04 restano sospesi fino all’evidenza, senza
-spostare il requisito ad Alpha. La pubblicazione tecnica del lavoro già verificato è
-autorizzata dal Product Owner il 5 settembre 2026 e non certifica tale chiusura.
+La fixture `demo connectedGymCycle` attraversa store E05, reducer E04 e feature model
+reali, con dati sintetici in memoria. La persistenza su disco e la riapertura sono
+verificate separatamente dai test dati; una fixture in-memory non le certifica.
+CloudKit, geofencing e notifiche OS complete restano nelle milestone pertinenti, così
+come l’audit completo di accessibilità e le rispettive prove hardware.
+La pubblicazione tecnica è autorizzata dal Product Owner il 5 settembre 2026.
 
 ### Autorizzazione tecnica
 

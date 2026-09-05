@@ -4353,7 +4353,7 @@ della milestone: sono condizioni che ne precedono o vincolano il completamento.
 | `0.1` | `M01` Foundation | `E01`–`E03` | `TG-DATA` chiuso **Adapt** su evidenze locali; prototipi mirati per le integrazioni UI/sistema |
 | `0.2` | `M02` Core Routine Engine | `E04`–`E05` | adattamenti di `TG-DATA` applicati; `TG-RECALC` prima delle feature dipendenti |
 | `0.3` | `M03` Vertical Slice | `E06` | `M01` e `M02` concluse; gate dati, ricalcolo e location applicati tramite confini testabili; `DG-VISUAL` chiuso sul linguaggio visuale della vertical slice, senza anticipare le integrazioni di sistema complete |
-| `0.4` | `M04` Today & Routine | `E07`–`E10` | `DG-VISUAL` chiuso; vertical slice reale verificata su device e offline |
+| `0.4` | `M04` Today & Routine | `E07`–`E10` | `DG-VISUAL` chiuso; vertical slice reale verificata su Simulator e offline |
 | `0.5` | `M05` Explore & Kits | `E11` | `DG-VISUAL` chiuso; motore e creazione disponibili; tutti i 12 Kit installabili senza limiti commerciali |
 | `0.5` | `M06` System Integrations | `E12`–`E14` | `DG-DOMAIN` chiuso; criteri delle sezioni 18, 19, 21 e 23 implementati e verificati localmente; predisposizione iCloud testata su Simulator |
 | `0.6` | `M07` Insights & Search | `E15`–`E16` | criteri di ricerca e gate di evidenza degli insight verificati |
@@ -4970,7 +4970,7 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 
 ## 48.3 M03 — Vertical Slice
 
-- flusso end-to-end su device;
+- flusso end-to-end su iPhone e iPad Simulator;
 - offline;
 - undo/correction;
 - follow-up;
@@ -4979,11 +4979,12 @@ coinvolti e le verifiche eseguite, senza mantenere una seconda tassonomia `RTY-*
 - screenshot/video di evidenza;
 - nessun hardcode del caso Palestra nel dominio.
 
-**Stato al 5 settembre 2026:** DG-VISUAL chiuso; E06/M03 non ancora chiusa.
-La prova end-to-end su dispositivo fisico resta da eseguire: le evidenze disponibili
-sono Simulator. Criteri verificati e protocollo residuo sono nell’[audit E06](DESIGN/e06-visual-audit.md#verifica-di-chiusura-e06m03--5-settembre-2026).
-La pubblicazione tecnica del lavoro verificato non sostituisce questa prova né sblocca
-il prerequisito device di M04.
+**Stato al 5 settembre 2026:** E06/M03 e DG-VISUAL chiusi.
+Il Product Owner ha rimosso esplicitamente il requisito del flusso su dispositivo
+fisico per questa milestone e il relativo prerequisito di M04; la verifica end-to-end
+resta richiesta su Simulator. Criteri ed evidenze sono nell’[audit E06](DESIGN/e06-visual-audit.md#verifica-di-chiusura-e06m03--5-settembre-2026).
+Le prove hardware delle milestone successive restano richieste nei rispettivi perimetri.
+La chiusura non avvia automaticamente E07–E11.
 
 ### Checkpoint visuale obbligatorio di E06
 
