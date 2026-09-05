@@ -205,3 +205,22 @@ interni dei concept e il testo tecnico generato, e mantenuta distinta la soglia 
 collegamento dall’obiettivo settimanale di Palestra. Il filo della terza tavola deve
 collegare nodi effettivi o essere rimosso. Le tavole sono confronti compositivi,
 non specifiche finali né evidenza di accessibilità.
+
+
+### Rifinitura della composizione 3 delle conseguenze
+
+Il proprietario ha scelto la terza composizione chiedendo testo iniziale sensato,
+caratteri più grandi, rimozione dell’intestazione «Anteprima» con icona duplicata
+e una rifinitura generale. La revisione conserva «Nuova routine» nella barra e
+«Cosa succede dopo?» come titolo, senza sottotitolo esplicativo.
+
+Il modulo contiene una sola intestazione Palestra con simbolo. Le frasi modificabili
+mostrano incremento, routine collegata, soglia e passo successivo una sola volta;
+i valori lunghi vanno a capo mantenendo la dimensione del corpo. Si rimuovono «Origine»,
+il filo senza destinazione e i contenitori pesanti dei singoli valori. Il corpo della
+tavola punta a 20–22 pt logici; la resa effettiva e Dynamic Type richiedono verifica nativa.
+
+Questa revisione supera la precedente richiesta di un’intestazione «Anteprima»:
+la superficie è il controllo della regola in creazione, senza un riepilogo duplicato,
+e non rappresenta eventi applicati. Rimangono invariati i valori e le azioni del flusso.
+La rifinitura visuale resta da valutare dal proprietario; nessun codice funzionale cambia.
