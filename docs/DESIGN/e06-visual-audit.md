@@ -1,6 +1,6 @@
 # E06 — Audit e checkpoint visuale della vertical slice
 
-- **Stato:** Evidenze salvate — approvazione e formalizzazione rinviate a una PR dedicata
+- **Stato:** Fase 1 approvata il 5 settembre 2026; consolidamento del design in corso
 - **Epic:** E06 — Vertical Slice Integration
 - **Gate:** DG-VISUAL
 - **Fonte canonica:** Master Plan, sezione 48.3
@@ -25,7 +25,7 @@ schermate di E07–E11.
 | Stati degradati | Offline ed errore recuperabile sono presenti ma prima erano alimentati da snapshot | offline ora accompagna scritture locali reali; retry ricrea anche uno store che non si è inizializzato |
 | Accessibilità | I controlli nativi conservano ordine e semantica, ma i campi compilati non devono perdere il proprio nome | `Nome routine` e `Follow-up` mantengono un'etichetta esplicita anche quando contengono un valore |
 
-## Linguaggio visuale proposto
+## Linguaggio visuale approvato
 
 La vertical slice conserva la direzione E02:
 
@@ -37,9 +37,10 @@ La vertical slice conserva la direzione E02:
 5. ogni automazione mostra origine, risultato e correzione disponibile;
 6. caricamento, errore e offline non sostituiscono né nascondono i dati locali validi.
 
-Questa formulazione è provvisoria finché il Product Owner non approva le evidenze
-Simulator. L'approvazione e la formalizzazione saranno trattate in una PR dedicata;
-soltanto dopo diventeranno la base vincolante per E07–E11.
+La revisione Trama sostituisce la baseline visuale descritta nell’audit iniziale.
+Il riferimento vincolante è [Trama Fase 1](trama-phase-one.md), formalizzato nella
+[UI Foundation](ui-foundation.md). Il 5 settembre il Product Owner ha approvato la
+resa reale `92f97de` con «Mi piace» dopo il confronto concept–SwiftUI.
 
 ## Evidenze richieste da DG-VISUAL
 
@@ -50,7 +51,8 @@ soltanto dopo diventeranno la base vincolante per E07–E11.
 | prototipo SwiftUI curato del flusso principale | implementato e verificato a runtime | `RoutallyFeatureModel` e viste E06 |
 | verifica iPhone Simulator | completata su iPhone 17 Pro, iOS 26.5 | [Oggi](evidence/e06/iphone-today.jpg), [conseguenze](evidence/e06/iphone-consequences.jpg), [follow-up pronto](evidence/e06/iphone-follow-up-ready.jpg) |
 | verifica iPad Simulator | completata su iPad Pro 11-inch (M5), iOS 26.5, portrait e landscape | [Oggi portrait](evidence/e06/ipad-today-portrait.jpg), [routine landscape](evidence/e06/ipad-routines-landscape.jpg), [conseguenze landscape](evidence/e06/ipad-consequences-landscape.jpg) |
-| approvazione visiva Product Owner | pendente, in una PR dedicata a `DG-VISUAL` | — |
+| approvazione visiva Product Owner | completata il 5 settembre 2026 sulla revisione Trama `92f97de` | [Trama Fase 1](trama-phase-one.md) e [QA](../../design-qa.md) |
+| formalizzazione del linguaggio approvato | completata; riferimento vincolante E07–E11 | [UI Foundation](ui-foundation.md) |
 
 ## Verifica tecnica e runtime del 27 agosto 2026
 
@@ -86,12 +88,14 @@ L'approvazione deve confermare che:
 - iPhone e iPad mantengono contenuto, azioni e ordine di lettura;
 - l'interfaccia appare calma, Apple-native e coerente con Routally.
 
-Solo dopo questa conferma `DG-VISUAL` può essere registrato come chiuso.
+La conferma è stata ricevuta. Le evidenze aggiornate iPhone/iPad, incluse dark mode e
+Dynamic Type massimo, sono in [Trama Fase 1](trama-phase-one.md); le acquisizioni E06
+qui sopra restano la baseline storica.
 
 ## Confine di pubblicazione
 
-La PR tecnica di E06 pubblica l'integrazione applicativa e conserva nel repository le sei
-evidenze Simulator. Non chiude `DG-VISUAL`: revisione visuale del Product Owner,
-formalizzazione del linguaggio approvato e aggiornamento del Decision Register restano
-nel perimetro della successiva PR dedicata. Fino al suo merge non inizia l'estensione
-delle schermate in E07–E11.
+Il lavoro corrente segue il [piano DG-VISUAL](dg-visual-plan.md) per la chiusura di E06
+e la formalizzazione del design approvato.
+La chiusura di DG-VISUAL non autorizza l’implementazione di E07–E11. Push, PR, merge,
+TestFlight e App Store restano operazioni separate; questa registrazione non ne dichiara
+l’esecuzione.

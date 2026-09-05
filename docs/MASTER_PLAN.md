@@ -5160,15 +5160,20 @@ dell’epica né della 1.0 senza change control.
 - `E21` / `M11`: verifica figurativa formale o accettazione esplicita del rischio,
   ratifica del Product Owner e chiusura del gate prima degli asset App Store definitivi.
 
-## DG-VISUAL
+## DG-VISUAL — fase 1 approvata, consolidamento del design in corso
 
-- appartiene a `E06` / `M03` e resta aperto fino al checkpoint visuale della sezione 48.3;
-- richiede le sei evidenze previste dal checkpoint, inclusa la verifica del prototipo su
-  iPhone e iPad Simulator;
-- viene chiuso soltanto dall'approvazione visiva del Product Owner e dalla formalizzazione
-  del linguaggio visuale risultante;
-- blocca l'estensione delle schermate in `E07`–`E11`, quindi è un prerequisito esplicito
-  di `M04` e `M05` nella mappa della sezione 37.2.
+**Decision Gate.** Il Product Owner ha approvato la resa SwiftUI Trama della revisione
+`92f97de` dopo il confronto con il concept e le verifiche iPhone/iPad («Mi piace»).
+Audit, revisione, prototipo, evidenze Simulator, approvazione e formalizzazione sono
+raccolti in [Trama Fase 1](DESIGN/trama-phase-one.md), [UI Foundation](DESIGN/ui-foundation.md)
+e [audit E06](DESIGN/e06-visual-audit.md). L’approvazione della fase 1 è acquisita;
+la formalizzazione complessiva e la consegna del lavoro visuale proseguono secondo il
+[piano DG-VISUAL](DESIGN/dg-visual-plan.md), senza avviare l’implementazione E07–E11.
+
+Trama è la base vincolante per le future E07–E11. La futura chiusura soddisfa il prerequisito
+visuale, ma non autorizza l’avvio delle epiche successive e non completa M04/M05,
+i gate di accessibilità, le prove su device reali o la pubblicazione.
+Il lavoro corrente resta circoscritto a E06 e alla formalizzazione del design.
 
 ## DG-DEVELOPER-IDENTITY
 

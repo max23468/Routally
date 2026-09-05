@@ -1,7 +1,7 @@
 # Trama Fase 1 — Revisione del 5 settembre 2026
 
 Ambito: Oggi, dettaglio Routine e riepilogo delle conseguenze.
-Stato: revisione implementata e verificata localmente; accettazione visuale del Product Owner aperta.
+Stato: revisione implementata e verificata localmente; accettazione visuale del Product Owner ricevuta il 5 settembre 2026 («Mi piace»), sulla revisione `92f97de`.
 Il primo tentativo è stato respinto per scarsa fedeltà al concept. Le sue immagini e il
 rapporto precedente sono conservati in `docs/DESIGN/evidence/trama-phase-one/rejected/`
 e non certificano questa revisione.
@@ -16,7 +16,7 @@ conseguenze, tre punti per l’obiettivo canonico, pulsante satinato compatto co
 44 pt, valori futuri in indaco e riga secondaria compatta. La tipografia usa San Francisco
 con metriche scalabili, senza bloccare Dynamic Type.
 
-Restano differenze esplicite da sottoporre alla valutazione del proprietario:
+Differenze esplicite presenti nel confronto approvato dal proprietario:
 
 - status bar, navigation bar, tab bar e navigazione a colonne sono native;
 - data e routine provengono dalla fixture canonica, quindi non coincidono con i dati
@@ -76,6 +76,8 @@ VoiceOver parlato, feedback aptico fisico e audit completo delle dichiarazioni d
 accessibilità restano da eseguire. Le etichette AX e le prove di layout non li sostituiscono.
 Nessun account, servizio remoto o notifica reale viene usato per queste prove.
 
-L’approvazione del concept non chiude DG-VISUAL. La revisione reale deve essere valutata
-dal Product Owner prima di estendere Trama alle altre superfici. Nessuna pubblicazione
+Il Product Owner ha approvato questa revisione reale il 5 settembre 2026. La
+formalizzazione in Trama Fase 1, UI Foundation, Master Plan e Decision Register conserva
+questa approvazione. Il lavoro complessivo prosegue nel [piano DG-VISUAL](docs/DESIGN/dg-visual-plan.md);
+la sola approvazione della fase 1 non dichiara chiuso tutto il design. Nessuna pubblicazione
 è implicita in questo rapporto.

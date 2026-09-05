@@ -1,8 +1,11 @@
 # Trama — Fase 1
 
-Stato: direzione visuale approvata dal Product Owner il 4 settembre 2026; implementazione
-SwiftUI implementata localmente e in revisione visuale. Questa approvazione del concept non chiude DG-VISUAL: resta da
-approvare la resa del prototipo reale su iPhone e iPad.
+Stato: **Confirmed**. Il Product Owner ha approvato il concept il 4 settembre 2026 e
+la resa SwiftUI reale della revisione `92f97de` il 5 settembre 2026, dopo il confronto
+concept–Simulator, con «Mi piace». Con le evidenze sotto riportate e la UI Foundation
+formalizzata, il checkpoint della fase 1 è approvato. Il completamento del lavoro visuale
+segue il [piano DG-VISUAL](dg-visual-plan.md). Il perimetro resta E06 e il lavoro sul design;
+l’implementazione di E07–E11 non è autorizzata da questa approvazione.
 
 ## Target approvato
 
@@ -13,8 +16,9 @@ la stessa anatomia si riusa nel dettaglio e nel riepilogo dopo la registrazione.
 La personalità resta «Calma intelligente». L’«Impulso Routally» rende leggibile il rapporto
 fra un evento reale e le sue conseguenze, senza trasformarlo in un editor di workflow.
 
-Fase 1: Oggi, dettaglio Routine e conseguenze. Le altre superfici restano fuori da questo
-intervento; l’estensione richiede l’approvazione della Fase 1.
+Fase 1: Oggi, dettaglio Routine e conseguenze. Il linguaggio approvato è il riferimento
+per le future superfici. La chiusura del gate rimuove il prerequisito visuale, ma non
+autorizza l’avvio delle epiche successive.
 
 ## Comportamento e accessibilità
 
@@ -81,4 +85,6 @@ non vengono sostituite o migrate.
 Il testo del pulsante usa bianco in chiaro e nero in scuro: il contrasto teorico sui token
 indaco è rispettivamente 6,61:1 e 9,51:1, più alto con Aumenta contrasto.
 
-Nessuna pubblicazione o chiusura di DG-VISUAL è implicita in questo documento.
+L’approvazione della fase 1 riguarda il riferimento visuale, non certifica il completamento
+di E07–E11, l’audit accessibilità di release o le integrazioni Apple. Nessuna pubblicazione
+è stata richiesta con questa approvazione.
