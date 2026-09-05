@@ -66,3 +66,9 @@ riferita soltanto a una di queste azioni non avvia la pubblicazione della
 repository. Non dichiarare `pubblicato` finché i gate applicabili della PR, il merge,
 l'equivalenza del tree e la rilettura finale di deploy, release e stato Git non sono
 completi. I monitor asincroni pianificati non sono gate retroattivi della pubblicazione.
+
+## Prompting con GPT-6 Astra
+
+Applica le regole di [conduzione del lavoro](docs/ENGINEERING/agent-workflow.md#prompting-e-conduzione-del-lavoro-con-astra)
+e il relativo [schema di prompt](docs/ENGINEERING/agent-workflow.md#prompting-con-gpt-6-astra).
+Restano vincolanti esclusività dell'agente, Decision Gate e change control del Master Plan.
