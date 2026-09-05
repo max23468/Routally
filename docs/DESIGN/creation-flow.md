@@ -292,4 +292,10 @@ Le tavole sono mostrate nell’ordine modulo integrato, lista separata, riepilog
 Nella rifinitura si conservano gli allineamenti di navigazione approvati: il titolo
 centrato generato nella terza composizione non introduce una nuova convenzione.
 I simboli devono riusare quelli del sistema Trama; non diventano una nuova famiglia
-di icone per il riepilogo. La scelta della composizione resta aperta.
+di icone per il riepilogo.
+
+Il proprietario ha scelto la composizione 2, `exec-bd250cc1-6d2e-4459-8ce5-04423faaa5a7.png`:
+intestazione Palestra separata e lista nativa con Frequenza, Collegamento, Passo
+successivo e Promemoria. Ogni sezione permette la modifica; «Crea routine» resta
+l’unica azione finale. Questo è il riferimento del riepilogo ordinario; stati
+alternativi e verifiche native rimangono nel lavoro di design da completare.
