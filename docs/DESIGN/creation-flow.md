@@ -269,3 +269,27 @@ Il riferimento selezionato è `exec-0ff038b1-81f5-4652-8afe-063cf2dfd088.png`.
 Restano confermate le azioni «Crea routine» e «Rivedi routine». Il prossimo passaggio
 di design è il riepilogo finale; l’approvazione non certifica gli stati alternativi
 ancora da coprire né avvia l’implementazione funzionale.
+
+### Studio del riepilogo finale
+
+Il riepilogo conserva la scala tipografica approvata e il titolo «Rivedi la routine».
+Mostra una sola volta ciascun valore in quattro sezioni modificabili: frequenza,
+collegamento, passo successivo e promemoria. Le frasi delle sezioni costituiscono
+il riepilogo naturale, senza aggiungere un secondo blocco che ripeta gli stessi dati.
+
+Lo scenario resta Palestra tre volte a settimana, Asciugamano palestra con un utilizzo
+per allenamento, soglia di quattro utilizzi e passo «Prepara un asciugamano pulito».
+Il riepilogo esplicita anche il nuovo ciclo al completamento previsto dallo scenario
+canonico. Il promemoria riguarda il passo successivo: arrivo a Casa, altrimenti 20:00.
+
+Le tre composizioni confrontano un modulo integrato, una lista nativa separata dal
+contesto e un riepilogo causale Trama. Tutte conservano l’accesso alla modifica delle
+sezioni e una sola azione finale «Crea routine». Non compare un’azione per continuare
+la configurazione oltre il riepilogo. Nessuna tavola rappresenta dati già salvati.
+Salvataggio, errore e successo restano stati da verificare separatamente.
+
+Le tavole sono mostrate nell’ordine modulo integrato, lista separata, riepilogo causale.
+Nella rifinitura si conservano gli allineamenti di navigazione approvati: il titolo
+centrato generato nella terza composizione non introduce una nuova convenzione.
+I simboli devono riusare quelli del sistema Trama; non diventano una nuova famiglia
+di icone per il riepilogo. La scelta della composizione resta aperta.
