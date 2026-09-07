@@ -90,6 +90,24 @@ sezione 40.
 
 Una dimensione non applicabile si dichiara tale; non si omette in silenzio.
 
+## Skill obbligatorie
+
+Le Skill di repository stanno in `.agents/skills/`, lette da Codex nella posizione nativa e
+da Claude Code tramite i symlink in `.claude/skills/`. Provenienza, licenza e traduzione
+degli esempi web in SwiftUI sono in [.agents/skills/README.md](../../.agents/skills/README.md).
+
+| Intervento | Skill | Quando |
+| --- | --- | --- |
+| Scrittura, revisione o migrazione di codice Swift | `write-swift` | Prima di scrivere il diff. |
+| Comportamento visibile all'utente, layout, materiali, tipografia, movimento | `apple-design` | Prima di scrivere il diff. |
+| Animazioni introdotte o modificate | `review-animations` | Invocazione esplicita prima di raccogliere l'evidenza visuale della PR. |
+
+Le prime due si attivano da sole sulla descrizione; `review-animations` si invoca
+esplicitamente. L'uso è un requisito di lavorazione e non aggiunge status richiesti alla
+PR: il gate resta `publication-gate` con l'evidenza visuale già prevista. Una Skill non
+applicabile si dichiara tale. Se una Skill contraddice il Master Plan o un ADR, prevale la
+fonte canonica e la divergenza si dichiara nella PR.
+
 ## Avvio
 
 1. Leggi il Master Plan secondo la matrice sopra, poi le specifiche o gli ADR pertinenti.

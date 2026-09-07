@@ -116,6 +116,22 @@ preservando modifiche e worktree altrui.
 
 ## Skill e delega
 
+Le Skill di repository stanno in `.agents/skills/`, con symlink in `.claude/skills/`:
+Codex e Claude Code leggono la stessa fonte. Provenienza, licenza e traduzione degli
+esempi web in SwiftUI sono in [.agents/skills/README.md](.agents/skills/README.md).
+
+Tre Skill sono obbligatorie, non facoltative:
+
+- `write-swift` su ogni intervento che scrive, rivede o migra codice Swift.
+- `apple-design` su ogni intervento con comportamento visibile all'utente o movimento.
+- `review-animations`, a invocazione esplicita, prima dell'evidenza visuale di una PR
+  che introduce o modifica animazioni.
+
+Applicarle è un requisito di lavorazione, non un gate di pubblicazione: non aggiungono
+status richiesti alla PR. Restano subordinate a `docs/MASTER_PLAN.md`, agli ADR e a
+questo documento; se una Skill contraddice una decisione canonica, prevale la decisione
+e la divergenza va dichiarata.
+
 Le istruzioni esplicite dell'utente prevalgono sulle linee guida delle Skill,
 nel rispetto delle istruzioni di sistema e sviluppatore. Verifica pertinenza,
 gerarchia e conflitti di AGENTS, override e Skill prima di dedurne un blocco;

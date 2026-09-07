@@ -4,6 +4,14 @@ Le modifiche rilevanti a Routally saranno documentate in questo file.
 
 ## Unreleased
 
+- Installate in `.agents/skills/` tre skill di mestiere da emilkowalski/skills (MIT),
+  condivise da Codex e Claude Code tramite symlink in `.claude/skills/`: `write-swift`
+  obbligatoria sul codice Swift, `apple-design` sugli interventi visibili all'utente e
+  `review-animations` a invocazione esplicita prima dell'evidenza visuale. L'obbligo è un
+  requisito di lavorazione dichiarato in `AGENTS.md` e nella matrice del workflow, non un
+  nuovo status del `publication-gate`; il README della cartella traduce gli esempi web in
+  equivalenti SwiftUI e `COPYRIGHT.md` isola il materiale di terze parti.
+
 - Approvato e formalizzato Trama per Oggi, dettaglio e conseguenze, con anteprima
   calcolata dal reducer senza scritture, prototipi Dev degli altri stati, localizzazione
   IT/EN e prove iPhone/iPad Simulator. E06/M03 e DG-VISUAL chiusi dopo l’approvazione
