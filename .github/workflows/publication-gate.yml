@@ -145,7 +145,7 @@ jobs:
           -scheme "Routally Dev"
           -derivedDataPath "$RUNNER_TEMP/RoutallyCodeQLDerivedData"
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
         with:
           languages: swift
           build-mode: manual
@@ -167,14 +167,14 @@ jobs:
           SWIFT_USE_INTEGRATED_DRIVER=NO
       - name: Analyze
         id: analyze
-        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
         with:
           category: /language:swift/pr-validation
           output: codeql-results
           upload: never
           upload-database: false
       - name: Conserva il SARIF senza pubblicarlo
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: codeql-sarif-${{ github.run_id }}
           path: ${{ steps.analyze.outputs.sarif-output }}
@@ -225,12 +225,12 @@ jobs:
       security-events: write
     steps:
       - name: Recupera il SARIF come dato
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: codeql-sarif-${{ github.run_id }}
           path: codeql-results
       - name: Pubblica il SARIF senza eseguire codice della PR
-        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
         with:
           sarif_file: codeql-results
           category: /language:swift/pr-validation
