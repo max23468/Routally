@@ -53,8 +53,8 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(workflow, /upload: never/);
   assert.match(workflow, /upload-database: false/);
   assert.match(workflow, /codeql-upload:/);
-  assert.match(workflow, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
-  assert.match(workflow, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
+  assert.match(workflow, /actions\/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9/);
+  assert.match(workflow, /actions\/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333/);
   assert.match(workflow, /codeql-upload:[\s\S]*?security-events: write/);
   assert.match(
     workflow,
@@ -75,9 +75,9 @@ test("CodeQL PR usa il build manuale e main resta settimanale", async () => {
   assert.match(scheduledAnalysis, /persist-credentials: false/);
   assert.match(scheduledAnalysis, /upload: never/);
   assert.match(scheduledAnalysis, /upload-database: false/);
-  assert.match(scheduledAnalysis, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
+  assert.match(scheduledAnalysis, /actions\/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9/);
   assert.match(scheduledUpload, /security-events: write/);
-  assert.match(scheduledUpload, /actions\/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c/);
+  assert.match(scheduledUpload, /actions\/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333/);
   assert.doesNotMatch(scheduledUpload, /actions\/checkout|xcodebuild/);
 });
 
