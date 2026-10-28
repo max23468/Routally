@@ -145,7 +145,7 @@ jobs:
           -scheme "Routally Dev"
           -derivedDataPath "$RUNNER_TEMP/RoutallyCodeQLDerivedData"
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           languages: swift
           build-mode: manual
@@ -167,7 +167,7 @@ jobs:
           SWIFT_USE_INTEGRATED_DRIVER=NO
       - name: Analyze
         id: analyze
-        uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           category: /language:swift/pr-validation
           output: codeql-results
@@ -230,7 +230,7 @@ jobs:
           name: codeql-sarif-${{ github.run_id }}
           path: codeql-results
       - name: Pubblica il SARIF senza eseguire codice della PR
-        uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           sarif_file: codeql-results
           category: /language:swift/pr-validation
